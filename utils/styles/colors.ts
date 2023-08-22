@@ -20,4 +20,14 @@ export const COLORS = {
 
   primary: '#06A499',
   error: '#E60C0C',
+
+  btn: {
+    success: '#5EAC81',
+    danger: '#D0171B',
+    transparent: 'transparent',
+    'background-base': '#06A499',
+    'text-base': '#ffffff',
+    'background-hover': '#ffffff',
+    'text-hover': '#06A499',
+  },
 };

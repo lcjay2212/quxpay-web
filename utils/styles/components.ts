@@ -1,8 +1,9 @@
-import { PRIMARY } from './variants/buttons';
+import { PRIMARY, SECONDARY } from './variants/buttons';
 
 export const Button = {
   variants: {
     primary: PRIMARY,
+    secondary: SECONDARY,
   },
 };
 

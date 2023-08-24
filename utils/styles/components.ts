@@ -88,12 +88,6 @@ const Heading = {
       pb: '5',
       color: 'black',
     },
-    'account-detail': {
-      as: 'h4',
-      marginBottom: '1.25rem',
-      fontSize: '1.84615385em',
-      fontWeight: 'normal',
-    },
     'sub-heading': {
       as: 'h4',
       m: '2rem 0',

@@ -1,20 +1,32 @@
 import { Box, Button, chakra, Grid, Text } from '@chakra-ui/react';
+import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import { notify } from 'utils/notify';
 
 const Login: FC = () => {
   const method = useForm();
   const router = useRouter();
   const { control, handleSubmit } = method;
 
-  const onSubmit = ({ val }): void => {
-    // eslint-disable-next-line no-console
-    console.log(val);
+  const { mutate, isLoading } = useMutation(() => axios.post(`${STAGING_URL}/process-login`), {
+    onSuccess: ({ data }) => {
+      notify(`Successfully ${data.status.message}`);
+    },
+    onError: () => {
+      notify(`Failed to login`, { status: 'error' });
+    },
+  });
+
+  const onSubmit = (val): void => {
+    mutate(val);
   };
 
   return (
@@ -64,7 +76,15 @@ const Login: FC = () => {
             )}
           />
 
-          <Button type="submit" variant="primary" borderRadius="1rem" mt="1rem" w={350} h="3.25rem">
+          <Button
+            type="submit"
+            variant="primary"
+            borderRadius="1rem"
+            mt="1rem"
+            w={350}
+            h="3.25rem"
+            isLoading={isLoading}
+          >
             Login
           </Button>
         </form>

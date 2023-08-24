@@ -1,17 +1,30 @@
 import { CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
+import axios from 'axios';
 import FinalStep from 'component/RegistrationForm/FinalStep';
 import FirstStep from 'component/RegistrationForm/FirstStep';
 import SecondStep from 'component/RegistrationForm/SecondStep';
+import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { QuxPayLogo } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import { notify } from 'utils/notify';
 
 const Register: FC = () => {
   const method = useForm();
   const { handleSubmit } = method;
   const [step, setStep] = useState(1);
+
+  const { mutate, isLoading } = useMutation(() => axios.post(`${STAGING_URL}/register`), {
+    onSuccess: ({ data }) => {
+      notify(`Successfully ${data.status.message}`);
+    },
+    onError: () => {
+      notify(`Failed to create`, { status: 'error' });
+    },
+  });
 
   const onSubmit = (val): void => {
     if (step === 1) {
@@ -24,8 +37,7 @@ const Register: FC = () => {
     }
 
     if (step === 3) {
-      // eslint-disable-next-line no-console
-      console.log(val);
+      mutate(val);
     }
   };
 
@@ -85,7 +97,15 @@ const Register: FC = () => {
           {step === 1 && <FirstStep />}
           {step === 2 && <SecondStep />}
           {step === 3 && <FinalStep />}
-          <Button type="submit" variant="primary" borderRadius="1rem" mt="1rem" w={350} h="3.25rem">
+          <Button
+            type="submit"
+            variant="primary"
+            borderRadius="1rem"
+            mt="1rem"
+            w={350}
+            h="3.25rem"
+            isLoading={isLoading}
+          >
             {step >= 3 ? 'Finish Registration' : 'Continuer Registration'}
           </Button>
         </form>

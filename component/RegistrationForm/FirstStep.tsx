@@ -3,7 +3,7 @@ import { TextField } from 'component/TextField';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 const FirstStep: FC = () => {
-  const { control } = useFormContext();
+  const { control, getValues } = useFormContext();
   return (
     <>
       <Controller
@@ -34,6 +34,28 @@ const FirstStep: FC = () => {
             <TextField
               value={value ?? ''}
               placeholder="Enter your password"
+              onChange={onChange}
+              onBlur={onBlur}
+              isPassword
+            />
+          </FormContainer>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="password_confirmation"
+        rules={{
+          required: 'Password Confirmation is Required',
+          validate: {
+            passwordsMatch: (e): boolean | string => e === getValues().password || 'Passwords Must Match',
+          },
+        }}
+        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+          <FormContainer label="Password Confirmation" errorMessage={error?.message ?? ''}>
+            <TextField
+              value={value ?? ''}
+              placeholder="Confirm password"
               onChange={onChange}
               onBlur={onBlur}
               isPassword

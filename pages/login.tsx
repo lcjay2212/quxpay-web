@@ -2,6 +2,7 @@ import { Box, Button, chakra, Grid, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import storage from 'constants/storage';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -16,12 +17,14 @@ const Login: FC = () => {
   const router = useRouter();
   const { control, handleSubmit } = method;
 
-  const { mutate, isLoading } = useMutation(() => axios.post(`${STAGING_URL}/process-login`), {
+  const { mutate, isLoading } = useMutation(async (variable) => axios.post(`${STAGING_URL}/process-login`, variable), {
     onSuccess: ({ data }) => {
-      notify(`Successfully ${data.status.message}`);
+      notify(`${data.status.message}`);
+      localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+      localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
     },
-    onError: () => {
-      notify(`Failed to login`, { status: 'error' });
+    onError: ({ response }) => {
+      notify(`${response?.data?.messages}`, { status: 'error' });
     },
   });
 

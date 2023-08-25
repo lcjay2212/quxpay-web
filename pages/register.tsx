@@ -6,6 +6,7 @@ import FirstStep from 'component/RegistrationForm/FirstStep';
 import SecondStep from 'component/RegistrationForm/SecondStep';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -16,13 +17,15 @@ const Register: FC = () => {
   const method = useForm();
   const { handleSubmit } = method;
   const [step, setStep] = useState(1);
+  const router = useRouter();
 
-  const { mutate, isLoading } = useMutation(() => axios.post(`${STAGING_URL}/register`), {
-    onSuccess: ({ data }) => {
-      notify(`Successfully ${data.status.message}`);
+  const { mutate, isLoading } = useMutation((variable) => axios.post(`${STAGING_URL}/register`, variable), {
+    onSuccess: () => {
+      notify(`User registration success!`);
+      void router.push('/login');
     },
-    onError: () => {
-      notify(`Failed to create`, { status: 'error' });
+    onError: ({ response }) => {
+      notify(`${response?.data?.message}`, { status: 'error' });
     },
   });
 

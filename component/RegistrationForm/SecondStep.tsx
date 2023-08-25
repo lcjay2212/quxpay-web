@@ -1,5 +1,6 @@
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 const SecondStep: FC = () => {
@@ -16,7 +17,7 @@ const SecondStep: FC = () => {
               value={value ?? ''}
               placeholder="Enter First Name"
               onChange={(e): void => {
-                onChange(e.target.value.toLowerCase());
+                onChange(startCase(e.target.value));
               }}
               onBlur={onBlur}
             />
@@ -30,7 +31,12 @@ const SecondStep: FC = () => {
         rules={{ required: 'Last name is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Last Name" errorMessage={error?.message ?? ''}>
-            <TextField value={value ?? ''} placeholder="Enter Last Name" onChange={onChange} onBlur={onBlur} />
+            <TextField
+              value={value ?? ''}
+              placeholder="Enter Last Name"
+              onChange={(e): void => onChange(startCase(e.target.value))}
+              onBlur={onBlur}
+            />
           </FormContainer>
         )}
       />
@@ -82,7 +88,7 @@ const SecondStep: FC = () => {
         name="state"
         rules={{ required: 'State is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="City" errorMessage={error?.message ?? ''}>
+          <FormContainer label="State" errorMessage={error?.message ?? ''}>
             <TextField value={value ?? ''} placeholder="Enter State" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}

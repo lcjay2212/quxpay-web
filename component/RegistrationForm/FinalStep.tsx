@@ -1,6 +1,7 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import { startCase } from 'lodash';
 import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement } from 'react';
@@ -26,7 +27,7 @@ const FinalStep: FC = () => {
               value={value ?? ''}
               placeholder="Create Bank Account Nickname"
               onChange={(e): void => {
-                onChange(e.target.value.toLowerCase());
+                onChange(startCase(e.target.value));
               }}
               onBlur={onBlur}
             />
@@ -74,7 +75,14 @@ const FinalStep: FC = () => {
         rules={{ required: 'Bank Name is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
-            <TextField value={value ?? ''} placeholder="Bank Name" onChange={onChange} onBlur={onBlur} />
+            <TextField
+              value={value ?? ''}
+              placeholder="Bank Name"
+              onChange={(e): void => {
+                onChange(startCase(e.target.value));
+              }}
+              onBlur={onBlur}
+            />
           </FormContainer>
         )}
       />

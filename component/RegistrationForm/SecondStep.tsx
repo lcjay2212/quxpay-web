@@ -50,7 +50,9 @@ const SecondStep: FC = () => {
             <TextField
               value={value ?? ''}
               placeholder="Enter Address e.g. 123 Street Ave."
-              onChange={onChange}
+              onChange={(e): void => {
+                onChange(startCase(e.target.value));
+              }}
               onBlur={onBlur}
             />
           </FormContainer>
@@ -65,7 +67,9 @@ const SecondStep: FC = () => {
             <TextField
               value={value ?? ''}
               placeholder="Enter Address e.g. Suite, Apt"
-              onChange={onChange}
+              onChange={(e): void => {
+                onChange(startCase(e.target.value));
+              }}
               onBlur={onBlur}
             />
           </FormContainer>
@@ -78,7 +82,14 @@ const SecondStep: FC = () => {
         rules={{ required: 'City is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="City" errorMessage={error?.message ?? ''}>
-            <TextField value={value ?? ''} placeholder="Enter City" onChange={onChange} onBlur={onBlur} />
+            <TextField
+              value={value ?? ''}
+              placeholder="Enter City"
+              onChange={(e): void => {
+                onChange(startCase(e.target.value));
+              }}
+              onBlur={onBlur}
+            />
           </FormContainer>
         )}
       />
@@ -89,7 +100,14 @@ const SecondStep: FC = () => {
         rules={{ required: 'State is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="State" errorMessage={error?.message ?? ''}>
-            <TextField value={value ?? ''} placeholder="Enter State" onChange={onChange} onBlur={onBlur} />
+            <TextField
+              value={value ?? ''}
+              placeholder="Enter State"
+              onChange={(e): void => {
+                onChange(startCase(e.target.value));
+              }}
+              onBlur={onBlur}
+            />
           </FormContainer>
         )}
       />

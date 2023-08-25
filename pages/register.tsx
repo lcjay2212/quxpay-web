@@ -51,9 +51,18 @@ const Register: FC = () => {
 
       {step === 1 && (
         <Flex justifyContent="space-between" alignItems="center" mt="2rem" mx="0.75rem">
-          <Text color="primary" fontSize="4xl">
-            R<chakra.span color="white">egister</chakra.span>
-          </Text>
+          <Flex>
+            <ArrowBackIcon
+              color="white"
+              mt="1.30rem"
+              mr="1rem"
+              cursor="pointer"
+              onClick={(): void => void router.push('/')}
+            />
+            <Text color="primary" fontSize="4xl">
+              R<chakra.span color="white">egister</chakra.span>
+            </Text>
+          </Flex>
           <LockIcon color="white" w={30} h={30} />
         </Flex>
       )}

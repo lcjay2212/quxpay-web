@@ -19,6 +19,7 @@ const ForgotPassword: FC = () => {
   const { mutate, isLoading } = useMutation((variable) => post('web/forgot-password', variable), {
     onSuccess: ({ data }) => {
       notify(`${data.status.message}`);
+      void router.push('/login');
     },
     onError: ({ response }) => {
       notify(`${response?.data?.messages}`, { status: 'error' });

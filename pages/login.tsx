@@ -1,4 +1,5 @@
-import { Box, Button, chakra, Grid, Text } from '@chakra-ui/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { post } from 'constants/api';
@@ -16,11 +17,12 @@ const Login: FC = () => {
   const router = useRouter();
   const { control, handleSubmit } = method;
 
-  const { mutate, isLoading } = useMutation((variable) => post('process-login', variable), {
+  const { mutate, isLoading } = useMutation((variable) => post('v/process-login', variable), {
     onSuccess: ({ data }) => {
       notify(`${data.status.message}`);
       localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
       localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+      void router.push('/dashboard');
     },
     onError: ({ response }) => {
       notify(`${response?.data?.messages}`, { status: 'error' });
@@ -36,10 +38,18 @@ const Login: FC = () => {
       <Box display="flex" justifyContent="center">
         <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
       </Box>
-
-      <Text color="primary" fontSize="4xl" w={300} mt="2rem" ml="0.75rem">
-        L<chakra.span color="white">ogin</chakra.span>
-      </Text>
+      <Flex mt="2rem">
+        <ArrowBackIcon
+          color="white"
+          mt="1.30rem"
+          mr="1rem"
+          cursor="pointer"
+          onClick={(): void => void router.push('/')}
+        />
+        <Text color="primary" fontSize="4xl" w={300}>
+          L<chakra.span color="white">ogin</chakra.span>
+        </Text>
+      </Flex>
 
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>

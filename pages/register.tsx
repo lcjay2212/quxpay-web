@@ -1,10 +1,9 @@
-import { CheckIcon, LockIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
-import axios from 'axios';
 import FinalStep from 'component/RegistrationForm/FinalStep';
 import FirstStep from 'component/RegistrationForm/FirstStep';
 import SecondStep from 'component/RegistrationForm/SecondStep';
-import { STAGING_URL } from 'constants/url';
+import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
@@ -19,7 +18,7 @@ const Register: FC = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
 
-  const { mutate, isLoading } = useMutation((variable) => axios.post(`${STAGING_URL}/register`, variable), {
+  const { mutate, isLoading } = useMutation((variable) => post('v/register', variable), {
     onSuccess: () => {
       notify(`User registration success!`);
       void router.push('/login');
@@ -60,9 +59,12 @@ const Register: FC = () => {
       )}
       {step === 2 && (
         <>
-          <Text color="primary" fontSize="4xl" w={300} mt="2rem" ml="0.75rem">
-            C<chakra.span color="white">ontinue Your Registration</chakra.span>
-          </Text>
+          <Flex mt="2rem">
+            <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(1)} />
+            <Text color="primary" fontSize="4xl" w={300}>
+              C<chakra.span color="white">ontinue Your Registration</chakra.span>
+            </Text>
+          </Flex>
 
           <Flex justifyContent="space-around" alignItems="center" my="1rem">
             <Flex>
@@ -78,9 +80,12 @@ const Register: FC = () => {
       )}
       {step === 3 && (
         <>
-          <Text color="primary" fontSize="4xl" w={300} mt="2rem" ml="0.75rem">
-            C<chakra.span color="white">omplete Your Registration</chakra.span>
-          </Text>
+          <Flex mt="2rem">
+            <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(2)} />
+            <Text color="primary" fontSize="4xl" w={300}>
+              C<chakra.span color="white">omplete Your Registration</chakra.span>
+            </Text>
+          </Flex>
 
           <Flex justifyContent="space-around" alignItems="center" my="1rem">
             <Flex>

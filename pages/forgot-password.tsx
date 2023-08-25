@@ -1,8 +1,8 @@
-import { Box, Button, chakra, Grid, Text } from '@chakra-ui/react';
+import { ArrowBackIcon } from '@chakra-ui/icons';
+import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { post } from 'constants/api';
-import storage from 'constants/storage';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
@@ -11,16 +11,14 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { notify } from 'utils/notify';
 
-const Login: FC = () => {
+const ForgotPassword: FC = () => {
   const method = useForm();
   const router = useRouter();
   const { control, handleSubmit } = method;
 
-  const { mutate, isLoading } = useMutation((variable) => post('process-login', variable), {
+  const { mutate, isLoading } = useMutation((variable) => post('web/forgot-password', variable), {
     onSuccess: ({ data }) => {
       notify(`${data.status.message}`);
-      localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-      localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
     },
     onError: ({ response }) => {
       notify(`${response?.data?.messages}`, { status: 'error' });
@@ -37,9 +35,18 @@ const Login: FC = () => {
         <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
       </Box>
 
-      <Text color="primary" fontSize="4xl" w={300} mt="2rem" ml="0.75rem">
-        L<chakra.span color="white">ogin</chakra.span>
-      </Text>
+      <Flex mt="2rem" alignItems="center">
+        <ArrowBackIcon
+          color="white"
+          mt="8px"
+          mr="1rem"
+          cursor="pointer"
+          onClick={(): void => void router.push('/login')}
+        />
+        <Text color="primary" fontSize="4xl">
+          L<chakra.span color="white">ogin</chakra.span>
+        </Text>
+      </Flex>
 
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -60,24 +67,6 @@ const Login: FC = () => {
             )}
           />
 
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
-              <FormContainer label="Password" errorMessage={error?.message ?? ''}>
-                <TextField
-                  value={value ?? ''}
-                  placeholder="Enter your password"
-                  onChange={(e): void => {
-                    onChange(e.target.value.toLowerCase());
-                  }}
-                  onBlur={onBlur}
-                  isPassword
-                />
-              </FormContainer>
-            )}
-          />
-
           <Button
             type="submit"
             variant="primary"
@@ -87,19 +76,19 @@ const Login: FC = () => {
             h="3.25rem"
             isLoading={isLoading}
           >
-            Login
+            Send Reset Email
           </Button>
         </form>
       </FormProvider>
 
       <Text color="white" textAlign="center" mt="1rem">
-        Forgot password?&nbsp;
-        <chakra.span color="primary" cursor="pointer" onClick={(): void => void router.push('/forgot-password')}>
-          Click here
-        </chakra.span>
+        Please check your email. If you have
+        <br /> an account, you will have a link to
+        <br /> reset your email. The link will
+        <br /> expire in 24 hours!
       </Text>
     </Grid>
   );
 };
 
-export default Login;
+export default ForgotPassword;

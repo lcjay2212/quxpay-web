@@ -3,3 +3,19 @@ import { STAGING_URL } from './url';
 
 export const post = async <T>(url: string, variable: void): Promise<T> =>
   await axios.post(`${STAGING_URL}/${url}`, variable);
+
+const token = typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN;
+
+export const options = {
+  headers: {
+    Authorization: `Bearer ${token}`,
+  },
+};
+
+const getData = async <T>(url: string): Promise<T> => {
+  const { data } = await axios.get(`${STAGING_URL}/${url}`, options);
+  return data.data;
+};
+
+export const FETCH_WALLET_BALANCE = async (): Promise<any> => await getData<any>(`web/wallet/balance`);
+export const FETCH_TRANSACTION_HISTORY = async (): Promise<any> => await getData<any>(`web/wallet/transactions`);

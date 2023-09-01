@@ -19,3 +19,4 @@ const getData = async <T>(url: string): Promise<T> => {
 
 export const FETCH_WALLET_BALANCE = async (): Promise<any> => await getData<any>(`web/wallet/balance`);
 export const FETCH_TRANSACTION_HISTORY = async (): Promise<any> => await getData<any>(`web/wallet/transactions`);
+export const FETCH_BAND_AND_CREDIT_CARD = async (): Promise<any> => await getData<any>(`web/wallet/bank-and-credit`);

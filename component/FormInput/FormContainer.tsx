@@ -1,9 +1,10 @@
-import { Box, BoxProps, FormControl, FormErrorMessage, FormLabel, SlideFade } from '@chakra-ui/react';
+import { Box, BoxProps, Flex, FormControl, FormErrorMessage, FormLabel, SlideFade } from '@chakra-ui/react';
 import { FC } from 'react';
 type FormProps = {
   label: string;
   errorMessage?: string;
   hideErrorMessage?: boolean;
+  place?: 'start' | 'end';
 };
 
 export const FormContainer: FC<FormProps & BoxProps> = ({
@@ -11,22 +12,25 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
   children,
   errorMessage,
   hideErrorMessage,
+  place = 'start',
   ...rest
 }) => (
   <FormControl isInvalid={Boolean(errorMessage)}>
     <Box mb={{ base: '3', md: '5' }} {...rest}>
-      <FormLabel
-        fontSize="1rem"
-        mb="0.3rem"
-        color="white"
-        htmlFor={label}
-        {...(!label && {
-          h: '1.3125rem',
-        })}
-        ml="1rem"
-      >
-        {label}
-      </FormLabel>
+      <Flex justifyContent={place}>
+        <FormLabel
+          fontSize="1rem"
+          mb="0.3rem"
+          color="white"
+          htmlFor={label}
+          {...(!label && {
+            h: '1.3125rem',
+          })}
+          ml="1rem"
+        >
+          {label}
+        </FormLabel>
+      </Flex>
       {children}
       {errorMessage && !hideErrorMessage && (
         <SlideFade in={true} offsetY="-1rem">

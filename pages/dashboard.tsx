@@ -31,7 +31,7 @@ const Dashboard: FC = () => {
       image: WithdrawSuccessful,
       alt: 'Withdrawal',
       route: '/withdrawal',
-      label: 'Deposit',
+      label: 'Withdrawal',
     },
     {
       image: SendQuxCash,

@@ -1,4 +1,4 @@
-import { Box, Button, Divider, Flex, FormControl, FormErrorMessage, Radio, SlideFade } from '@chakra-ui/react';
+import { Box, Button, Flex, FormControl, FormErrorMessage, Radio, SlideFade } from '@chakra-ui/react';
 import axios from 'axios';
 import BankAccount from 'component/BankAccount/BankAccount';
 import { FormContainer } from 'component/FormInput';
@@ -11,28 +11,31 @@ import { useMutation, useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
-const Deposit: FC = () => {
+const Deposit: FC<{ label: string; url: string }> = ({ label, url }) => {
   const method = useForm();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BAND_AND_CREDIT_CARD, errorHandler);
   const { control, handleSubmit } = method;
 
-  const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/web/wallet/charge`, variable, options),
-    {
-      // eslint-disable-next-line no-console
-      onSuccess: () => notify(`Wallet Top Up Successfully Initiated`),
-      onError: ({ response }) => {
-        notify(`${response.data?.errors?.account_number}`, { status: 'error' });
-      },
-    }
-  );
+  const { mutate, isLoading } = useMutation((variable) => axios.post(`${STAGING_URL}/${url}`, variable, options), {
+    // eslint-disable-next-line no-console
+    onSuccess: () => {
+      if (label === 'Withdrawal') {
+        notify(`Token Exchange for Wtihdrawal Successfully Initiated`);
+      } else {
+        notify(`Wallet Top Up Successfully Initiated`);
+      }
+    },
+    onError: ({ response }) => {
+      notify(`${response.data?.errors?.account_number}`, { status: 'error' });
+    },
+  });
 
   const onDeposit = (val): void => {
     mutate(val);
   };
 
   return (
-    <Box textAlign="center">
+    <Box textAlign="center" overflow="hidden">
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onDeposit)}>
           <Controller
@@ -82,16 +85,15 @@ const Deposit: FC = () => {
             type="submit"
             variant="primary"
             borderRadius="1rem"
-            mt="1rem"
+            mt={{ base: label === 'Withdrawal' ? '32rem' : '1rem', md: '2rem' }}
             w={350}
             h="3.25rem"
             isLoading={isLoading}
           >
-            Deposit
+            {label}
           </Button>
         </form>
       </FormProvider>
-      <Divider mt="2rem" />
     </Box>
   );
 };

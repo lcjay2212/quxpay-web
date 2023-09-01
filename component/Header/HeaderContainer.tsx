@@ -3,8 +3,7 @@ import { chakra, Container, Flex, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 
-const HeaderContainer: FC<{ firstLeter?: string; label?: string; route: string; children?: ReactElement }> = ({
-  firstLeter,
+const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement }> = ({
   label,
   route,
   children,
@@ -21,8 +20,8 @@ const HeaderContainer: FC<{ firstLeter?: string; label?: string; route: string; 
           onClick={(): void => void router.push(route)}
         />
         <Text color="primary" fontSize="4xl" w={300}>
-          {firstLeter}
-          <chakra.span color="white">{label}</chakra.span>
+          {label?.charAt(0)}
+          <chakra.span color="white">{label?.substring(1)}</chakra.span>
         </Text>
       </Flex>
 

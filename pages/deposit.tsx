@@ -1,4 +1,4 @@
-import { Box, Button } from '@chakra-ui/react';
+import { Box, Button, Divider } from '@chakra-ui/react';
 import axios from 'axios';
 import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
 import Deposit from 'component/Deposit/Deposit';
@@ -31,9 +31,11 @@ const DepositPage: FC = () => {
   const onSubmit = (val): void => mutate(val);
 
   return (
-    <HeaderContainer firstLeter="D" label="eposit" route="/dashboard">
+    <HeaderContainer label="Deposit" route="/dashboard">
       <>
-        <Deposit />
+        <Deposit label="Deposit" url="web/wallet/charge" />
+
+        <Divider mt="2rem" />
 
         <Box my="2rem" textAlign="center">
           <FormProvider {...method}>

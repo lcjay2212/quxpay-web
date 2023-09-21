@@ -18,7 +18,8 @@ import { TextField } from 'component/TextField';
 import { FETCH_BAND_AND_CREDIT_CARD, options } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
-import { AddBankIcons } from 'public/assets';
+import { useRouter } from 'next/router';
+import { AddBankIcons, WithdrawSuccessful } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -26,10 +27,13 @@ import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
 const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url, url2 }) => {
+  const router = useRouter();
   const method = useForm();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BAND_AND_CREDIT_CARD, errorHandler);
   const { control, handleSubmit } = method;
   const [radioValue, setRadioValue] = useState('1');
+  const [successTrigger, setSuccessTrigger] = useState(false);
+  const [amount, setAmount] = useState(0);
 
   const { mutate, isLoading } = useMutation(
     (variable) => axios.post(`${STAGING_URL}/${radioValue === '1' ? url : url2}`, variable, options),
@@ -37,8 +41,10 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
       onSuccess: () => {
         if (label === 'Withdrawal') {
           notify(`Token Exchange for Wtihdrawal Successfully Initiated`);
+          setSuccessTrigger(true);
         } else {
           notify(`Wallet Top Up Successfully Initiated`);
+          setSuccessTrigger(true);
         }
       },
       onError: ({ response }) => {
@@ -53,84 +59,119 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
 
   return (
     <Box textAlign="center" overflow="hidden">
-      <FormProvider {...method}>
-        <form onSubmit={handleSubmit(onDeposit)}>
-          <Controller
-            control={control}
-            name="amount"
-            rules={{ required: 'Username is required' }}
-            render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-              <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
-                <TextField
-                  type="number"
-                  value={value ?? ''}
-                  placeholder="Enter Amount"
-                  onChange={(e): void => onChange(+e.target.value)}
-                  onBlur={onBlur}
-                />
-              </FormContainer>
-            )}
-          />
-
-          <RadioGroup onChange={setRadioValue} value={radioValue}>
+      {!successTrigger ? (
+        <FormProvider {...method}>
+          <form onSubmit={handleSubmit(onDeposit)}>
             <Controller
               control={control}
-              name="payment_profile_id"
-              rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
-              render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
-                <FormControl isInvalid={!!error?.message}>
-                  <Flex justifyContent="space-between">
-                    <Box mt="1rem">
-                      <BankAccount bankDetails={data?.[0]?.payment?.bankAccount} loading={loading} />
-                      {error?.message && (
-                        <SlideFade in={true} offsetY="-1rem">
-                          <FormErrorMessage fontSize="0.9rem" color="error">
-                            {error.message}
-                          </FormErrorMessage>
-                        </SlideFade>
-                      )}
-                    </Box>
-                    <Radio
-                      value="1"
-                      colorScheme="teal"
-                      onChange={(): void => onChange(data?.[0]?.defaultPaymentProfile)}
-                    />
-                  </Flex>
-                </FormControl>
+              name="amount"
+              rules={{ required: 'Username is required' }}
+              render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+                <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
+                  <TextField
+                    type="number"
+                    value={value ?? ''}
+                    placeholder="Enter Amount"
+                    onChange={(e): void => {
+                      onChange(+e.target.value);
+                      setAmount(+e.target.value);
+                    }}
+                    onBlur={onBlur}
+                  />
+                </FormContainer>
               )}
             />
 
-            <Divider mt="1rem" />
+            <RadioGroup onChange={setRadioValue} value={radioValue}>
+              <Controller
+                control={control}
+                name="payment_profile_id"
+                rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
+                render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
+                  <FormControl isInvalid={!!error?.message}>
+                    <Flex justifyContent="space-between">
+                      <Box mt="1rem">
+                        <BankAccount bankDetails={data?.[0]?.payment?.bankAccount} loading={loading} />
+                        {error?.message && (
+                          <SlideFade in={true} offsetY="-1rem">
+                            <FormErrorMessage fontSize="0.9rem" color="error">
+                              {error.message}
+                            </FormErrorMessage>
+                          </SlideFade>
+                        )}
+                      </Box>
+                      <Radio
+                        value="1"
+                        colorScheme="teal"
+                        onChange={(): void => onChange(data?.[0]?.defaultPaymentProfile)}
+                      />
+                    </Flex>
+                  </FormControl>
+                )}
+              />
 
-            <Flex my="1.5rem" justifyContent="space-between">
-              <Flex>
-                <Image src={AddBankIcons} alt="Add Bank Icon" />
-                <Text ml="1rem" color="white" fontSize="1.25rem">
-                  Add New Bank Account
-                </Text>
+              <Divider mt="1rem" />
+
+              <Flex my="1.5rem" justifyContent="space-between">
+                <Flex>
+                  <Image src={AddBankIcons} alt="Add Bank Icon" />
+
+                  <Text ml="1rem" color="white" fontSize="1.25rem">
+                    Add New Bank Account
+                  </Text>
+                </Flex>
+
+                <Radio value="2" colorScheme="teal" />
               </Flex>
+            </RadioGroup>
 
-              <Radio value="2" colorScheme="teal" />
-            </Flex>
-          </RadioGroup>
+            {radioValue === '1' ? <></> : <AddBankAccount />}
 
-          {radioValue === '1' ? <></> : <AddBankAccount />}
+            <Divider mt="2rem" />
 
-          <Divider mt="2rem" />
-
+            <Button
+              type="submit"
+              variant="primary"
+              borderRadius="1rem"
+              mt={{ base: label === 'Withdrawal' ? '32rem' : '1rem', md: '2rem' }}
+              w={350}
+              h="3.25rem"
+              isLoading={isLoading}
+            >
+              {label}
+            </Button>
+          </form>
+        </FormProvider>
+      ) : (
+        <Flex justifyContent="center" alignItems="center" flexDir="column">
+          <Box mt="14rem">
+            <Image src={WithdrawSuccessful} width={100} height={100} alt="Withdrawal" />
+          </Box>
+          <Text color="white" fontSize="2rem">
+            ${amount.toFixed(2)}
+          </Text>
+          <Text color="white" fontSize="20px">
+            {label === 'Withdrawal' ? (
+              <>
+                Token Exchange for Wtihdrawal
+                <br /> Successfully Initiated
+              </>
+            ) : (
+              <>Wallet Top Up Successfully Initiated</>
+            )}
+          </Text>
           <Button
-            type="submit"
             variant="primary"
             borderRadius="1rem"
-            mt={{ base: label === 'Withdrawal' ? '32rem' : '1rem', md: '2rem' }}
+            mt="16rem"
             w={350}
             h="3.25rem"
-            isLoading={isLoading}
+            onClick={(): void => void router.push('/dashboard')}
           >
-            {label}
+            Back Home
           </Button>
-        </form>
-      </FormProvider>
+        </Flex>
+      )}
     </Box>
   );
 };

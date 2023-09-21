@@ -1,7 +1,7 @@
 import { Box, BoxProps, Flex, FormControl, FormErrorMessage, FormLabel, SlideFade } from '@chakra-ui/react';
 import { FC } from 'react';
 type FormProps = {
-  label: string;
+  label?: string;
   errorMessage?: string;
   hideErrorMessage?: boolean;
   place?: 'start' | 'end';

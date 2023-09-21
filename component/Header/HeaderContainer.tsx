@@ -14,12 +14,12 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
       <Flex mt="1rem">
         <ArrowBackIcon
           color="white"
-          mt="1.30rem"
+          mt={label?.charAt(0) !== 'S' ? '1.30rem' : '1rem'}
           mr="1rem"
           cursor="pointer"
           onClick={(): void => void router.push(route)}
         />
-        <Text color="primary" fontSize="4xl" w={300}>
+        <Text color="primary" fontSize={label?.charAt(0) !== 'S' ? '4xl' : '3xl'} w={300}>
           {label?.charAt(0)}
           <chakra.span color="white">{label?.substring(1)}</chakra.span>
         </Text>

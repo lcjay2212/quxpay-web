@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 const WithdrawalPage: FC = () => (
   <HeaderContainer label="Withdrawal" route="/dashboard">
-    <Deposit label="Withdrawal" url="web/wallet/withdraw" />
+    <Deposit label="Withdrawal" url="web/wallet/withdraw" url2="web/bankaccount/new" />
   </HeaderContainer>
 );
 

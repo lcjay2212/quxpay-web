@@ -1,25 +1,15 @@
-import { Flex, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { startCase } from 'lodash';
-import Image from 'next/image';
-import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 const AddBankAccount: FC = () => {
   const { control } = useFormContext();
   return (
     <>
-      <Flex mb="1.5rem">
-        <Image src={AddBankIcons} alt="Add Bank Icon" />
-        <Text ml="1rem" color="white" fontSize="1.25rem">
-          Add New Bank Account
-        </Text>
-      </Flex>
-
       <Controller
         control={control}
-        name="bank_nickname"
+        name="account_name"
         rules={{ required: 'Bank Account Nickname is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Bank Account Nickname" errorMessage={error?.message ?? ''}>
@@ -71,7 +61,7 @@ const AddBankAccount: FC = () => {
 
       <Controller
         control={control}
-        name="account_name"
+        name="bank_name"
         rules={{ required: 'Bank Name is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>

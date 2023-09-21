@@ -1,34 +1,51 @@
-import { Box, Button, Flex, FormControl, FormErrorMessage, Radio, SlideFade } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Divider,
+  Flex,
+  FormControl,
+  FormErrorMessage,
+  Radio,
+  RadioGroup,
+  SlideFade,
+  Text,
+} from '@chakra-ui/react';
 import axios from 'axios';
+import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
 import BankAccount from 'component/BankAccount/BankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FETCH_BAND_AND_CREDIT_CARD, options } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
-import { FC, ReactElement } from 'react';
+import Image from 'next/image';
+import { AddBankIcons } from 'public/assets';
+import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
-const Deposit: FC<{ label: string; url: string }> = ({ label, url }) => {
+const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url, url2 }) => {
   const method = useForm();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BAND_AND_CREDIT_CARD, errorHandler);
   const { control, handleSubmit } = method;
+  const [radioValue, setRadioValue] = useState('1');
 
-  const { mutate, isLoading } = useMutation((variable) => axios.post(`${STAGING_URL}/${url}`, variable, options), {
-    // eslint-disable-next-line no-console
-    onSuccess: () => {
-      if (label === 'Withdrawal') {
-        notify(`Token Exchange for Wtihdrawal Successfully Initiated`);
-      } else {
-        notify(`Wallet Top Up Successfully Initiated`);
-      }
-    },
-    onError: ({ response }) => {
-      notify(`${response.data?.errors?.account_number}`, { status: 'error' });
-    },
-  });
+  const { mutate, isLoading } = useMutation(
+    (variable) => axios.post(`${STAGING_URL}/${radioValue === '1' ? url : url2}`, variable, options),
+    {
+      onSuccess: () => {
+        if (label === 'Withdrawal') {
+          notify(`Token Exchange for Wtihdrawal Successfully Initiated`);
+        } else {
+          notify(`Wallet Top Up Successfully Initiated`);
+        }
+      },
+      onError: ({ response }) => {
+        notify(`${response.data?.errors?.account_number}`, { status: 'error' });
+      },
+    }
+  );
 
   const onDeposit = (val): void => {
     mutate(val);
@@ -55,31 +72,51 @@ const Deposit: FC<{ label: string; url: string }> = ({ label, url }) => {
             )}
           />
 
-          <Controller
-            control={control}
-            name="payment_profile_id"
-            rules={{ required: 'Payment is required' }}
-            render={({
-              field: { onChange, value = data?.[1]?.defaultPaymentProfile },
-              fieldState: { error },
-            }): ReactElement => (
-              <FormControl isInvalid={!!error?.message}>
-                <Flex justifyContent="space-between">
-                  <Box mt="1rem">
-                    <BankAccount bankDetails={data?.[1]?.payment?.bankAccount} loading={loading} />
-                    {error?.message && (
-                      <SlideFade in={true} offsetY="-1rem">
-                        <FormErrorMessage fontSize="0.9rem" color="error">
-                          {error.message}
-                        </FormErrorMessage>
-                      </SlideFade>
-                    )}
-                  </Box>
-                  <Radio value={value ?? data?.[1]?.defaultPaymentProfile} onChange={onChange} colorScheme="teal" />
-                </Flex>
-              </FormControl>
-            )}
-          />
+          <RadioGroup onChange={setRadioValue} value={radioValue}>
+            <Controller
+              control={control}
+              name="payment_profile_id"
+              rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
+              render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
+                <FormControl isInvalid={!!error?.message}>
+                  <Flex justifyContent="space-between">
+                    <Box mt="1rem">
+                      <BankAccount bankDetails={data?.[0]?.payment?.bankAccount} loading={loading} />
+                      {error?.message && (
+                        <SlideFade in={true} offsetY="-1rem">
+                          <FormErrorMessage fontSize="0.9rem" color="error">
+                            {error.message}
+                          </FormErrorMessage>
+                        </SlideFade>
+                      )}
+                    </Box>
+                    <Radio
+                      value="1"
+                      colorScheme="teal"
+                      onChange={(): void => onChange(data?.[0]?.defaultPaymentProfile)}
+                    />
+                  </Flex>
+                </FormControl>
+              )}
+            />
+
+            <Divider mt="1rem" />
+
+            <Flex my="1.5rem" justifyContent="space-between">
+              <Flex>
+                <Image src={AddBankIcons} alt="Add Bank Icon" />
+                <Text ml="1rem" color="white" fontSize="1.25rem">
+                  Add New Bank Account
+                </Text>
+              </Flex>
+
+              <Radio value="2" colorScheme="teal" />
+            </Flex>
+          </RadioGroup>
+
+          {radioValue === '1' ? <></> : <AddBankAccount />}
+
+          <Divider mt="2rem" />
 
           <Button
             type="submit"

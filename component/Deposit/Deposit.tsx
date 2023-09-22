@@ -19,7 +19,7 @@ import { FETCH_BAND_AND_CREDIT_CARD, options } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIcons, WithdrawSuccessful } from 'public/assets';
+import { AddBankIcons, DepositSuccessful, WithdrawSuccessful } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -145,7 +145,12 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
       ) : (
         <Flex justifyContent="center" alignItems="center" flexDir="column">
           <Box mt="14rem">
-            <Image src={WithdrawSuccessful} width={100} height={100} alt="Withdrawal" />
+            <Image
+              src={label === 'Withdrawal' ? WithdrawSuccessful : DepositSuccessful}
+              width={100}
+              height={100}
+              alt="Withdrawal"
+            />
           </Box>
           <Text color="white" fontSize="2rem">
             ${amount.toFixed(2)}

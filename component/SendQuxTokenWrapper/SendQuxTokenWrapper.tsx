@@ -6,7 +6,7 @@ import { FETCH_FRIEND_LIST, options } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIcons, WithdrawSuccessful } from 'public/assets';
+import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -18,7 +18,7 @@ const SendQuxTokenWrapper: FC = () => {
   const method = useForm();
 
   const { control, handleSubmit } = method;
-  const [radioValue, setRadioValue] = useState('1');
+  const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
   const [amount, setAmount] = useState(0);
 
@@ -122,9 +122,11 @@ const SendQuxTokenWrapper: FC = () => {
 
               <Flex my="1.5rem" justifyContent="space-between">
                 <Flex>
-                  <Image src={AddBankIcons} alt="Add Bank Icon" />
+                  <Box ml="1rem">
+                    <Image src={AddFriendIcon} alt="Add Bank Icon" />
+                  </Box>
 
-                  <Text ml="1rem" color="white" fontSize="1.25rem">
+                  <Text ml="0.5rem" color="white" fontSize="1.25rem">
                     Add New Friend
                   </Text>
                 </Flex>
@@ -172,7 +174,7 @@ const SendQuxTokenWrapper: FC = () => {
       ) : (
         <Flex justifyContent="center" alignItems="center" flexDir="column">
           <Box mt="14rem">
-            <Image src={WithdrawSuccessful} width={100} height={100} alt="Withdrawal" />
+            <Image src={SendQuxCash} width={100} height={100} alt="Withdrawal" />
           </Box>
           <Text color="white" fontSize="2rem">
             ${amount.toFixed(2)}

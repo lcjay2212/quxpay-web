@@ -28,15 +28,16 @@ import { notify } from 'utils/notify';
 
 const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
-  const method = useForm();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BAND_AND_CREDIT_CARD, errorHandler);
+  const [amountValue, setAmountValue] = useState(0);
+
+  const method = useForm();
   const { control, handleSubmit } = method;
-  const [radioValue, setRadioValue] = useState('1');
+  const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
-  const [amount, setAmount] = useState(0);
 
   const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/${radioValue === '1' ? url : url2}`, variable, options),
+    (variable) => axios.post(`${STAGING_URL}/${radioValue !== '2' ? url : url2}`, variable, options),
     {
       onSuccess: () => {
         if (label === 'Withdrawal') {
@@ -65,16 +66,16 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
             <Controller
               control={control}
               name="amount"
-              rules={{ required: 'Username is required' }}
+              rules={{ required: 'Amount is required' }}
               render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                 <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                   <TextField
                     type="number"
-                    value={value ?? ''}
+                    value={value || ''}
                     placeholder="Enter Amount"
                     onChange={(e): void => {
                       onChange(+e.target.value);
-                      setAmount(+e.target.value);
+                      setAmountValue(+e.target.value);
                     }}
                     onBlur={onBlur}
                   />
@@ -87,27 +88,29 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
                 control={control}
                 name="payment_profile_id"
                 rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
-                render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
-                  <FormControl isInvalid={!!error?.message}>
-                    <Flex justifyContent="space-between">
-                      <Box mt="1rem">
-                        <BankAccount bankDetails={data?.[0]?.payment?.bankAccount} loading={loading} />
-                        {error?.message && (
-                          <SlideFade in={true} offsetY="-1rem">
-                            <FormErrorMessage fontSize="0.9rem" color="error">
-                              {error.message}
-                            </FormErrorMessage>
-                          </SlideFade>
-                        )}
-                      </Box>
-                      <Radio
-                        value="1"
-                        colorScheme="teal"
-                        onChange={(): void => onChange(data?.[0]?.defaultPaymentProfile)}
-                      />
-                    </Flex>
-                  </FormControl>
-                )}
+                render={({ field: { onChange, value }, fieldState: { error } }): ReactElement => {
+                  return (
+                    <FormControl isInvalid={!!error?.message}>
+                      <Flex justifyContent="space-between">
+                        <Box mt="1rem">
+                          <BankAccount bankDetails={data?.[0]?.payment?.bankAccount} loading={loading} />
+                          {error?.message && (
+                            <SlideFade in={true} offsetY="-1rem">
+                              <FormErrorMessage fontSize="0.9rem" color="error">
+                                {error.message}
+                              </FormErrorMessage>
+                            </SlideFade>
+                          )}
+                        </Box>
+                        <Radio
+                          value={value}
+                          colorScheme="teal"
+                          onChange={(): void => onChange(data?.[0]?.defaultPaymentProfile)}
+                        />
+                      </Flex>
+                    </FormControl>
+                  );
+                }}
               />
 
               <Divider mt="1rem" />
@@ -125,7 +128,7 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
               </Flex>
             </RadioGroup>
 
-            {radioValue === '1' ? <></> : <AddBankAccount />}
+            {radioValue !== '2' ? <></> : <AddBankAccount />}
 
             <Divider mt="2rem" />
 
@@ -153,7 +156,7 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
             />
           </Box>
           <Text color="white" fontSize="2rem">
-            ${amount.toFixed(2)}
+            ${amountValue.toFixed(2)}
           </Text>
           <Text color="white" fontSize="20px">
             {label === 'Withdrawal' ? (

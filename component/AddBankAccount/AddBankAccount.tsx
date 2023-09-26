@@ -3,8 +3,10 @@ import { TextField } from 'component/TextField';
 import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { blockInvalidChar } from 'utils/blockInvalidChar';
 const AddBankAccount: FC = () => {
   const { control } = useFormContext();
+
   return (
     <>
       <Controller
@@ -34,6 +36,7 @@ const AddBankAccount: FC = () => {
             <TextField
               type="number"
               value={value ?? ''}
+              onKeyDown={blockInvalidChar}
               placeholder="Enter Account Number"
               onChange={onChange}
               onBlur={onBlur}
@@ -51,6 +54,7 @@ const AddBankAccount: FC = () => {
             <TextField
               type="number"
               value={value ?? ''}
+              onKeyDown={blockInvalidChar}
               placeholder="Enter Routing Number"
               onChange={onChange}
               onBlur={onBlur}

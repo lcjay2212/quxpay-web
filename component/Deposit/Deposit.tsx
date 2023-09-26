@@ -15,7 +15,7 @@ import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
 import BankAccount from 'component/BankAccount/BankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
-import { FETCH_BAND_AND_CREDIT_CARD, options } from 'constants/api';
+import { FETCH_BANK_AND_CREDIT_CARD, options } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -28,7 +28,7 @@ import { notify } from 'utils/notify';
 
 const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
-  const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BAND_AND_CREDIT_CARD, errorHandler);
+  const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
   const [amountValue, setAmountValue] = useState(0);
 
   const method = useForm();

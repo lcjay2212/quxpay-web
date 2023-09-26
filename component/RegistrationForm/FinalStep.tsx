@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { blockInvalidChar } from 'utils/blockInvalidChar';
 const FinalStep: FC = () => {
   const { control } = useFormContext();
   return (
@@ -45,6 +46,7 @@ const FinalStep: FC = () => {
               type="number"
               value={value ?? ''}
               placeholder="Enter Account Number"
+              onKeyDown={blockInvalidChar}
               onChange={onChange}
               onBlur={onBlur}
             />
@@ -62,6 +64,7 @@ const FinalStep: FC = () => {
               type="number"
               value={value ?? ''}
               placeholder="Enter Routing Number"
+              onKeyDown={blockInvalidChar}
               onChange={onChange}
               onBlur={onBlur}
             />
@@ -94,7 +97,9 @@ const FinalStep: FC = () => {
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Social Security Number" errorMessage={error?.message ?? ''}>
             <TextField
+              type="number"
               value={value ?? ''}
+              onKeyDown={blockInvalidChar}
               placeholder="Enter SSN e.g. 123-45-6789"
               onChange={onChange}
               onBlur={onBlur}

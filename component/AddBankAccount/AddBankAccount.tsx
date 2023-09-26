@@ -1,11 +1,52 @@
+import { CSSObject } from '@emotion/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import { FETCH_BANK_LIST } from 'constants/api';
 import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useQuery } from 'react-query';
+import Select from 'react-select';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
+import errorHandler from 'utils/errorHandler';
+
+export const reactSelectStyles = {
+  menu: (provided: CSSObject): CSSObject => ({
+    ...provided,
+    marginTop: 5,
+    color: 'rgb(51, 51, 51)',
+  }),
+  control: (provided: CSSObject): CSSObject => {
+    return {
+      ...provided,
+      border: 'none',
+      boxShadow: 'none',
+      borderRadius: '16px',
+    };
+  },
+  indicatorsContainer: (provided: CSSObject): CSSObject => ({
+    ...provided,
+    display: 'none',
+  }),
+  valueContainer: (provided: CSSObject): CSSObject => ({
+    ...provided,
+    padding: 13,
+    fontSize: '1rem',
+    border: '1px solid #cccccc',
+    borderRadius: '16px',
+    boxShadow: 'rgba(100, 100, 111, 0.2) 0rem 0.438rem 1.813rem 0rem',
+    height: '3.5rem',
+    // background: '#3D3C3C',
+    textAlign: 'start',
+  }),
+};
+
 const AddBankAccount: FC = () => {
   const { control } = useFormContext();
+  const { data, isLoading } = useQuery('bankList', FETCH_BANK_LIST, errorHandler);
+  const tempData = data?.map((item) => {
+    return { label: item.name, value: item.name };
+  });
 
   return (
     <>
@@ -67,18 +108,20 @@ const AddBankAccount: FC = () => {
         control={control}
         name="bank_name"
         rules={{ required: 'Bank Name is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Bank Name"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
-              onBlur={onBlur}
-            />
-          </FormContainer>
-        )}
+        render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
+          return (
+            <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
+              <Select
+                styles={reactSelectStyles}
+                placeholder="Select Bank Name"
+                isLoading={isLoading}
+                options={tempData}
+                onChange={(e: { value?: string; label?: string }): void => onChange(e.value)}
+                isClearable={true}
+              />
+            </FormContainer>
+          );
+        }}
       />
     </>
   );

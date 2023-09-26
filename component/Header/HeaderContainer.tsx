@@ -2,6 +2,8 @@ import { ArrowBackIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { chakra, Container, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
+import { useAccountPaymentId } from 'store/useAccountPaymentId';
+import { notify } from 'utils/notify';
 
 const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement }> = ({
   label,
@@ -9,6 +11,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
   children,
 }) => {
   const router = useRouter();
+  const paymentId = useAccountPaymentId((e) => e.paymentId);
   return (
     <Container>
       <Flex justifyContent="space-between" alignItems="center">
@@ -24,7 +27,17 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
             <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
             <MenuList>
               {label === 'Deposit' && (
-                <MenuItem onClick={(): void => void router.push('/deposit/edit')}>Edit Account</MenuItem>
+                <MenuItem
+                  onClick={(): void => {
+                    if (!paymentId) {
+                      notify('Please select Bank Account', { status: 'warning' });
+                    } else {
+                      void router.push('/deposit/edit');
+                    }
+                  }}
+                >
+                  Edit Account
+                </MenuItem>
               )}
             </MenuList>
           </Menu>

@@ -3,24 +3,22 @@ import Image from 'next/image';
 import { AddBankIcon } from 'public/assets';
 import { FC } from 'react';
 
-const BankAccount: FC<{ bankDetails?: any; loading: boolean }> = ({ bankDetails, loading }) => (
+const BankAccount: FC<{ name?: string; accountNumber: string; loading: boolean }> = ({
+  name,
+  accountNumber,
+  loading,
+}) => (
   <>
     {!loading ? (
-      <>
-        {bankDetails ? (
-          <Flex gap={8} height="60px" color="white">
-            <Box height={80}>
-              <Image src={AddBankIcon} height={50} width={50} alt="Qux Wallet" />
-            </Box>
-            <Box fontSize="lg">
-              <Text>{bankDetails?.accountNumber}</Text>
-              <Text>Name: {bankDetails?.nameOnAccount}</Text>
-            </Box>
-          </Flex>
-        ) : (
-          <>No Bank Account </>
-        )}
-      </>
+      <Flex gap={8} height="60px" color="white">
+        <Box height={80}>
+          <Image src={AddBankIcon} height={50} width={50} alt="Qux Wallet" />
+        </Box>
+        <Box fontSize="lg">
+          <Text>{accountNumber}</Text>
+          <Text>Name: {name}</Text>
+        </Box>
+      </Flex>
     ) : (
       <>
         <Spinner />

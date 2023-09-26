@@ -115,10 +115,29 @@ const Box = {
   ...Text.sizes,
 };
 
+const Input = {
+  variants: {
+    primary: {
+      border: '1px solid #cccccc',
+      borderRadius: '16px',
+      boxShadow: 'rgba(100, 100, 111, 0.2) 0rem 0.438rem 1.813rem 0rem',
+      height: '3.5rem',
+      color: 'white',
+      _placeholder: { color: 'gray' },
+      _focus: {
+        border: `2px solid`,
+        borderColor: 'primary',
+        bg: 'black',
+      },
+    },
+  },
+};
+
 export const components = {
   Button,
   Container,
   Heading,
   Text,
   Box,
+  Input,
 };

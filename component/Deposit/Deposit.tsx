@@ -23,6 +23,7 @@ import { AddBankIcons, DepositSuccessful, WithdrawSuccessful } from 'public/asse
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
+import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
@@ -35,6 +36,7 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
   const { control, handleSubmit } = method;
   const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
+  const setPaymentId = useAccountPaymentId((e) => e.setPaymentId);
 
   const { mutate, isLoading } = useMutation(
     (variable) => axios.post(`${STAGING_URL}/${radioValue !== '2' ? url : url2}`, variable, options),
@@ -88,26 +90,35 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
                 control={control}
                 name="payment_profile_id"
                 rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
-                render={({ field: { onChange, value }, fieldState: { error } }): ReactElement => {
+                render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
                   return (
                     <FormControl isInvalid={!!error?.message}>
-                      <Flex justifyContent="space-between">
-                        <Box mt="1rem">
-                          <BankAccount bankDetails={data?.[0]?.payment?.bankAccount} loading={loading} />
-                          {error?.message && (
-                            <SlideFade in={true} offsetY="-1rem">
-                              <FormErrorMessage fontSize="0.9rem" color="error">
-                                {error.message}
-                              </FormErrorMessage>
-                            </SlideFade>
-                          )}
-                        </Box>
-                        <Radio
-                          value={value}
-                          colorScheme="teal"
-                          onChange={(): void => onChange(data?.[0]?.defaultPaymentProfile)}
-                        />
-                      </Flex>
+                      {data?.payments.map((item, index) => (
+                        <Flex justifyContent="space-between" key={index}>
+                          <Box mt="1rem">
+                            <BankAccount
+                              name={item?.account_name}
+                              accountNumber={item?.account_number}
+                              loading={loading}
+                            />
+                            {error?.message && (
+                              <SlideFade in={true} offsetY="-1rem">
+                                <FormErrorMessage fontSize="0.9rem" color="error">
+                                  {error.message}
+                                </FormErrorMessage>
+                              </SlideFade>
+                            )}
+                          </Box>
+                          <Radio
+                            value={`${index + 1}`}
+                            colorScheme="teal"
+                            onChange={(): void => {
+                              onChange(item.payment_profile_id);
+                              setPaymentId(item.payment_profile_id);
+                            }}
+                          />
+                        </Flex>
+                      ))}
                     </FormControl>
                   );
                 }}
@@ -124,11 +135,11 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
                   </Text>
                 </Flex>
 
-                <Radio value="2" colorScheme="teal" />
+                <Radio value={`${data?.payments.length + 1}`} colorScheme="teal" />
               </Flex>
             </RadioGroup>
 
-            {radioValue !== '2' ? <></> : <AddBankAccount />}
+            {radioValue !== `${data?.payments.length + 1}` ? <></> : <AddBankAccount />}
 
             <Divider mt="2rem" />
 

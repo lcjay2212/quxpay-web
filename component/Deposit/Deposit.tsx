@@ -39,7 +39,8 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
   const setPaymentId = useAccountPaymentId((e) => e.setPaymentId);
 
   const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/${radioValue !== '2' ? url : url2}`, variable, options),
+    (variable) =>
+      axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments.length + 1}` ? url : url2}`, variable, options),
     {
       onSuccess: () => {
         if (label === 'Withdrawal') {

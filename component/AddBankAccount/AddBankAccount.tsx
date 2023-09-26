@@ -2,7 +2,6 @@ import { CSSObject } from '@emotion/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_LIST } from 'constants/api';
-import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useQuery } from 'react-query';
@@ -59,9 +58,7 @@ const AddBankAccount: FC = () => {
             <TextField
               value={value ?? ''}
               placeholder="Create Bank Account Nickname"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
+              onChange={onChange}
               onBlur={onBlur}
             />
           </FormContainer>

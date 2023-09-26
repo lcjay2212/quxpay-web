@@ -16,8 +16,8 @@ const BankAccount: FC<{ name?: string; accountNumber: string; bankName: string; 
           <Image src={AddBankIcon} height={50} width={50} alt="Qux Wallet" />
         </Box>
         <Box fontSize="lg">
-          <Text maxWidth={{ base: 250, lg: 350 }} noOfLines={1}>
-            <chakra.span>{bankName}</chakra.span>&nbsp;
+          <Text>
+            <chakra.span>{bankName.slice(0, 15)}</chakra.span>&nbsp;
             {accountNumber}
           </Text>
           <Text>Name: {name}</Text>

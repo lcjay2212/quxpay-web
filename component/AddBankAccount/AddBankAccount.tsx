@@ -13,16 +13,13 @@ export const reactSelectStyles = {
   menu: (provided: CSSObject): CSSObject => ({
     ...provided,
     marginTop: 5,
-    color: 'rgb(51, 51, 51)',
   }),
-  control: (provided: CSSObject): CSSObject => {
-    return {
-      ...provided,
-      border: 'none',
-      boxShadow: 'none',
-      borderRadius: '16px',
-    };
-  },
+  control: (provided: CSSObject): CSSObject => ({
+    ...provided,
+    border: 'none',
+    boxShadow: 'none',
+    borderRadius: '16px',
+  }),
   indicatorsContainer: (provided: CSSObject): CSSObject => ({
     ...provided,
     display: 'none',
@@ -34,9 +31,16 @@ export const reactSelectStyles = {
     border: '1px solid #cccccc',
     borderRadius: '16px',
     boxShadow: 'rgba(100, 100, 111, 0.2) 0rem 0.438rem 1.813rem 0rem',
-    height: '3.5rem',
-    // background: '#3D3C3C',
+    background: '#3D3C3C',
     textAlign: 'start',
+    ':active': {
+      background: '#000000',
+      borderColor: '#06A499',
+    },
+  }),
+  singleValue: (provided: CSSObject): CSSObject => ({
+    ...provided,
+    color: 'white',
   }),
 };
 
@@ -105,10 +109,11 @@ const AddBankAccount: FC = () => {
         control={control}
         name="bank_name"
         rules={{ required: 'Bank Name is required' }}
-        render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
+        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
           return (
             <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
               <Select
+                onBlur={onBlur}
                 styles={reactSelectStyles}
                 placeholder="Select Bank Name"
                 isLoading={isLoading}

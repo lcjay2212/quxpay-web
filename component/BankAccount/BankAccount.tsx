@@ -1,21 +1,25 @@
-import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, chakra, Flex, Spinner, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { AddBankIcon } from 'public/assets';
 import { FC } from 'react';
 
-const BankAccount: FC<{ name?: string; accountNumber: string; loading: boolean }> = ({
+const BankAccount: FC<{ name?: string; accountNumber: string; bankName: string; loading: boolean }> = ({
   name,
   accountNumber,
   loading,
+  bankName,
 }) => (
   <>
     {!loading ? (
-      <Flex gap={8} height="60px" color="white">
+      <Flex gap={8} height="60px" textAlign="start" color="white">
         <Box height={80}>
           <Image src={AddBankIcon} height={50} width={50} alt="Qux Wallet" />
         </Box>
         <Box fontSize="lg">
-          <Text>{accountNumber}</Text>
+          <Text maxWidth={{ base: 250, lg: 350 }} noOfLines={1}>
+            <chakra.span>{bankName}</chakra.span>&nbsp;
+            {accountNumber}
+          </Text>
           <Text>Name: {name}</Text>
         </Box>
       </Flex>

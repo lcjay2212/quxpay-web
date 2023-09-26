@@ -100,6 +100,7 @@ const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url,
                             <Flex justifyContent="space-between" key={index}>
                               <Box mt="1rem">
                                 <BankAccount
+                                  bankName={item?.bank_name}
                                   name={item?.account_name}
                                   accountNumber={item?.account_number}
                                   loading={loading}

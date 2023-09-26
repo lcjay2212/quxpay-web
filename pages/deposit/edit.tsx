@@ -59,6 +59,7 @@ const EditDepositPage: FC = () => {
         </Text>
         <Box mt="1rem" mb="2rem" ml="1rem">
           <BankAccount
+            bankName={data?.account?.bank_name}
             name={data?.account?.account_name}
             accountNumber={data?.account?.account_number}
             loading={loading}

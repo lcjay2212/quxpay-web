@@ -28,7 +28,7 @@ import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
-const Deposit: FC<{ label: string; url: string; url2: string }> = ({ label, url, url2 }) => {
+const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
   const [amountValue, setAmountValue] = useState(0);

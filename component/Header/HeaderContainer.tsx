@@ -27,17 +27,20 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
             <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
             <MenuList>
               {label === 'Deposit' && (
-                <MenuItem
-                  onClick={(): void => {
-                    if (!paymentId) {
-                      notify('Please select Bank Account', { status: 'warning' });
-                    } else {
-                      void router.push('/deposit/edit');
-                    }
-                  }}
-                >
-                  Edit Account
-                </MenuItem>
+                <>
+                  <MenuItem
+                    onClick={(): void => {
+                      if (!paymentId) {
+                        notify('Please select Bank Account', { status: 'warning' });
+                      } else {
+                        void router.push('/deposit/edit');
+                      }
+                    }}
+                  >
+                    Edit Account
+                  </MenuItem>
+                  <MenuItem onClick={(): void => void router.push('/deposit/delete')}>Delete Account</MenuItem>
+                </>
               )}
             </MenuList>
           </Menu>

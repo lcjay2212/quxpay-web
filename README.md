@@ -39,3 +39,7 @@ Added path aliasing **(@folder-name)** is used to easily determine which files w
 ### Node Version
 
 - v16.14.0
+
+### NPM Version
+
+- 9.6.7

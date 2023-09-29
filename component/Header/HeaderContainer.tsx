@@ -42,6 +42,11 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
                   <MenuItem onClick={(): void => void router.push('/deposit/delete')}>Delete Account</MenuItem>
                 </>
               )}
+              {label === 'Send QUX ®Tokens' && (
+                <>
+                  <MenuItem onClick={(): void => void router.push('/send-qux-token/delete')}>Delete Friends</MenuItem>
+                </>
+              )}
             </MenuList>
           </Menu>
         )}

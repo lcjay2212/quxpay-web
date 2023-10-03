@@ -78,9 +78,7 @@ const Login: FC = () => {
                 <TextField
                   value={value ?? ''}
                   placeholder="Enter your password"
-                  onChange={(e): void => {
-                    onChange(e.target.value.toLowerCase());
-                  }}
+                  onChange={onChange}
                   onBlur={onBlur}
                   isPassword
                 />

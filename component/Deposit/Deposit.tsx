@@ -5,7 +5,6 @@ import {
   Flex,
   FormControl,
   FormErrorMessage,
-  Heading,
   Radio,
   RadioGroup,
   SlideFade,
@@ -68,119 +67,109 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
       {!successTrigger ? (
         <>
           {!loading ? (
-            <>
-              {data?.payments.length ? (
-                <>
-                  <FormProvider {...method}>
-                    <form onSubmit={handleSubmit(onDeposit)}>
-                      <Flex flexDir="column" justifyContent="space-between">
-                        <Box display="flex" flexDir="column">
-                          <Controller
-                            control={control}
-                            name="amount"
-                            rules={{ required: 'Amount is required' }}
-                            render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                              <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
-                                <TextField
-                                  type="number"
-                                  value={value || ''}
-                                  placeholder="Enter Amount"
-                                  onChange={(e): void => {
-                                    onChange(+e.target.value);
-                                    setAmountValue(+e.target.value);
-                                  }}
-                                  onBlur={onBlur}
-                                />
-                              </FormContainer>
-                            )}
+            <FormProvider {...method}>
+              <form onSubmit={handleSubmit(onDeposit)}>
+                <Flex flexDir="column" justifyContent="space-between">
+                  <Box display="flex" flexDir="column">
+                    <Controller
+                      control={control}
+                      name="amount"
+                      rules={{ required: 'Amount is required' }}
+                      render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+                        <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
+                          <TextField
+                            type="number"
+                            value={value || ''}
+                            placeholder="Enter Amount"
+                            onChange={(e): void => {
+                              onChange(+e.target.value);
+                              setAmountValue(+e.target.value);
+                            }}
+                            onBlur={onBlur}
                           />
+                        </FormContainer>
+                      )}
+                    />
 
-                          <RadioGroup onChange={setRadioValue} value={radioValue}>
-                            <Controller
-                              control={control}
-                              name="payment_profile_id"
-                              rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
-                              render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
-                                return (
-                                  <FormControl isInvalid={!!error?.message}>
-                                    {data.payments?.map((item, index) => (
-                                      <Flex justifyContent="space-between" key={index}>
-                                        <Box mt="1rem">
-                                          <BankAccount
-                                            bankName={item?.bank_name}
-                                            name={item?.account_name}
-                                            accountNumber={item?.account_number}
-                                            loading={loading}
-                                          />
-                                          {error?.message && (
-                                            <SlideFade in={true} offsetY="-1rem">
-                                              <FormErrorMessage fontSize="0.9rem" color="error">
-                                                {error.message}
-                                              </FormErrorMessage>
-                                            </SlideFade>
-                                          )}
-                                        </Box>
-                                        <Radio
-                                          value={`${index + 1}`}
-                                          colorScheme="teal"
-                                          onChange={(): void => {
-                                            onChange(item.payment_profile_id);
-                                            setPaymentId(item.payment_profile_id);
-                                          }}
-                                        />
-                                      </Flex>
-                                    ))}
-                                  </FormControl>
-                                );
-                              }}
-                            />
-
-                            <Divider mt="1rem" />
-
-                            {label === 'Deposit' && (
-                              <>
-                                {' '}
-                                <Flex my="1.5rem" justifyContent="space-between">
-                                  <Flex>
-                                    <Image src={AddBankIcons} alt="Add Bank Icon" />
-
-                                    <Text ml="1rem" color="white" fontSize="1.25rem">
-                                      Add New Bank Account
-                                    </Text>
-                                  </Flex>
-
-                                  <Radio value={`${data.payments?.length + 1}`} colorScheme="teal" />
+                    <RadioGroup onChange={setRadioValue} value={radioValue}>
+                      <Controller
+                        control={control}
+                        name="payment_profile_id"
+                        rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
+                        render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
+                          return (
+                            <FormControl isInvalid={!!error?.message}>
+                              {data.payments?.map((item, index) => (
+                                <Flex justifyContent="space-between" key={index}>
+                                  <Box mt="1rem">
+                                    <BankAccount
+                                      bankName={item?.bank_name}
+                                      name={item?.account_name}
+                                      accountNumber={item?.account_number}
+                                      loading={loading}
+                                    />
+                                    {error?.message && (
+                                      <SlideFade in={true} offsetY="-1rem">
+                                        <FormErrorMessage fontSize="0.9rem" color="error">
+                                          {error.message}
+                                        </FormErrorMessage>
+                                      </SlideFade>
+                                    )}
+                                  </Box>
+                                  <Radio
+                                    value={`${index + 1}`}
+                                    colorScheme="teal"
+                                    onChange={(): void => {
+                                      onChange(item.payment_profile_id);
+                                      setPaymentId(item.payment_profile_id);
+                                    }}
+                                  />
                                 </Flex>
-                                {radioValue !== `${data.payments?.length + 1}` ? <></> : <AddBankAccount />}
-                              </>
-                            )}
-                          </RadioGroup>
+                              ))}
+                            </FormControl>
+                          );
+                        }}
+                      />
 
-                          <Divider />
-                        </Box>
+                      <Divider mt="1rem" />
 
-                        <Box my="2rem">
-                          <Button
-                            type="submit"
-                            variant="primary"
-                            borderRadius="1rem"
-                            w={350}
-                            h="3.25rem"
-                            isLoading={isLoading}
-                          >
-                            {label}
-                          </Button>
-                        </Box>
-                      </Flex>
-                    </form>
-                  </FormProvider>
-                </>
-              ) : (
-                <Flex h={300} justifyContent="center" alignItems="center" mx="2rem">
-                  <Heading as="h2">You dont have Account yet please Deposit first</Heading>
+                      {label === 'Deposit' && (
+                        <>
+                          {' '}
+                          <Flex my="1.5rem" justifyContent="space-between">
+                            <Flex>
+                              <Image src={AddBankIcons} alt="Add Bank Icon" />
+
+                              <Text ml="1rem" color="white" fontSize="1.25rem">
+                                Add New Bank Account
+                              </Text>
+                            </Flex>
+
+                            <Radio value={`${data.payments?.length + 1}`} colorScheme="teal" />
+                          </Flex>
+                          {radioValue !== `${data.payments?.length + 1}` ? <></> : <AddBankAccount />}
+                        </>
+                      )}
+                    </RadioGroup>
+
+                    <Divider />
+                  </Box>
+
+                  <Box my="2rem">
+                    <Button
+                      type="submit"
+                      variant="primary"
+                      borderRadius="1rem"
+                      w={350}
+                      h="3.25rem"
+                      isLoading={isLoading}
+                    >
+                      {label}
+                    </Button>
+                  </Box>
                 </Flex>
-              )}
-            </>
+              </form>
+            </FormProvider>
           ) : (
             <Box height="500px" display="flex" justifyContent="center" alignItems="center">
               <Spinner size="xl" />

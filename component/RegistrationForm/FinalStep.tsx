@@ -1,14 +1,25 @@
 import { Flex, Text } from '@chakra-ui/react';
+import { reactSelectStyles } from 'component/AddBankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import { FETCH_BANK_LIST } from 'constants/api';
 import { startCase } from 'lodash';
 import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useQuery } from 'react-query';
+import Select from 'react-select';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
+import errorHandler from 'utils/errorHandler';
 const FinalStep: FC = () => {
   const { control } = useFormContext();
+
+  const { data, isLoading } = useQuery('bankList', FETCH_BANK_LIST, errorHandler);
+  const tempData = data?.map((item) => {
+    return { label: item.name, value: item.name };
+  });
+
   return (
     <>
       <Flex mb="1.5rem">
@@ -74,20 +85,23 @@ const FinalStep: FC = () => {
 
       <Controller
         control={control}
-        name="account_name"
+        name="bank_name"
         rules={{ required: 'Bank Name is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Bank Name"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
-              onBlur={onBlur}
-            />
-          </FormContainer>
-        )}
+        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+          return (
+            <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
+              <Select
+                onBlur={onBlur}
+                styles={reactSelectStyles}
+                placeholder="Select Bank Name"
+                isLoading={isLoading}
+                options={tempData}
+                onChange={(e: { value?: string; label?: string }): void => onChange(e.value)}
+                isClearable={true}
+              />
+            </FormContainer>
+          );
+        }}
       />
 
       <Controller

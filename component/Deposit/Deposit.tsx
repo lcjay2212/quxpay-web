@@ -41,7 +41,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/${radioValue !== `${data.payments.length + 1}` ? url : url2}`, variable, options),
+      axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, options),
     {
       onSuccess: () => {
         if (label === 'Withdrawal') {
@@ -95,7 +95,9 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       <Controller
                         control={control}
                         name="payment_profile_id"
-                        rules={{ required: radioValue === '1' ? 'Payment is required' : false }}
+                        rules={{
+                          required: radioValue !== `${data?.payments?.length + 1}` ? 'Payment is required' : false,
+                        }}
                         render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
                           return (
                             <FormControl isInvalid={!!error?.message}>
@@ -135,7 +137,6 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
                       {label === 'Deposit' && (
                         <>
-                          {' '}
                           <Flex my="1.5rem" justifyContent="space-between">
                             <Flex>
                               <Image src={AddBankIcons} alt="Add Bank Icon" />
@@ -145,9 +146,9 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                               </Text>
                             </Flex>
 
-                            <Radio value={`${data.payments?.length + 1}`} colorScheme="teal" />
+                            <Radio value={`${data?.payments?.length + 1}`} colorScheme="teal" />
                           </Flex>
-                          {radioValue !== `${data.payments?.length + 1}` ? <></> : <AddBankAccount />}
+                          {radioValue !== `${data?.payments?.length + 1}` ? <></> : <AddBankAccount />}
                         </>
                       )}
                     </RadioGroup>

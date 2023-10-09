@@ -1,37 +1,56 @@
-import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Grid, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogo } from 'public/assets';
+import { PhoneImage, QuxPayLogoTwo } from 'public/assets';
 import { FC } from 'react';
 
 const Home: FC = () => {
   const router = useRouter();
   return (
-    <Grid placeContent="center" h="100vh" gap="2">
-      <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
-      </Box>
+    <Grid
+      h="100vh"
+      bgImage="url('/assets/images/BG.png')"
+      backgroundPosition="center"
+      backgroundRepeat="no-repeat"
+      backgroundSize={3000}
+    >
+      <Container maxW="1920px">
+        <Flex justifyContent="space-between" alignItems="center">
+          <Box display="flex" justifyContent="center">
+            <Image src={QuxPayLogoTwo} height={100} width={250} alt="Qux Logo" />
+          </Box>
 
-      <Text color="primary" fontSize="3xl" textAlign="center" mb={{ base: '20rem', md: '10rem' }}>
-        W<chakra.span color="white">allet</chakra.span>{' '}
-      </Text>
+          <Flex gap={4}>
+            <Button
+              variant="primary"
+              borderRadius="3xl"
+              w={120}
+              h={50}
+              onClick={(): void => void router.push('/login')}
+            >
+              Login
+            </Button>
 
-      <Button variant="primary" borderRadius="xl" w={350} h={50} onClick={(): void => void router.push('/login')}>
-        Login
-      </Button>
+            <Button
+              variant="secondary"
+              borderRadius="3xl"
+              w={120}
+              h={50}
+              onClick={(): void => void router.push('/register')}
+            >
+              Register
+            </Button>
+          </Flex>
+        </Flex>
 
-      <Button variant="secondary" borderRadius="xl" w={350} h={50} onClick={(): void => void router.push('/register')}>
-        Register
-      </Button>
-
-      <Text color="white" textAlign="center" mt="1rem" size="sm">
-        QUX® is a registered trademark <br /> of QUX Technologies, Inc.
-      </Text>
-
-      <Flex justifyContent="space-between" color="primary" fontSize="1rem" mt="1rem">
-        <Text>Term and Conditions</Text>
-        <Text>Privacy Policy</Text>
-      </Flex>
+        <Flex placeContent="center">
+          <Image src={PhoneImage} height={300} width={600} alt="Phone Image" />
+        </Flex>
+        <Text fontSize="37px" textTransform="uppercase" textAlign="center" color="white">
+          Pay Like It's <br /> Nobody's Business.
+          <br /> Because It Isn't.
+        </Text>
+      </Container>
     </Grid>
   );
 };

@@ -56,7 +56,7 @@ const Home: FC = () => {
         backgroundSize="cover"
         filter={isOpen ? 'blur(8px)' : ''}
       >
-        <Container maxW="1920px">
+        <Container maxW="1080px">
           <Flex justifyContent="space-between" alignItems="center">
             <Box display="flex" justifyContent="center">
               <Image src={QuxPayLogoTwo} height={100} width={250} alt="Qux Logo" />
@@ -154,13 +154,13 @@ const Home: FC = () => {
       </Grid>
 
       <Box
-        h="100vh"
+        h="130vh"
         bgImage="url('/assets/images/BG-2.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
       >
-        <Container maxW="1920px">
+        <Container maxW="1080px">
           <Flex h="100vh" alignItems="center">
             <Box w={400} color="white">
               <Heading fontSize="60px" fontWeight="normal">
@@ -169,6 +169,71 @@ const Home: FC = () => {
               <Text fontSize="30px" my="1.5rem">
                 QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
                 stays private.
+              </Text>
+              <Button variant="seeMore">See more</Button>
+            </Box>
+          </Flex>
+        </Container>
+      </Box>
+
+      <Box bg="#3D075F">
+        <Container maxW="1080px">
+          <Flex alignItems="center">
+            <Box color="white">
+              <Heading fontSize="60px" fontWeight="normal">
+                NO MIDDLEMAN.
+                <br />
+                NO NONSENSE.
+              </Heading>
+              <Text fontSize="30px" my="1.5rem" w={400}>
+                Unlike others, QuxPay has no hidden fees and will never sell your data for profit. What you see is what
+                you get.
+              </Text>
+              <Button variant="seeMore">See more</Button>
+            </Box>
+          </Flex>
+        </Container>
+      </Box>
+
+      <Box
+        bgImage="url('/assets/images/BG-3.png')"
+        backgroundPosition="center"
+        backgroundRepeat="no-repeat"
+        backgroundSize="cover"
+        py="10rem"
+      >
+        <Container maxW="1080px">
+          <Flex h="60vh" alignItems="center">
+            <Box color="white">
+              <Heading fontSize="60px" fontWeight="normal">
+                P2P Payments <br />
+                Made Perfect
+              </Heading>
+              <Text fontSize="30px" w={400} my="1.5rem">
+                Pay friends, family, contacts instantly. No fees, no limits. Spend on the move.
+              </Text>
+              <Button variant="seeMore">See more</Button>
+            </Box>
+          </Flex>
+        </Container>
+      </Box>
+
+      <Box
+        bgImage="url('/assets/images/BG-4.png')"
+        backgroundPosition="center"
+        backgroundRepeat="no-repeat"
+        backgroundSize="cover"
+        py="12rem"
+      >
+        <Container maxW="1080px">
+          <Flex h="100vh" alignItems="center">
+            <Box w={400} color="white">
+              <Heading fontSize="60px" fontWeight="normal">
+                Transfers in <br /> a Flash
+              </Heading>
+              <Text fontSize="30px" my="1.5rem">
+                Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text.
+                No more waiting around like crypto.
               </Text>
               <Button variant="seeMore">See more</Button>
             </Box>

@@ -37,3 +37,14 @@ export const SECONDARY = {
     cursor: 'not-allowed',
   },
 };
+
+export const SEEMORE = {
+  transition: '0.25s ease-in',
+  background: 'btn.background-hover',
+  color: '#D222A8',
+  borderRadius: '2rem',
+  width: 160,
+  paddingBlock: '2rem',
+  fontSize: '1.5rem',
+  fontWeight: 'bold',
+};

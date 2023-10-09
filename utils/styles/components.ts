@@ -1,9 +1,10 @@
-import { PRIMARY, SECONDARY } from './variants/buttons';
+import { PRIMARY, SECONDARY, SEEMORE } from './variants/buttons';
 
 export const Button = {
   variants: {
     primary: PRIMARY,
     secondary: SECONDARY,
+    seeMore: SEEMORE,
   },
 };
 

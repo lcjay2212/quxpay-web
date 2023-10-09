@@ -138,11 +138,11 @@ const Home: FC = () => {
             <ModalBody>
               <Flex placeContent="center" textAlign="center" my="15rem">
                 {STATIC_DATA.map(({ image, label }) => (
-                  <Box maxW={200} key={label}>
+                  <Box maxW={250} key={label}>
                     <Box border="1px solid purple" borderRadius="xl">
-                      <Image src={image} height={100} width={200} alt="test" />
+                      <Image src={image} height={100} width={250} alt="test" />
                     </Box>
-                    <Text fontSize="24px" color="white">
+                    <Text my="1rem" fontSize="20px" color="white">
                       {label}
                     </Text>
                   </Box>

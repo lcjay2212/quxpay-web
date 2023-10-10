@@ -13,7 +13,7 @@ const Home: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
-    <>
+    <Box bg="#3D075F">
       <Head>
         <title>Quxpay</title>
         <meta name="description" content="Quxpay" />
@@ -99,7 +99,7 @@ const Home: FC = () => {
         </Container>
       </Box>
 
-      <Box bg="#3D075F">
+      <Box bg="#3D075F" pb="10rem">
         <Container maxW="1080px">
           <Flex alignItems="center">
             <Box color="white">
@@ -123,7 +123,7 @@ const Home: FC = () => {
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
-        py="10rem"
+        pb="10rem"
       >
         <Container maxW="1080px">
           <Flex h="60vh" alignItems="center">
@@ -163,8 +163,27 @@ const Home: FC = () => {
           </Flex>
         </Container>
       </Box>
+
+      <Container maxW="1080px" color="white" textAlign="center" mt="15rem" mb="5rem">
+        <Text fontSize="4rem">
+          The Future of Payments.
+          <br /> Today.
+        </Text>
+        <Text fontSize="30px" mt="2rem">
+          QuxPay combines must-have transfer features with next-gen tech insights.
+          <br /> Monitor where your payments go.
+        </Text>
+      </Container>
+      <Box
+        h="150vh"
+        bgImage="url('/assets/images/BG-5.png')"
+        backgroundPosition="center"
+        backgroundRepeat="no-repeat"
+        backgroundSize="cover"
+      />
+
       <Footer />
-    </>
+    </Box>
   );
 };
 

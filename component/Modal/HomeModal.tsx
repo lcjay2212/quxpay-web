@@ -66,11 +66,12 @@ const HomeModal: FC = () => {
             </Button>
 
             <IconButton
-              bg="transparent"
-              _active={{ bg: 'transparent' }}
-              _hover={{ bg: 'transparent' }}
+              bg="purple"
+              borderRadius="50%"
+              _active={{ bg: 'purple' }}
+              _hover={{ bg: 'purple' }}
               aria-label="hamburger"
-              icon={<CloseIcon color="purple" h={35} w={35} />}
+              icon={<CloseIcon color="white" h="20px" w="20px" />}
               onClick={(): void => setVisible(!visible)}
             />
           </Flex>

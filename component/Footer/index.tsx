@@ -83,7 +83,7 @@ const Footer: FC = () => {
         </Flex>
       </Container>
       <Box
-        h="100vh"
+        h="125vh"
         bgImage="url('/assets/images/Footer.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"

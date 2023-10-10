@@ -1,9 +1,11 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Flex, Grid, Heading, IconButton, Text } from '@chakra-ui/react';
+import Footer from 'component/Footer';
 import HomeModal from 'component/Modal/HomeModal';
+import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PhoneImage, QuxPayLogoTwo } from 'public/assets';
+import { PhoneImage, QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
@@ -12,6 +14,12 @@ const Home: FC = () => {
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
     <>
+      <Head>
+        <title>Quxpay</title>
+        <meta name="description" content="Quxpay" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Grid
         h="100vh"
         bgImage="url('/assets/images/BG.png')"
@@ -23,7 +31,7 @@ const Home: FC = () => {
         <Container maxW="1080px">
           <Flex justifyContent="space-between" alignItems="center">
             <Box display="flex" justifyContent="center">
-              <Image src={QuxPayLogoTwo} height={100} width={250} alt="Qux Logo" />
+              <Image src={QuxPayLogoPng} height={100} width={150} alt="Qux Logo" />
             </Box>
 
             <Flex gap={4} alignItems="center">
@@ -155,6 +163,7 @@ const Home: FC = () => {
           </Flex>
         </Container>
       </Box>
+      <Footer />
     </>
   );
 };

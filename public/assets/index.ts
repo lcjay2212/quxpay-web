@@ -3,6 +3,7 @@
 import QuxPayLogoTwo from './icons/quxpay-logo.svg';
 import QuxLogo from './images/qux-logo.png';
 import QuxPayLogo from './images/qux-pay-logo.jpg';
+import QuxPayLogoPng from './images/quxpay-logo.png';
 
 //Icons
 import AddBankIcon from './icons/add-bank-icon.png';
@@ -16,5 +17,5 @@ import SendQuxCash from './icons/send_qux_cash.png';
 import WithdrawSuccessful from './icons/withdraw_successful.png';
 import PhoneImage from './images/phone.png';
 
-export { QuxLogo, QuxPayLogoTwo, QuxPayLogo, AddBankIcons, WithdrawSuccessful, SendQuxCash, CashIn, QuxTokenIcon, QuxWalletIcon, AddBankIcon, DepositSuccessful, AddFriendIcon, PhoneImage };
+export { QuxLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxPayLogo, AddBankIcons, WithdrawSuccessful, SendQuxCash, CashIn, QuxTokenIcon, QuxWalletIcon, AddBankIcon, DepositSuccessful, AddFriendIcon, PhoneImage };
 

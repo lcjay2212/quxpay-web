@@ -38,7 +38,7 @@ const Footer: FC = () => {
   return (
     <Box bg="#171742">
       <Container maxW="1080px" color="white">
-        <Flex justifyContent="space-between" py="5rem">
+        <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py="5rem">
           <Box>
             <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" />
           </Box>
@@ -61,7 +61,7 @@ const Footer: FC = () => {
           </Box>
         </Flex>
 
-        <Flex fontSize="29px" flexDir="column" gap={12} py="2rem">
+        <Flex fontSize={{ base: '1rem', md: '29px' }} flexDir="column" gap={{ base: 6, md: 12 }} py="2rem">
           <Text>
             QUXPay is not a bank, banking services provided by QUXPay’s bank partner(s). Debit cards issued by Sutton
             Bank, pursuant to a license from Visa USA Inc.
@@ -89,8 +89,8 @@ const Footer: FC = () => {
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
       >
-        <Container maxW="1080px" pt="1rem">
-          <Text fontSize="29px" color={'white'}>
+        <Container maxW="1080px" pt={{ base: 0, md: '1rem' }}>
+          <Text fontSize={{ base: '1rem', md: '29px' }} color={'white'}>
             Additional fees for securities may apply such as regulatory fees and fees to transfer securities externally.
             Please see our House Rules for more information.
           </Text>

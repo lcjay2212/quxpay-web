@@ -9,6 +9,24 @@ import { PhoneImage, QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
+const Content: FC<{ label: string; content: string }> = ({ label, content }) => {
+  return (
+    <Container maxW="1080px">
+      <Flex h="100vh" alignItems="center">
+        <Box w={470} color="white">
+          <Heading fontSize="60px" fontWeight="normal">
+            {label}
+          </Heading>
+          <Text fontSize="30px" my="1.5rem">
+            {content}
+          </Text>
+          <Button variant="seeMore">See more</Button>
+        </Box>
+      </Flex>
+    </Container>
+  );
+};
+
 const Home: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
@@ -83,85 +101,44 @@ const Home: FC = () => {
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
       >
-        <Container maxW="1080px">
-          <Flex h="100vh" alignItems="center">
-            <Box w={400} color="white">
-              <Heading fontSize="60px" fontWeight="normal">
-                Military-Grade <br /> Security
-              </Heading>
-              <Text fontSize="30px" my="1.5rem">
-                QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
-                stays private.
-              </Text>
-              <Button variant="seeMore">See more</Button>
-            </Box>
-          </Flex>
-        </Container>
+        <Content
+          label="Military-Grade Security"
+          content="QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
+                stays private."
+        />
       </Box>
 
-      <Box bg="#3D075F" pb="10rem">
-        <Container maxW="1080px">
-          <Flex alignItems="center">
-            <Box color="white">
-              <Heading fontSize="60px" fontWeight="normal">
-                NO MIDDLEMAN.
-                <br />
-                NO NONSENSE.
-              </Heading>
-              <Text fontSize="30px" my="1.5rem" w={400}>
-                Unlike others, QuxPay has no hidden fees and will never sell your data for profit. What you see is what
-                you get.
-              </Text>
-              <Button variant="seeMore">See more</Button>
-            </Box>
-          </Flex>
-        </Container>
-      </Box>
+      <Content
+        label="NO MIDDLEMAN. NO NONSENSE."
+        content="Unlike others, QuxPay has no hidden fees and will never sell your data for profit. What you see is what
+          you get."
+      />
 
       <Box
         bgImage="url('/assets/images/BG-3.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+        backgroundSize="contain"
         pb="10rem"
       >
-        <Container maxW="1080px">
-          <Flex h="60vh" alignItems="center">
-            <Box color="white">
-              <Heading fontSize="60px" fontWeight="normal">
-                P2P Payments <br />
-                Made Perfect
-              </Heading>
-              <Text fontSize="30px" w={400} my="1.5rem">
-                Pay friends, family, contacts instantly. No fees, no limits. Spend on the move.
-              </Text>
-              <Button variant="seeMore">See more</Button>
-            </Box>
-          </Flex>
-        </Container>
+        <Content
+          label="P2P Payments Made Perfect"
+          content="Pay friends, family, contacts instantly. No fees, no limits. Spend on the move."
+        />
       </Box>
 
       <Box
         bgImage="url('/assets/images/BG-4.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+        backgroundSize="contain"
         py="12rem"
       >
-        <Container maxW="1080px">
-          <Flex h="100vh" alignItems="center">
-            <Box w={400} color="white">
-              <Heading fontSize="60px" fontWeight="normal">
-                Transfers in <br /> a Flash
-              </Heading>
-              <Text fontSize="30px" my="1.5rem">
-                Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text.
-                No more waiting around like crypto.
-              </Text>
-              <Button variant="seeMore">See more</Button>
-            </Box>
-          </Flex>
-        </Container>
+        <Content
+          label=" Transfers in a Flash"
+          content="Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text.
+        No more waiting around like crypto."
+        />
       </Box>
 
       <Container maxW="1080px" color="white" textAlign="center" mt="15rem" mb="5rem">
@@ -174,12 +151,13 @@ const Home: FC = () => {
           <br /> Monitor where your payments go.
         </Text>
       </Container>
+
       <Box
-        h="150vh"
+        h="100vh"
         bgImage="url('/assets/images/BG-5.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+        backgroundSize="contain"
       />
 
       <Footer />

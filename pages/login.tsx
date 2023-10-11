@@ -10,18 +10,21 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { useUser } from 'store/useUser';
 import { notify } from 'utils/notify';
 
 const Login: FC = () => {
   const method = useForm();
   const router = useRouter();
   const { control, handleSubmit } = method;
+  const setUser = useUser((e) => e.setUser);
 
   const { mutate, isLoading } = useMutation((variable) => post('v/process-login', variable), {
     onSuccess: ({ data }) => {
       notify(`${data.status.message}`);
       localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
       localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+      setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
       void router.push('/dashboard');
     },
     onError: ({ response }) => {

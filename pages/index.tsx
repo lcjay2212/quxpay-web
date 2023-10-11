@@ -1,18 +1,21 @@
-import { HamburgerIcon } from '@chakra-ui/icons';
-import { Box, Button, Container, Flex, Grid, Heading, IconButton, Text } from '@chakra-ui/react';
+import { Box, Button, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 import Footer from 'component/Footer';
 import HomeModal from 'component/Modal/HomeModal';
+import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import { PhoneImage, QuxPayLogoPng } from 'public/assets';
+import { PhoneImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-const Content: FC<{ label: string; content: string }> = ({ label, content }) => {
+const Content: FC<{ label: string; content: string; alignItems?: string }> = ({
+  label,
+  content,
+  alignItems = 'center',
+}) => {
   return (
     <Container maxW="1080px">
-      <Flex h="100vh" alignItems="center">
+      <Flex h="100vh" alignItems={alignItems}>
         <Box w={470} color="white">
           <Heading fontSize="60px" fontWeight="normal">
             {label}
@@ -28,8 +31,7 @@ const Content: FC<{ label: string; content: string }> = ({ label, content }) => 
 };
 
 const Home: FC = () => {
-  const router = useRouter();
-  const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
+  const visible = useHomePageModal(({ visible }) => visible);
   return (
     <Box bg="#3D075F">
       <Head>
@@ -47,41 +49,7 @@ const Home: FC = () => {
         filter={visible ? 'blur(8px)' : ''}
       >
         <Container maxW="1080px">
-          <Flex justifyContent="space-between" alignItems="center">
-            <Box display="flex" justifyContent="center">
-              <Image src={QuxPayLogoPng} height={100} width={150} alt="Qux Logo" />
-            </Box>
-
-            <Flex gap={4} alignItems="center">
-              <Button
-                variant="primary"
-                borderRadius="3xl"
-                w={150}
-                h={50}
-                onClick={(): void => void router.push('/login')}
-              >
-                Log In
-              </Button>
-              <Button
-                variant="secondary"
-                borderRadius="3xl"
-                w={150}
-                h={50}
-                onClick={(): void => void router.push('/register')}
-              >
-                Register
-              </Button>
-              <IconButton
-                bg="transparent"
-                _active={{ bg: 'transparent' }}
-                _hover={{ bg: 'transparent' }}
-                aria-label="hamburger"
-                icon={<HamburgerIcon color="purple" h={35} w={35} />}
-                onClick={(): void => setVisible(!visible)}
-              />
-            </Flex>
-          </Flex>
-
+          <TopBarHeader />
           <Flex placeContent="center">
             <Image src={PhoneImage} height={300} width={700} alt="Phone Image" />
           </Flex>
@@ -108,11 +76,20 @@ const Home: FC = () => {
         />
       </Box>
 
-      <Content
-        label="NO MIDDLEMAN. NO NONSENSE."
-        content="Unlike others, QuxPay has no hidden fees and will never sell your data for profit. What you see is what
+      <Box
+        h="100vh"
+        bgImage="url('/assets/images/BG-6.png')"
+        backgroundPosition="right"
+        backgroundRepeat="no-repeat"
+        backgroundSize="contain"
+      >
+        <Content
+          label="NO MIDDLEMAN. NO NONSENSE."
+          content="Unlike others, QuxPay has no hidden fees and will never sell your data for profit. What you see is what
           you get."
-      />
+          alignItems="start"
+        />
+      </Box>
 
       <Box
         bgImage="url('/assets/images/BG-3.png')"

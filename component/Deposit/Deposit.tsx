@@ -101,7 +101,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                         render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
                           return (
                             <FormControl isInvalid={!!error?.message}>
-                              {data.payments?.map((item, index) => (
+                              {data?.payments?.map((item, index) => (
                                 <Flex justifyContent="space-between" key={index}>
                                   <Box mt="1rem">
                                     <BankAccount

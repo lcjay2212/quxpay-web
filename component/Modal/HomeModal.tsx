@@ -25,7 +25,7 @@ const STATIC_DATA = [
   {
     image: '/assets/images/2.png',
     label: 'NO MIDDLEMAN. NO NONSENSE.',
-    routes: '/',
+    routes: '/no-middleman',
   },
   {
     image: '/assets/images/3.png',

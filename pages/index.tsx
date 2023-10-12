@@ -94,6 +94,7 @@ const Home: FC = () => {
           content="Unlike others, QuxPay has no hidden fees and will never sell your data for profit. What you see is what
           you get."
           alignItems="start"
+          onClick={(): void => void router.push('/no-middleman')}
         />
       </Box>
 

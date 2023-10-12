@@ -1,8 +1,6 @@
-import { Box, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
-import Footer from 'component/Footer';
+import { Container, Grid } from '@chakra-ui/react';
+import PageWrapper from 'component/PageWrapper';
 import TopBarHeader from 'component/TopBarHeader';
-import Head from 'next/head';
-import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
@@ -39,13 +37,7 @@ const STATIC_DATA = [
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <Box bg="#3D075F">
-      <Head>
-        <title>Quxpay</title>
-        <meta name="description" content="Quxpay" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+    <PageWrapper label="Hacker-proof. Unbreakable. Impenetrable." staticData={STATIC_DATA}>
       <Grid
         h="120vh"
         bgImage="url('/assets/images/BG-2.png')"
@@ -64,46 +56,7 @@ const MilitaryGradeSecurityPage: FC = () => {
           />
         </Container>
       </Grid>
-
-      <Text fontSize="3rem" textAlign="center" textTransform="uppercase" color="white">
-        Hacker-proof. Unbreakable.
-        <br /> Impenetrable.
-      </Text>
-
-      <Container maxW="1080px">
-        {STATIC_DATA.map((item, index) => (
-          <Flex
-            justifyContent="center"
-            alignItems="center"
-            key={index}
-            flexDir={!item.reverse ? 'row' : 'row-reverse'}
-            gap={12}
-            my="5rem"
-          >
-            <Box w={470} color="white">
-              <Heading fontSize="48px" fontWeight="normal">
-                {item.title}
-              </Heading>
-              <Text fontSize="30px" my="1.5rem">
-                {item.context}
-              </Text>
-            </Box>
-
-            <Image src={item.imageSrc} width={500} height={500} alt="test" style={{ objectFit: 'contain' }} />
-          </Flex>
-        ))}
-      </Container>
-
-      <Box
-        h="100vh"
-        bgImage="url('/assets/images/BG-5.png')"
-        backgroundPosition="center"
-        backgroundRepeat="no-repeat"
-        backgroundSize="contain"
-        my="15rem"
-      />
-      <Footer />
-    </Box>
+    </PageWrapper>
   );
 };
 

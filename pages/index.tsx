@@ -1,6 +1,5 @@
 import { Box, Button, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 import Footer from 'component/Footer';
-import HomeModal from 'component/Modal/HomeModal';
 import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -8,10 +7,11 @@ import { PhoneImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-const Content: FC<{ label: string; content: string; alignItems?: string }> = ({
+export const Content: FC<{ label: string; content: string; alignItems?: string; showBtn?: boolean }> = ({
   label,
   content,
   alignItems = 'center',
+  showBtn = true,
 }) => {
   return (
     <Container maxW="1080px">
@@ -23,7 +23,7 @@ const Content: FC<{ label: string; content: string; alignItems?: string }> = ({
           <Text fontSize="30px" my="1.5rem">
             {content}
           </Text>
-          <Button variant="seeMore">See more</Button>
+          {showBtn && <Button variant="seeMore">See more</Button>}
         </Box>
       </Flex>
     </Container>
@@ -58,8 +58,6 @@ const Home: FC = () => {
             <br /> Because It Isn't.
           </Text>
         </Container>
-
-        <HomeModal />
       </Grid>
 
       <Box

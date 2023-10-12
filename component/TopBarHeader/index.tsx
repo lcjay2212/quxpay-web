@@ -1,5 +1,6 @@
 import { HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Flex, IconButton } from '@chakra-ui/react';
+import HomeModal from 'component/Modal/HomeModal';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogoPng } from 'public/assets';
@@ -11,7 +12,7 @@ const TopBarHeader: FC = () => {
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
 
   return (
-    <Container maxW="1080px" bg="transparent">
+    <Container maxW="1080px" bg="transparent" position="fixed">
       <Flex justifyContent="space-between" alignItems="center">
         <Box display="flex" justifyContent="center">
           <Image
@@ -48,6 +49,7 @@ const TopBarHeader: FC = () => {
           />
         </Flex>
       </Flex>
+      <HomeModal />
     </Container>
   );
 };

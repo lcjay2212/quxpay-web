@@ -12,7 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import Image from 'next/image';
-import router from 'next/router';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
@@ -20,25 +20,31 @@ const STATIC_DATA = [
   {
     image: '/assets/images/1.png',
     label: 'Military-Grade Security',
+    routes: '/military-grade-security',
   },
   {
     image: '/assets/images/2.png',
     label: 'NO MIDDLEMAN. NO NONSENSE.',
+    routes: '/',
   },
   {
     image: '/assets/images/3.png',
     label: 'P2P Payments Made Perfect',
+    routes: '/',
   },
   {
     image: '/assets/images/4.png',
     label: 'Transfers in a Flash',
+    routes: '/',
   },
   {
     image: '/assets/images/1.png',
     label: 'The Future of Payments. Today.',
+    routes: '/',
   },
 ];
 const HomeModal: FC = () => {
+  const router = useRouter();
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size="full">
@@ -78,9 +84,17 @@ const HomeModal: FC = () => {
         </ModalHeader>
         <ModalBody>
           <Flex placeContent="center" textAlign="center" my="15rem">
-            {STATIC_DATA.map(({ image, label }) => (
+            {STATIC_DATA.map(({ image, label, routes }) => (
               <Box maxW={250} key={label}>
-                <Box border="1px solid purple" borderRadius="xl">
+                <Box
+                  border="1px solid purple"
+                  borderRadius="xl"
+                  cursor="pointer"
+                  onClick={(): void => {
+                    void router.push(routes);
+                    setVisible(!visible);
+                  }}
+                >
                   <Image src={image} height={100} width={250} alt="test" />
                 </Box>
                 <Text my="1rem" fontSize="20px" color="white">

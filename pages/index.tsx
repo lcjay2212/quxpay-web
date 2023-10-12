@@ -58,7 +58,14 @@ const Home: FC = () => {
         <Container maxW="1080px">
           <TopBarHeader />
           <Flex placeContent="center">
-            <Image src={PhoneImage} height={300} width={700} alt="Phone Image" />
+            <Image
+              src={PhoneImage}
+              height={300}
+              width={700}
+              alt="Phone Image"
+              placeholder="blur"
+              style={{ objectFit: 'contain' }}
+            />
           </Flex>
           <Text fontSize="37px" textTransform="uppercase" textAlign="center" color="white">
             Pay Like It's <br /> Nobody's Business.

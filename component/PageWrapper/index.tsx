@@ -52,7 +52,15 @@ const PageWrapper: FC<Props> = ({ staticData, label, children }) => {
               </Text>
             </Box>
 
-            <Image src={item.imageSrc} width={600} height={500} alt="test" style={{ objectFit: 'contain' }} />
+            <Image
+              src={item.imageSrc}
+              width={600}
+              height={500}
+              alt="test"
+              placeholder="blur"
+              style={{ objectFit: 'contain' }}
+              blurDataURL={'data:image/jpeg...'}
+            />
           </Flex>
         ))}
       </Container>

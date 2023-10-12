@@ -3,16 +3,18 @@ import Footer from 'component/Footer';
 import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { PhoneImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-export const Content: FC<{ label: string; content: string; alignItems?: string; showBtn?: boolean }> = ({
-  label,
-  content,
-  alignItems = 'center',
-  showBtn = true,
-}) => {
+export const Content: FC<{
+  label: string;
+  content: string;
+  alignItems?: string;
+  showBtn?: boolean;
+  onClick?: () => void;
+}> = ({ label, content, alignItems = 'center', showBtn = true, onClick }) => {
   return (
     <Container maxW="1080px">
       <Flex h="100vh" alignItems={alignItems}>
@@ -23,7 +25,11 @@ export const Content: FC<{ label: string; content: string; alignItems?: string; 
           <Text fontSize="30px" my="1.5rem">
             {content}
           </Text>
-          {showBtn && <Button variant="seeMore">See more</Button>}
+          {showBtn && (
+            <Button variant="seeMore" onClick={onClick}>
+              See more
+            </Button>
+          )}
         </Box>
       </Flex>
     </Container>
@@ -31,6 +37,7 @@ export const Content: FC<{ label: string; content: string; alignItems?: string; 
 };
 
 const Home: FC = () => {
+  const router = useRouter();
   const visible = useHomePageModal(({ visible }) => visible);
   return (
     <Box bg="#3D075F">
@@ -71,6 +78,7 @@ const Home: FC = () => {
           label="Military-Grade Security"
           content="QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
                 stays private."
+          onClick={(): void => void router.push('/military-grade-security')}
         />
       </Box>
 

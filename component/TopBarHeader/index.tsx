@@ -14,7 +14,7 @@ const TopBarHeader: FC = () => {
   return (
     <Container maxW="1080px" bg="transparent" position="fixed">
       <Flex justifyContent="space-between" alignItems="center">
-        <Box display="flex" justifyContent="center">
+        <Box display="flex" justifyContent="center" cursor="pointer" onClick={(): void => void router.push('/')}>
           <Image
             src={QuxPayLogoPng}
             height={100}

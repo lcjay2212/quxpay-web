@@ -1,4 +1,4 @@
-import { Box, Button, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
 import Footer from 'component/Footer';
 import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
@@ -8,17 +8,19 @@ import { PhoneImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-export const Content: FC<{
-  label: string;
-  content: string;
-  alignItems?: string;
-  showBtn?: boolean;
-  onClick?: () => void;
-}> = ({ label, content, alignItems = 'center', showBtn = true, onClick }) => {
+export const Content: FC<
+  BoxProps & {
+    label: string;
+    content: string;
+    alignItems?: string;
+    showBtn?: boolean;
+    onClick?: () => void;
+  }
+> = ({ label, content, alignItems = 'center', showBtn = true, onClick, ...props }) => {
   return (
     <Container maxW="1080px">
       <Flex h="100vh" alignItems={alignItems}>
-        <Box w={470} color="white">
+        <Box w={470} color="white" {...props}>
           <Heading fontSize="60px" fontWeight="normal">
             {label}
           </Heading>
@@ -76,7 +78,7 @@ const Home: FC = () => {
 
       <Box
         h="130vh"
-        bgImage="url('/assets/images/BG-2.png')"
+        bgImage="url('/assets/images/military-grade-security.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
@@ -91,7 +93,7 @@ const Home: FC = () => {
 
       <Box
         h="100vh"
-        bgImage="url('/assets/images/BG-6.png')"
+        bgImage="url('/assets/images/no-middleman.png')"
         backgroundPosition="right"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -106,7 +108,7 @@ const Home: FC = () => {
       </Box>
 
       <Box
-        bgImage="url('/assets/images/BG-3.png')"
+        bgImage="url('/assets/images/payments-made-perfect.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -115,11 +117,12 @@ const Home: FC = () => {
         <Content
           label="P2P Payments Made Perfect"
           content="Pay friends, family, contacts instantly. No fees, no limits. Spend on the move."
+          onClick={(): void => void router.push('/payments-made-perfect')}
         />
       </Box>
 
       <Box
-        bgImage="url('/assets/images/BG-4.png')"
+        bgImage="url('/assets/images/transfers.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -129,6 +132,7 @@ const Home: FC = () => {
           label=" Transfers in a Flash"
           content="Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text.
         No more waiting around like crypto."
+          onClick={(): void => void router.push('/transfers')}
         />
       </Box>
 

@@ -1,4 +1,4 @@
-import { Box, Container, Flex, Heading, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Container, Flex, Heading, Text } from '@chakra-ui/react';
 import Footer from 'component/Footer';
 import Head from 'next/head';
 import Image from 'next/image';
@@ -16,7 +16,7 @@ interface Props {
   children: ReactElement;
 }
 
-const PageWrapper: FC<Props> = ({ staticData, label, children }) => {
+const PageWrapper: FC<Props & BoxProps> = ({ staticData, label, children, ...props }) => {
   return (
     <Box bg="#3D075F">
       <Head>
@@ -27,8 +27,8 @@ const PageWrapper: FC<Props> = ({ staticData, label, children }) => {
       </Head>
       {children}
 
-      <Flex justifyContent="center">
-        <Text fontSize="3rem" textAlign="center" textTransform="uppercase" color="white" w={1000}>
+      <Flex justifyContent="center" {...props}>
+        <Text fontSize="3rem" textAlign="center" textTransform="uppercase" color="white" w={600}>
           {label}
         </Text>
       </Flex>

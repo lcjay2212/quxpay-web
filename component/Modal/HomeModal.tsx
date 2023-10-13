@@ -30,12 +30,12 @@ const STATIC_DATA = [
   {
     image: '/assets/images/3.png',
     label: 'P2P Payments Made Perfect',
-    routes: '/',
+    routes: '/payments-made-perfect',
   },
   {
     image: '/assets/images/4.png',
     label: 'Transfers in a Flash',
-    routes: '/',
+    routes: '/transfers',
   },
   {
     image: '/assets/images/1.png',

@@ -34,10 +34,10 @@ const STATIC_DATA = [
 const NoMiddlemanPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper label="No confusing fees.No shady data sharing." staticData={STATIC_DATA}>
+    <PageWrapper label="No confusing fees. No shady data sharing." staticData={STATIC_DATA}>
       <Grid
         h="100vh"
-        bgImage="url('/assets/images/BG-6.png')"
+        bgImage="url('/assets/images/no-middleman.png')"
         backgroundPosition="right"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"

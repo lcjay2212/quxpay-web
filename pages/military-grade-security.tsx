@@ -11,7 +11,7 @@ const STATIC_DATA = [
     context: `Multilayered security protections follow the strictest 
     protocols used by financial institutions worldwide. 
     Fort Knox level.`,
-    imageSrc: '/assets/images/Bank Level Protocols.png',
+    imageSrc: '/assets/images/military-grade-security-1.png',
     reverse: false,
   },
   {
@@ -21,7 +21,7 @@ const STATIC_DATA = [
     in real-time. Big words but the point is - 
     there's no central point of failure. Hacks 
     and data breaches can't happen.`,
-    imageSrc: '/assets/images/1092 [Converted].png',
+    imageSrc: '/assets/images/military-grade-security-2.png',
     reverse: true,
   },
   {
@@ -29,7 +29,7 @@ const STATIC_DATA = [
     context: `Every payment is anonymized using industry
     leading tools. Your identity stays hidden, even
     from us. Totally private.`,
-    imageSrc: '/assets/images/Anonymous 2.png',
+    imageSrc: '/assets/images/military-grade-security-3.png',
     reverse: true,
   },
 ];
@@ -40,7 +40,7 @@ const MilitaryGradeSecurityPage: FC = () => {
     <PageWrapper label="Hacker-proof. Unbreakable. Impenetrable." staticData={STATIC_DATA}>
       <Grid
         h="120vh"
-        bgImage="url('/assets/images/BG-2.png')"
+        bgImage="url('/assets/images/military-grade-security.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"

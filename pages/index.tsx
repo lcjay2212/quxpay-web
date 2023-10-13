@@ -70,7 +70,7 @@ const Home: FC = () => {
               <Image
                 src={PhoneImage}
                 height={300}
-                width={700}
+                width={600}
                 alt="Phone Image"
                 placeholder="blur"
                 style={{ objectFit: 'contain' }}

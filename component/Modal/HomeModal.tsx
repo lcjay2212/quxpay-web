@@ -85,11 +85,10 @@ const HomeModal: FC = () => {
         <ModalBody>
           <Flex
             flexDir={{ base: 'column', md: 'row' }}
-            justifyContent="center"
             placeContent="center"
             alignItems="center"
             textAlign="center"
-            my="15rem"
+            my={{ base: '2rem', md: '15rem' }}
           >
             {STATIC_DATA.map(({ image, label, routes }) => (
               <Box maxW={250} key={label}>
@@ -104,7 +103,7 @@ const HomeModal: FC = () => {
                 >
                   <Image src={image} height={100} width={250} alt="test" />
                 </Box>
-                <Text my="1rem" fontSize="20px" color="white">
+                <Text h="60px" my="1rem" fontSize="20px" color="white">
                   {label}
                 </Text>
               </Box>

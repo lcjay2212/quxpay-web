@@ -2,7 +2,7 @@ import { Box, BoxProps, Container, Flex, Heading, Text } from '@chakra-ui/react'
 import Footer from 'component/Footer';
 import Head from 'next/head';
 import Image from 'next/image';
-import { FC, ReactElement } from 'react';
+import { FC } from 'react';
 
 interface Props {
   staticData?: {
@@ -12,11 +12,9 @@ interface Props {
     reverse: boolean;
     alignItems?: string;
   }[];
-  label: string;
-  children: ReactElement;
 }
 
-const PageWrapper: FC<Props & BoxProps> = ({ staticData, label, children, ...props }) => {
+const PageWrapper: FC<Props & BoxProps> = ({ staticData, children }) => {
   return (
     <Box bg="#3D075F">
       <Head>
@@ -27,27 +25,21 @@ const PageWrapper: FC<Props & BoxProps> = ({ staticData, label, children, ...pro
       </Head>
       {children}
 
-      <Flex justifyContent="center" {...props}>
-        <Text fontSize="3rem" textAlign="center" textTransform="uppercase" color="white" w={600}>
-          {label}
-        </Text>
-      </Flex>
-
       <Container maxW="1080px">
         {staticData?.map((item, index) => (
           <Flex
             justifyContent="center"
-            alignItems={item.alignItems ?? 'center'}
+            alignItems={{ base: 'center', md: item.alignItems ?? 'center' }}
             key={index}
-            flexDir={!item.reverse ? 'row' : 'row-reverse'}
+            flexDir={!item.reverse ? { base: 'column', md: 'row' } : { base: 'column', md: 'row-reverse' }}
             gap={12}
-            my="12rem"
+            my={{ base: '8rem', md: '12rem' }}
           >
-            <Box w={470} color="white">
-              <Heading fontSize="48px" fontWeight="normal">
+            <Box w={{ base: 350, md: 470 }} color="white" textAlign={{ base: 'center', md: 'start' }}>
+              <Heading fontSize={{ base: '2rem', md: '48px' }} fontWeight="normal">
                 {item.title}
               </Heading>
-              <Text fontSize="24px" my="1.5rem">
+              <Text fontSize={{ base: '1rem', md: '24px' }} my="1.5rem">
                 {item.context}
               </Text>
             </Box>
@@ -56,7 +48,7 @@ const PageWrapper: FC<Props & BoxProps> = ({ staticData, label, children, ...pro
               src={item.imageSrc}
               width={600}
               height={500}
-              alt="test"
+              alt={item.title}
               placeholder="blur"
               style={{ objectFit: 'contain' }}
               blurDataURL={'data:image/jpeg...'}
@@ -65,13 +57,23 @@ const PageWrapper: FC<Props & BoxProps> = ({ staticData, label, children, ...pro
         ))}
       </Container>
 
+      <Box display={{ base: 'block', md: 'none' }} mx="2rem" color="white" textAlign={{ base: 'center', md: 'start' }}>
+        <Heading fontSize={{ base: '1.85rem', md: '48px' }} fontWeight="normal">
+          The Future of Payments. Today.
+        </Heading>
+        <Text fontSize={{ base: '1.15rem', md: '24px' }} my="1.5rem">
+          Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No
+          more waiting around like crypto.
+        </Text>
+      </Box>
+
       <Box
-        h="100vh"
+        h={{ base: '300px', md: '100vh' }}
         bgImage="url('/assets/images/BG-5.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
-        my="15rem"
+        my={{ base: '5rem', md: '15rem' }}
       />
       <Footer />
     </Box>

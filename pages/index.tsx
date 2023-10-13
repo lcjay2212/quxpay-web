@@ -19,12 +19,18 @@ export const Content: FC<
 > = ({ label, content, alignItems = 'center', showBtn = true, onClick, ...props }) => {
   return (
     <Container maxW="1080px">
-      <Flex h={{ base: 'auto', md: '100vh' }} alignItems={alignItems} py={{ base: '5rem', md: 0 }}>
-        <Box w={470} color="white" textAlign={{ base: 'center', md: 'start' }} {...props}>
-          <Heading fontSize={{ base: '2rem', md: '60px' }} fontWeight="normal">
+      <Flex
+        h={{ base: 'auto', md: '100vh' }}
+        justifyContent={{ base: 'center', md: 'flex-start' }}
+        alignItems={alignItems}
+        pt={{ base: '5rem', md: 0 }}
+        pb={{ base: '1rem', md: 0 }}
+      >
+        <Box w={{ base: 'auto', md: 470 }} color="white" textAlign={{ base: 'center', md: 'start' }} {...props}>
+          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal">
             {label}
           </Heading>
-          <Text fontSize={{ base: '1rem', md: '30px' }} my="1.5rem">
+          <Text fontSize={{ base: '1.25rem', md: '30px' }} my="1.5rem">
             {content}
           </Text>
           {showBtn && (
@@ -59,7 +65,7 @@ const Home: FC = () => {
       >
         <Container maxW="1080px">
           <TopBarHeader />
-          <Box py={{ base: '4rem', md: 0 }}>
+          <Box py={{ base: '4rem', md: '5rem' }}>
             <Flex placeContent="center">
               <Image
                 src={PhoneImage}
@@ -141,8 +147,7 @@ const Home: FC = () => {
       >
         <Content
           label=" Transfers in a Flash"
-          content="Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text.
-        No more waiting around like crypto."
+          content="Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
           onClick={(): void => void router.push('/transfers')}
         />
         <Box display={{ base: 'block', md: 'none' }}>

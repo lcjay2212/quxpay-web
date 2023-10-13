@@ -1,4 +1,4 @@
-import { Container, Grid } from '@chakra-ui/react';
+import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
 import PageWrapper from 'component/PageWrapper';
 import TopBarHeader from 'component/TopBarHeader';
 import { Content } from 'pages';
@@ -37,10 +37,13 @@ const STATIC_DATA = [
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper label="Hacker-proof. Unbreakable. Impenetrable." staticData={STATIC_DATA}>
+    <PageWrapper staticData={STATIC_DATA}>
       <Grid
         h="120vh"
-        bgImage="url('/assets/images/military-grade-security.png')"
+        bgImage={{
+          base: "url('/assets/images/military-grade-security-4.png')",
+          md: "url('/assets/images/military-grade-security.png')",
+        }}
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
@@ -48,14 +51,28 @@ const MilitaryGradeSecurityPage: FC = () => {
       >
         <Container maxW="1080px">
           <TopBarHeader />
-          <Content
-            label="Military-Grade Security"
-            content="QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
+          <Box w={{ base: '360px', md: 'auto' }} m={{ base: 'auto' }}>
+            <Content
+              label="Military-Grade Security"
+              content="QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
                 stays private."
-            showBtn={false}
-          />
+              showBtn={false}
+            />
+          </Box>
         </Container>
       </Grid>
+
+      <Flex justifyContent="center">
+        <Text
+          fontSize={{ base: '2.25rem', md: '3rem' }}
+          textAlign="center"
+          textTransform="uppercase"
+          color="white"
+          w={{ base: 'auto', md: 500 }}
+        >
+          Hacker-proof. Unbreakable. Impenetrable.
+        </Text>
+      </Flex>
     </PageWrapper>
   );
 };

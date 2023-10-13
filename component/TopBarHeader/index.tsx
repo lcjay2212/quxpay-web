@@ -12,7 +12,7 @@ const TopBarHeader: FC = () => {
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
 
   return (
-    <Container maxW="1080px" bg="transparent" position="fixed">
+    <Container maxW="1080px" bg="transparent" position="fixed" p={0} pr={{ base: '1rem', md: 0 }}>
       <Flex justifyContent="space-between" alignItems="center">
         <Box display="flex" justifyContent="center" cursor="pointer" onClick={(): void => void router.push('/')}>
           <Image
@@ -27,10 +27,18 @@ const TopBarHeader: FC = () => {
         </Box>
 
         <Flex gap={4} alignItems="center">
-          <Button variant="primary" borderRadius="3xl" w={150} h={50} onClick={(): void => void router.push('/login')}>
+          <Button
+            display={{ base: 'none', md: 'block' }}
+            variant="primary"
+            borderRadius="3xl"
+            w={150}
+            h={50}
+            onClick={(): void => void router.push('/login')}
+          >
             Log In
           </Button>
           <Button
+            display={{ base: 'none', md: 'block' }}
             variant="secondary"
             borderRadius="3xl"
             w={150}
@@ -40,6 +48,7 @@ const TopBarHeader: FC = () => {
             Register
           </Button>
           <IconButton
+            mr={{ base: '1rem', md: 0 }}
             bg="transparent"
             _active={{ bg: 'transparent' }}
             _hover={{ bg: 'transparent' }}

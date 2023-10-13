@@ -35,33 +35,50 @@ const footerLink = [
 ];
 
 const Footer: FC = () => {
+  const date = new Date();
   return (
     <Box bg="#171742">
       <Container maxW="1080px" color="white">
-        <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py="5rem">
+        <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
           <Box>
             <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" />
           </Box>
-          <Box mt="2rem">
+          <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (
-              <Text key={item.label} color="white" fontSize="29px" fontWeight="bold" my="0.5rem">
+              <Text
+                key={item.label}
+                color="white"
+                fontSize={{ base: '20px', md: '29px' }}
+                fontWeight="bold"
+                my="0.5rem"
+              >
                 {item.label}
               </Text>
             ))}
           </Box>
           <Box color="white">
             <Image src="/assets/images/google-play.png" alt="Google Play and App Store" width={300} height={100} />
-            <Text fontSize="29px" fontWeight="bold" mb="0.5rem" mt="2rem">
+            <Text
+              fontSize={{ base: '20px', md: '29px' }}
+              fontWeight="bold"
+              mb="0.5rem"
+              my={{ base: '1rem', md: '2rem' }}
+            >
               Contact Us
             </Text>
-            <Text fontSize="20px">
+            <Text fontSize={{ base: '0.75rem', md: '20px' }}>
               1 (800) 234-5678 <br /> 9am - 7pm EST,
               <br /> Monday to Friday
             </Text>
           </Box>
         </Flex>
 
-        <Flex fontSize={{ base: '1rem', md: '29px' }} flexDir="column" gap={{ base: 6, md: 12 }} py="2rem">
+        <Flex
+          fontSize={{ base: '1rem', md: '29px' }}
+          flexDir="column"
+          gap={{ base: 6, md: 12 }}
+          py={{ base: 0, md: '2rem' }}
+        >
           <Text>
             QUXPay is not a bank, banking services provided by QUXPay’s bank partner(s). Debit cards issued by Sutton
             Bank, pursuant to a license from Visa USA Inc.
@@ -83,11 +100,11 @@ const Footer: FC = () => {
         </Flex>
       </Container>
       <Box
-        h="125vh"
+        h={{ base: '31vh', md: '125vh' }}
         bgImage="url('/assets/images/Footer.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
-        backgroundSize="cover"
+        backgroundSize={{ base: 'contain', md: 'cover' }}
       >
         <Container maxW="1080px" pt={{ base: 0, md: '1rem' }}>
           <Text fontSize={{ base: '1rem', md: '29px' }} color={'white'}>
@@ -96,8 +113,15 @@ const Footer: FC = () => {
           </Text>
         </Container>
       </Box>
-      <Box bg="#D222A8" color="white" fontSize="20px" fontWeight="bold" textAlign="center" py="0.5rem">
-        <Text>© 2023 QUX® Technologies, Inc. . All Rights Reserved.</Text>
+      <Box
+        bg="#D222A8"
+        color="white"
+        fontSize={{ base: '0.75rem', md: '20px' }}
+        fontWeight="bold"
+        textAlign="center"
+        py="0.5rem"
+      >
+        <Text>© {date.getFullYear()} QUX® Technologies, Inc. . All Rights Reserved.</Text>
       </Box>
     </Box>
   );

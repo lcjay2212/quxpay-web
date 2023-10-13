@@ -1,4 +1,5 @@
 export const PRIMARY = {
+  fontFamily: "'Poppins', sans-serif",
   transition: '0.25s ease-in',
   background: 'btn.background-base',
   color: 'btn.text-base',
@@ -19,6 +20,7 @@ export const PRIMARY = {
 };
 
 export const SECONDARY = {
+  fontFamily: "'Poppins', sans-serif",
   transition: '0.25s ease-in',
   background: 'btn.background-hover',
   color: 'btn.text-hover',
@@ -39,6 +41,7 @@ export const SECONDARY = {
 };
 
 export const SEEMORE = {
+  fontFamily: "'Poppins', sans-serif",
   transition: '0.25s ease-in',
   background: 'btn.background-hover',
   color: '#D222A8',

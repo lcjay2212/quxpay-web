@@ -43,7 +43,7 @@ const MilitaryGradeSecurityPage: FC = () => {
             <br /> questions
           </Heading>
 
-          <Accordion bg="#3D075F" color="white" mb={{ base: '2rem', md: 0 }}>
+          <Accordion bg="#3D075F" color="white" mb={{ base: '2rem', md: 0 }} border="white">
             {FAQS_STATIC_DATA.map((item, index) => {
               return (
                 <AccordionItem key={index}>
@@ -56,7 +56,7 @@ const MilitaryGradeSecurityPage: FC = () => {
                         fontSize={{ base: '1rem', md: '1.5rem' }}
                         fontWeight="bold"
                         px="1rem"
-                        py="0.5rem"
+                        py="0.75rem"
                       >
                         {item.question}
                       </Box>
@@ -65,7 +65,7 @@ const MilitaryGradeSecurityPage: FC = () => {
                   </h2>
                   <AccordionPanel mx={{ base: '1rem', md: '2rem' }}>
                     <UnorderedList>
-                      <ListItem fontSize={{ base: '0.75rem', md: '1rem' }} mb={{ base: '0.5rem', md: '1rem' }}>
+                      <ListItem fontSize={{ base: '0.75rem', md: '1.25rem' }} mb={{ base: '0.5rem', md: '1rem' }}>
                         {item.answers}
                       </ListItem>
                     </UnorderedList>

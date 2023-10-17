@@ -59,25 +59,32 @@ const PageWrapper: FC<Props & BoxProps> = ({ staticData, children }) => {
         ))}
       </Container>
 
-      <Box display={{ base: 'block', md: 'none' }} mx="2rem" color="white" textAlign={{ base: 'center', md: 'start' }}>
-        <Heading fontSize={{ base: '1.85rem', md: '48px' }} fontWeight="normal">
-          The Future of Payments. Today.
-        </Heading>
-        <Text fontSize={{ base: '1.15rem', md: '24px' }} my="1.5rem">
-          Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No
-          more waiting around like crypto.
-        </Text>
-      </Box>
-
       {pathname !== '/faqs' && (
-        <Box
-          h={{ base: '300px', md: '100vh' }}
-          bgImage="url('/assets/images/BG-5.png')"
-          backgroundPosition="center"
-          backgroundRepeat="no-repeat"
-          backgroundSize="contain"
-          my={{ base: '5rem', md: '15rem' }}
-        />
+        <>
+          <Box
+            display={{ base: 'block', md: 'none' }}
+            mx="2rem"
+            color="white"
+            textAlign={{ base: 'center', md: 'start' }}
+          >
+            <Heading fontSize={{ base: '1.85rem', md: '48px' }} fontWeight="normal">
+              The Future of Payments. Today.
+            </Heading>
+            <Text fontSize={{ base: '1.15rem', md: '24px' }} my="1.5rem">
+              Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No
+              more waiting around like crypto.
+            </Text>
+          </Box>
+
+          <Box
+            h={{ base: '300px', md: '100vh' }}
+            bgImage="url('/assets/images/BG-5.png')"
+            backgroundPosition="center"
+            backgroundRepeat="no-repeat"
+            backgroundSize="contain"
+            my={{ base: '5rem', md: '15rem' }}
+          />
+        </>
       )}
       <Footer />
     </Box>

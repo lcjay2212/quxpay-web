@@ -85,11 +85,8 @@ const MilitaryGradeSecurityPage: FC = () => {
   return (
     <PageWrapper>
       <Grid
-        h="220vh"
-        bgImage={{
-          base: "url('/assets/images/faqs-background.png')",
-          md: "url('/assets/images/faqs-background.png')",
-        }}
+        h={{ base: 'auto', md: '220vh' }}
+        bgImage="url('/assets/images/faqs-background.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
@@ -98,12 +95,18 @@ const MilitaryGradeSecurityPage: FC = () => {
         <Container maxW="1080px">
           <TopBarHeader />
 
-          <Heading fontSize="3rem" color="white" textAlign="center" textTransform="uppercase" my="6rem">
+          <Heading
+            fontSize={{ base: '1.75rem', md: '3rem' }}
+            color="white"
+            textAlign="center"
+            textTransform="uppercase"
+            my={{ base: '2rem', md: '6rem' }}
+          >
             FREQUENTLY asked
             <br /> questions
           </Heading>
 
-          <Accordion bg="#3D075F" color="white">
+          <Accordion bg="#3D075F" color="white" mb={{ base: '2rem', md: 0 }}>
             {STATIC_DATA.map((item, index) => {
               return (
                 <AccordionItem key={index}>
@@ -113,7 +116,7 @@ const MilitaryGradeSecurityPage: FC = () => {
                         as="span"
                         flex="1"
                         textAlign="left"
-                        fontSize="1.5rem"
+                        fontSize={{ base: '1rem', md: '1.5rem' }}
                         fontWeight="bold"
                         px="1rem"
                         py="0.5rem"
@@ -123,9 +126,9 @@ const MilitaryGradeSecurityPage: FC = () => {
                       <AccordionIcon />
                     </AccordionButton>
                   </h2>
-                  <AccordionPanel mx="2rem">
+                  <AccordionPanel mx={{ base: '1rem', md: '2rem' }}>
                     <UnorderedList>
-                      <ListItem>{item.answers}</ListItem>
+                      <ListItem fontSize={{ base: '0.75rem', md: '1rem' }}>{item.answers}</ListItem>
                     </UnorderedList>
                   </AccordionPanel>
                 </AccordionItem>

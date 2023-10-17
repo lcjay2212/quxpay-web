@@ -36,7 +36,7 @@ const NoMiddlemanPage: FC = () => {
 
       <Flex justifyContent="center" mt={{ base: '10rem', md: 0 }}>
         <Text
-          fontSize={{ base: '2.25rem', md: '3rem' }}
+          fontSize={{ base: '1.85rem', md: '3rem' }}
           textAlign="center"
           textTransform="uppercase"
           color="white"

@@ -49,6 +49,17 @@ const FinalStep: FC = () => {
 
       <Controller
         control={control}
+        name="account_name"
+        rules={{ required: 'Bank Account Name is required' }}
+        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+          <FormContainer label="Bank Account Name" errorMessage={error?.message ?? ''}>
+            <TextField value={value} placeholder="Enter Account Name" onChange={onChange} onBlur={onBlur} />
+          </FormContainer>
+        )}
+      />
+
+      <Controller
+        control={control}
         name="account_number"
         rules={{ required: 'Bank Account Number is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (

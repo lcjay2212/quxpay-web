@@ -1,36 +1,37 @@
 import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 
 const footerLink = [
   {
     label: 'Legal',
-    routes: '',
+    routes: '/',
   },
   {
     label: 'Licenses',
-    routes: '',
+    routes: '/',
   },
   {
     label: 'Security',
-    routes: '',
+    routes: '/',
   },
   {
     label: 'Press',
-    routes: '',
+    routes: '/',
   },
   {
     label: 'Help',
-    routes: '',
+    routes: '/',
   },
   {
     label: 'FAQs',
-    routes: '',
+    routes: '/faqs',
   },
   {
     label: 'Status',
-    routes: '',
+    routes: '/',
   },
 ];
 
@@ -45,15 +46,11 @@ const Footer: FC = () => {
           </Box>
           <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (
-              <Text
-                key={item.label}
-                color="white"
-                fontSize={{ base: '20px', md: '29px' }}
-                fontWeight="bold"
-                my="0.5rem"
-              >
-                {item.label}
-              </Text>
+              <Link href={item.routes} key={item.label}>
+                <Text color="white" fontSize={{ base: '20px', md: '29px' }} fontWeight="bold" my="0.5rem">
+                  {item.label}
+                </Text>
+              </Link>
             ))}
           </Box>
           <Box color="white">

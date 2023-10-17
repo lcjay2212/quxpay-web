@@ -1,43 +1,15 @@
 import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
 import PageWrapper from 'component/PageWrapper';
 import TopBarHeader from 'component/TopBarHeader';
+import { MILITARY_GRADE_SECURITY_MOCK } from 'mocks/pages';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-const STATIC_DATA = [
-  {
-    title: 'Backed by Bank-Level Protocols',
-    context: `Multilayered security protections follow the strictest 
-    protocols used by financial institutions worldwide. 
-    Fort Knox level.`,
-    imageSrc: '/assets/images/military-grade-security-1.png',
-    reverse: false,
-  },
-  {
-    title: 'Patent-Pending Encryption Mesh',
-    context: `QuxPay utilizes a global encryption mesh 
-    infrastructure allowing each device to pay 
-    in real-time. Big words but the point is - 
-    there's no central point of failure. Hacks 
-    and data breaches can't happen.`,
-    imageSrc: '/assets/images/military-grade-security-2.png',
-    reverse: true,
-  },
-  {
-    title: 'Anonymous Transactions',
-    context: `Every payment is anonymized using industry
-    leading tools. Your identity stays hidden, even
-    from us. Totally private.`,
-    imageSrc: '/assets/images/military-grade-security-3.png',
-    reverse: true,
-  },
-];
-
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={STATIC_DATA}>
+    <PageWrapper staticData={MILITARY_GRADE_SECURITY_MOCK}>
       <Grid
         h="120vh"
         bgImage={{

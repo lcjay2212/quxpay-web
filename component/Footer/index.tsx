@@ -47,7 +47,15 @@ const Footer: FC = () => {
           <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (
               <Link href={item.routes} key={item.label}>
-                <Text color="white" fontSize={{ base: '20px', md: '29px' }} fontWeight="bold" my="0.5rem">
+                <Text
+                  color="white"
+                  fontSize={{ base: '20px', md: '29px' }}
+                  fontWeight="bold"
+                  my="0.5rem"
+                  _hover={{
+                    color: 'primary',
+                  }}
+                >
                   {item.label}
                 </Text>
               </Link>

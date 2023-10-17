@@ -128,7 +128,9 @@ const MilitaryGradeSecurityPage: FC = () => {
                   </h2>
                   <AccordionPanel mx={{ base: '1rem', md: '2rem' }}>
                     <UnorderedList>
-                      <ListItem fontSize={{ base: '0.75rem', md: '1rem' }}>{item.answers}</ListItem>
+                      <ListItem fontSize={{ base: '0.75rem', md: '1rem' }} mb={{ base: '0.5rem', md: '1rem' }}>
+                        {item.answers}
+                      </ListItem>
                     </UnorderedList>
                   </AccordionPanel>
                 </AccordionItem>

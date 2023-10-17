@@ -1,40 +1,16 @@
 import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
 import PageWrapper from 'component/PageWrapper';
 import TopBarHeader from 'component/TopBarHeader';
+import { NO_MIDDLEMAN_MOCKS } from 'mocks/pages';
 import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-const STATIC_DATA = [
-  {
-    title: 'Crystal Clear Fees',
-    context: `The price you see is the price you pay. 
-    No surprise charges popping up later.`,
-    imageSrc: '/assets/images/no-middleman-1.png',
-    reverse: true,
-    alignItems: 'flex-end',
-  },
-  {
-    title: 'User Data is Sacred',
-    context: `We're not like your regular apps, we don't sell 
-    or allow outside companies access to our systems 
-    or user data for any reason. `,
-    imageSrc: '/assets/images/no-middleman-2.png',
-    reverse: true,
-  },
-  {
-    title: 'Compliance Assured',
-    context: `We abide by strict data and privacy laws.You're protected.`,
-    imageSrc: '/assets/images/no-middleman-3.png',
-    reverse: true,
-  },
-];
-
 const NoMiddlemanPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={STATIC_DATA}>
+    <PageWrapper staticData={NO_MIDDLEMAN_MOCKS}>
       <Grid
         h="100vh"
         bgImage={{ base: '', md: "url('/assets/images/no-middleman.png')" }}
@@ -60,7 +36,7 @@ const NoMiddlemanPage: FC = () => {
 
       <Flex justifyContent="center" mt={{ base: '10rem', md: 0 }}>
         <Text
-          fontSize={{ base: '2.25rem', md: '3rem' }}
+          fontSize={{ base: '1.85rem', md: '3rem' }}
           textAlign="center"
           textTransform="uppercase"
           color="white"

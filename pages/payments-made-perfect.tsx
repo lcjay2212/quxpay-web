@@ -1,34 +1,16 @@
 import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
 import PageWrapper from 'component/PageWrapper';
 import TopBarHeader from 'component/TopBarHeader';
+import { PAYMENTS_MADE_PERFECT_MOCKS } from 'mocks/pages';
 import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-const STATIC_DATA = [
-  {
-    title: 'Transfer Limits? What is that?',
-    context: `Send as much as you want. No annoying 
-    restrictions on payment amounts. 
-    Total freedom.`,
-    imageSrc: '/assets/images/payments-made-perfect-1.png',
-    reverse: true,
-  },
-  {
-    title: 'Zero Fees. Ever.',
-    context: `Forget fees eating into transfers. 
-    QuxPay is absolutely free for P2P payments. 
-    Keep more in your wallet.`,
-    imageSrc: '/assets/images/payments-made-perfect-2.png',
-    reverse: true,
-  },
-];
-
 const PaymentsMadePerfectPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={STATIC_DATA}>
+    <PageWrapper staticData={PAYMENTS_MADE_PERFECT_MOCKS}>
       <Grid
         h={{ base: 'auto', md: '100vh' }}
         bgImage={{ base: '', md: "url('/assets/images/payments-made-perfect.png')" }}

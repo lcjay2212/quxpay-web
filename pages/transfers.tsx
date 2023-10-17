@@ -1,35 +1,16 @@
 import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
 import PageWrapper from 'component/PageWrapper';
 import TopBarHeader from 'component/TopBarHeader';
+import { TRANSFERS_MOCKS } from 'mocks/pages';
 import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
-const STATIC_DATA = [
-  {
-    title: 'No Clearing Delays',
-    context: `Unlike cryptos and banks, once your money 
-    is converted into QUX Tokens, there are no 
-    multi-day waits for transfers to finalize. 
-    Payments are instantly accessible.`,
-    imageSrc: '/assets/images/transfers-1.png',
-    reverse: true,
-  },
-  {
-    title: 'Recipient Notifications',
-    context: `We instantly notify recipients via push 
-    notification when funds are received in 
-    their account within milliseconds.`,
-    imageSrc: '/assets/images/transfers-2.png',
-    reverse: true,
-  },
-];
-
 const TransfersPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={STATIC_DATA} my="10rem" justifyContent="center" textAlign="center">
+    <PageWrapper staticData={TRANSFERS_MOCKS} my="10rem" justifyContent="center" textAlign="center">
       <Grid
         h={{ base: 'auto', md: '120vh' }}
         bgImage={{ base: '', md: "url('/assets/images/transfers.png')" }}

@@ -2,6 +2,7 @@ import { Box, BoxProps, Container, Flex, Heading, Text } from '@chakra-ui/react'
 import Footer from 'component/Footer';
 import Head from 'next/head';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 interface Props {
@@ -15,6 +16,7 @@ interface Props {
 }
 
 const PageWrapper: FC<Props & BoxProps> = ({ staticData, children }) => {
+  const { pathname } = useRouter();
   return (
     <Box bg="#3D075F">
       <Head>
@@ -67,14 +69,16 @@ const PageWrapper: FC<Props & BoxProps> = ({ staticData, children }) => {
         </Text>
       </Box>
 
-      <Box
-        h={{ base: '300px', md: '100vh' }}
-        bgImage="url('/assets/images/BG-5.png')"
-        backgroundPosition="center"
-        backgroundRepeat="no-repeat"
-        backgroundSize="contain"
-        my={{ base: '5rem', md: '15rem' }}
-      />
+      {pathname !== '/faqs' && (
+        <Box
+          h={{ base: '300px', md: '100vh' }}
+          bgImage="url('/assets/images/BG-5.png')"
+          backgroundPosition="center"
+          backgroundRepeat="no-repeat"
+          backgroundSize="contain"
+          my={{ base: '5rem', md: '15rem' }}
+        />
+      )}
       <Footer />
     </Box>
   );

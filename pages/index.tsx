@@ -4,7 +4,7 @@ import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { DownloadImg, PhoneImage } from 'public/assets';
+import { PhoneImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
@@ -86,15 +86,29 @@ const Home: FC = () => {
               <br /> Because It Isn't.
             </Text>
 
-            <Flex placeContent="center" mt="1.5rem">
-              <Image
-                src={DownloadImg}
-                height={50}
-                width={300}
-                alt="Phone Image"
-                placeholder="blur"
-                style={{ objectFit: 'contain' }}
-              />
+            <Flex justifyContent="center">
+              <Flex
+                mt="1.5rem"
+                justifyContent="center"
+                bg="white"
+                borderRadius="2xl"
+                border="2px solid #D11CB6"
+                width={350}
+                p="0.5rem"
+              >
+                <Image
+                  src="/assets/images/qrcode.png"
+                  height={100}
+                  width={100}
+                  alt="Phone Image"
+                  style={{ objectFit: 'contain' }}
+                  placeholder="blur"
+                  blurDataURL={'data:image/jpeg...'}
+                />
+                <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
+                  DOWNLOAD <br /> QUX PAY
+                </Text>
+              </Flex>
             </Flex>
           </Box>
         </Container>

@@ -4,7 +4,7 @@ import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PhoneImage } from 'public/assets';
+import { DownloadImg, PhoneImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
@@ -27,7 +27,7 @@ export const Content: FC<
         pb={{ base: '1rem', md: 0 }}
       >
         <Box w={{ base: 'auto', md: 470 }} color="white" textAlign={{ base: 'center', md: 'start' }} {...props}>
-          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal">
+          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal" fontFamily="'Coda', sans-serif">
             {label}
           </Heading>
           <Text fontSize={{ base: '1.25rem', md: '30px' }} my="1.5rem">
@@ -65,7 +65,7 @@ const Home: FC = () => {
       >
         <Container maxW="1080px">
           <TopBarHeader />
-          <Box py={{ base: '4rem', md: '5rem' }}>
+          <Box pb={{ base: '4rem', md: '5rem' }}>
             <Flex placeContent="center">
               <Image
                 src={PhoneImage}
@@ -76,10 +76,26 @@ const Home: FC = () => {
                 style={{ objectFit: 'contain' }}
               />
             </Flex>
-            <Text fontSize={{ base: '2rem', md: '37px' }} textTransform="uppercase" textAlign="center" color="white">
+            <Text
+              fontSize={{ base: '2rem', md: '37px' }}
+              textAlign="center"
+              color="white"
+              fontFamily="'Coda', sans-serif"
+            >
               Pay Like It's <br /> Nobody's Business.
               <br /> Because It Isn't.
             </Text>
+
+            <Flex placeContent="center" mt="1.5rem">
+              <Image
+                src={DownloadImg}
+                height={50}
+                width={300}
+                alt="Phone Image"
+                placeholder="blur"
+                style={{ objectFit: 'contain' }}
+              />
+            </Flex>
           </Box>
         </Container>
       </Grid>

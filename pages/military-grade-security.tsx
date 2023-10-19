@@ -35,14 +35,9 @@ const MilitaryGradeSecurityPage: FC = () => {
       </Grid>
 
       <Flex justifyContent="center">
-        <Text
-          fontSize={{ base: '2.25rem', md: '3rem' }}
-          textAlign="center"
-          textTransform="uppercase"
-          color="white"
-          w={{ base: 'auto', md: 500 }}
-        >
-          Hacker-proof. Unbreakable. Impenetrable.
+        <Text fontSize={{ base: '2.25rem', md: '3rem' }} textAlign="center" color="white">
+          Hacker-proof. Unbreakable.
+          <br /> Impenetrable.
         </Text>
       </Flex>
     </PageWrapper>

@@ -40,7 +40,7 @@ const NoMiddlemanPage: FC = () => {
           textAlign="center"
           textTransform="uppercase"
           color="white"
-          w={{ base: 400, md: 600 }}
+          w={{ base: 400, md: 700 }}
         >
           No confusing fees. <br /> No shady data sharing.
         </Text>

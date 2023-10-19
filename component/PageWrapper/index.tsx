@@ -38,7 +38,7 @@ const PageWrapper: FC<Props & BoxProps> = ({ staticData, children }) => {
             my={{ base: '8rem', md: '12rem' }}
           >
             <Box w={{ base: 350, md: 470 }} color="white" textAlign={{ base: 'center', md: 'start' }}>
-              <Heading fontSize={{ base: '2rem', md: '48px' }} fontWeight="normal">
+              <Heading fontSize={{ base: '2rem', md: '48px' }} fontWeight="normal" fontFamily="'Coda', sans-serif">
                 {item.title}
               </Heading>
               <Text fontSize={{ base: '1rem', md: '24px' }} my="1.5rem">

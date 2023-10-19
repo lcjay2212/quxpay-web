@@ -38,7 +38,7 @@ const PaymentsMadePerfectPage: FC = () => {
           textAlign="center"
           textTransform="uppercase"
           color="white"
-          w={{ base: 300, md: 400 }}
+          w={{ base: 300, md: 500 }}
         >
           Zero junk fees. Sky is the limit.
         </Text>

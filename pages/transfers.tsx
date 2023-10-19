@@ -28,20 +28,21 @@ const TransfersPage: FC = () => {
             mt={{ base: '2rem', md: '25rem' }}
           />
         </Container>
-        <Box display={{ base: 'block', md: 'none' }}>
+        <Box display={{ base: 'flex', md: 'none' }} placeContent="center">
           <Image src="/assets/images/transfers.png" alt="img" width={400} height={300} />
         </Box>
       </Grid>
 
       <Flex justifyContent="center" mt={{ base: '10rem', md: '20rem' }}>
         <Text
-          fontSize={{ base: '1.95rem', md: '3rem' }}
+          fontSize={{ base: '1.5rem', md: '3rem' }}
           textAlign="center"
           textTransform="uppercase"
           color="white"
-          w={{ base: 400, md: 600 }}
+          w={{ base: 400, md: 'auto' }}
         >
-          No wait times. Lightning fast digital transactions.
+          No wait times.
+          <br /> Lightning fast digital <br /> transactions.
         </Text>
       </Flex>
     </PageWrapper>

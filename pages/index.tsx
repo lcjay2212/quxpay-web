@@ -55,61 +55,68 @@ const Home: FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid
-        h={{ base: 'auto', md: '100vh' }}
-        bgImage={{ base: "url('/assets/images/BG-2.png')", md: "url('/assets/images/BG.png')" }}
-        backgroundPosition="center"
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
-        filter={visible ? 'blur(8px)' : ''}
-      >
-        <Container maxW="1080px">
-          <TopBarHeader />
-          <Box pb={{ base: '4rem', md: '5rem' }}>
-            <Flex placeContent="center">
-              <Image
-                src={PhoneImage}
-                height={300}
-                width={600}
-                alt="Phone Image"
-                placeholder="blur"
-                style={{ objectFit: 'contain' }}
-              />
-            </Flex>
-            <Text
-              fontSize={{ base: '2rem', md: '37px' }}
-              textAlign="center"
-              color="white"
-              fontFamily="'Coda', sans-serif"
-            >
-              Pay Like It's <br /> Nobody's Business.
-              <br /> Because It Isn't.
-            </Text>
-
-            <Flex justifyContent="center">
-              <Flex
-                mt="1.5rem"
-                justifyContent="center"
-                bg="white"
-                borderRadius="2xl"
-                border="2px solid #D11CB6"
-                width={350}
-                p="0.5rem"
-              >
+      <Grid filter={visible ? 'blur(8px)' : ''} position="relative">
+        <Box display={{ base: 'none', md: 'block' }}>
+          <video height="auto" width="100%" loop autoPlay id="backgroud-video">
+            <source src="./assets/video/bg-video.mp4" type="video/mp4" />
+            <track default kind="captions" srcLang="en" src="" />
+          </video>
+        </Box>
+        <Box display={{ base: 'block', md: 'none' }}>
+          <video height="auto" width="100%" loop autoPlay id="backgroud-video">
+            <source src="./assets/video/bg-video-mobile.mp4" type="video/mp4" />
+            <track default kind="captions" srcLang="en" src="" />
+          </video>
+        </Box>
+        <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>
+          <Box>
+            <TopBarHeader />
+            <Box pb={{ base: '4rem', md: '5rem' }}>
+              <Flex placeContent="center">
                 <Image
-                  src="/assets/images/qrcode.png"
-                  height={100}
-                  width={100}
+                  src={PhoneImage}
+                  height={300}
+                  width={600}
                   alt="Phone Image"
-                  style={{ objectFit: 'contain' }}
                   placeholder="blur"
-                  blurDataURL={'data:image/jpeg...'}
+                  style={{ objectFit: 'contain' }}
                 />
-                <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
-                  DOWNLOAD <br /> QUX PAY
-                </Text>
               </Flex>
-            </Flex>
+              <Text
+                fontSize={{ base: '2rem', md: '37px' }}
+                textAlign="center"
+                color="white"
+                fontFamily="'Coda', sans-serif"
+              >
+                Pay Like It's <br /> Nobody's Business.
+                <br /> Because It Isn't.
+              </Text>
+
+              <Flex justifyContent="center">
+                <Flex
+                  mt="1.5rem"
+                  justifyContent="center"
+                  bg="white"
+                  borderRadius="2xl"
+                  border="2px solid #D11CB6"
+                  width={350}
+                  p="0.5rem"
+                >
+                  <Image
+                    src="/assets/images/qrcode.png"
+                    height={100}
+                    width={100}
+                    alt="Phone Image"
+                    style={{ objectFit: 'contain' }}
+                    placeholder="blur"
+                    blurDataURL={'data:image/jpeg...'}
+                  />
+                  <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
+                    DOWNLOAD <br /> QUX PAY
+                  </Text>
+                </Flex>
+              </Flex>
+            </Box>
           </Box>
         </Container>
       </Grid>

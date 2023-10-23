@@ -18,5 +18,7 @@ import WithdrawSuccessful from './icons/withdraw_successful.png';
 import DownloadImg from './images/download.png';
 import PhoneImage from './images/phone.png';
 
+
+
 export { QuxLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxPayLogo, AddBankIcons, WithdrawSuccessful, SendQuxCash, CashIn, QuxTokenIcon, QuxWalletIcon, AddBankIcon, DepositSuccessful, AddFriendIcon, PhoneImage, DownloadImg };
 

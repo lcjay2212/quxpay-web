@@ -3,7 +3,6 @@ import { reactSelectStyles } from 'component/AddBankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_LIST } from 'constants/api';
-import { startCase } from 'lodash';
 import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement } from 'react';
@@ -31,29 +30,16 @@ const FinalStep: FC = () => {
 
       <Controller
         control={control}
-        name="bank_nickname"
+        name="account_name"
         rules={{ required: 'Bank Account Nickname is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Bank Account Nickname" errorMessage={error?.message ?? ''}>
             <TextField
               value={value ?? ''}
               placeholder="Create Bank Account Nickname"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
+              onChange={onChange}
               onBlur={onBlur}
             />
-          </FormContainer>
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="account_name"
-        rules={{ required: 'Bank Account Name is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Bank Account Name" errorMessage={error?.message ?? ''}>
-            <TextField value={value} placeholder="Enter Account Name" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}
       />

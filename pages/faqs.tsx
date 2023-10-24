@@ -20,7 +20,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper>
+    <PageWrapper title="Frequently asked questions">
       <Grid
         h={{ base: 'auto', md: '220vh' }}
         bgImage="url('/assets/images/faqs-background.png')"
@@ -39,7 +39,7 @@ const MilitaryGradeSecurityPage: FC = () => {
             textTransform="uppercase"
             my={{ base: '2rem', md: '6rem' }}
           >
-            FREQUENTLY asked
+            Frequently asked
             <br /> questions
           </Heading>
 

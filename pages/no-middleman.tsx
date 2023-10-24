@@ -10,7 +10,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const NoMiddlemanPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={NO_MIDDLEMAN_MOCKS}>
+    <PageWrapper staticData={NO_MIDDLEMAN_MOCKS} title="NO MIDDLEMAN. NO NONSENSE.">
       <Grid
         h="100vh"
         bgImage={{ base: '', md: "url('/assets/images/no-middleman.png')" }}

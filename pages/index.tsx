@@ -55,7 +55,7 @@ const Home: FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid filter={visible ? 'blur(8px)' : ''} position="relative">
+      <Grid filter={visible ? 'blur(8px)' : ''} position="relative" pointerEvents="none">
         <Box display={{ base: 'none', md: 'block' }}>
           <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
             <source src="./assets/video/bg-video.mp4" type="video/mp4" />

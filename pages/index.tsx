@@ -57,15 +57,13 @@ const Home: FC = () => {
       </Head>
       <Grid filter={visible ? 'blur(8px)' : ''} position="relative">
         <Box display={{ base: 'none', md: 'block' }}>
-          <video height="auto" width="100%" loop autoPlay id="backgroud-video">
+          <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
             <source src="./assets/video/bg-video.mp4" type="video/mp4" />
-            <track default kind="captions" srcLang="en" src="" />
           </video>
         </Box>
         <Box display={{ base: 'block', md: 'none' }}>
-          <video height="auto" width="100%" loop autoPlay id="backgroud-video">
+          <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
             <source src="./assets/video/bg-video-mobile.mp4" type="video/mp4" />
-            <track default kind="captions" srcLang="en" src="" />
           </video>
         </Box>
         <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>

@@ -1,4 +1,4 @@
-import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpoint } from '@chakra-ui/react';
 import Footer from 'component/Footer';
 import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
@@ -52,6 +52,7 @@ export const Content: FC<
 const Home: FC = () => {
   const router = useRouter();
   const visible = useHomePageModal(({ visible }) => visible);
+  const breakPoint = useBreakpoint();
   return (
     <Box bg="#3D075F">
       <Head>
@@ -79,12 +80,13 @@ const Home: FC = () => {
               display="flex"
               flexDir={{ base: 'column', md: 'row', lg: 'row', xl: 'column' }}
               alignItems="center"
+              justifyContent="center"
             >
               <Flex placeContent="center">
                 <Image
                   src={PhoneImage}
-                  height={300}
-                  width={600}
+                  height={breakPoint === 'md' ? 200 : 300}
+                  width={breakPoint === 'md' ? 400 : 600}
                   alt="Phone Image"
                   placeholder="blur"
                   style={{ objectFit: 'contain' }}

@@ -26,11 +26,16 @@ export const Content: FC<
         pt={{ base: '5rem', md: 0 }}
         pb={{ base: '1rem', md: 0 }}
       >
-        <Box w={{ base: 'auto', md: 470 }} color="white" textAlign={{ base: 'center', md: 'start' }} {...props}>
+        <Box
+          w={{ base: 'auto', md: 400, lg: 470 }}
+          color="white"
+          textAlign={{ base: 'center', md: 'start' }}
+          {...props}
+        >
           <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal" fontFamily="'Coda', sans-serif">
             {label}
           </Heading>
-          <Text fontSize={{ base: '1.25rem', md: '30px' }} my="1.5rem">
+          <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem">
             {content}
           </Text>
           {showBtn && (
@@ -69,7 +74,12 @@ const Home: FC = () => {
         <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>
           <Box>
             <TopBarHeader />
-            <Box pb={{ base: '4rem', md: '5rem' }}>
+            <Box
+              pb={{ base: '4rem', md: '5rem' }}
+              display="flex"
+              flexDir={{ base: 'column', md: 'row', lg: 'row', xl: 'column' }}
+              alignItems="center"
+            >
               <Flex placeContent="center">
                 <Image
                   src={PhoneImage}
@@ -80,40 +90,42 @@ const Home: FC = () => {
                   style={{ objectFit: 'contain' }}
                 />
               </Flex>
-              <Text
-                fontSize={{ base: '2rem', md: '37px' }}
-                textAlign="center"
-                color="white"
-                fontFamily="'Coda', sans-serif"
-              >
-                Pay Like It's <br /> Nobody's Business.
-                <br /> Because It Isn't.
-              </Text>
-
-              <Flex justifyContent="center">
-                <Flex
-                  mt="1.5rem"
-                  justifyContent="center"
-                  bg="white"
-                  borderRadius="2xl"
-                  border="2px solid #D11CB6"
-                  width={350}
-                  p="0.5rem"
+              <Box>
+                <Text
+                  fontSize={{ base: '2rem', md: '37px' }}
+                  textAlign="center"
+                  color="white"
+                  fontFamily="'Coda', sans-serif"
                 >
-                  <Image
-                    src="/assets/images/qrcode.png"
-                    height={100}
-                    width={100}
-                    alt="Phone Image"
-                    style={{ objectFit: 'contain' }}
-                    placeholder="blur"
-                    blurDataURL={'data:image/jpeg...'}
-                  />
-                  <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
-                    DOWNLOAD <br /> QUX PAY
-                  </Text>
+                  Pay Like It's <br /> Nobody's Business.
+                  <br /> Because It Isn't.
+                </Text>
+
+                <Flex justifyContent="center">
+                  <Flex
+                    mt="1.5rem"
+                    justifyContent="center"
+                    bg="white"
+                    borderRadius="2xl"
+                    border="2px solid #D11CB6"
+                    width={350}
+                    p="0.5rem"
+                  >
+                    <Image
+                      src="/assets/images/qrcode.png"
+                      height={100}
+                      width={100}
+                      alt="Phone Image"
+                      style={{ objectFit: 'contain' }}
+                      placeholder="blur"
+                      blurDataURL={'data:image/jpeg...'}
+                    />
+                    <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
+                      DOWNLOAD <br /> QUX PAY
+                    </Text>
+                  </Flex>
                 </Flex>
-              </Flex>
+              </Box>
             </Box>
           </Box>
         </Container>
@@ -151,8 +163,8 @@ const Home: FC = () => {
           alignItems="start"
           onClick={(): void => void router.push('/no-middleman')}
         />
-        <Box display={{ base: 'block', md: 'none' }}>
-          <Image src="/assets/images/no-middleman.png" alt="img" width={400} height={300} />
+        <Box display={{ base: 'flex', md: 'none' }} justifyContent="flex-end">
+          <Image src="/assets/images/no-middleman.png" alt="img" width={1000} height={1000} />
         </Box>
       </Box>
 
@@ -168,8 +180,8 @@ const Home: FC = () => {
           content="Pay friends, family, contacts instantly. No fees, no limits. Spend on the move."
           onClick={(): void => void router.push('/payments-made-perfect')}
         />
-        <Box display={{ base: 'block', md: 'none' }}>
-          <Image src="/assets/images/payments-made-perfect-4.png" alt="img" width={400} height={300} />
+        <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
+          <Image src="/assets/images/payments-made-perfect-4.png" alt="img" width={1000} height={1000} />
         </Box>
       </Box>
 
@@ -185,8 +197,8 @@ const Home: FC = () => {
           content="Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
           onClick={(): void => void router.push('/transfers')}
         />
-        <Box display={{ base: 'block', md: 'none' }}>
-          <Image src="/assets/images/transfers.png" alt="img" width={400} height={300} />
+        <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
+          <Image src="/assets/images/transfers.png" alt="img" width={1000} height={1000} />
         </Box>
       </Box>
 

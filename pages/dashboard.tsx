@@ -1,20 +1,23 @@
-import { Box, chakra, Container, Flex, Text } from '@chakra-ui/react';
+import { Box, chakra, Container, Flex, Spinner, Text } from '@chakra-ui/react';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
-import { FETCH_WALLET_BALANCE } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
-import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { useBalance } from 'store/useBalance';
 
-const Label: FC<{ label: string; image: any; amount: number }> = ({ label, image, amount }) => (
+const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
+  label,
+  image,
+  amount,
+  loading,
+}) => (
   <Flex fontSize="2xl" alignItems="center">
     <Text w={200}>{label}</Text>&nbsp;
     <span>
       <Image src={image} width={30} height={20} alt="Qux Token" />
     </span>
-    {amount}
+    {!loading ? <> {amount}</> : <Spinner />}
   </Flex>
 );
 
@@ -41,7 +44,7 @@ const Dashboard: FC = () => {
     },
   ];
 
-  const { data } = useQuery('balance', FETCH_WALLET_BALANCE, errorHandler);
+  const { isLoading, balance, deposit, withdrawalPending } = useBalance();
 
   return (
     <Container color="white" maxH="100vh">
@@ -80,9 +83,9 @@ const Dashboard: FC = () => {
           My Balance
         </Text>
 
-        <Label label="Available Balance" image={QuxTokenIcon} amount={data?.balance} />
-        <Label label="Deposits Pending" image={QuxTokenIcon} amount={data?.deposit} />
-        <Label label="Withdraw Pending" image={QuxTokenIcon} amount={data?.withdraw_pending} />
+        <Label label="Available Balance" image={QuxTokenIcon} amount={balance} loading={isLoading} />
+        <Label label="Deposits Pending" image={QuxTokenIcon} amount={deposit} loading={isLoading} />
+        <Label label="Withdraw Pending" image={QuxTokenIcon} amount={withdrawalPending} loading={isLoading} />
       </Box>
 
       <TransactionHistory />

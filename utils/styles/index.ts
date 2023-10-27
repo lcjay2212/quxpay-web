@@ -1,6 +1,5 @@
 import { globalFonts } from 'constants/globalFonts';
 import { COLORS as colors } from './colors';
-
 export const STYLED_CONFIG = {
   global: {
     '@fontFace': globalFonts,

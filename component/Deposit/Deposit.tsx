@@ -61,7 +61,6 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   const onDeposit = (val): void => {
     mutate(val);
   };
-
   return (
     <Box textAlign="center" overflow="hidden">
       {!successTrigger ? (
@@ -76,7 +75,11 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       name="amount"
                       rules={{ required: 'Amount is required' }}
                       render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                        <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
+                        <FormContainer
+                          label={`Minimum Amount ${label === 'Withdrawal' ? 100 : 20}`}
+                          errorMessage={error?.message ?? ''}
+                          place="end"
+                        >
                           <TextField
                             type="number"
                             value={value || ''}
@@ -86,6 +89,8 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                               setAmountValue(+e.target.value);
                             }}
                             onBlur={onBlur}
+                            min={20}
+                            max={label === 'Withdrawal' ? 100 : 9999}
                           />
                         </FormContainer>
                       )}

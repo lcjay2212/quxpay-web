@@ -32,7 +32,7 @@ export const Content: FC<
           textAlign={{ base: 'center', md: 'start' }}
           {...props}
         >
-          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal" fontFamily="Coda">
+          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal" fontFamily="Coda, sans-serif">
             {label}
           </Heading>
           <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem">
@@ -93,7 +93,12 @@ const Home: FC = () => {
                 />
               </Flex>
               <Box>
-                <Text fontSize={{ base: '2rem', md: '37px' }} textAlign="center" color="white" fontFamily="Coda">
+                <Text
+                  fontSize={{ base: '2rem', md: '37px' }}
+                  textAlign="center"
+                  color="white"
+                  fontFamily="'Coda', sans-serif"
+                >
                   Pay Like It's <br /> Nobody's Business.
                   <br /> Because It Isn't.
                 </Text>

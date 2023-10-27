@@ -58,7 +58,7 @@ const SendQuxTokenWrapper: FC = () => {
             <Controller
               control={control}
               name="amount"
-              rules={{ required: 'Username is required' }}
+              rules={{ required: 'Amount is required' }}
               render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                 <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                   <TextField
@@ -70,6 +70,7 @@ const SendQuxTokenWrapper: FC = () => {
                       setAmount(+e.target.value);
                     }}
                     onBlur={onBlur}
+                    min={20}
                   />
                 </FormContainer>
               )}

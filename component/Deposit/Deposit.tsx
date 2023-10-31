@@ -196,7 +196,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
           <Text color="white" fontSize="20px">
             {label === 'Redeem' ? (
               <>
-                Redeeming Tokens Successfully Initiated
+                Redeeming Tokens
                 <br /> Successfully Initiated
               </>
             ) : (

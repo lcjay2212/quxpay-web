@@ -1,5 +1,5 @@
 import { ArrowBackIcon, HamburgerIcon } from '@chakra-ui/icons';
-import { chakra, Container, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Container, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
@@ -19,7 +19,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
           <ArrowBackIcon color="white" mr="1rem" cursor="pointer" onClick={(): void => void router.push(route)} />
           <Text color="primary" fontSize={label?.charAt(0) !== 'S' ? '4xl' : '3xl'} w={300}>
             {label?.charAt(0)}
-            <chakra.span color="white">{label?.substring(1)}</chakra.span>
+            <span style={{ color: 'white' }}>{label?.substring(1)}</span>
           </Text>
         </Flex>
         {label !== 'Redeem' && (

@@ -1,5 +1,5 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
-import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import FinalStep from 'component/RegistrationForm/FinalStep';
 import FirstStep from 'component/RegistrationForm/FirstStep';
 import SecondStep from 'component/RegistrationForm/SecondStep';
@@ -60,7 +60,7 @@ const Register: FC = () => {
               onClick={(): void => void router.push('/')}
             />
             <Text color="primary" fontSize="4xl">
-              R<chakra.span color="white">egister</chakra.span>
+              R<span style={{ color: 'white' }}>egister</span>
             </Text>
           </Flex>
           <LockIcon color="white" w={30} h={30} />
@@ -71,7 +71,7 @@ const Register: FC = () => {
           <Flex mt="2rem">
             <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(1)} />
             <Text color="primary" fontSize="4xl" w={300}>
-              C<chakra.span color="white">ontinue Your Registration</chakra.span>
+              C<span style={{ color: 'white' }}>ontinue Your Registration</span>
             </Text>
           </Flex>
 
@@ -92,7 +92,7 @@ const Register: FC = () => {
           <Flex mt="2rem">
             <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(2)} />
             <Text color="primary" fontSize="4xl" w={300}>
-              C<chakra.span color="white">omplete Your Registration</chakra.span>
+              C<span style={{ color: 'white' }}>omplete Your Registration</span>
             </Text>
           </Flex>
 

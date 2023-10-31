@@ -1,5 +1,5 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { post } from 'constants/api';
@@ -45,7 +45,7 @@ const ForgotPassword: FC = () => {
           onClick={(): void => void router.push('/login')}
         />
         <Text color="primary" fontSize="4xl">
-          L<chakra.span color="white">ogin</chakra.span>
+          L<span style={{ color: 'white' }}>ogin</span>
         </Text>
       </Flex>
 

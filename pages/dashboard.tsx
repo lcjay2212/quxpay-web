@@ -1,4 +1,4 @@
-import { Box, chakra, Container, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, Container, Flex, Spinner, Text } from '@chakra-ui/react';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -54,7 +54,7 @@ const Dashboard: FC = () => {
         </Box>
 
         <Text color="primary" fontSize="3xl" textAlign="center">
-          W<chakra.span color="white">allet</chakra.span>{' '}
+          W<span style={{ color: 'white' }}>allet</span>{' '}
         </Text>
       </Flex>
 

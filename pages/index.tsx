@@ -27,12 +27,12 @@ export const Content: FC<
         pb={{ base: '1rem', md: 0 }}
       >
         <Box
-          w={{ base: 'auto', md: 400, lg: 470 }}
+          w={{ base: 'auto', md: 400, lg: 560 }}
           color="white"
           textAlign={{ base: 'center', md: 'start' }}
           {...props}
         >
-          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal" fontFamily="Coda, sans-serif">
+          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="extrabold" fontFamily="Coda, sans-serif">
             {label}
           </Heading>
           <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem">
@@ -98,6 +98,7 @@ const Home: FC = () => {
                   textAlign="center"
                   color="white"
                   fontFamily="'Coda', sans-serif"
+                  fontWeight="extrabold"
                 >
                   Pay Like It's <br /> Nobody's Business.
                   <br /> Because It Isn't.
@@ -205,7 +206,7 @@ const Home: FC = () => {
       </Box>
 
       <Container maxW="1080px" color="white" textAlign="center" mt={{ base: '0', md: '15rem' }} mb="5rem">
-        <Text fontSize={{ base: '2rem', md: '4rem' }}>
+        <Text fontSize={{ base: '2rem', md: '4rem' }} fontWeight="extrabold">
           The Future of Payments.
           <br /> Today.
         </Text>

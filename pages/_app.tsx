@@ -12,7 +12,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <Box bg="black" height="auto" width="100vw" overflowX="hidden">
-          <Component {...pageProps} />
+          <Component {...pageProps} suppressHydrationWarning />
         </Box>
         {typeof window !== 'undefined' && window.location.host === 'localhost:3000' && (
           <ReactQueryDevtools position="bottom-right" />

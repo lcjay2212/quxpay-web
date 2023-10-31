@@ -27,7 +27,7 @@ const Dashboard: FC = () => {
     {
       image: CashIn,
       alt: 'Cash in',
-      route: '/deposit',
+      route: '/purchase',
       label: 'Purchase',
     },
     {

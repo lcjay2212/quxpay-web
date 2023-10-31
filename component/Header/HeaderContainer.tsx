@@ -22,24 +22,24 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
             <chakra.span color="white">{label?.substring(1)}</chakra.span>
           </Text>
         </Flex>
-        {label !== 'Withdrawal' && (
+        {label !== 'Redeem' && (
           <Menu>
             <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
             <MenuList>
-              {label === 'Deposit' && (
+              {label === 'Purchase' && (
                 <>
                   <MenuItem
                     onClick={(): void => {
                       if (!paymentId) {
                         notify('Please select Bank Account', { status: 'warning' });
                       } else {
-                        void router.push('/deposit/edit');
+                        void router.push('/purchase/edit');
                       }
                     }}
                   >
                     Edit Account
                   </MenuItem>
-                  <MenuItem onClick={(): void => void router.push('/deposit/delete')}>Delete Account</MenuItem>
+                  <MenuItem onClick={(): void => void router.push('/purchase/delete')}>Delete Account</MenuItem>
                 </>
               )}
               {label === 'Send QUX ®Tokens' && (

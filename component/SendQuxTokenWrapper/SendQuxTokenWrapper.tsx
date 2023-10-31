@@ -175,7 +175,7 @@ const SendQuxTokenWrapper: FC = () => {
       ) : (
         <Flex justifyContent="center" alignItems="center" flexDir="column">
           <Box mt="14rem">
-            <Image src={SendQuxCash} width={100} height={100} alt="Withdrawal" />
+            <Image src={SendQuxCash} width={100} height={100} alt="Redeem" />
           </Box>
           <Text color="white" fontSize="2rem">
             ${amount.toFixed(2)}

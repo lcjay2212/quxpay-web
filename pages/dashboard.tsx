@@ -28,13 +28,13 @@ const Dashboard: FC = () => {
       image: CashIn,
       alt: 'Cash in',
       route: '/deposit',
-      label: 'Deposit',
+      label: 'Purchase',
     },
     {
       image: WithdrawSuccessful,
-      alt: 'Withdrawal',
-      route: '/withdrawal',
-      label: 'Withdrawal',
+      alt: 'Redeem',
+      route: '/redeem',
+      label: 'Redeem',
     },
     {
       image: SendQuxCash,
@@ -84,8 +84,8 @@ const Dashboard: FC = () => {
         </Text>
 
         <Label label="Available Balance" image={QuxTokenIcon} amount={balance} loading={isLoading} />
-        <Label label="Deposits Pending" image={QuxTokenIcon} amount={deposit} loading={isLoading} />
-        <Label label="Withdraw Pending" image={QuxTokenIcon} amount={withdrawalPending} loading={isLoading} />
+        <Label label="Purchase Pending" image={QuxTokenIcon} amount={deposit} loading={isLoading} />
+        <Label label="Redeem Pending" image={QuxTokenIcon} amount={withdrawalPending} loading={isLoading} />
       </Box>
 
       <TransactionHistory />

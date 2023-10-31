@@ -44,11 +44,9 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
       axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, options),
     {
       onSuccess: () => {
-        if (label === 'Withdrawal') {
-          notify(`Token Exchange for Wtihdrawal Successfully Initiated`);
+        if (label === 'Redeem') {
           setSuccessTrigger(true);
         } else {
-          notify(`Wallet Top Up Successfully Initiated`);
           setSuccessTrigger(true);
         }
       },
@@ -76,7 +74,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       rules={{ required: 'Amount is required' }}
                       render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                         <FormContainer
-                          label={`Minimum Amount ${label === 'Withdrawal' ? 100 : 20}`}
+                          label={`Minimum Amount ${label === 'Redeem' ? 100 : 20}`}
                           errorMessage={error?.message ?? ''}
                           place="end"
                         >
@@ -90,7 +88,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                             }}
                             onBlur={onBlur}
                             min={20}
-                            max={label === 'Withdrawal' ? 100 : 9999}
+                            max={label === 'Redeem' ? 100 : 9999}
                           />
                         </FormContainer>
                       )}
@@ -140,7 +138,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
                       <Divider mt="1rem" />
 
-                      {label === 'Deposit' && (
+                      {label === 'Purchase' && (
                         <>
                           <Flex my="1.5rem" justifyContent="space-between">
                             <Flex>
@@ -186,19 +184,19 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
         <Flex justifyContent="center" alignItems="center" flexDir="column">
           <Box mt="14rem">
             <Image
-              src={label === 'Withdrawal' ? WithdrawSuccessful : DepositSuccessful}
+              src={label === 'Redeem' ? WithdrawSuccessful : DepositSuccessful}
               width={100}
               height={100}
-              alt="Withdrawal"
+              alt="Redeem"
             />
           </Box>
           <Text color="white" fontSize="2rem">
             ${amountValue.toFixed(2)}
           </Text>
           <Text color="white" fontSize="20px">
-            {label === 'Withdrawal' ? (
+            {label === 'Redeem' ? (
               <>
-                Token Exchange for Wtihdrawal
+                Redeeming Tokens Successfully Initiated
                 <br /> Successfully Initiated
               </>
             ) : (

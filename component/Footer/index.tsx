@@ -89,8 +89,8 @@ const Footer: FC = () => {
             Bank, pursuant to a license from Visa USA Inc.
           </Text>
           <Text>
-            QUXPay waives ATM fees for all in-network withdrawals every month you have at least $300 direct deposited
-            into your Cash balance. Additional information here.
+            QUXPay waives ATM fees for all in-network redeems every month you have at least $300 direct deposited into
+            your Cash balance. Additional information here.
           </Text>
           <Text>
             Brokerage services by QUXPay, member FINRA/SIPC, subsidiary of Block, Inc. See our BrokerCheck. Bitcoin

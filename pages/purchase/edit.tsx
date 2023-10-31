@@ -32,7 +32,7 @@ const EditDepositPage: FC = () => {
     {
       onSuccess: () => {
         notify(`Successfully Update`);
-        void router.push('/deposit');
+        void router.push('/purchase');
       },
       onError: () => {
         notify(`ERROR`, { status: 'error' });
@@ -52,7 +52,7 @@ const EditDepositPage: FC = () => {
   };
 
   return (
-    <HeaderContainer label="Deposit" route="/dashboard">
+    <HeaderContainer label="Purchase" route="/dashboard">
       <>
         <Text color="white" fontSize="2rem" mt="2rem">
           Edit My Account
@@ -199,7 +199,7 @@ const EditDepositPage: FC = () => {
             w={350}
             h="3.25rem"
             _active={{ bg: 'white' }}
-            onClick={(): void => void router.push('/deposit')}
+            onClick={(): void => void router.push('/purchase')}
           >
             Cancel
           </Button>

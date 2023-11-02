@@ -76,6 +76,11 @@ const SendQuxTokenWrapper: FC = () => {
               )}
             />
 
+            <Flex>
+              <Text color="white" fontSize="2.5rem">
+                My Friends
+              </Text>
+            </Flex>
             <RadioGroup onChange={setRadioValue} value={radioValue}>
               <Controller
                 control={control}
@@ -168,7 +173,7 @@ const SendQuxTokenWrapper: FC = () => {
               h="3.25rem"
               isLoading={isLoading}
             >
-              Send Token
+              Send Tokens
             </Button>
           </form>
         </FormProvider>

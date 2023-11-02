@@ -34,7 +34,7 @@ const Dashboard: FC = () => {
       image: WithdrawSuccessful,
       alt: 'Redeem',
       route: '/redeem',
-      label: 'Redeem',
+      label: 'Redeem Token',
     },
     {
       image: SendQuxCash,

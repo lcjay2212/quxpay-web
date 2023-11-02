@@ -1,3 +1,5 @@
+import { Text } from '@chakra-ui/react';
+import { DateOfBirthPicker } from 'component/DateOfBirthPicker';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FC, ReactElement } from 'react';
@@ -71,6 +73,28 @@ const FirstStep: FC = () => {
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Username" errorMessage={error?.message ?? ''}>
             <TextField value={value ?? ''} placeholder="Choose your username" onChange={onChange} onBlur={onBlur} />
+          </FormContainer>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="date_of_birth"
+        rules={{ required: 'Birthday is required' }}
+        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+          <FormContainer label="Birthday" errorMessage={error?.message ?? ''}>
+            <DateOfBirthPicker
+              value={value ?? ''}
+              onChange={onChange}
+              onBlur={onBlur}
+              tooltip={
+                value ? undefined : error?.message ? (
+                  <Text color="red">❌ {error.message}</Text>
+                ) : (
+                  <Text color="White">✔️ Please Select Birthdate</Text>
+                )
+              }
+            />
           </FormContainer>
         )}
       />

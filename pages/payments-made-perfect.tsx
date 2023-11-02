@@ -33,13 +33,7 @@ const PaymentsMadePerfectPage: FC = () => {
       </Grid>
 
       <Flex justifyContent="center" mt={{ base: '5rem', md: 0 }}>
-        <Text
-          fontSize={{ base: '2.25rem', md: '3rem' }}
-          textAlign="center"
-          textTransform="uppercase"
-          color="white"
-          w={{ base: 300, md: 500 }}
-        >
+        <Text fontSize={{ base: '2.25rem', md: '3rem' }} textAlign="center" color="white" w={{ base: 300, md: 500 }}>
           Zero junk fees. Sky is the limit.
         </Text>
       </Flex>

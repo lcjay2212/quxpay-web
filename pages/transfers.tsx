@@ -40,13 +40,7 @@ const TransfersPage: FC = () => {
       </Grid>
 
       <Flex justifyContent="center" mt={{ base: '10rem', md: '20rem' }}>
-        <Text
-          fontSize={{ base: '1.5rem', md: '3rem' }}
-          textAlign="center"
-          textTransform="uppercase"
-          color="white"
-          w={{ base: 400, md: 'auto' }}
-        >
+        <Text fontSize={{ base: '1.5rem', md: '3rem' }} textAlign="center" color="white" w={{ base: 400, md: 'auto' }}>
           No wait times.
           <br /> Lightning fast digital <br /> transactions.
         </Text>

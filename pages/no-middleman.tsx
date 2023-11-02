@@ -35,13 +35,7 @@ const NoMiddlemanPage: FC = () => {
       </Grid>
 
       <Flex justifyContent="center" mt={{ base: '10rem', md: 0 }}>
-        <Text
-          fontSize={{ base: '1.85rem', md: '3rem' }}
-          textAlign="center"
-          textTransform="uppercase"
-          color="white"
-          w={{ base: 400, md: 700 }}
-        >
+        <Text fontSize={{ base: '1.85rem', md: '3rem' }} textAlign="center" color="white" w={{ base: 400, md: 700 }}>
           No confusing fees. <br /> No shady data sharing.
         </Text>
       </Flex>

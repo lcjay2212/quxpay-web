@@ -20,7 +20,7 @@ import { FETCH_BANK_AND_CREDIT_CARD, options } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIcons, DepositSuccessful, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
+import { AddBankIcons, DepositSuccessful, WithdrawSuccessful } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -191,14 +191,9 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
             />
           </Box>
 
-          <Flex>
-            <Box display="flex" justifyContent="center" alignItems="center">
-              <Image src={QuxTokenIcon} height={30} width={32} alt="Qux Logo" />
-            </Box>
-            <Text color="white" fontSize="2rem">
-              {amountValue.toFixed(2)}
-            </Text>
-          </Flex>
+          <Text color="white" fontSize="2rem">
+            {amountValue.toFixed(2)}
+          </Text>
           <Text color="white" fontSize="20px">
             {label === 'Redeem' ? (
               <>

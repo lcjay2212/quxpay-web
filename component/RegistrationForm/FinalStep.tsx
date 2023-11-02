@@ -1,9 +1,9 @@
 import { Flex, Text } from '@chakra-ui/react';
 import { reactSelectStyles } from 'component/AddBankAccount';
-import { DateOfBirthPicker } from 'component/DateOfBirthPicker';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_LIST } from 'constants/api';
+import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement } from 'react';
@@ -18,6 +18,14 @@ const FinalStep: FC = () => {
   const { data, isLoading } = useQuery('bankList', FETCH_BANK_LIST, errorHandler);
   const tempData = data?.map((item) => {
     return { label: item.name, value: item.name };
+  });
+  const listOfMonths = MONTHS.map((item) => item);
+
+  const listOfDays = DAYS.map((item) => {
+    return { label: `${item}`, value: `${item}` };
+  });
+  const listOfYears = YEARS.map((item) => {
+    return { label: `${item}`, value: `${item}` };
   });
 
   return (
@@ -122,25 +130,65 @@ const FinalStep: FC = () => {
 
       <Controller
         control={control}
-        name="date_of_birth"
-        rules={{ required: 'Birthday is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Birthday" errorMessage={error?.message ?? ''}>
-            <DateOfBirthPicker
-              value={value ?? ''}
-              onChange={onChange}
-              onBlur={onBlur}
-              tooltip={
-                value ? undefined : error?.message ? (
-                  <Text color="red">❌ {error.message}</Text>
-                ) : (
-                  <Text color="White">✔️ Please Select Birthdate</Text>
-                )
-              }
-            />
-          </FormContainer>
-        )}
+        name="month"
+        rules={{ required: 'Month is required' }}
+        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+          return (
+            <FormContainer label="Select Month" errorMessage={error?.message ?? ''}>
+              <Select
+                onBlur={onBlur}
+                styles={reactSelectStyles}
+                placeholder="Select Month"
+                options={listOfMonths}
+                onChange={(e: { value: string; label: string }): void => onChange(e.value)}
+                isClearable={true}
+              />
+            </FormContainer>
+          );
+        }}
       />
+
+      <Flex gap={4}>
+        <Controller
+          control={control}
+          name="day"
+          rules={{ required: 'Day is required' }}
+          render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+            return (
+              <FormContainer label="Select Day" errorMessage={error?.message ?? ''}>
+                <Select
+                  onBlur={onBlur}
+                  styles={reactSelectStyles}
+                  placeholder="Select Day"
+                  options={listOfDays}
+                  onChange={(e: { value: string; label: string }): void => onChange(e.value)}
+                  isClearable={true}
+                />
+              </FormContainer>
+            );
+          }}
+        />
+
+        <Controller
+          control={control}
+          name="year"
+          rules={{ required: 'Year is required' }}
+          render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+            return (
+              <FormContainer label="Select Year" errorMessage={error?.message ?? ''}>
+                <Select
+                  onBlur={onBlur}
+                  styles={reactSelectStyles}
+                  placeholder="Select Year"
+                  options={listOfYears}
+                  onChange={(e: { value: string; label: string }): void => onChange(e.value)}
+                  isClearable={true}
+                />
+              </FormContainer>
+            );
+          }}
+        />
+      </Flex>
     </>
   );
 };

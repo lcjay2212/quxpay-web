@@ -11,7 +11,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <Box bg="black" height="auto" width="100vw" overflowX="hidden">
+        <Box bg="black" height="auto" width="100vw" overflowX="hidden" suppressHydrationWarning>
           <Component {...pageProps} />
         </Box>
         {typeof window !== 'undefined' && window.location.host === 'localhost:3000' && (

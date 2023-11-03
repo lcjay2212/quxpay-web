@@ -1,4 +1,4 @@
-import { Box, chakra, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { AddBankIcon } from 'public/assets';
 import { FC } from 'react';
@@ -17,7 +17,7 @@ const BankAccount: FC<{ name?: string; accountNumber: string; bankName: string; 
         </Box>
         <Box fontSize="lg">
           <Text>
-            <chakra.span>{bankName.slice(0, 15)}</chakra.span>&nbsp;
+            <span>{bankName.slice(0, 15)}</span>&nbsp;
             {accountNumber}
           </Text>
           <Text>Name: {name}</Text>

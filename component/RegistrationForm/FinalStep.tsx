@@ -3,7 +3,7 @@ import { reactSelectStyles } from 'component/AddBankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_LIST } from 'constants/api';
-import { startCase } from 'lodash';
+import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement } from 'react';
@@ -19,6 +19,14 @@ const FinalStep: FC = () => {
   const tempData = data?.map((item) => {
     return { label: item.name, value: item.name };
   });
+  const listOfMonths = MONTHS.map((item) => item);
+
+  const listOfDays = DAYS.map((item) => {
+    return { label: `${item}`, value: `${item}` };
+  });
+  const listOfYears = YEARS.map((item) => {
+    return { label: `${item}`, value: `${item}` };
+  });
 
   return (
     <>
@@ -31,16 +39,14 @@ const FinalStep: FC = () => {
 
       <Controller
         control={control}
-        name="bank_nickname"
+        name="account_name"
         rules={{ required: 'Bank Account Nickname is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Bank Account Nickname" errorMessage={error?.message ?? ''}>
             <TextField
               value={value ?? ''}
               placeholder="Create Bank Account Nickname"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
+              onChange={onChange}
               onBlur={onBlur}
             />
           </FormContainer>
@@ -121,6 +127,68 @@ const FinalStep: FC = () => {
           </FormContainer>
         )}
       />
+
+      <Controller
+        control={control}
+        name="month"
+        rules={{ required: 'Month is required' }}
+        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+          return (
+            <FormContainer label="Select Month" errorMessage={error?.message ?? ''}>
+              <Select
+                onBlur={onBlur}
+                styles={reactSelectStyles}
+                placeholder="Select Month"
+                options={listOfMonths}
+                onChange={(e: { value: string; label: string }): void => onChange(e.value)}
+                isClearable={true}
+              />
+            </FormContainer>
+          );
+        }}
+      />
+
+      <Flex gap={4}>
+        <Controller
+          control={control}
+          name="day"
+          rules={{ required: 'Day is required' }}
+          render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+            return (
+              <FormContainer label="Select Day" errorMessage={error?.message ?? ''}>
+                <Select
+                  onBlur={onBlur}
+                  styles={reactSelectStyles}
+                  placeholder="Select Day"
+                  options={listOfDays}
+                  onChange={(e: { value: string; label: string }): void => onChange(e.value)}
+                  isClearable={true}
+                />
+              </FormContainer>
+            );
+          }}
+        />
+
+        <Controller
+          control={control}
+          name="year"
+          rules={{ required: 'Year is required' }}
+          render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+            return (
+              <FormContainer label="Select Year" errorMessage={error?.message ?? ''}>
+                <Select
+                  onBlur={onBlur}
+                  styles={reactSelectStyles}
+                  placeholder="Select Year"
+                  options={listOfYears}
+                  onChange={(e: { value: string; label: string }): void => onChange(e.value)}
+                  isClearable={true}
+                />
+              </FormContainer>
+            );
+          }}
+        />
+      </Flex>
     </>
   );
 };

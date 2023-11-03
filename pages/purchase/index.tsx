@@ -4,8 +4,8 @@ import { FC } from 'react';
 
 const DepositPage: FC = () => {
   return (
-    <HeaderContainer label="Deposit" route="/dashboard">
-      <Deposit label="Deposit" url="web/wallet/charge" url2="web/bankaccount/new" />
+    <HeaderContainer label="Purchase" route="/dashboard">
+      <Deposit label="Purchase" url="web/wallet/charge" url2="web/bankaccount/new" />
     </HeaderContainer>
   );
 };

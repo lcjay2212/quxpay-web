@@ -22,7 +22,7 @@ const DeleteAccount: FC = () => {
     {
       onSuccess: () => {
         notify(`Successfully Remove`);
-        void router.push('/deposit');
+        void router.push('/purchase');
       },
       onError: () => {
         notify(`ERROR`, { status: 'error' });
@@ -32,7 +32,7 @@ const DeleteAccount: FC = () => {
 
   return (
     <Box h="100vh" overflow="hidden">
-      <HeaderContainer label="Deposit" route="/dashboard">
+      <HeaderContainer label="Purchase" route="/dashboard">
         <Box>
           <Box maxH={600}>
             <Text color="white" fontSize="2rem" mt="2rem">
@@ -89,7 +89,7 @@ const DeleteAccount: FC = () => {
               w={350}
               h="3.25rem"
               _active={{ bg: 'white' }}
-              onClick={(): void => void router.push('/deposit')}
+              onClick={(): void => void router.push('/purchase')}
             >
               Cancel
             </Button>

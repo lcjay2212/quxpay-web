@@ -1,4 +1,4 @@
-import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
+import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpoint } from '@chakra-ui/react';
 import Footer from 'component/Footer';
 import TopBarHeader from 'component/TopBarHeader';
 import Head from 'next/head';
@@ -26,11 +26,16 @@ export const Content: FC<
         pt={{ base: '5rem', md: 0 }}
         pb={{ base: '1rem', md: 0 }}
       >
-        <Box w={{ base: 'auto', md: 470 }} color="white" textAlign={{ base: 'center', md: 'start' }} {...props}>
-          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="normal">
+        <Box
+          w={{ base: 'auto', md: 400, lg: 560 }}
+          color="white"
+          textAlign={{ base: 'center', md: 'start' }}
+          {...props}
+        >
+          <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="extrabold" fontFamily="Coda, sans-serif">
             {label}
           </Heading>
-          <Text fontSize={{ base: '1.25rem', md: '30px' }} my="1.5rem">
+          <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem">
             {content}
           </Text>
           {showBtn && (
@@ -47,6 +52,7 @@ export const Content: FC<
 const Home: FC = () => {
   const router = useRouter();
   const visible = useHomePageModal(({ visible }) => visible);
+  const breakPoint = useBreakpoint();
   return (
     <Box bg="#3D075F">
       <Head>
@@ -55,31 +61,75 @@ const Home: FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Grid
-        h={{ base: 'auto', md: '100vh' }}
-        bgImage={{ base: "url('/assets/images/BG-2.png')", md: "url('/assets/images/BG.png')" }}
-        backgroundPosition="center"
-        backgroundRepeat="no-repeat"
-        backgroundSize="cover"
-        filter={visible ? 'blur(8px)' : ''}
-      >
-        <Container maxW="1080px">
-          <TopBarHeader />
-          <Box py={{ base: '4rem', md: '5rem' }}>
-            <Flex placeContent="center">
-              <Image
-                src={PhoneImage}
-                height={300}
-                width={600}
-                alt="Phone Image"
-                placeholder="blur"
-                style={{ objectFit: 'contain' }}
-              />
-            </Flex>
-            <Text fontSize={{ base: '2rem', md: '37px' }} textTransform="uppercase" textAlign="center" color="white">
-              Pay Like It's <br /> Nobody's Business.
-              <br /> Because It Isn't.
-            </Text>
+      <Grid filter={visible ? 'blur(8px)' : ''} position="relative">
+        <Box display={{ base: 'none', md: 'block' }}>
+          <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
+            <source src="./assets/video/bg-video.mp4" type="video/mp4" />
+          </video>
+        </Box>
+        <Box display={{ base: 'block', md: 'none' }}>
+          <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
+            <source src="./assets/video/bg-video-mobile.mp4" type="video/mp4" />
+          </video>
+        </Box>
+        <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>
+          <Box>
+            <TopBarHeader />
+            <Box
+              pb={{ base: '4rem', md: '5rem' }}
+              display="flex"
+              flexDir={{ base: 'column', md: 'row', lg: 'row', xl: 'column' }}
+              alignItems="center"
+              justifyContent="center"
+            >
+              <Flex placeContent="center">
+                <Image
+                  src={PhoneImage}
+                  height={breakPoint === 'md' ? 200 : 300}
+                  width={breakPoint === 'md' ? 400 : 600}
+                  alt="Phone Image"
+                  placeholder="blur"
+                  style={{ objectFit: 'contain' }}
+                />
+              </Flex>
+              <Box>
+                <Text
+                  fontSize={{ base: '2rem', md: '37px' }}
+                  textAlign="center"
+                  color="white"
+                  fontFamily="'Coda', sans-serif"
+                  fontWeight="extrabold"
+                >
+                  Pay Like It's <br /> Nobody's Business.
+                  <br /> Because It Isn't.
+                </Text>
+
+                <Flex justifyContent="center">
+                  <Flex
+                    mt="1.5rem"
+                    justifyContent="center"
+                    bg="white"
+                    borderRadius="2xl"
+                    border="2px solid #D11CB6"
+                    width={350}
+                    p="0.5rem"
+                  >
+                    <Image
+                      src="/assets/images/qrcode.png"
+                      height={100}
+                      width={100}
+                      alt="Phone Image"
+                      style={{ objectFit: 'contain' }}
+                      placeholder="blur"
+                      blurDataURL={'data:image/jpeg...'}
+                    />
+                    <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
+                      DOWNLOAD <br /> QUX PAY
+                    </Text>
+                  </Flex>
+                </Flex>
+              </Box>
+            </Box>
           </Box>
         </Container>
       </Grid>
@@ -116,8 +166,8 @@ const Home: FC = () => {
           alignItems="start"
           onClick={(): void => void router.push('/no-middleman')}
         />
-        <Box display={{ base: 'block', md: 'none' }}>
-          <Image src="/assets/images/no-middleman.png" alt="img" width={400} height={300} />
+        <Box display={{ base: 'flex', md: 'none' }} justifyContent="flex-end">
+          <Image src="/assets/images/no-middleman.png" alt="img" width={1000} height={1000} />
         </Box>
       </Box>
 
@@ -133,8 +183,8 @@ const Home: FC = () => {
           content="Pay friends, family, contacts instantly. No fees, no limits. Spend on the move."
           onClick={(): void => void router.push('/payments-made-perfect')}
         />
-        <Box display={{ base: 'block', md: 'none' }}>
-          <Image src="/assets/images/payments-made-perfect-4.png" alt="img" width={400} height={300} />
+        <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
+          <Image src="/assets/images/payments-made-perfect-4.png" alt="img" width={1000} height={1000} />
         </Box>
       </Box>
 
@@ -150,13 +200,13 @@ const Home: FC = () => {
           content="Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
           onClick={(): void => void router.push('/transfers')}
         />
-        <Box display={{ base: 'block', md: 'none' }}>
-          <Image src="/assets/images/transfers.png" alt="img" width={400} height={300} />
+        <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
+          <Image src="/assets/images/transfers.png" alt="img" width={1000} height={1000} />
         </Box>
       </Box>
 
       <Container maxW="1080px" color="white" textAlign="center" mt={{ base: '0', md: '15rem' }} mb="5rem">
-        <Text fontSize={{ base: '2rem', md: '4rem' }}>
+        <Text fontSize={{ base: '2rem', md: '4rem' }} fontWeight="extrabold">
           The Future of Payments.
           <br /> Today.
         </Text>
@@ -167,11 +217,11 @@ const Home: FC = () => {
       </Container>
 
       <Box
-        h={{ base: '300px', md: '100vh' }}
+        h={{ base: '60vh', md: '100vh' }}
         bgImage="url('/assets/images/BG-5.png')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
-        backgroundSize="contain"
+        backgroundSize={{ base: 'cover', md: 'contain' }}
         my={{ base: '3rem', md: 0 }}
       />
 

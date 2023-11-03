@@ -10,7 +10,13 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const TransfersPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={TRANSFERS_MOCKS} my="10rem" justifyContent="center" textAlign="center">
+    <PageWrapper
+      staticData={TRANSFERS_MOCKS}
+      title="Transfers in a Flash"
+      my="10rem"
+      justifyContent="center"
+      textAlign="center"
+    >
       <Grid
         h={{ base: 'auto', md: '120vh' }}
         bgImage={{ base: '', md: "url('/assets/images/transfers.png')" }}
@@ -28,20 +34,15 @@ const TransfersPage: FC = () => {
             mt={{ base: '2rem', md: '25rem' }}
           />
         </Container>
-        <Box display={{ base: 'block', md: 'none' }}>
+        <Box display={{ base: 'flex', md: 'none' }} placeContent="center">
           <Image src="/assets/images/transfers.png" alt="img" width={400} height={300} />
         </Box>
       </Grid>
 
       <Flex justifyContent="center" mt={{ base: '10rem', md: '20rem' }}>
-        <Text
-          fontSize={{ base: '1.95rem', md: '3rem' }}
-          textAlign="center"
-          textTransform="uppercase"
-          color="white"
-          w={{ base: 400, md: 600 }}
-        >
-          No wait times. Lightning fast digital transactions.
+        <Text fontSize={{ base: '1.5rem', md: '3rem' }} textAlign="center" color="white" w={{ base: 400, md: 'auto' }}>
+          No wait times.
+          <br /> Lightning fast digital <br /> transactions.
         </Text>
       </Flex>
     </PageWrapper>

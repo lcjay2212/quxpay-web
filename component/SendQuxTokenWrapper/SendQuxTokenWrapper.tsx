@@ -58,7 +58,7 @@ const SendQuxTokenWrapper: FC = () => {
             <Controller
               control={control}
               name="amount"
-              rules={{ required: 'Username is required' }}
+              rules={{ required: 'Amount is required' }}
               render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                 <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                   <TextField
@@ -70,11 +70,17 @@ const SendQuxTokenWrapper: FC = () => {
                       setAmount(+e.target.value);
                     }}
                     onBlur={onBlur}
+                    min={20}
                   />
                 </FormContainer>
               )}
             />
 
+            <Flex>
+              <Text color="white" fontSize="2.5rem">
+                My Friends
+              </Text>
+            </Flex>
             <RadioGroup onChange={setRadioValue} value={radioValue}>
               <Controller
                 control={control}
@@ -167,18 +173,19 @@ const SendQuxTokenWrapper: FC = () => {
               h="3.25rem"
               isLoading={isLoading}
             >
-              Send Token
+              Send Tokens
             </Button>
           </form>
         </FormProvider>
       ) : (
-        <Flex justifyContent="center" alignItems="center" flexDir="column">
+        <Flex justifyContent="center" alignItems="center" flexDir="column" color="white">
           <Box mt="14rem">
-            <Image src={SendQuxCash} width={100} height={100} alt="Withdrawal" />
+            <Image src={SendQuxCash} width={100} height={100} alt="Redeem" />
           </Box>
           <Text color="white" fontSize="2rem">
-            ${amount.toFixed(2)}
+            $ {amount.toFixed(2)}
           </Text>
+          <Text my="12px">Tokens sent to</Text>
           <Flex justifyContent="flex-start">
             <Avatar name={sentToDetail.name} />
             <Box textAlign="start" ml="1rem">

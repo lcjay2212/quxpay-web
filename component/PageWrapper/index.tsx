@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 
 interface Props {
+  title: string;
   staticData?: {
     title: string;
     context: string;
@@ -15,12 +16,12 @@ interface Props {
   }[];
 }
 
-const PageWrapper: FC<Props & BoxProps> = ({ staticData, children }) => {
+const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children }) => {
   const { pathname } = useRouter();
   return (
     <Box bg="#3D075F">
       <Head>
-        <title>Quxpay</title>
+        <title>{title}</title>
         <meta name="description" content="Quxpay" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
@@ -38,7 +39,7 @@ const PageWrapper: FC<Props & BoxProps> = ({ staticData, children }) => {
             my={{ base: '8rem', md: '12rem' }}
           >
             <Box w={{ base: 350, md: 470 }} color="white" textAlign={{ base: 'center', md: 'start' }}>
-              <Heading fontSize={{ base: '2rem', md: '48px' }} fontWeight="normal">
+              <Heading fontSize={{ base: '2rem', md: '48px' }} fontWeight="extrabold" fontFamily="'Coda', sans-serif">
                 {item.title}
               </Heading>
               <Text fontSize={{ base: '1rem', md: '24px' }} my="1.5rem">

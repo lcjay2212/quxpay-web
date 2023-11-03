@@ -10,7 +10,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const NoMiddlemanPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={NO_MIDDLEMAN_MOCKS}>
+    <PageWrapper staticData={NO_MIDDLEMAN_MOCKS} title="NO MIDDLEMAN. NO NONSENSE.">
       <Grid
         h="100vh"
         bgImage={{ base: '', md: "url('/assets/images/no-middleman.png')" }}
@@ -35,13 +35,7 @@ const NoMiddlemanPage: FC = () => {
       </Grid>
 
       <Flex justifyContent="center" mt={{ base: '10rem', md: 0 }}>
-        <Text
-          fontSize={{ base: '1.85rem', md: '3rem' }}
-          textAlign="center"
-          textTransform="uppercase"
-          color="white"
-          w={{ base: 400, md: 600 }}
-        >
+        <Text fontSize={{ base: '1.85rem', md: '3rem' }} textAlign="center" color="white" w={{ base: 400, md: 700 }}>
           No confusing fees. <br /> No shady data sharing.
         </Text>
       </Flex>

@@ -4,6 +4,7 @@ import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 const FirstStep: FC = () => {
   const { control, getValues } = useFormContext();
+
   return (
     <>
       <Controller
@@ -66,7 +67,7 @@ const FirstStep: FC = () => {
 
       <Controller
         control={control}
-        name="usename"
+        name="username"
         rules={{ required: 'Username is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Username" errorMessage={error?.message ?? ''}>

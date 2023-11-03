@@ -10,7 +10,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const PaymentsMadePerfectPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={PAYMENTS_MADE_PERFECT_MOCKS}>
+    <PageWrapper staticData={PAYMENTS_MADE_PERFECT_MOCKS} title="P2P Payments Made Perfect">
       <Grid
         h={{ base: 'auto', md: '100vh' }}
         bgImage={{ base: '', md: "url('/assets/images/payments-made-perfect.png')" }}
@@ -33,13 +33,7 @@ const PaymentsMadePerfectPage: FC = () => {
       </Grid>
 
       <Flex justifyContent="center" mt={{ base: '5rem', md: 0 }}>
-        <Text
-          fontSize={{ base: '2.25rem', md: '3rem' }}
-          textAlign="center"
-          textTransform="uppercase"
-          color="white"
-          w={{ base: 300, md: 400 }}
-        >
+        <Text fontSize={{ base: '2.25rem', md: '3rem' }} textAlign="center" color="white" w={{ base: 300, md: 500 }}>
           Zero junk fees. Sky is the limit.
         </Text>
       </Flex>

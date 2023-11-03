@@ -20,7 +20,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper>
+    <PageWrapper title="Frequently asked questions">
       <Grid
         h={{ base: 'auto', md: '220vh' }}
         bgImage="url('/assets/images/faqs-background.png')"
@@ -39,11 +39,11 @@ const MilitaryGradeSecurityPage: FC = () => {
             textTransform="uppercase"
             my={{ base: '2rem', md: '6rem' }}
           >
-            FREQUENTLY asked
+            Frequently asked
             <br /> questions
           </Heading>
 
-          <Accordion bg="#3D075F" color="white" mb={{ base: '2rem', md: 0 }}>
+          <Accordion bg="#3D075F" color="white" mb={{ base: '2rem', md: 0 }} border="#B05EE3">
             {FAQS_STATIC_DATA.map((item, index) => {
               return (
                 <AccordionItem key={index}>
@@ -56,7 +56,7 @@ const MilitaryGradeSecurityPage: FC = () => {
                         fontSize={{ base: '1rem', md: '1.5rem' }}
                         fontWeight="bold"
                         px="1rem"
-                        py="0.5rem"
+                        py="0.75rem"
                       >
                         {item.question}
                       </Box>

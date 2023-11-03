@@ -192,7 +192,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
           </Box>
 
           <Text color="white" fontSize="2rem">
-            {amountValue.toFixed(2)}
+            $ {amountValue.toFixed(2)}
           </Text>
           <Text color="white" fontSize="20px">
             {label === 'Redeem' ? (

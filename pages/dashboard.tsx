@@ -1,10 +1,24 @@
-import { Box, Container, Flex, Spinner, Text } from '@chakra-ui/react';
+import { HamburgerIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Container,
+  Flex,
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
 import { useBalance } from 'store/useBalance';
+import { clearStorage } from 'utils/clearStorage';
+import { notify } from 'utils/notify';
 
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,
@@ -48,14 +62,33 @@ const Dashboard: FC = () => {
 
   return (
     <Container color="white" maxH="100vh">
-      <Flex justifyContent="start" py="1rem">
-        <Box display="flex" justifyContent="center" height="50px" mr="8px">
-          <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" />
-        </Box>
+      <Flex justifyContent="space-between" alignItems="center">
+        <Flex justifyContent="start" py="1rem">
+          <Box display="flex" justifyContent="center" height="50px" mr="8px">
+            <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" />
+          </Box>
 
-        <Text color="primary" fontSize="3xl" textAlign="center">
-          W<span style={{ color: 'white' }}>allet</span>{' '}
-        </Text>
+          <Text color="primary" fontSize="3xl" textAlign="center">
+            W<span style={{ color: 'white' }}>allet</span>{' '}
+          </Text>
+        </Flex>
+        <Box>
+          <Menu>
+            <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
+            <MenuList>
+              <MenuItem
+                onClick={(): void => {
+                  clearStorage();
+                  notify('Successfully Logout');
+                  void router.push('/');
+                }}
+                color="black"
+              >
+                Logout
+              </MenuItem>
+            </MenuList>
+          </Menu>
+        </Box>
       </Flex>
 
       <Flex justifyContent="space-between" mt="2rem">

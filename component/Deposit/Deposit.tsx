@@ -74,7 +74,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       rules={{ required: 'Amount is required' }}
                       render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                         <FormContainer
-                          label={label === 'Purchase' ? `Minimum Amount $ 20` : ''}
+                          label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
                           errorMessage={error?.message ?? ''}
                           place="end"
                         >

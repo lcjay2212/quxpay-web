@@ -30,7 +30,7 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
           })}
           ml="1rem"
         >
-          {!label ? (
+          {label === 'max' ? (
             <Flex>
               <Text>Maximum Amount Available</Text>
               <Box ml={2} display="flex" justifyContent="center" alignItems="center">

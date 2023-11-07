@@ -2,24 +2,22 @@ import { Flex, Text } from '@chakra-ui/react';
 import { reactSelectStyles } from 'component/AddBankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
-import { FETCH_BANK_LIST } from 'constants/api';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useQuery } from 'react-query';
 import Select from 'react-select';
+import { useBankLists } from 'store/useBankLists';
 import { useDebounce } from 'store/useDebounce';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
-import errorHandler from 'utils/errorHandler';
 const FinalStep: FC = () => {
   const { control } = useFormContext();
   const [searchText, setSearchText] = useState('America');
 
   const debounceText = useDebounce(searchText, 1000);
 
-  const { data, isLoading } = useQuery(['bankList', debounceText], FETCH_BANK_LIST, errorHandler);
+  const { data, isLoading } = useBankLists(debounceText);
   const tempData = data?.map((item) => {
     return { label: item.name, value: item.name };
   });

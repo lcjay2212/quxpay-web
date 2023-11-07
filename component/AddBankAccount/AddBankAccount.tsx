@@ -19,10 +19,12 @@ export const reactSelectStyles = {
     border: 'none',
     boxShadow: 'none',
     borderRadius: '16px',
+    color: 'white',
   }),
   indicatorsContainer: (provided: CSSObject): CSSObject => ({
     ...provided,
     display: 'none',
+    color: 'white',
   }),
   valueContainer: (provided: CSSObject): CSSObject => ({
     ...provided,
@@ -33,12 +35,17 @@ export const reactSelectStyles = {
     boxShadow: 'rgba(100, 100, 111, 0.2) 0rem 0.438rem 1.813rem 0rem',
     background: '#3D3C3C',
     textAlign: 'start',
+    color: 'white',
     ':active': {
       background: '#000000',
       borderColor: '#06A499',
     },
   }),
   singleValue: (provided: CSSObject): CSSObject => ({
+    ...provided,
+    color: 'white',
+  }),
+  input: (provided: CSSObject): CSSObject => ({
     ...provided,
     color: 'white',
   }),

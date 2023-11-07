@@ -21,8 +21,9 @@ const SendQuxTokenWrapper: FC = () => {
   const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
   const [amount, setAmount] = useState(0);
+  const [friendId, setFriendId] = useState();
 
-  const { data, isLoading: loading } = useQuery('friendList', FETCH_FRIEND_LIST, errorHandler);
+  const { data, isLoading: loading, refetch } = useQuery('friendList', FETCH_FRIEND_LIST, errorHandler);
   const [sentToDetail, setSetToDetail] = useState<{
     name: string;
     username: string;
@@ -30,10 +31,23 @@ const SendQuxTokenWrapper: FC = () => {
   }>(data?.[0] || {});
 
   const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/web/wallet/transfer-fund`, variable, options),
+    (variable) =>
+      axios.post(
+        `${STAGING_URL}/${
+          radioValue !== `${data?.length + 1}`
+            ? `web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`
+            : 'web/friends/add'
+        }`,
+        variable,
+        options
+      ),
     {
       onSuccess: () => {
-        setSuccessTrigger(true);
+        if (radioValue !== data?.length + 1) {
+          setSuccessTrigger(true);
+        } else {
+          void refetch();
+        }
       },
       onError: () => {
         notify(`Failed to sent`, { status: 'error' });
@@ -41,13 +55,12 @@ const SendQuxTokenWrapper: FC = () => {
     }
   );
 
-  const { mutate: addFriend } = useMutation((variable) =>
-    axios.post(`${STAGING_URL}/web/friends/add`, variable, options)
-  );
-
   const onDeposit = (val): void => {
-    mutate(val);
-    if (radioValue === `${data?.length + 1}`) addFriend(val);
+    if (radioValue !== data?.length + 1) {
+      mutate();
+    } else {
+      mutate(val);
+    }
   };
 
   return (
@@ -58,7 +71,7 @@ const SendQuxTokenWrapper: FC = () => {
             <Controller
               control={control}
               name="amount"
-              rules={{ required: 'Amount is required' }}
+              rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
               render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                 <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                   <TextField
@@ -84,37 +97,40 @@ const SendQuxTokenWrapper: FC = () => {
             <RadioGroup onChange={setRadioValue} value={radioValue}>
               <Controller
                 control={control}
-                name="email"
+                name="id"
                 rules={{ required: radioValue === '1' ? 'Email is required' : false }}
                 render={({ field: { onChange } }): ReactElement => (
                   <FormControl>
                     {data?.length ? (
                       <>
                         {!loading ? (
-                          data.map((item, index) => (
-                            <>
-                              <Flex justifyContent="space-between" key={index}>
-                                <Box mt="1rem">
-                                  <Flex justifyContent="flex-start">
-                                    <Avatar name={item.name} />
-                                    <Box w={200} textAlign="start" ml="1rem">
-                                      <Text>{item.name}</Text>
-                                      <Text>Username: {item.username ?? 'N/A'}</Text>
-                                    </Box>
-                                  </Flex>
-                                </Box>
-                                <Radio
-                                  value={`${index + 1}`}
-                                  colorScheme="teal"
-                                  onChange={(): void => {
-                                    onChange(item?.email);
-                                    setSetToDetail(item);
-                                  }}
-                                />
-                              </Flex>
-                              <Divider mt="1rem" />
-                            </>
-                          ))
+                          data.map((item, index) => {
+                            return (
+                              <>
+                                <Flex justifyContent="space-between" key={index}>
+                                  <Box mt="1rem">
+                                    <Flex justifyContent="flex-start">
+                                      <Avatar name={item.name} />
+                                      <Box w={200} textAlign="start" ml="1rem">
+                                        <Text>{item.name}</Text>
+                                        <Text>Username: {item.username ?? 'N/A'}</Text>
+                                      </Box>
+                                    </Flex>
+                                  </Box>
+                                  <Radio
+                                    value={`${index + 1}`}
+                                    colorScheme="teal"
+                                    onChange={(): void => {
+                                      onChange(item?.id);
+                                      setFriendId(item?.id);
+                                      setSetToDetail(item);
+                                    }}
+                                  />
+                                </Flex>
+                                <Divider mt="1rem" />
+                              </>
+                            );
+                          })
                         ) : (
                           <Spinner />
                         )}

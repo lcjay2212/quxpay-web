@@ -3,14 +3,21 @@ import Image from 'next/image';
 import { QuxTokenIcon, QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 
-const ItemListDisplay: FC<{ type: string; date: string; amount: string }> = ({ type, amount, date }) => (
+const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete: boolean }> = ({
+  type,
+  amount,
+  date,
+  complete,
+}) => (
   <Flex gap={8} height={100} mb="1rem">
     <Box height={80}>
       <Image src={QuxWalletIcon} height={80} width={100} alt="Qux Wallet" />
     </Box>
     <Box fontSize="xl">
       <Text>QUX Token {type}</Text>
-      <Text>{date}</Text>
+      <Text>
+        {!complete ? 'Pending' : 'Completed'} {date}
+      </Text>
       <Flex alignItems="center">
         <span>
           <Image src={QuxTokenIcon} width={25} height={20} alt="Qux Token" />

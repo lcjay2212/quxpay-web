@@ -22,7 +22,7 @@ export const FETCH_WALLET_BALANCE = async (): Promise<any> => await getData<any>
 export const FETCH_TRANSACTION_HISTORY = async (): Promise<any> => await getData<any>(`web/wallet/transactions`);
 export const FETCH_BANK_AND_CREDIT_CARD = async (): Promise<any> => await getData<any>(`web/bankaccount/list`);
 export const FETCH_FRIEND_LIST = async (): Promise<any> => await getData<any>(`web/friends`);
-export const FETCH_BANK_LIST = async (): Promise<any> => await getData<any>(`web/banks/list`);
-
+export const FETCH_BANK_LIST = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
+  await getData<any>(`web/banks/list?search=${queryKey[1]}`);
 export const SHOW_BANK_ACCOUNT_DETAILS = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(`web/bankaccount/show/${queryKey[1]}`);

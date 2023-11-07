@@ -6,16 +6,20 @@ import { FETCH_BANK_LIST } from 'constants/api';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
 import { AddBankIcons } from 'public/assets';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import Select from 'react-select';
+import { useDebounce } from 'store/useDebounce';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
 import errorHandler from 'utils/errorHandler';
 const FinalStep: FC = () => {
   const { control } = useFormContext();
+  const [searchText, setSearchText] = useState('America');
 
-  const { data, isLoading } = useQuery('bankList', FETCH_BANK_LIST, errorHandler);
+  const debounceText = useDebounce(searchText, 1000);
+
+  const { data, isLoading } = useQuery(['bankList', debounceText], FETCH_BANK_LIST, errorHandler);
   const tempData = data?.map((item) => {
     return { label: item.name, value: item.name };
   });
@@ -102,7 +106,10 @@ const FinalStep: FC = () => {
                 placeholder="Select Bank Name"
                 isLoading={isLoading}
                 options={tempData}
-                onChange={(e: { value?: string; label?: string }): void => onChange(e.value)}
+                onChange={(e: { value?: string; label?: string }): void => {
+                  onChange(e.value);
+                }}
+                onInputChange={(e: string): void => setSearchText(e)}
                 isClearable={true}
               />
             </FormContainer>
@@ -161,7 +168,9 @@ const FinalStep: FC = () => {
                   styles={reactSelectStyles}
                   placeholder="Select Day"
                   options={listOfDays}
-                  onChange={(e: { value: string; label: string }): void => onChange(e.value)}
+                  onChange={(e: { value: string; label: string }): void => {
+                    onChange(e.value);
+                  }}
                   isClearable={true}
                 />
               </FormContainer>

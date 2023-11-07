@@ -43,7 +43,7 @@ const SendQuxTokenWrapper: FC = () => {
       ),
     {
       onSuccess: () => {
-        if (radioValue !== data?.length + 1) {
+        if (radioValue !== `${data?.length + 1}`) {
           setSuccessTrigger(true);
         } else {
           void refetch();
@@ -56,7 +56,7 @@ const SendQuxTokenWrapper: FC = () => {
   );
 
   const onDeposit = (val): void => {
-    if (radioValue !== data?.length + 1) {
+    if (radioValue !== `${data?.length + 1}`) {
       mutate();
     } else {
       mutate(val);

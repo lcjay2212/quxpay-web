@@ -32,7 +32,7 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
         >
           {!label ? (
             <Flex>
-              <Text>Minimum Amount Available</Text>
+              <Text>Maximum Amount Available</Text>
               <Box ml={2} display="flex" justifyContent="center" alignItems="center">
                 <Image src={QuxTokenIcon} height={20} width={20} alt="Qux Logo" />
               </Box>

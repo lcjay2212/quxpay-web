@@ -1,9 +1,10 @@
 import { CSSObject } from '@emotion/react';
 import { FormContainer } from 'component/FormInput';
+import { ValueLabelProps } from 'component/RegistrationForm/FinalStep';
 import { TextField } from 'component/TextField';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import Select from 'react-select';
+import Select, { SingleValue } from 'react-select';
 import { useBankLists } from 'store/useBankLists';
 import { useDebounce } from 'store/useDebounce';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
@@ -128,8 +129,8 @@ const AddBankAccount: FC = () => {
                 placeholder="Select Bank Name"
                 isLoading={isLoading}
                 options={tempData}
-                onChange={(e: { value?: string; label?: string }): void => {
-                  onChange(e.value);
+                onChange={(e: SingleValue<ValueLabelProps>): void => {
+                  onChange(e?.value);
                 }}
                 onInputChange={(e: string): void => setSearchText(e)}
                 isClearable={true}

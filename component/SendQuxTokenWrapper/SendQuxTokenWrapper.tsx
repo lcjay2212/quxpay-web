@@ -189,7 +189,7 @@ const SendQuxTokenWrapper: FC = () => {
               h="3.25rem"
               isLoading={isLoading}
             >
-              Send Tokens
+              {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
             </Button>
           </form>
         </FormProvider>

@@ -30,34 +30,35 @@ const SendQuxTokenWrapper: FC = () => {
     email: string;
   }>(data?.[0] || {});
 
-  const { mutate, isLoading } = useMutation(
+  const { mutate: sendTokens, isLoading: sending } = useMutation(
     (variable) =>
-      axios.post(
-        `${STAGING_URL}/${
-          radioValue !== `${data?.length + 1}`
-            ? `web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`
-            : 'web/friends/add'
-        }`,
-        variable,
-        options
-      ),
+      axios.post(`${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`, variable, options),
     {
       onSuccess: () => {
-        if (radioValue !== `${data?.length + 1}`) {
-          setSuccessTrigger(true);
-        } else {
-          void refetch();
-        }
+        setSuccessTrigger(true);
       },
-      onError: () => {
-        notify(`Failed to sent`, { status: 'error' });
+      onError: ({ response }) => {
+        notify(response?.data?.status?.message, { status: 'error' });
+      },
+    }
+  );
+
+  const { mutate, isLoading } = useMutation(
+    (variable) => axios.post(`${STAGING_URL}/web/friends/add`, variable, options),
+    {
+      onSuccess: () => {
+        void refetch();
+        setRadioValue('');
+      },
+      onError: ({ response }) => {
+        notify(response?.data?.status?.message, { status: 'error' });
       },
     }
   );
 
   const onDeposit = (val): void => {
     if (radioValue !== `${data?.length + 1}`) {
-      mutate();
+      sendTokens();
     } else {
       mutate(val);
     }
@@ -71,7 +72,7 @@ const SendQuxTokenWrapper: FC = () => {
             <Controller
               control={control}
               name="amount"
-              rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
+              // rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
               render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                 <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                   <TextField
@@ -98,7 +99,7 @@ const SendQuxTokenWrapper: FC = () => {
               <Controller
                 control={control}
                 name="id"
-                rules={{ required: radioValue === '1' ? 'Email is required' : false }}
+                // rules={{ required: radioValue === '1' ? 'Email is required' : false }}
                 render={({ field: { onChange } }): ReactElement => (
                   <FormControl>
                     {data?.length ? (
@@ -187,7 +188,7 @@ const SendQuxTokenWrapper: FC = () => {
               mt={{ base: '1rem', md: '2rem' }}
               w={350}
               h="3.25rem"
-              isLoading={isLoading}
+              isLoading={isLoading || sending}
             >
               {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
             </Button>

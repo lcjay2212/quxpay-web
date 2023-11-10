@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Divider, Flex, Radio, RadioGroup, Spinner, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import HeaderContainer from 'component/Header/HeaderContainer';
-import { FETCH_FRIEND_LIST, options } from 'constants/api';
+import { FETCH_FRIEND_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
@@ -17,7 +17,12 @@ const DeleteFriend: FC = () => {
   const [friendId, setFriendId] = useState('');
 
   const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/web/friends/remove`, variable, options),
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/friends/remove`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
     {
       onSuccess: () => {
         notify(`Successfully Delete`);

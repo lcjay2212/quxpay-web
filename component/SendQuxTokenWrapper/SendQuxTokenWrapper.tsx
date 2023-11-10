@@ -2,7 +2,7 @@ import { Avatar, Box, Button, Divider, Flex, FormControl, Radio, RadioGroup, Spi
 import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
-import { FETCH_FRIEND_LIST, options } from 'constants/api';
+import { FETCH_FRIEND_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -32,7 +32,11 @@ const SendQuxTokenWrapper: FC = () => {
 
   const { mutate: sendTokens, isLoading: sending } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`, variable, options),
+      axios.post(`${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
     {
       onSuccess: () => {
         setSuccessTrigger(true);
@@ -44,7 +48,12 @@ const SendQuxTokenWrapper: FC = () => {
   );
 
   const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/web/friends/add`, variable, options),
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/friends/add`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
     {
       onSuccess: () => {
         void refetch();
@@ -72,7 +81,7 @@ const SendQuxTokenWrapper: FC = () => {
             <Controller
               control={control}
               name="amount"
-              // rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
+              rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
               render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                 <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                   <TextField
@@ -99,7 +108,6 @@ const SendQuxTokenWrapper: FC = () => {
               <Controller
                 control={control}
                 name="id"
-                // rules={{ required: radioValue === '1' ? 'Email is required' : false }}
                 render={({ field: { onChange } }): ReactElement => (
                   <FormControl>
                     {data?.length ? (

@@ -16,7 +16,7 @@ import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
 import BankAccount from 'component/BankAccount/BankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
-import { FETCH_BANK_AND_CREDIT_CARD, options } from 'constants/api';
+import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -41,7 +41,11 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, options),
+      axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
     {
       onSuccess: () => {
         if (label === 'Redeem') {

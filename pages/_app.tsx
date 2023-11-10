@@ -1,12 +1,20 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
+import { useUser } from 'store/useUser';
 import { theme } from 'utils/theme';
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
+  const [user, setUser] = useUser((e) => [e.user, e.setUser]);
+
+  useEffect(() => {
+    if (!user && typeof window !== 'undefined' && localStorage.QUX_PAY_USER_DETAILS) {
+      setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+    }
+  }, [setUser, user]);
 
   return (
     <QueryClientProvider client={queryClient}>

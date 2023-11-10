@@ -2,7 +2,7 @@ import { Box, Button, Divider, Flex, Radio, RadioGroup, Text } from '@chakra-ui/
 import axios from 'axios';
 import BankAccount from 'component/BankAccount/BankAccount';
 import HeaderContainer from 'component/Header/HeaderContainer';
-import { FETCH_BANK_AND_CREDIT_CARD, options } from 'constants/api';
+import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
@@ -18,7 +18,12 @@ const DeleteAccount: FC = () => {
   const [paymentId, setPaymentId] = useAccountPaymentId(({ paymentId, setPaymentId }) => [paymentId, setPaymentId]);
 
   const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/web/bankaccount/remove`, variable, options),
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/bankaccount/remove`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
     {
       onSuccess: () => {
         notify(`Successfully Remove`);

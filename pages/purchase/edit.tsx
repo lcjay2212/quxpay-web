@@ -3,7 +3,7 @@ import axios from 'axios';
 import BankAccount from 'component/BankAccount/BankAccount';
 import { FormContainer } from 'component/FormInput';
 import HeaderContainer from 'component/Header/HeaderContainer';
-import { options, SHOW_BANK_ACCOUNT_DETAILS } from 'constants/api';
+import { SHOW_BANK_ACCOUNT_DETAILS } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -28,7 +28,12 @@ const EditDepositPage: FC = () => {
   });
 
   const { mutate, isLoading } = useMutation(
-    (variable) => axios.post(`${STAGING_URL}/web/bankaccount/update`, variable, options),
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/bankaccount/update`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
     {
       onSuccess: () => {
         notify(`Successfully Update`);

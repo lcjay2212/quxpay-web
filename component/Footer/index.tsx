@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
+import { openInNewTab } from 'utils/openNewTab';
 
 const footerLink = [
   {
@@ -85,22 +86,52 @@ const Footer: FC = () => {
           py={{ base: 0, md: '2rem' }}
         >
           <Text>
-            QUXPay is not a bank, banking services provided by QUXPay’s bank partner(s). Debit cards issued by Sutton
-            Bank, pursuant to a license from Visa USA Inc.
+            QUX Technologies, Inc™ maintains a “Know Your Customer” (KYC) standard designed to protect financial
+            institutions against fraud, corruption, money laundering and terrorist financing. QUX Technologies, Inc™’s
+            KYC policy involves several steps to 1) establish customer identity; 2) understand the nature of user’s
+            activities and qualify that sources of funds are legitimate; and 3) assess money laundering risks associated
+            with users.
           </Text>
           <Text>
-            QUXPay waives ATM fees for all in-network redeems every month you have at least $300 direct deposited into
-            your Cash balance. Additional information here.
+            QUX Technologies™, QUX® Tokens and QUXPay™ are not a bank, but rather are financial technology companies.
           </Text>
           <Text>
-            Brokerage services by QUXPay, member FINRA/SIPC, subsidiary of Block, Inc. See our BrokerCheck. Bitcoin
-            services provided by Block, Inc. Investing involves risk; you may lose money. QUXPay Investing does not
-            trade bitcoin and Block, Inc. is not a member of FINRA or SIPC. For additional information, see the Bitcoin
-            and QUXPay Investing disclosures.
+            Nothing contained in this website constitutes legal advice by these related companies. You are encouraged to
+            consult with your legal advisors to evaluate all information provided.
           </Text>
           <Text>
-            Fractional shares are not transferable. For a complete explanation of conditions, restrictions and
-            limitations associated with fractional shares, see our Customer Agreement.
+            QUX Technologies, Inc™ maintains compliance with Anti-Money Laundering laws (AML) and U.S. Department of
+            Treasury's Financial Crimes Enforcement Network (FinCEN) through internal audits of all QUX® Token purchases
+            and redemptions. All users of QUX® Tokens who redeem over $600 per year shall receive a 1099-K or 1099-Misc
+            form at the end of the year.
+          </Text>
+          <Text>
+            QUX® Tokens are only integral to QUXPay™ and QUX® Stores. The sale of QUX® Tokens does not constitute money
+            transmission services. Purchases of QUX® Tokens are necessary to use QUXPay™ and QUX® Stores.
+          </Text>
+          <Text>
+            In order to use QUX® Tokens, one must register and create an account through QUXPay™ or the QUX® General
+            Dashboard. QUX® Tokens can only be purchased or redeemed through a registered user’s bank account(s).
+            QUXPay™ and QUX® Stores can only be used to purchase or redeem QUX® Tokens through QUX Technologies, Inc™.
+          </Text>
+          <Text>
+            QUX Technologies, Inc™ limits the purchase of QUX® Tokens of any user to 2,000 in any one day. QUX® Tokens,
+            QUXPay™ and QUX® Store policies and procedures limited QUX® Token redemptions to 10,000 or less from any one
+            user in any one day.
+          </Text>
+          <Text>
+            QUX Technologies™, QUX® Tokens and QUXPay™ have a{' '}
+            <u onClick={(): void => openInNewTab('quxtech.tv/privacy-policy')} style={{ cursor: 'pointer' }}>
+              Privacy Policy
+            </u>{' '}
+            that the collection and use of information that is collected as data will not be distributed to third
+            parties without consent of the customer. QUX Technologies™, QUX® Tokens and QUXPay™ do not have regulator
+            endorsements, implied or expressed related to information contained herein or related to QUX Technologies™,
+            QUX® Tokens and QUXPay™.
+          </Text>
+          <Text>
+            QUX Technologies™, QUX® Tokens and QUXPay™ strive to insure that its services are accessible to people with
+            disabilities.
           </Text>
         </Flex>
       </Container>

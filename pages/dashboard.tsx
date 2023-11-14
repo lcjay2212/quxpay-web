@@ -12,12 +12,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
+import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
 import { useBalance } from 'store/useBalance';
 import { clearStorage } from 'utils/clearStorage';
+import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
@@ -59,6 +61,18 @@ const Dashboard: FC = () => {
   ];
 
   const { isLoading, balance, deposit, withdrawalPending } = useBalance();
+  const logout = async (): Promise<void> => {
+    const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
+    const json = await loginSession.json();
+
+    if (json.success) {
+      clearStorage();
+      notify('Successfully Logout');
+      void router.push('/');
+    } else {
+      // TODO: handler
+    }
+  };
 
   return (
     <Container color="white" maxH="100vh">
@@ -77,11 +91,8 @@ const Dashboard: FC = () => {
             <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
             <MenuList>
               <MenuItem
-                onClick={(): void => {
-                  clearStorage();
-                  notify('Successfully Logout');
-                  void router.push('/');
-                }}
+                // TODO: gawan mong function
+                onClick={logout}
                 color="black"
               >
                 Logout
@@ -125,5 +136,7 @@ const Dashboard: FC = () => {
     </Container>
   );
 };
+
+export { getServerSideProps };
 
 export default Dashboard;

@@ -7,6 +7,7 @@ import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
+import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
 const DeleteFriend: FC = () => {
@@ -114,5 +115,7 @@ const DeleteFriend: FC = () => {
     </Box>
   );
 };
+
+export { getServerSideProps };
 
 export default DeleteFriend;

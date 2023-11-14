@@ -20,6 +20,8 @@ const Login: FC = () => {
   const { control, handleSubmit } = method;
   const setUser = useUser((e) => e.setUser);
 
+  console.log(API_SESSION_URL);
+
   const { mutate, isLoading } = useMutation((variable) => post('v/process-login', variable), {
     onSuccess: async ({ data }) => {
       notify(`${data.status.message}`);

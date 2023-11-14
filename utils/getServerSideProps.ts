@@ -3,7 +3,7 @@ import { withIronSessionSsr } from 'iron-session/next';
 
 export const getServerSideProps = withIronSessionSsr(
   async function getServerSideProps({ req, res }) {
-    const user = req.session.user;
+    const user = (req.session as any).user;
 
     if (!user?.token) {
       res.writeHead(301, { Location: '/login' });

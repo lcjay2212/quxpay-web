@@ -6,8 +6,4 @@ export const isLocalHost = (): boolean => {
 
 export const STAGING_URL = !isLocalHost() ? 'https://api.qux.tv' : 'https://api.quxtech.tv';
 
-export const API_SESSION_URL = isLocalHost()
-  ? location.hostname === 'localhost'
-    ? 'http://localhost:3000'
-    : ''
-  : 'quxpay.com';
+export const API_SESSION_URL = location.hostname === 'localhost' ? 'http://localhost:3000' : '';

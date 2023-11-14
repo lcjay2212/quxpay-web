@@ -4,6 +4,7 @@ import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { post } from 'constants/api';
 import storage from 'constants/storage';
+import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
@@ -23,7 +24,7 @@ const Login: FC = () => {
     onSuccess: async ({ data }) => {
       notify(`${data.status.message}`);
 
-      const loginSession = await fetch(`http://localhost:3000/api/login?token=${data.data.token}`);
+      const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
       const json = await loginSession.json();
 
       if (json.success) {

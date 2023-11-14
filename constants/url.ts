@@ -8,6 +8,6 @@ export const STAGING_URL = !isLocalHost() ? 'https://api.qux.tv' : 'https://api.
 
 export const API_SESSION_URL = isLocalHost()
   ? location.hostname === 'localhost'
-    ? 'http://localhost:3000/'
+    ? 'http://localhost:3000'
     : 'staging.quxpay.com'
   : 'quxpay.com';

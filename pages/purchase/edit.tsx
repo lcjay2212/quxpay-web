@@ -12,6 +12,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
 import errorHandler from 'utils/errorHandler';
+import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
 const EditDepositPage: FC = () => {
@@ -213,5 +214,7 @@ const EditDepositPage: FC = () => {
     </HeaderContainer>
   );
 };
+
+export { getServerSideProps };
 
 export default EditDepositPage;

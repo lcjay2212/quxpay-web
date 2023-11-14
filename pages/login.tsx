@@ -20,11 +20,19 @@ const Login: FC = () => {
   const setUser = useUser((e) => e.setUser);
 
   const { mutate, isLoading } = useMutation((variable) => post('v/process-login', variable), {
-    onSuccess: ({ data }) => {
+    onSuccess: async ({ data }) => {
       notify(`${data.status.message}`);
-      localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-      localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-      setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+
+      const loginSession = await fetch(`http://localhost:3000/api/login?token=${data.data.token}`);
+      const json = await loginSession.json();
+
+      if (json.success) {
+        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+        localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+        setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+      } else {
+        throw new Error('Something went wrong');
+      }
       void router.push('/dashboard');
     },
     onError: ({ response }) => {

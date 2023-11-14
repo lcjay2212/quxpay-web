@@ -9,6 +9,7 @@ import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import errorHandler from 'utils/errorHandler';
+import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
 const DeleteAccount: FC = () => {
@@ -104,5 +105,7 @@ const DeleteAccount: FC = () => {
     </Box>
   );
 };
+
+export { getServerSideProps };
 
 export default DeleteAccount;

@@ -1,6 +1,7 @@
 import Deposit from 'component/Deposit/Deposit';
 import HeaderContainer from 'component/Header/HeaderContainer';
 import { FC } from 'react';
+import { getServerSideProps } from 'utils/getServerSideProps';
 
 const DepositPage: FC = () => {
   return (
@@ -9,5 +10,7 @@ const DepositPage: FC = () => {
     </HeaderContainer>
   );
 };
+
+export { getServerSideProps };
 
 export default DepositPage;

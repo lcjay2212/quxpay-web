@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
+import { defaultHash } from 'utils/defaultHastBlur';
 
 const TransfersPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
@@ -35,7 +36,14 @@ const TransfersPage: FC = () => {
           />
         </Container>
         <Box display={{ base: 'flex', md: 'none' }} placeContent="center">
-          <Image src="/assets/images/transfers.png" alt="img" width={400} height={300} />
+          <Image
+            src="/assets/images/transfers.png"
+            alt="img"
+            width={400}
+            height={300}
+            placeholder="blur"
+            blurDataURL={defaultHash}
+          />
         </Box>
       </Grid>
 

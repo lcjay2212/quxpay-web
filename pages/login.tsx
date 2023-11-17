@@ -12,6 +12,7 @@ import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useUser } from 'store/useUser';
+import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
 
 const Login: FC = () => {
@@ -48,7 +49,7 @@ const Login: FC = () => {
   return (
     <Grid placeContent="center" h="100vh" gap="2">
       <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
       </Box>
       <Flex mt="2rem">
         <ArrowBackIcon

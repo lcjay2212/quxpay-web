@@ -25,6 +25,7 @@ import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
+import { defaultHash } from 'utils/defaultHastBlur';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
@@ -190,6 +191,8 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
               src={label === 'Redeem' ? WithdrawSuccessful : DepositSuccessful}
               width={100}
               height={100}
+              placeholder="blur"
+              blurDataURL={defaultHash}
               alt="Redeem"
             />
           </Box>

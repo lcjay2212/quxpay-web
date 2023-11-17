@@ -19,6 +19,7 @@ import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, WithdrawSuccessful } fro
 import { FC } from 'react';
 import { useBalance } from 'store/useBalance';
 import { clearStorage } from 'utils/clearStorage';
+import { defaultHash } from 'utils/defaultHastBlur';
 import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
@@ -31,7 +32,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
   <Flex fontSize="2xl" alignItems="center">
     <Text w={200}>{label}</Text>&nbsp;
     <span>
-      <Image src={image} width={30} height={20} alt="Qux Token" />
+      <Image src={image} width={30} height={20} alt="Qux Token" placeholder="blur" blurDataURL={defaultHash} />
     </span>
     {!loading ? <> {amount}</> : <Spinner />}
   </Flex>
@@ -79,7 +80,14 @@ const Dashboard: FC = () => {
       <Flex justifyContent="space-between" alignItems="center">
         <Flex justifyContent="start" py="1rem">
           <Box display="flex" justifyContent="center" height="50px" mr="8px">
-            <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" />
+            <Image
+              src={QuxPayLogo}
+              height={50}
+              width={50}
+              alt="Qux Logo"
+              placeholder="blur"
+              blurDataURL={defaultHash}
+            />
           </Box>
 
           <Text color="primary" fontSize="3xl" textAlign="center">
@@ -115,7 +123,14 @@ const Dashboard: FC = () => {
             onClick={(): void => void router.push(item.route)}
           >
             <Flex justifyContent="center" width="auto" height={50}>
-              <Image src={item.image} width={55} height={50} alt={item.alt} />
+              <Image
+                src={item.image}
+                width={55}
+                height={50}
+                alt={item.alt}
+                placeholder="blur"
+                blurDataURL={defaultHash}
+              />
             </Flex>
             <Text>{item.label}</Text>
           </Box>

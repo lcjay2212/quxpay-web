@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
+import { defaultHash } from 'utils/defaultHastBlur';
 
 const NoMiddlemanPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
@@ -30,7 +31,14 @@ const NoMiddlemanPage: FC = () => {
           </Box>
         </Container>
         <Box justifyContent="flex-end" display={{ base: 'block', md: 'none' }}>
-          <Image src="/assets/images/no-middleman.png" alt="img" width={400} height={300} />
+          <Image
+            src="/assets/images/no-middleman.png"
+            alt="img"
+            width={400}
+            height={300}
+            placeholder="blur"
+            blurDataURL={defaultHash}
+          />
         </Box>
       </Grid>
 

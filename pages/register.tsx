@@ -10,6 +10,7 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
 
 const Register: FC = () => {
@@ -68,7 +69,7 @@ const Register: FC = () => {
   return (
     <Grid placeContent="center" h="auto" gap="2" my="3rem">
       <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
       </Box>
 
       {step === 1 && (

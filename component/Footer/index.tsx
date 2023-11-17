@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
+import { defaultHash } from 'utils/defaultHastBlur';
 import { openInNewTab } from 'utils/openNewTab';
 
 const footerLink = [
@@ -43,7 +44,14 @@ const Footer: FC = () => {
       <Container maxW="1080px" color="white">
         <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
           <Box>
-            <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" />
+            <Image
+              src={QuxPayLogoPng}
+              height={100}
+              width={200}
+              alt="Qux Logo"
+              placeholder="blur"
+              blurDataURL={defaultHash}
+            />
           </Box>
           <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (
@@ -63,7 +71,14 @@ const Footer: FC = () => {
             ))}
           </Box>
           <Box color="white">
-            <Image src="/assets/images/google-play.png" alt="Google Play and App Store" width={300} height={100} />
+            <Image
+              src="/assets/images/google-play.png"
+              alt="Google Play and App Store"
+              width={300}
+              height={100}
+              placeholder="blur"
+              blurDataURL={defaultHash}
+            />
             <Text
               fontSize={{ base: '20px', md: '29px' }}
               fontWeight="bold"

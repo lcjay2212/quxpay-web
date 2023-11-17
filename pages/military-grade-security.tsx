@@ -13,8 +13,8 @@ const MilitaryGradeSecurityPage: FC = () => {
       <Grid
         h="120vh"
         bgImage={{
-          base: "url('/assets/images/military-grade-security-4.png')",
-          md: "url('/assets/images/military-grade-security.png')",
+          base: "url('/assets/images/military-grade-security-4.webp')",
+          md: "url('/assets/images/military-grade-security.webp')",
         }}
         backgroundPosition="center"
         backgroundRepeat="no-repeat"

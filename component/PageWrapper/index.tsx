@@ -80,7 +80,7 @@ const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children }) => {
 
           <Box
             h={{ base: '300px', md: '100vh' }}
-            bgImage="url('/assets/images/BG-5.png')"
+            bgImage="url('/assets/images/BG-5.webp')"
             backgroundPosition="center"
             backgroundRepeat="no-repeat"
             backgroundSize="contain"

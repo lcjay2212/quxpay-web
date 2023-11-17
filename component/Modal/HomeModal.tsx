@@ -19,27 +19,27 @@ import { defaultHash } from 'utils/defaultHastBlur';
 
 const STATIC_DATA = [
   {
-    image: '/assets/images/1.png',
+    image: '/assets/images/1.webp',
     label: 'Military-Grade Security',
     routes: '/military-grade-security',
   },
   {
-    image: '/assets/images/2.png',
+    image: '/assets/images/2.webp',
     label: 'NO MIDDLEMAN. NO NONSENSE.',
     routes: '/no-middleman',
   },
   {
-    image: '/assets/images/3.png',
+    image: '/assets/images/3.webp',
     label: 'P2P Payments Made Perfect',
     routes: '/payments-made-perfect',
   },
   {
-    image: '/assets/images/4.png',
+    image: '/assets/images/4.webp',
     label: 'Transfers in a Flash',
     routes: '/transfers',
   },
   {
-    image: '/assets/images/1.png',
+    image: '/assets/images/1.webp',
     label: 'The Future of Payments. Today.',
     routes: '/',
   },

@@ -23,7 +23,7 @@ const MilitaryGradeSecurityPage: FC = () => {
     <PageWrapper title="Frequently asked questions">
       <Grid
         h={{ base: 'auto', md: '220vh' }}
-        bgImage="url('/assets/images/faqs-background.png')"
+        bgImage="url('/assets/images/faqs-background.webp')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"

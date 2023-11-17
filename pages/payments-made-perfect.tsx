@@ -14,7 +14,7 @@ const PaymentsMadePerfectPage: FC = () => {
     <PageWrapper staticData={PAYMENTS_MADE_PERFECT_MOCKS} title="P2P Payments Made Perfect">
       <Grid
         h={{ base: 'auto', md: '100vh' }}
-        bgImage={{ base: '', md: "url('/assets/images/payments-made-perfect.png')" }}
+        bgImage={{ base: '', md: "url('/assets/images/payments-made-perfect.webp')" }}
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -29,7 +29,7 @@ const PaymentsMadePerfectPage: FC = () => {
           />
           <Box display={{ base: 'block', md: 'none' }}>
             <Image
-              src="/assets/images/payments-made-perfect-4.png"
+              src="/assets/images/payments-made-perfect-4.webp"
               alt="img"
               width={400}
               height={300}

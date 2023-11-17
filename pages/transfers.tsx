@@ -20,7 +20,7 @@ const TransfersPage: FC = () => {
     >
       <Grid
         h={{ base: 'auto', md: '120vh' }}
-        bgImage={{ base: '', md: "url('/assets/images/transfers.png')" }}
+        bgImage={{ base: '', md: "url('/assets/images/transfers.webp')" }}
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
@@ -37,7 +37,7 @@ const TransfersPage: FC = () => {
         </Container>
         <Box display={{ base: 'flex', md: 'none' }} placeContent="center">
           <Image
-            src="/assets/images/transfers.png"
+            src="/assets/images/transfers.webp"
             alt="img"
             width={400}
             height={300}

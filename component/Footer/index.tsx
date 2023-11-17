@@ -72,7 +72,7 @@ const Footer: FC = () => {
           </Box>
           <Box color="white">
             <Image
-              src="/assets/images/google-play.png"
+              src="/assets/images/google-play.webp"
               alt="Google Play and App Store"
               width={300}
               height={100}
@@ -152,7 +152,7 @@ const Footer: FC = () => {
       </Container>
       <Box
         h={{ base: '31vh', md: '125vh' }}
-        bgImage="url('/assets/images/Footer.png')"
+        bgImage="url('/assets/images/Footer.webp')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize={{ base: 'contain', md: 'cover' }}

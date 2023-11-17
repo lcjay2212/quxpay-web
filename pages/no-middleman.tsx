@@ -14,7 +14,7 @@ const NoMiddlemanPage: FC = () => {
     <PageWrapper staticData={NO_MIDDLEMAN_MOCKS} title="NO MIDDLEMAN. NO NONSENSE.">
       <Grid
         h="100vh"
-        bgImage={{ base: '', md: "url('/assets/images/no-middleman.png')" }}
+        bgImage={{ base: '', md: "url('/assets/images/no-middleman.webp')" }}
         backgroundPosition="right"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -32,7 +32,7 @@ const NoMiddlemanPage: FC = () => {
         </Container>
         <Box justifyContent="flex-end" display={{ base: 'block', md: 'none' }}>
           <Image
-            src="/assets/images/no-middleman.png"
+            src="/assets/images/no-middleman.webp"
             alt="img"
             width={400}
             height={300}

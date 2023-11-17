@@ -117,7 +117,7 @@ const Home: FC = () => {
                     p="0.5rem"
                   >
                     <Image
-                      src="/assets/images/qrcode.png"
+                      src="/assets/images/qrcode.webp"
                       height={100}
                       width={100}
                       alt="Phone Image"
@@ -139,8 +139,8 @@ const Home: FC = () => {
       <Box
         h="130vh"
         bgImage={{
-          base: "url('/assets/images/military-grade-security-4.png')",
-          md: "url('/assets/images/military-grade-security.png')",
+          base: "url('/assets/images/military-grade-security-4.webp')",
+          md: "url('/assets/images/military-grade-security.webp')",
         }}
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
@@ -156,7 +156,7 @@ const Home: FC = () => {
 
       <Box
         h="100vh"
-        bgImage={{ base: '', md: "url('/assets/images/no-middleman.png')" }}
+        bgImage={{ base: '', md: "url('/assets/images/no-middleman.webp')" }}
         backgroundPosition="right"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -170,7 +170,7 @@ const Home: FC = () => {
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="flex-end">
           <Image
-            src="/assets/images/no-middleman.png"
+            src="/assets/images/no-middleman.webp"
             alt="img"
             width={1000}
             height={1000}
@@ -181,7 +181,7 @@ const Home: FC = () => {
       </Box>
 
       <Box
-        bgImage={{ base: '', md: "url('/assets/images/payments-made-perfect.png')" }}
+        bgImage={{ base: '', md: "url('/assets/images/payments-made-perfect.webp')" }}
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -194,7 +194,7 @@ const Home: FC = () => {
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
           <Image
-            src="/assets/images/payments-made-perfect-4.png"
+            src="/assets/images/payments-made-perfect-4.webp"
             alt="img"
             width={1000}
             height={1000}
@@ -205,7 +205,7 @@ const Home: FC = () => {
       </Box>
 
       <Box
-        bgImage={{ base: '', md: "url('/assets/images/transfers.png')" }}
+        bgImage={{ base: '', md: "url('/assets/images/transfers.webp')" }}
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="contain"
@@ -218,7 +218,7 @@ const Home: FC = () => {
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
           <Image
-            src="/assets/images/transfers.png"
+            src="/assets/images/transfers.webp"
             alt="img"
             width={1000}
             height={1000}
@@ -241,7 +241,7 @@ const Home: FC = () => {
 
       <Box
         h={{ base: '60vh', md: '100vh' }}
-        bgImage="url('/assets/images/BG-5.png')"
+        bgImage="url('/assets/images/BG-5.webp')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize={{ base: 'cover', md: 'contain' }}

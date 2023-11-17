@@ -86,8 +86,8 @@ const Home: FC = () => {
               <Flex placeContent="center">
                 <Image
                   src={PhoneImage}
-                  height={breakPoint === 'md' ? 200 : 300}
-                  width={breakPoint === 'md' ? 400 : 600}
+                  height={breakPoint === 'md' ? 200 : breakPoint === 'xl' ? 300 : 100}
+                  width={breakPoint === 'md' ? 400 : breakPoint === '2xl' ? 600 : 400}
                   alt="Phone Image"
                   placeholder="blur"
                   blurDataURL={defaultHash}

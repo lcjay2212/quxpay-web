@@ -1,0 +1,2 @@
+export const defaultHash =
+  'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAIAAAAmkwkpAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMUlEQVQImWOYe+l/zdH/rRP+O6scYtj0+/+W/yC04dt/BjFdP3YhBXZxTW2nGgZkAADrvxSb6t3OHAAAAABJRU5ErkJggg==';

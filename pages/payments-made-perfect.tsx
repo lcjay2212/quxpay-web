@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
+import { defaultHash } from 'utils/defaultHastBlur';
 
 const PaymentsMadePerfectPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
@@ -27,7 +28,14 @@ const PaymentsMadePerfectPage: FC = () => {
             showBtn={false}
           />
           <Box display={{ base: 'block', md: 'none' }}>
-            <Image src="/assets/images/payments-made-perfect-4.png" alt="img" width={400} height={300} />
+            <Image
+              src="/assets/images/payments-made-perfect-4.png"
+              alt="img"
+              width={400}
+              height={300}
+              placeholder="blur"
+              blurDataURL={defaultHash}
+            />
           </Box>
         </Container>
       </Grid>

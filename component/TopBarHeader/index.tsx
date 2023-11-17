@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
+import { defaultHash } from 'utils/defaultHastBlur';
 
 const TopBarHeader: FC = () => {
   const router = useRouter();
@@ -20,9 +21,9 @@ const TopBarHeader: FC = () => {
             height={100}
             width={150}
             alt="Qux Logo"
-            placeholder="blur"
             style={{ objectFit: 'contain' }}
-            blurDataURL={'data:image/jpeg...'}
+            placeholder="blur"
+            blurDataURL={defaultHash}
           />
         </Box>
 

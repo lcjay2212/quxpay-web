@@ -80,14 +80,7 @@ const Dashboard: FC = () => {
       <Flex justifyContent="space-between" alignItems="center">
         <Flex justifyContent="start" py="1rem">
           <Box display="flex" justifyContent="center" height="50px" mr="8px">
-            <Image
-              src={QuxPayLogo}
-              height={50}
-              width={50}
-              alt="Qux Logo"
-              placeholder="blur"
-              blurDataURL={defaultHash}
-            />
+            <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" placeholder="empty" />
           </Box>
 
           <Text color="primary" fontSize="3xl" textAlign="center">
@@ -123,14 +116,7 @@ const Dashboard: FC = () => {
             onClick={(): void => void router.push(item.route)}
           >
             <Flex justifyContent="center" width="auto" height={50}>
-              <Image
-                src={item.image}
-                width={55}
-                height={50}
-                alt={item.alt}
-                placeholder="blur"
-                blurDataURL={defaultHash}
-              />
+              <Image src={item.image} width={55} height={50} alt={item.alt} placeholder="empty" />
             </Flex>
             <Text>{item.label}</Text>
           </Box>

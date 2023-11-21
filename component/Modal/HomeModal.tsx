@@ -15,7 +15,6 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
-import { defaultHash } from 'utils/defaultHastBlur';
 
 const STATIC_DATA = [
   {
@@ -102,14 +101,7 @@ const HomeModal: FC = () => {
                     setVisible(!visible);
                   }}
                 >
-                  <Image
-                    src={image}
-                    height={100}
-                    width={250}
-                    alt={label}
-                    placeholder="blur"
-                    blurDataURL={defaultHash}
-                  />
+                  <Image src={image} height={100} width={250} alt={label} placeholder="empty" />
                 </Box>
                 <Text h="60px" my="1rem" fontSize="20px" color="white">
                   {label}

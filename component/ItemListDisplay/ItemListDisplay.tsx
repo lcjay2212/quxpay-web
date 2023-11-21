@@ -28,14 +28,7 @@ const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete
       </Text>
       <Flex alignItems="center">
         <span>
-          <Image
-            src={QuxTokenIcon}
-            width={25}
-            height={20}
-            alt="Qux Token"
-            placeholder="blur"
-            blurDataURL={defaultHash}
-          />
+          <Image src={QuxTokenIcon} width={25} height={20} alt="Qux Token" placeholder="empty" />
         </span>
         {amount}
       </Flex>

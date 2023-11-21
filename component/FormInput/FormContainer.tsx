@@ -2,7 +2,6 @@ import { Box, BoxProps, Flex, FormControl, FormErrorMessage, FormLabel, SlideFad
 import Image from 'next/image';
 import { QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';
-import { defaultHash } from 'utils/defaultHastBlur';
 type FormProps = {
   label?: string;
   errorMessage?: string;
@@ -35,14 +34,7 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
             <Flex>
               <Text>Maximum Amount Available</Text>
               <Box ml={2} display="flex" justifyContent="center" alignItems="center">
-                <Image
-                  src={QuxTokenIcon}
-                  height={20}
-                  width={20}
-                  alt="Qux Logo"
-                  placeholder="blur"
-                  blurDataURL={defaultHash}
-                />
+                <Image src={QuxTokenIcon} height={20} width={20} alt="Qux Logo" placeholder="empty" />
               </Box>
               <Text>100</Text>
             </Flex>

@@ -4,7 +4,6 @@ import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { defaultHash } from 'utils/defaultHastBlur';
 
 interface Props {
   title: string;
@@ -54,8 +53,7 @@ const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children }) => {
               height={500}
               alt={item.title}
               style={{ objectFit: 'contain' }}
-              placeholder="blur"
-              blurDataURL={defaultHash}
+              placeholder="empty"
             />
           </Flex>
         ))}

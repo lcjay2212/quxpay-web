@@ -7,7 +7,6 @@ import { useRouter } from 'next/router';
 import { PhoneImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
-import { defaultHash } from 'utils/defaultHastBlur';
 
 export const Content: FC<
   BoxProps & {
@@ -89,8 +88,7 @@ const Home: FC = () => {
                   height={breakPoint === 'md' ? 200 : breakPoint === 'xl' ? 300 : 100}
                   width={breakPoint === 'md' ? 400 : breakPoint === '2xl' ? 600 : 400}
                   alt="Phone Image"
-                  placeholder="blur"
-                  blurDataURL={defaultHash}
+                  placeholder="empty"
                   style={{ objectFit: 'contain' }}
                 />
               </Flex>
@@ -122,8 +120,7 @@ const Home: FC = () => {
                       width={100}
                       alt="Phone Image"
                       style={{ objectFit: 'contain' }}
-                      placeholder="blur"
-                      blurDataURL={defaultHash}
+                      placeholder="empty"
                     />
                     <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
                       DOWNLOAD <br /> QUX PAY
@@ -169,14 +166,7 @@ const Home: FC = () => {
           onClick={(): void => void router.push('/no-middleman')}
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="flex-end">
-          <Image
-            src="/assets/images/no-middleman.webp"
-            alt="img"
-            width={1000}
-            height={1000}
-            placeholder="blur"
-            blurDataURL={defaultHash}
-          />
+          <Image src="/assets/images/no-middleman.webp" alt="img" width={1000} height={1000} placeholder="empty" />
         </Box>
       </Box>
 
@@ -198,8 +188,7 @@ const Home: FC = () => {
             alt="img"
             width={1000}
             height={1000}
-            placeholder="blur"
-            blurDataURL={defaultHash}
+            placeholder="empty"
           />
         </Box>
       </Box>
@@ -217,14 +206,7 @@ const Home: FC = () => {
           onClick={(): void => void router.push('/transfers')}
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
-          <Image
-            src="/assets/images/transfers.webp"
-            alt="img"
-            width={1000}
-            height={1000}
-            placeholder="blur"
-            blurDataURL={defaultHash}
-          />
+          <Image src="/assets/images/transfers.webp" alt="img" width={1000} height={1000} placeholder="empty" />
         </Box>
       </Box>
 

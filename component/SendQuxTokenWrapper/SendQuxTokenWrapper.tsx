@@ -10,7 +10,6 @@ import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
-import { defaultHash } from 'utils/defaultHastBlur';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
@@ -206,14 +205,7 @@ const SendQuxTokenWrapper: FC = () => {
       ) : (
         <Flex justifyContent="center" alignItems="center" flexDir="column" color="white">
           <Box mt="14rem">
-            <Image
-              src={SendQuxCash}
-              width={100}
-              height={100}
-              alt="Redeem"
-              placeholder="blur"
-              blurDataURL={defaultHash}
-            />
+            <Image src={SendQuxCash} width={100} height={100} alt="Redeem" placeholder="empty" />
           </Box>
           <Text color="white" fontSize="2rem">
             $ {amount.toFixed(2)}

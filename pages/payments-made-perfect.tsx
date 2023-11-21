@@ -6,7 +6,6 @@ import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
-import { defaultHash } from 'utils/defaultHastBlur';
 
 const PaymentsMadePerfectPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
@@ -33,8 +32,7 @@ const PaymentsMadePerfectPage: FC = () => {
               alt="img"
               width={400}
               height={300}
-              placeholder="blur"
-              blurDataURL={defaultHash}
+              placeholder="empty"
             />
           </Box>
         </Container>

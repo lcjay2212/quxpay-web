@@ -91,7 +91,7 @@ const HomeModal: FC = () => {
             my={{ base: '2rem', md: '15rem' }}
           >
             {STATIC_DATA.map(({ image, label, routes }) => (
-              <Box maxW={250} key={label}>
+              <Box w={{ base: 250, md: 150, lg: 250 }} h={{ base: 300, md: 250, lg: 350 }} key={label}>
                 <Box
                   border="1px solid purple"
                   borderRadius="xl"

@@ -34,3 +34,5 @@ tsconfig.tsbuildinfo
 
 # vercel
 .vercel
+# Sentry Config File
+.sentryclirc

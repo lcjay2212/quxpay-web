@@ -79,7 +79,7 @@ const Footer: FC = () => {
               Contact Us
             </Text>
             <Text fontSize={{ base: '0.75rem', md: '20px' }}>
-              1 (800) 234-5678 <br /> 9am - 7pm EST,
+              (330)-557-2230 <br /> 9am - 7pm EST,
               <br /> Monday to Friday
             </Text>
           </Box>

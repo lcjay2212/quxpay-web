@@ -92,7 +92,7 @@ export const TRANSFERS_MOCKS: Props[] = [
   {
     title: 'Recipient Notifications',
     context: `We instantly notify recipients via push 
-    notification when funds are received in 
+    notification when token are received in 
     their account within milliseconds.`,
     imageSrc: '/assets/images/transfers-2.webp',
     reverse: true,

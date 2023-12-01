@@ -1,12 +1,13 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import CorporationStep from 'component/RegistrationForm/CorporationStep';
 import FinalStep from 'component/RegistrationForm/FinalStep';
 import FirstStep from 'component/RegistrationForm/FirstStep';
 import SecondStep from 'component/RegistrationForm/SecondStep';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogo } from 'public/assets';
+import { QuxLogo, QuxPayLogo } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -18,6 +19,7 @@ const Register: FC = () => {
   const { handleSubmit } = method;
   const [step, setStep] = useState(1);
   const router = useRouter();
+  const [selected, setSelected] = useState('');
 
   const { mutate, isLoading } = useMutation((variable) => post('v/register', variable), {
     onSuccess: () => {
@@ -67,90 +69,141 @@ const Register: FC = () => {
   };
 
   return (
-    <Grid placeContent="center" h="auto" gap="2" my="3rem">
-      <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
+    <>
+      <Box display={!selected ? 'block' : 'none'}>
+        <Grid placeContent="center" h="100vh" gap="2" textAlign="center">
+          <Box display="flex" justifyContent="center">
+            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
+          </Box>
+
+          <Text color="primary" fontSize="3xl">
+            W<span style={{ color: 'white' }}>allet</span>
+          </Text>
+
+          <Text color="white" fontSize={{ base: '1.5rem', md: '1.7rem' }} my="5rem">
+            Are you a corporation or <br /> a regular user?
+          </Text>
+
+          <Flex flexDir="column" alignItems="center">
+            <Button
+              type="submit"
+              variant="secondary"
+              borderRadius="1rem"
+              w={250}
+              h="3.25rem"
+              onClick={(): void => setSelected('regular')}
+            >
+              Regular User
+            </Button>
+            <Button
+              type="submit"
+              variant="primary"
+              borderRadius="1rem"
+              mt="1rem"
+              w={250}
+              h="3.25rem"
+              onClick={(): void => setSelected('corporation')}
+            >
+              Corporation
+            </Button>
+          </Flex>
+        </Grid>
       </Box>
 
-      {step === 1 && (
-        <Flex justifyContent="space-between" alignItems="center" mt="2rem" mx="0.75rem">
-          <Flex>
-            <ArrowBackIcon
-              color="white"
-              mt="1.30rem"
-              mr="1rem"
-              cursor="pointer"
-              onClick={(): void => void router.push('/')}
+      <Box display={!selected ? 'none' : 'block'}>
+        <Grid placeContent="center" h="auto" gap="2" my="3rem">
+          <Box display="flex" justifyContent="center">
+            <Image
+              src={QuxPayLogo}
+              height={70}
+              width={135}
+              alt="Qux Logo"
+              placeholder="blur"
+              blurDataURL={defaultHash}
             />
-            <Text color="primary" fontSize="4xl">
-              R<span style={{ color: 'white' }}>egister</span>
-            </Text>
-          </Flex>
-          <LockIcon color="white" w={30} h={30} />
-        </Flex>
-      )}
-      {step === 2 && (
-        <>
-          <Flex mt="2rem">
-            <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(1)} />
-            <Text color="primary" fontSize="4xl" w={300}>
-              C<span style={{ color: 'white' }}>ontinue Your Registration</span>
-            </Text>
-          </Flex>
+          </Box>
 
-          <Flex justifyContent="space-around" alignItems="center" my="1rem">
-            <Flex>
-              <LockIcon color="primary" w={50} h={50} />
-              <CheckIcon color="primary" w={50} h={50} />
+          {step === 1 && (
+            <Flex justifyContent="space-between" alignItems="center" mt="2rem" mx="0.75rem">
+              <Flex>
+                <ArrowBackIcon
+                  color="white"
+                  mt="1.30rem"
+                  mr="1rem"
+                  cursor="pointer"
+                  onClick={(): void => void router.push('/')}
+                />
+                <Text color="primary" fontSize="4xl">
+                  R<span style={{ color: 'white' }}>egister</span>
+                </Text>
+              </Flex>
+              <LockIcon color="white" w={30} h={30} />
             </Flex>
-            <Text color="white" fontSize="1.25rem">
-              Confirm Your Identity
-              <br /> to Protect Your Account
-            </Text>
-          </Flex>
-        </>
-      )}
-      {step === 3 && (
-        <>
-          <Flex mt="2rem">
-            <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(2)} />
-            <Text color="primary" fontSize="4xl" w={300}>
-              C<span style={{ color: 'white' }}>omplete Your Registration</span>
-            </Text>
-          </Flex>
+          )}
+          {step === 2 && (
+            <>
+              <Flex mt="2rem">
+                <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(1)} />
+                <Text color="primary" fontSize="4xl" w={300}>
+                  C<span style={{ color: 'white' }}>ontinue Your Registration</span>
+                </Text>
+              </Flex>
 
-          <Flex justifyContent="space-around" alignItems="center" my="1rem">
-            <Flex>
-              <LockIcon color="primary" w={50} h={50} />
-            </Flex>
-            <Text color="white" fontSize="1.25rem">
-              Securely enter your bank <br />
-              account information into our <br />
-              encrypted system
-            </Text>
-          </Flex>
-        </>
-      )}
+              <Flex justifyContent="space-around" alignItems="center" my="1rem">
+                <Flex>
+                  <LockIcon color="primary" w={50} h={50} />
+                  <CheckIcon color="primary" w={50} h={50} />
+                </Flex>
+                <Text color="white" fontSize="1.25rem">
+                  Confirm Your Identity
+                  <br /> to Protect Your Account
+                </Text>
+              </Flex>
+            </>
+          )}
+          {step === 3 && (
+            <>
+              <Flex mt="2rem">
+                <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(2)} />
+                <Text color="primary" fontSize="4xl" w={300}>
+                  C<span style={{ color: 'white' }}>omplete Your Registration</span>
+                </Text>
+              </Flex>
 
-      <FormProvider {...method}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          {step === 1 && <FirstStep />}
-          {step === 2 && <SecondStep />}
-          {step === 3 && <FinalStep />}
-          <Button
-            type="submit"
-            variant="primary"
-            borderRadius="1rem"
-            mt="1rem"
-            w={350}
-            h="3.25rem"
-            isLoading={isLoading}
-          >
-            {step >= 3 ? 'Finish Registration' : 'Continuer Registration'}
-          </Button>
-        </form>
-      </FormProvider>
-    </Grid>
+              <Flex justifyContent="space-around" alignItems="center" my="1rem">
+                <Flex>
+                  <LockIcon color="primary" w={50} h={50} />
+                </Flex>
+                <Text color="white" fontSize="1.25rem">
+                  Securely enter your bank <br />
+                  account information into our <br />
+                  encrypted system
+                </Text>
+              </Flex>
+            </>
+          )}
+
+          <FormProvider {...method}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              {step === 1 && <FirstStep />}
+              {step === 2 && <>{selected === 'regular' ? <SecondStep /> : <CorporationStep />}</>}
+              {step === 3 && <FinalStep />}
+              <Button
+                type="submit"
+                variant="primary"
+                borderRadius="1rem"
+                mt="1rem"
+                w={350}
+                h="3.25rem"
+                isLoading={isLoading}
+              >
+                {step >= 3 ? 'Finish Registration' : 'Continuer Registration'}
+              </Button>
+            </form>
+          </FormProvider>
+        </Grid>
+      </Box>
+    </>
   );
 };
 

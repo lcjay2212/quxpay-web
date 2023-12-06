@@ -45,7 +45,7 @@ const CorporationStep: FC = () => {
 
       <Controller
         control={control}
-        name="Business License"
+        name="business_license"
         rules={{ required: 'Business License is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Business License" errorMessage={error?.message ?? ''}>
@@ -60,7 +60,7 @@ const CorporationStep: FC = () => {
 
       <Controller
         control={control}
-        name="contact_first_name"
+        name="contact_person_firstname"
         rules={{ required: 'First Name is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="First Name" errorMessage={error?.message ?? ''}>
@@ -71,7 +71,7 @@ const CorporationStep: FC = () => {
 
       <Controller
         control={control}
-        name="contact_last_name"
+        name="contact_person_lastname"
         rules={{ required: 'Last Name is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Last Name" errorMessage={error?.message ?? ''}>
@@ -82,7 +82,7 @@ const CorporationStep: FC = () => {
 
       <Controller
         control={control}
-        name="contact_phone_number"
+        name="contact_person_phone"
         rules={{ required: 'Phone Number is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Phone" errorMessage={error?.message ?? ''}>
@@ -99,7 +99,7 @@ const CorporationStep: FC = () => {
 
       <Controller
         control={control}
-        name="contact_email"
+        name="contact_person_email"
         rules={{ required: 'Email is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Email" errorMessage={error?.message ?? ''}>
@@ -130,9 +130,9 @@ const CorporationStep: FC = () => {
 
       <Controller
         control={control}
-        name="Address 2"
+        name="address_2"
         render={({ field: { onChange, value, onBlur } }): ReactElement => (
-          <FormContainer label="Mailing Address">
+          <FormContainer label="Address 2">
             <TextField
               value={value ?? ''}
               placeholder="Enter Address e.g. Suite, Apt"

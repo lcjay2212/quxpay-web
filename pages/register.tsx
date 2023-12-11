@@ -228,7 +228,7 @@ const Register: FC = () => {
                 h="3.25rem"
                 isLoading={isLoading || loading}
               >
-                {step >= 3 ? 'Finish Registration' : 'Continuer Registration'}
+                {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
               </Button>
             </form>
           </FormProvider>

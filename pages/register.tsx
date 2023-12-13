@@ -84,7 +84,7 @@ const Register: FC = () => {
         mutate(formData as any);
       } else {
         formData.append('role', selected);
-        formData.append('mailing_address', val.billing_address);
+        formData.append('mailing_address', val.mailing_address);
         formData.append('el_number', val.el_number);
         formData.append('corporation_name', val.corporation_name);
         formData.append('business_license', val.business_license);
@@ -92,6 +92,10 @@ const Register: FC = () => {
         formData.append('contact_person_lastname', val.contact_person_lastname);
         formData.append('contact_person_phone', val.contact_person_phone);
         formData.append('contact_person_email', val.contact_person_email);
+        formData.append('passport', val.passport);
+        formData.append('contact_person_email', val.contact_person_email);
+        formData.append('passport', val.passport[0]);
+        formData.append('driver_license', val.driver_license[0]);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         corporationMutate(formData as any);

@@ -15,7 +15,7 @@ import TransactionHistory from 'component/TransactionHistory/TransactionHistory'
 import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, WithdrawSuccessful } from 'public/assets';
+import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, UploadIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
 import { useBalance } from 'store/useBalance';
 import { clearStorage } from 'utils/clearStorage';
@@ -43,7 +43,7 @@ const Dashboard: FC = () => {
   const temp = [
     {
       image: CashIn,
-      alt: 'Cash in',
+      alt: 'Purchase',
       route: '/purchase',
       label: 'Purchase',
     },
@@ -55,9 +55,15 @@ const Dashboard: FC = () => {
     },
     {
       image: SendQuxCash,
-      alt: 'Send Qux',
+      alt: 'Send',
       route: '/send-qux-token',
       label: 'Send Qux® Token',
+    },
+    {
+      image: UploadIcon,
+      alt: 'Upload',
+      route: '/',
+      label: 'Upload CSV File',
     },
   ];
 
@@ -109,16 +115,31 @@ const Dashboard: FC = () => {
             key={item.alt}
             w={100}
             textAlign="center"
-            cursor="pointer"
+            cursor={item.alt !== 'Upload' ? 'pointer' : 'not-allowed'}
             _hover={{
               color: 'primary',
             }}
-            onClick={(): void => void router.push(item.route)}
+            onClick={(): void => {
+              if (item.alt !== 'Upload') {
+                void router.push(item.route);
+              } else {
+                // eslint-disable-next-line no-console
+                console.log(item.alt);
+              }
+            }}
           >
             <Flex justifyContent="center" width="auto" height={50}>
-              <Image src={item.image} width={55} height={50} alt={item.alt} placeholder="empty" />
+              <Image
+                src={item.image}
+                width={item.alt === 'Upload' ? 45 : 55}
+                height={50}
+                alt={item.alt}
+                placeholder="empty"
+              />
             </Flex>
-            <Text>{item.label}</Text>
+            <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+              {item.label}
+            </Text>
           </Box>
         ))}
       </Flex>

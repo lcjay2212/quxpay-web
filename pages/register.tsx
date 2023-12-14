@@ -92,8 +92,6 @@ const Register: FC = () => {
         formData.append('contact_person_lastname', val.contact_person_lastname);
         formData.append('contact_person_phone', val.contact_person_phone);
         formData.append('contact_person_email', val.contact_person_email);
-        formData.append('passport', val.passport);
-        formData.append('contact_person_email', val.contact_person_email);
         formData.append('passport', val.passport[0]);
         formData.append('driver_license', val.driver_license[0]);
 

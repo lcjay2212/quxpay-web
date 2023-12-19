@@ -84,7 +84,7 @@ const Dashboard: FC = () => {
   };
 
   return (
-    <Container color="white" mb='3rem'>
+    <Container color="white" mb='3rem' overflow='hidden'>
       <Flex justifyContent="space-between" alignItems="center">
         <Flex justifyContent="start" py="1rem">
           <Box display="flex" justifyContent="center" height="50px" mr="8px">

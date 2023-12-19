@@ -9,8 +9,9 @@ import {
   MenuItem,
   MenuList,
   Spinner,
-  Text,
+  Text
 } from '@chakra-ui/react';
+import TokenHistory from 'component/TokenHistory/TokenHistory';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
 import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
@@ -30,7 +31,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
   loading,
 }) => (
   <Flex fontSize="2xl" alignItems="center">
-    <Text w={200}>{label}</Text>&nbsp;
+    <Text w={220}>{label}</Text>&nbsp;
     <span>
       <Image src={image} width={30} height={20} alt="Qux Token" placeholder="blur" blurDataURL={defaultHash} />
     </span>
@@ -155,6 +156,7 @@ const Dashboard: FC = () => {
       </Box>
 
       <TransactionHistory />
+      <TokenHistory />
     </Container>
   );
 };

@@ -14,11 +14,12 @@ import DepositSuccessful from './icons/deposit-success.webp';
 import QuxTokenIcon from './icons/qux-token.webp';
 import QuxWalletIcon from './icons/qux_wallet.webp';
 import SendQuxCash from './icons/send_qux_cash.webp';
+import TokenHistoryIcon from './icons/token-history-icon.webp';
 import UploadIcon from './icons/upload-icon.webp';
 import WithdrawSuccessful from './icons/withdraw_successful.webp';
 import DownloadImg from './images/download.webp';
 import PhoneImage from './images/phone.webp';
 
 
-export { QuxLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxPayLogo, AddBankIcons, WithdrawSuccessful, SendQuxCash, CashIn, QuxTokenIcon, QuxWalletIcon, AddBankIcon, DepositSuccessful, AddFriendIcon, PhoneImage, DownloadImg, UploadIcon };
+export { QuxLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxPayLogo, AddBankIcons, WithdrawSuccessful, SendQuxCash, CashIn, QuxTokenIcon, QuxWalletIcon, AddBankIcon, DepositSuccessful, AddFriendIcon, PhoneImage, DownloadImg, UploadIcon, TokenHistoryIcon };
 

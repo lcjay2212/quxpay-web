@@ -1,15 +1,15 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
-import { FETCH_TRANSACTION_HISTORY } from 'constants/api';
+import { FETCH_POS_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
 
-const TransactionHistory: FC = () => {
-  const { data } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY, errorHandler);
+const TokenHistory: FC = () => {
+  const { data } = useQuery('posHistory', FETCH_POS_HISTORY, errorHandler);
   const [seeAll, setSeeAll] = useState(false)
 
 
@@ -17,15 +17,15 @@ const TransactionHistory: FC = () => {
     <Box maxH="100vh">
       <Flex justifyContent='space-between' alignItems='center' mt='1rem' mb='2rem'>
         <Text fontSize="29px" >
-          Transaction History
+          Token History
         </Text>
 
         <Text display={!data?.length ? 'none' : 'block'} fontSize='12px' cursor='pointer' as='u' onClick={(): void => setSeeAll(!seeAll)}>{seeAll ? <ChevronDownIcon boxSize={6} /> : <ChevronUpIcon boxSize={6} />}</Text>
       </Flex>
 
-      {data?.length ? (
+      {data?.paid?.length ? (
         <Box>
-          {(!seeAll ? data?.slice(0, 3) : data).map((item) => (
+          {(!seeAll ? data?.paid?.slice(0, 3) : data?.paid).map((item) => (
             <ItemListDisplay
               type={startCase(item.type)}
               date={item.created_at}
@@ -43,4 +43,4 @@ const TransactionHistory: FC = () => {
   );
 };
 
-export default TransactionHistory;
+export default TokenHistory;

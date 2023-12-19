@@ -11,6 +11,7 @@ import {
   Spinner,
   Text
 } from '@chakra-ui/react';
+import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
 import TokenHistory from 'component/TokenHistory/TokenHistory';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
 import { API_SESSION_URL } from 'constants/url';
@@ -83,7 +84,7 @@ const Dashboard: FC = () => {
   };
 
   return (
-    <Container color="white" maxH="100vh">
+    <Container color="white" mb='3rem'>
       <Flex justifyContent="space-between" alignItems="center">
         <Flex justifyContent="start" py="1rem">
           <Box display="flex" justifyContent="center" height="50px" mr="8px">
@@ -157,6 +158,7 @@ const Dashboard: FC = () => {
 
       <TransactionHistory />
       <TokenHistory />
+      <OpenPosHistory />
     </Container>
   );
 };

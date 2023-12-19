@@ -14,7 +14,7 @@ const TokenHistory: FC = () => {
 
 
   return (
-    <Box maxH="100vh">
+    <Box>
       <Flex justifyContent='space-between' alignItems='center' mt='1rem' mb='2rem'>
         <Text fontSize="29px" >
           Token History

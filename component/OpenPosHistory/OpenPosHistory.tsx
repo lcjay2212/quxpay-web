@@ -3,7 +3,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_POS_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
-import { QuxTokenIcon } from 'public/assets';
+import { UnpaidHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
@@ -33,7 +33,7 @@ const OpenPosHistory: FC = () => {
               amount={item.amount}
               key={item.id}
               complete={item.confirmed}
-              image={QuxTokenIcon}
+              image={UnpaidHistoryIcon}
             />
           ))}
         </Box>

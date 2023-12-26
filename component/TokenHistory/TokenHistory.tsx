@@ -35,7 +35,7 @@ const TokenHistory: FC = () => {
               complete={item.confirmed}
               image={TokenHistoryIcon}
               showBtn
-              onClick={(): void => void router.push(`/open-po/${item.id}`)}
+              onClick={(): void => void router.push(`/token-history/${item.id}`)}
             />
           ))}
         </Box>

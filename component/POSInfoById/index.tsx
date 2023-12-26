@@ -21,7 +21,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
     </Flex>
 );
 
-const POSInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => {
+const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => {
     const router = useRouter()
     return <>
         <Box color='white' mt='2rem'>
@@ -71,4 +71,4 @@ const POSInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => 
     </>
 }
 
-export default POSInfoById
+export default PosInfoById

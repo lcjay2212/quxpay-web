@@ -33,6 +33,8 @@ const TokenHistory: FC = () => {
               key={item.id}
               complete={item.confirmed}
               image={TokenHistoryIcon}
+              id={item.id}
+              showBtn
             />
           ))}
         </Box>

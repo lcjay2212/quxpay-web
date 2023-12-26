@@ -34,6 +34,7 @@ const OpenPosHistory: FC = () => {
               key={item.id}
               complete={item.confirmed}
               image={UnpaidHistoryIcon}
+              showBtn
             />
           ))}
         </Box>

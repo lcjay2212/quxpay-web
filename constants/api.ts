@@ -32,3 +32,6 @@ export const SHOW_BANK_ACCOUNT_DETAILS = async ({ queryKey }: QueryFunctionConte
 
 export const FETCH_POS_HISTORY = async (): Promise<any> =>
   await getData<any>(`web/pos`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_POS_HISTORY_BY_ID = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
+  await getData<any>(`web/pos/${queryKey[1]}/show`, localStorage.QUX_PAY_USER_TOKEN);

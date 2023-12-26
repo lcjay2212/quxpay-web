@@ -23,7 +23,6 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 
 const PaidPosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => {
     const router = useRouter()
-    console.log(data)
     return <>
         <Box color='white' mt='2rem'>
             <Text >

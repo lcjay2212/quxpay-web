@@ -5,8 +5,8 @@ import { QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';
 import { defaultHash } from 'utils/defaultHastBlur';
 
-const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete: boolean, image: StaticImageData, showBtn?: boolean, onClick?: () => void }> = ({
-  type,
+const ItemListDisplay: FC<{ label: string; date: string; amount: string; complete: boolean, image: StaticImageData, showBtn?: boolean, onClick?: () => void }> = ({
+  label,
   amount,
   date,
   complete,
@@ -28,7 +28,7 @@ const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete
           />
         </Box>
         <Box fontSize="15px">
-          <Text>QUX Token {type}</Text>
+          <Text>{label}</Text>
           <Text>
             {!complete ? 'Pending' : 'Completed'} {date}
           </Text>

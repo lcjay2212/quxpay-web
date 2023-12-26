@@ -2,9 +2,8 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_POS_HISTORY } from 'constants/api';
-import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
-import { TokenHistoryIcon } from 'public/assets';
+import { TokenHistoryGreenIcon, TokenHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
@@ -28,12 +27,12 @@ const TokenHistory: FC = () => {
         <Box>
           {(!seeAll ? data?.paid?.slice(0, 3) : data?.paid).map((item) => (
             <ItemListDisplay
-              type={startCase(item.type)}
+              label={!item.paid_po_from ? `PO Paid to ${item.po_to}` : `PO ${item.id} Paid By ${item.po_from}`}
               date={item.created_at}
               amount={item.amount}
               key={item.id}
               complete={item.confirmed}
-              image={TokenHistoryIcon}
+              image={!item.paid_po_from ? TokenHistoryIcon : TokenHistoryGreenIcon}
               showBtn
               onClick={(): void => void router.push(`/token-history/${item.id}`)}
             />

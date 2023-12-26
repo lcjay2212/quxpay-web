@@ -12,7 +12,6 @@ const TransactionHistory: FC = () => {
   const { data } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY, errorHandler);
   const [seeAll, setSeeAll] = useState(false)
 
-
   return (
     <Box >
       <Flex justifyContent='space-between' alignItems='center' mt='1rem' mb='2rem'>
@@ -27,7 +26,7 @@ const TransactionHistory: FC = () => {
         <Box>
           {(!seeAll ? data?.slice(0, 3) : data).map((item) => (
             <ItemListDisplay
-              type={startCase(item.type)}
+              label={`Qux User ${startCase(item.type)}`}
               date={item.created_at}
               amount={item.amount}
               key={item.id}

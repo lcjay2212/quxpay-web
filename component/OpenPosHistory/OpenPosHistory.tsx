@@ -2,7 +2,6 @@ import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_POS_HISTORY } from 'constants/api';
-import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
@@ -29,7 +28,8 @@ const OpenPosHistory: FC = () => {
         <Box>
           {(!seeAll ? data?.unpaid_or_open?.slice(0, 3) : data?.unpaid_or_open).map((item) => (
             <ItemListDisplay
-              type={startCase(item.type)}
+              // label={startCase(item.type)}
+              label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
               date={item.created_at}
               amount={item.amount}
               key={item.id}

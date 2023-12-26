@@ -19,11 +19,11 @@ export const COLORS = {
   },
 
   primary: '#06A499',
-  error: '#E60C0C',
+  error: '#DC4143',
 
   btn: {
     success: '#5EAC81',
-    danger: '#D0171B',
+    danger: '#DC4143',
     transparent: 'transparent',
     'background-base': '#06A499',
     'text-base': '#ffffff',

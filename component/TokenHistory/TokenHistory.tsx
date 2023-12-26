@@ -3,6 +3,7 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_POS_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
+import { useRouter } from 'next/router';
 import { TokenHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
@@ -11,7 +12,7 @@ import errorHandler from 'utils/errorHandler';
 const TokenHistory: FC = () => {
   const { data } = useQuery('posHistory', FETCH_POS_HISTORY, errorHandler);
   const [seeAll, setSeeAll] = useState(false)
-
+  const router = useRouter()
 
   return (
     <Box>
@@ -33,8 +34,8 @@ const TokenHistory: FC = () => {
               key={item.id}
               complete={item.confirmed}
               image={TokenHistoryIcon}
-              id={item.id}
               showBtn
+              onClick={(): void => void router.push(`/open-po/${item.id}`)}
             />
           ))}
         </Box>

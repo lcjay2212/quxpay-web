@@ -1,21 +1,19 @@
 import { ArrowForwardIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image, { StaticImageData } from 'next/image';
-import { useRouter } from 'next/router';
 import { QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';
 import { defaultHash } from 'utils/defaultHastBlur';
 
-const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete: boolean, image: StaticImageData, showBtn?: boolean, id?: 'string', }> = ({
+const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete: boolean, image: StaticImageData, showBtn?: boolean, onClick?: () => void }> = ({
   type,
   amount,
   date,
   complete,
   image,
   showBtn,
-  id
+  onClick
 }) => {
-  const router = useRouter()
   return (
     <Flex height={100} justifyContent='space-between' >
       <Flex gap={4}>
@@ -43,7 +41,7 @@ const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete
         </Box>
       </Flex>
       {showBtn && <Flex alignItems='center'>
-        <ArrowForwardIcon onClick={(): void => void router.push(`/dashboard/${id}`)} />
+        <ArrowForwardIcon onClick={onClick} />
       </Flex>}
     </Flex>
   )

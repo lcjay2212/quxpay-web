@@ -21,7 +21,7 @@ const Login: FC = () => {
   const { control, handleSubmit } = method;
   const setUser = useUser((e) => e.setUser);
 
-  const { mutate, isLoading } = useMutation((variable) => post('v/process-login', variable), {
+  const { mutate, isLoading } = useMutation((variable) => post('web/login', variable), {
     onSuccess: async ({ data }) => {
       notify(`${data.status.message}`);
 

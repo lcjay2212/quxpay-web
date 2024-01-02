@@ -1,25 +1,36 @@
 import { Box, Button, Divider, Flex, Image as ChakraImage, Spinner, Text } from '@chakra-ui/react';
+import QuxTokenFeeModal from 'component/QuxTokenFeeModal';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';
+import { useQuxPayFeeModal } from 'store/useQuxPayFeeModal';
 
 export const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
     label,
     image,
     amount,
     loading,
-}) => (
-    <Flex fontSize="18px" justifyContent='space-between' alignItems="center" mt='0.5rem'>
-        <Text w='auto'>{label}</Text>&nbsp;
-        <Flex>
-            <span>
-                <Image src={image} width={24} height={20} alt="Qux Token" placeholder="blur" />
-            </span>
-            {!loading ? <> {amount}</> : <Spinner />}
-        </Flex>
-    </Flex>
-);
+}) => {
+    const [visible, setVisible] = useQuxPayFeeModal(({ visible, setVisible }) => [visible, setVisible]);
+    return (
+        <>
+            <Flex fontSize="18px" justifyContent='space-between' alignItems="center" mt='0.5rem'>
+                <Flex>
+                    <Text w='auto'>{label}</Text>&nbsp;
+                    {label === 'Token Fee:' && <Text bg='gray' borderRadius="50%" w='20px' h='20px' textAlign='center' fontSize='12px' color='black' mt='4px' fontWeight='bold' pt='1px' cursor='pointer' onClick={(): void => setVisible(!visible)}>?</Text>}
+                </Flex>
+                <Flex>
+                    <span>
+                        <Image src={image} width={24} height={20} alt="Qux Token" placeholder="blur" />
+                    </span>
+                    {!loading ? <> {amount}</> : <Spinner />}
+                </Flex>
+            </Flex>
+            <QuxTokenFeeModal />
+        </>
+    )
+};
 
 const PaidPosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => {
     const router = useRouter()

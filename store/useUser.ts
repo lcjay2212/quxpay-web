@@ -1,14 +1,27 @@
 import create from 'zustand';
 
 type Me = {
-  token: string;
-  firstname: string;
-  lastname: string;
-  email: string;
-  username?: string;
-  reg_step2_completed?: boolean;
-  reg_step3_completed?: boolean;
-} | null;
+  token: string,
+  roles: string[],
+  firstname: string,
+  lastname: string,
+  email: string,
+  username: string,
+  profile_id: string,
+  profile_picture: any,
+  has_store: boolean,
+  stream_auth_key: string,
+  merchant: boolean,
+  advertiser: boolean,
+  content_creator: boolean,
+  purchaser: boolean,
+  corporate: boolean,
+  advertiser_has_company: boolean,
+  reg_step2_completed: any,
+  reg_step3_completed: any,
+  incomplete_registration: any,
+  purchaser_info: any
+} | null
 
 type Props = {
   user: Me;

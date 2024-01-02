@@ -24,7 +24,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => {
     const router = useRouter()
     return <>
-        <Box color='white' mt='2rem'>
+        <Box color='white' mt='2rem' h='80vh'>
             <Text >
                 Sending to {data?.po_to} for
             </Text>
@@ -51,7 +51,7 @@ const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => 
                     borderRadius="1rem"
                     w={350}
                     h="3.25rem"
-                    onClick={(): void => void router.push('/dashboards')}
+                    onClick={(): void => void router.push('/dashboard')}
                 >
                     Cancel
                 </Button>

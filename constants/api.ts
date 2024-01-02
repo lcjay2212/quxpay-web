@@ -35,3 +35,11 @@ export const FETCH_POS_HISTORY = async (): Promise<any> =>
 
 export const FETCH_POS_HISTORY_BY_ID = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(`web/pos/${queryKey[1]}/show`, localStorage.QUX_PAY_USER_TOKEN);
+
+
+
+export const FETCH_PRODUCT_LIST = async (): Promise<any> =>
+  await getData<any>(`web/pos/product/list`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_RECENT_PRODUCT_LIST = async (): Promise<any> =>
+  await getData<any>(`web/pos/product/recent`, localStorage.QUX_PAY_USER_TOKEN);

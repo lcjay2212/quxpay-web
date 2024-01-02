@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, UploadIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
 import { useBalance } from 'store/useBalance';
+import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
 import { defaultHash } from 'utils/defaultHastBlur';
 import { getServerSideProps } from 'utils/getServerSideProps';
@@ -42,30 +43,43 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 
 const Dashboard: FC = () => {
   const router = useRouter();
+  const { user } = useUser()
   const temp = [
     {
       image: CashIn,
       alt: 'Purchase',
       route: '/purchase',
       label: 'Purchase',
+      show: true
     },
     {
       image: WithdrawSuccessful,
       alt: 'Redeem',
       route: '/redeem',
       label: 'Redeem Tokens',
+      show: true
     },
     {
       image: SendQuxCash,
       alt: 'Send',
       route: '/send-qux-token',
       label: 'Send Qux® Token',
+      show: true
     },
     {
       image: UploadIcon,
       alt: 'Upload',
       route: '/',
       label: 'Upload CSV File',
+      show: true
+    },
+    {
+      image: SendQuxCash,
+      alt: 'Send',
+      route: '/create-po',
+      label: 'Create PO',
+      show: user?.corporate
+
     },
   ];
 
@@ -113,36 +127,40 @@ const Dashboard: FC = () => {
 
       <Flex justifyContent="space-between" mt="2rem">
         {temp.map((item) => (
-          <Box
-            key={item.alt}
-            w={100}
-            textAlign="center"
-            cursor={item.alt !== 'Upload' ? 'pointer' : 'not-allowed'}
-            _hover={{
-              color: 'primary',
-            }}
-            onClick={(): void => {
-              if (item.alt !== 'Upload') {
-                void router.push(item.route);
-              } else {
-                // eslint-disable-next-line no-console
-                console.log(item.alt);
-              }
-            }}
-          >
-            <Flex justifyContent="center" width="auto" height={50}>
-              <Image
-                src={item.image}
-                width={item.alt === 'Upload' ? 45 : 55}
-                height={50}
-                alt={item.alt}
-                placeholder="empty"
-              />
-            </Flex>
-            <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-              {item.label}
-            </Text>
-          </Box>
+          <>{
+            item.show && (
+              <Box
+                key={item.alt}
+                w={100}
+                textAlign="center"
+                cursor={item.alt !== 'Upload' ? 'pointer' : 'not-allowed'}
+                _hover={{
+                  color: 'primary',
+                }}
+                onClick={(): void => {
+                  if (item.alt !== 'Upload') {
+                    void router.push(item.route);
+                  } else {
+                    // eslint-disable-next-line no-console
+                    console.log(item.alt);
+                  }
+                }}
+              >
+                <Flex justifyContent="center" width="auto" height={50}>
+                  <Image
+                    src={item.image}
+                    width={item.alt === 'Upload' ? 45 : 55}
+                    height={50}
+                    alt={item.alt}
+                    placeholder="empty"
+                  />
+                </Flex>
+                <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                  {item.label}
+                </Text>
+              </Box>
+            )
+          }</>
         ))}
       </Flex>
 

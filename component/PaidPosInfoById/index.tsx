@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';
 
-const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
+export const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
     label,
     image,
     amount,

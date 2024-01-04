@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Box,
-  Container,
+  Box, chakra, Container,
   Flex,
   IconButton,
   Menu,
@@ -11,14 +11,16 @@ import {
   Spinner,
   Text
 } from '@chakra-ui/react';
+import axios from 'axios';
 import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
 import TokenHistory from 'component/TokenHistory/TokenHistory';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
-import { API_SESSION_URL } from 'constants/url';
+import { API_SESSION_URL, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, UploadIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
+import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
 import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
@@ -97,6 +99,24 @@ const Dashboard: FC = () => {
     }
   };
 
+  const { mutate } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/corporate/upload/transactions`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
+    {
+      onSuccess: ({ data }) => {
+        console.log(data)
+        notify('Upload success!');
+      },
+      onError: ({ response }) => {
+        notify(`${response.data?.errors?.account_number}`, { status: 'error' });
+      },
+    }
+  );
+
   return (
     <Container color="white" mb='3rem' overflow='hidden'>
       <Flex justifyContent="space-between" alignItems="center">
@@ -129,36 +149,48 @@ const Dashboard: FC = () => {
         {temp.map((item) => (
           <>{
             item.show && (
-              <Box
-                key={item.alt}
-                w={100}
-                textAlign="center"
-                cursor={item.alt !== 'Upload' ? 'pointer' : 'not-allowed'}
-                _hover={{
-                  color: 'primary',
-                }}
-                onClick={(): void => {
-                  if (item.alt !== 'Upload') {
-                    void router.push(item.route);
-                  } else {
-                    // eslint-disable-next-line no-console
-                    console.log(item.alt);
-                  }
-                }}
-              >
-                <Flex justifyContent="center" width="auto" height={50}>
-                  <Image
-                    src={item.image}
-                    width={item.alt === 'Upload' ? 45 : 55}
-                    height={50}
-                    alt={item.alt}
-                    placeholder="empty"
-                  />
-                </Flex>
-                <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-                  {item.label}
-                </Text>
-              </Box>
+              <>
+                <chakra.input type="file" id='Upload' display="none"
+                  onChange={(e: any): void => {
+                    const formData = new FormData();
+                    formData.append('file', e.target.files[0]);
+                    mutate(formData as any)
+                  }}
+                />
+                <chakra.label
+                  htmlFor={item.alt}
+                  key={item.alt}
+                  w={100}
+                  textAlign="center"
+                  cursor={item.alt !== 'Upload' ? 'pointer' : 'not-allowed'}
+                  _hover={{
+                    color: 'primary',
+                  }}
+                  id={item.alt}
+
+                  onClick={(): void => {
+                    if (item.alt !== 'Upload') {
+                      void router.push(item.route);
+                    } else {
+                      // eslint-disable-next-line no-console
+                      console.log(item.alt);
+                    }
+                  }}
+                >
+                  <Flex justifyContent="center" width="auto" height={50}>
+                    <Image
+                      src={item.image}
+                      width={item.alt === 'Upload' ? 45 : 55}
+                      height={50}
+                      alt={item.alt}
+                      placeholder="empty"
+                    />
+                  </Flex>
+                  <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                    {item.label}
+                  </Text>
+                </chakra.label>
+              </>
             )
           }</>
         ))}

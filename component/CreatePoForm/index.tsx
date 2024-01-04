@@ -30,7 +30,7 @@ const CreatePoForm: FC = () => {
     const [qrUrl, setQrUrl] = useState()
     const [trigger, setTrigger] = useState(false)
 
-    const { mutate, isLoading } = useMutation(
+    const { mutate } = useMutation(
         (variable) =>
             axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {
                 headers: {
@@ -39,7 +39,6 @@ const CreatePoForm: FC = () => {
             }),
         {
             onSuccess: ({ data }) => {
-                console.log(data)
                 setQrUrl(data?.data?.qr_code)
                 setTrigger(data?.status?.success)
             },
@@ -269,12 +268,25 @@ const CreatePoForm: FC = () => {
                             {radioValue !== `${data?.length + 1}` ? (
                                 <></>
                             ) : (
-                                <TextField
-                                    type="email"
-                                    value={emailValue || ''}
-                                    placeholder="Enter Email"
-                                    onChange={(e): void => setEmailValue(e.target.value)}
-                                />
+                                <>
+                                    <TextField
+                                        type="email"
+                                        value={emailValue || ''}
+                                        placeholder="Enter Username or Email"
+                                        onChange={(e): void => setEmailValue(e.target.value)}
+                                    />
+
+                                    <Text color="white" fontSize="2.5rem">
+                                        My Associates
+                                    </Text>
+                                    <TextField
+                                        type="email"
+                                        value={emailValue || ''}
+                                        placeholder="Enter Username or Email"
+                                        onChange={(e): void => setEmailValue(e.target.value)}
+                                    />
+
+                                </>
                             )}
                         </>
                     }

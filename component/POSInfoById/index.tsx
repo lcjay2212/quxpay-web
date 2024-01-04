@@ -54,15 +54,17 @@ const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => 
                 !trigger
                     ?
                     (
-                        <Box color='white' mt='2rem' h='80vh'>
-                            <Text >
-                                Sending to {data?.po_to} for
-                            </Text>
-                            <Text my='0.5rem' ml='1rem'>PO {data?.id}</Text>
+                        <Flex flexDir='column' justifyContent='space-between' color='white' mt='2rem' h='85vh'>
+                            <Box>
+                                <Text >
+                                    Sending to {data?.po_to} for
+                                </Text>
+                                <Text my='0.5rem' ml='1rem'>PO {data?.id}</Text>
 
-                            <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount} loading={loading} />
-                            <Label label="Token Fee:" image={QuxTokenIcon} amount={data?.token_fee} loading={loading} />
-                            <Label label="Total Token amount:" image={QuxTokenIcon} amount={data?.total_amount} loading={loading} />
+                                <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount} loading={loading} />
+                                <Label label="Token Fee:" image={QuxTokenIcon} amount={data?.token_fee} loading={loading} />
+                                <Label label="Total Token amount:" image={QuxTokenIcon} amount={data?.total_amount} loading={loading} />
+                            </Box>
 
                             <Flex alignItems='center' flexDir='column' gap='1rem' my="2rem">
                                 <Button
@@ -99,7 +101,7 @@ const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => 
                                     Delete PO
                                 </Button>
                             </Flex>
-                        </Box>
+                        </Flex>
                     )
                     :
                     (

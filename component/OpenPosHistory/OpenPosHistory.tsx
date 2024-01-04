@@ -18,7 +18,7 @@ const OpenPosHistory: FC = () => {
     <Box>
       <Flex justifyContent='space-between' alignItems='center' mt='1rem' mb='2rem'>
         <Text fontSize="29px" >
-          Open POS
+          Open POs
         </Text>
 
         <Text display={!data?.length ? 'none' : 'block'} fontSize='12px' cursor='pointer' as='u' onClick={(): void => setSeeAll(!seeAll)}>{seeAll ? <ChevronDownIcon boxSize={6} /> : <ChevronUpIcon boxSize={6} />}</Text>

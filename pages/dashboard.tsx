@@ -73,7 +73,7 @@ const Dashboard: FC = () => {
       alt: 'Upload',
       route: '/',
       label: 'Upload CSV File',
-      show: true
+      show: user?.corporate
     },
     {
       image: SendQuxCash,

@@ -29,7 +29,7 @@ const CreatePoForm: FC = () => {
     const [selectedFriend, setSelectedFriend] = useState()
     const [qrUrl, setQrUrl] = useState()
     const [trigger, setTrigger] = useState(false)
-
+    const productValue = useProductModal(e => e.productValue)
     const { mutate } = useMutation(
         (variable) =>
             axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {
@@ -62,12 +62,7 @@ const CreatePoForm: FC = () => {
                 product_po: true,
                 filed_to: selectedFriend,
                 filed_to_using_email: emailValue,
-                sku: [
-                    {
-                        sku: 'test11',
-                        quantity: 1
-                    }
-                ]
+                sku: productValue
                 // eslint-disable-next-line @typescript-eslint/no-explicit-any
             } as any)
         }

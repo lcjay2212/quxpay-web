@@ -161,7 +161,7 @@ const Dashboard: FC = () => {
                   key={item.alt}
                   w={100}
                   textAlign="center"
-                  cursor={item.alt !== 'Upload' ? 'pointer' : 'not-allowed'}
+                  cursor='pointer'
                   _hover={{
                     color: 'primary',
                   }}

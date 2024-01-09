@@ -55,7 +55,7 @@ const ProductModal: FC<{ data?: any }> = ({ data }) => {
                         }}>
                             Continue
                         </Button>
-                        <Button variant='secondary' mt='1rem' onClick={(): void => setVisible(!visible)}>
+                        <Button variant='secondary' mt='1rem' onClick={(): void => { setProductValue(null); setVisible(!visible) }}>
                             Cancel
                         </Button>
                     </Flex>

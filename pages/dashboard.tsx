@@ -107,8 +107,7 @@ const Dashboard: FC = () => {
         },
       }),
     {
-      onSuccess: ({ data }) => {
-        console.log(data)
+      onSuccess: () => {
         notify('Upload success!');
       },
       onError: ({ response }) => {

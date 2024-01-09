@@ -49,6 +49,7 @@ const CreatePoForm: FC = () => {
     );
 
 
+
     const onSubmit = (): void => {
 
 
@@ -287,16 +288,18 @@ const CreatePoForm: FC = () => {
                     }
 
                     <Flex alignItems='center' flexDir='column' gap='1rem' my="2rem">
-                        {step !== 2 && <Button
-                            type="submit"
-                            variant="primary"
-                            borderRadius="1rem"
-                            w={350}
-                            h="3.25rem"
-                            onClick={onSubmit}
-                        >
-                            Create PO
-                        </Button>}
+                        {step !== 2 &&
+                            <Button
+                                type="submit"
+                                variant="primary"
+                                borderRadius="1rem"
+                                w={350}
+                                h="3.25rem"
+                                onClick={onSubmit}
+                                isDisabled={!productValue}
+                            >
+                                Create PO
+                            </Button>}
 
                         <Button
                             type="submit"
@@ -305,6 +308,8 @@ const CreatePoForm: FC = () => {
                             w={350}
                             h="3.25rem"
                             onClick={onSubmit}
+                            disabled={true}
+                            isDisabled={!productValue}
                         >
                             Send To User
                         </Button>

@@ -34,6 +34,7 @@ const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => 
             axios.post(`${STAGING_URL}/web/pay/qr`, variable, {
                 headers: {
                     Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+                    'QuxPay-Web': 1
                 },
             }),
         {

@@ -30,6 +30,7 @@ const CreatePoForm: FC = () => {
     const [qrUrl, setQrUrl] = useState()
     const [trigger, setTrigger] = useState(false)
     const productValue = useProductModal(e => e.productValue)
+    const setProductValue = useProductModal(e => e.setProductValue)
     const { mutate } = useMutation(
         (variable) =>
             axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {
@@ -320,7 +321,7 @@ const CreatePoForm: FC = () => {
                             borderRadius="1rem"
                             w={350}
                             h="3.25rem"
-                            onClick={(): void => void router.push('/dashboard')}
+                            onClick={(): void => { setProductValue(null); void router.push('/dashboard') }}
                         >
                             Cancel
                         </Button>

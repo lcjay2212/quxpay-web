@@ -111,7 +111,7 @@ const Dashboard: FC = () => {
         notify('Upload success!');
       },
       onError: ({ response }) => {
-        notify(`${response.data?.errors?.account_number}`, { status: 'error' });
+        notify(`${response.data?.data.format}`, { status: 'error' });
       },
     }
   );

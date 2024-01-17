@@ -48,6 +48,24 @@ const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => 
         }
     );
 
+    const { mutate: deleteMutate, isLoading: deleteLoading } = useMutation(
+        () =>
+            axios.delete(`${STAGING_URL}/web/pos/${data?.id}/delete`, {
+                headers: {
+                    Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`
+                },
+            }),
+        {
+            onSuccess: ({ data }) => {
+                notify(data.status.message)
+                void router.push('/dashboard')
+            },
+            onError: () => {
+                notify(`Failed to Delete PO`, { status: 'error' });
+            },
+        }
+    );
+
     return (
         <>
 
@@ -97,7 +115,8 @@ const PosInfoById: FC<{ data: any, loading: boolean }> = ({ data, loading }) => 
                                     borderRadius="1rem"
                                     w={350}
                                     h="3.25rem"
-                                    disabled
+                                    isLoading={deleteLoading}
+                                    onClick={(): void => void deleteMutate()}
                                 >
                                     Delete PO
                                 </Button>

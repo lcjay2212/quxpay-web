@@ -27,7 +27,7 @@ const TokenHistory: FC = () => {
         <Box>
           {(!seeAll ? data?.paid?.slice(0, 3) : data?.paid).map((item) => (
             <ItemListDisplay
-              label={!item.paid_po_from ? `PO Paid to ${item.po_to}` : item.transaction_upload ? `PO Paid By ${item.po_from} (${item.csv_upload_date})` : `PO ${item.id} Paid By ${item.po_from}`}
+              label={!item.paid_po_from ? `PO Paid to ${item.po_to}` : item.transaction_upload ? `PO Paid By ${item.po_from} (CSV Upload)` : `PO ${item.id} Paid By ${item.po_from}`}
               date={item.created_at}
               amount={item.amount}
               key={item.id}

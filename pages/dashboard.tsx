@@ -12,6 +12,7 @@ import {
   Text
 } from '@chakra-ui/react';
 import axios from 'axios';
+import UploadLoadingModal from 'component/Modal/UploadLoadingModal';
 import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
 import TokenHistory from 'component/TokenHistory/TokenHistory';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
@@ -19,9 +20,10 @@ import { API_SESSION_URL, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, UploadIcon, WithdrawSuccessful } from 'public/assets';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
+import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
 import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
 import { defaultHash } from 'utils/defaultHastBlur';
@@ -46,6 +48,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 const Dashboard: FC = () => {
   const router = useRouter();
   const { user } = useUser()
+  const setVisible = useUploadLoadingModal((set) => set.setVisible)
   const temp = [
     {
       image: CashIn,
@@ -99,7 +102,7 @@ const Dashboard: FC = () => {
     }
   };
 
-  const { mutate } = useMutation(
+  const { mutate, isLoading: uploadLoading } = useMutation(
     (variable) =>
       axios.post(`${STAGING_URL}/web/corporate/upload/transactions`, variable, {
         headers: {
@@ -109,12 +112,20 @@ const Dashboard: FC = () => {
     {
       onSuccess: () => {
         notify('Upload success!');
+        setVisible(false)
       },
       onError: ({ response }) => {
         notify(`${response.data?.data.format}`, { status: 'error' });
+        setVisible(false)
       },
     }
   );
+
+  useEffect(() => {
+    if (uploadLoading) {
+      setVisible(true)
+    }
+  }, [uploadLoading, setVisible])
 
   return (
     <Container color="white" mb='3rem' overflow='hidden'>
@@ -154,6 +165,7 @@ const Dashboard: FC = () => {
                     const formData = new FormData();
                     formData.append('file', e.target.files[0]);
                     mutate(formData as any)
+
                   }}
                 />
                 <chakra.label
@@ -170,9 +182,6 @@ const Dashboard: FC = () => {
                   onClick={(): void => {
                     if (item.alt !== 'Upload') {
                       void router.push(item.route);
-                    } else {
-                      // eslint-disable-next-line no-console
-                      console.log(item.alt);
                     }
                   }}
                 >
@@ -208,6 +217,8 @@ const Dashboard: FC = () => {
       <TransactionHistory />
       <TokenHistory />
       <OpenPosHistory />
+
+      <UploadLoadingModal />
     </Container>
   );
 };

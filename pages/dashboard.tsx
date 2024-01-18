@@ -23,6 +23,7 @@ import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, UploadIcon, WithdrawSucc
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
+import usePosHistory from 'store/usePosHistory';
 import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
 import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
@@ -89,6 +90,7 @@ const Dashboard: FC = () => {
   ];
 
   const { isLoading, balance, deposit, withdrawalPending } = useBalance();
+  const { refetch } = usePosHistory()
   const logout = async (): Promise<void> => {
     const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
     const json = await loginSession.json();
@@ -113,6 +115,7 @@ const Dashboard: FC = () => {
       onSuccess: () => {
         notify('Upload success!');
         setVisible(false)
+        refetch()
       },
       onError: ({ response }) => {
         notify(`${response.data?.data.format}`, { status: 'error' });

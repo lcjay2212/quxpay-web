@@ -1,15 +1,13 @@
 import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
 import { Box, Flex, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
-import { FETCH_POS_HISTORY } from 'constants/api';
 import { useRouter } from 'next/router';
 import { TokenHistoryGreenIcon, TokenHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import usePosHistory from 'store/usePosHistory';
 
 const TokenHistory: FC = () => {
-  const { data } = useQuery('posHistory', FETCH_POS_HISTORY, errorHandler);
+  const { paidData } = usePosHistory()
   const [seeAll, setSeeAll] = useState(false)
   const router = useRouter()
 
@@ -20,12 +18,12 @@ const TokenHistory: FC = () => {
           Token History
         </Text>
 
-        <Text display={!data?.paid.length ? 'none' : 'block'} fontSize='12px' cursor='pointer' as='u' onClick={(): void => setSeeAll(!seeAll)}>{seeAll ? <ChevronDownIcon boxSize={6} /> : <ChevronUpIcon boxSize={6} />}</Text>
+        <Text display={!paidData?.length ? 'none' : 'block'} fontSize='12px' cursor='pointer' as='u' onClick={(): void => setSeeAll(!seeAll)}>{seeAll ? <ChevronDownIcon boxSize={6} /> : <ChevronUpIcon boxSize={6} />}</Text>
       </Flex>
 
-      {data?.paid?.length ? (
+      {paidData?.length ? (
         <Box>
-          {(!seeAll ? data?.paid?.slice(0, 3) : data?.paid).map((item) => (
+          {(!seeAll ? paidData?.slice(0, 3) : paidData)?.map((item) => (
             <ItemListDisplay
               label={!item.paid_po_from ? `PO Paid to ${item.po_to}` : item.transaction_upload ? `PO Paid By ${item.po_from} (CSV Upload)` : `PO ${item.id} Paid By ${item.po_from}`}
               date={item.created_at}

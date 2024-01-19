@@ -3,6 +3,7 @@ import { Container, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
+import { useProductModal } from 'store/useProductModal';
 import { notify } from 'utils/notify';
 
 const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement }> = ({
@@ -12,11 +13,13 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
 }) => {
   const router = useRouter();
   const paymentId = useAccountPaymentId((e) => e.paymentId);
+  const setProductValue = useProductModal(e => e.setProductValue)
+
   return (
     <Container>
       <Flex justifyContent="space-between" alignItems="center">
         <Flex mt="1rem" alignItems="center">
-          <ArrowBackIcon color="white" mr="1rem" cursor="pointer" onClick={(): void => void router.push(route)} />
+          <ArrowBackIcon color="white" mr="1rem" cursor="pointer" onClick={(): void => { setProductValue(null); void router.push(route) }} />
           <Text color="primary" fontSize={label?.charAt(0) !== 'S' ? '4xl' : '3xl'} w={300}>
             {label?.charAt(0)}
             <span style={{ color: 'white' }}>{label?.substring(1)}</span>

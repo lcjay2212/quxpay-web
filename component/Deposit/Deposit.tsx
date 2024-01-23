@@ -9,7 +9,7 @@ import {
   RadioGroup,
   SlideFade,
   Spinner,
-  Text,
+  Text
 } from '@chakra-ui/react';
 import axios from 'axios';
 import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
@@ -33,7 +33,11 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
   const [amountValue, setAmountValue] = useState(0);
 
-  const method = useForm();
+  const method = useForm({
+    defaultValues: {
+      payment_method: 'ach_bank'
+    }
+  });
   const { control, handleSubmit } = method;
   const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);

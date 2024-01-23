@@ -1,7 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Box,
-  Container,
+  Box, chakra, Container,
   Flex,
   IconButton,
   Menu,
@@ -9,15 +9,23 @@ import {
   MenuItem,
   MenuList,
   Spinner,
-  Text,
+  Text
 } from '@chakra-ui/react';
+import axios from 'axios';
+import UploadLoadingModal from 'component/Modal/UploadLoadingModal';
+import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
+import TokenHistory from 'component/TokenHistory/TokenHistory';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
-import { API_SESSION_URL } from 'constants/url';
+import { API_SESSION_URL, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, UploadIcon, WithdrawSuccessful } from 'public/assets';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
+import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
+import usePosHistory from 'store/usePosHistory';
+import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
+import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
 import { defaultHash } from 'utils/defaultHastBlur';
 import { getServerSideProps } from 'utils/getServerSideProps';
@@ -30,7 +38,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
   loading,
 }) => (
   <Flex fontSize="2xl" alignItems="center">
-    <Text w={200}>{label}</Text>&nbsp;
+    <Text w={220}>{label}</Text>&nbsp;
     <span>
       <Image src={image} width={30} height={20} alt="Qux Token" placeholder="blur" blurDataURL={defaultHash} />
     </span>
@@ -40,34 +48,49 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 
 const Dashboard: FC = () => {
   const router = useRouter();
+  const { user } = useUser()
+  const setVisible = useUploadLoadingModal((set) => set.setVisible)
   const temp = [
     {
       image: CashIn,
       alt: 'Purchase',
       route: '/purchase',
       label: 'Purchase',
+      show: true
     },
     {
       image: WithdrawSuccessful,
       alt: 'Redeem',
       route: '/redeem',
       label: 'Redeem Tokens',
+      show: true
     },
     {
       image: SendQuxCash,
       alt: 'Send',
       route: '/send-qux-token',
       label: 'Send Qux® Token',
+      show: true
     },
     {
       image: UploadIcon,
       alt: 'Upload',
       route: '/',
       label: 'Upload CSV File',
+      show: user?.corporate
+    },
+    {
+      image: SendQuxCash,
+      alt: 'Send',
+      route: '/create-po',
+      label: 'Create PO',
+      show: user?.corporate
+
     },
   ];
 
   const { isLoading, balance, deposit, withdrawalPending } = useBalance();
+  const { refetch } = usePosHistory()
   const logout = async (): Promise<void> => {
     const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
     const json = await loginSession.json();
@@ -81,8 +104,34 @@ const Dashboard: FC = () => {
     }
   };
 
+  const { mutate, isLoading: uploadLoading } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/corporate/upload/transactions`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
+    {
+      onSuccess: () => {
+        notify('Upload success!');
+        setVisible(false)
+        refetch()
+      },
+      onError: ({ response }) => {
+        notify(`${response.data?.data.format}`, { status: 'error' });
+        setVisible(false)
+      },
+    }
+  );
+
+  useEffect(() => {
+    if (uploadLoading) {
+      setVisible(true)
+    }
+  }, [uploadLoading, setVisible])
+
   return (
-    <Container color="white" maxH="100vh">
+    <Container color="white" mb='3rem' overflow='hidden'>
       <Flex justifyContent="space-between" alignItems="center">
         <Flex justifyContent="start" py="1rem">
           <Box display="flex" justifyContent="center" height="50px" mr="8px">
@@ -111,36 +160,50 @@ const Dashboard: FC = () => {
 
       <Flex justifyContent="space-between" mt="2rem">
         {temp.map((item) => (
-          <Box
-            key={item.alt}
-            w={100}
-            textAlign="center"
-            cursor={item.alt !== 'Upload' ? 'pointer' : 'not-allowed'}
-            _hover={{
-              color: 'primary',
-            }}
-            onClick={(): void => {
-              if (item.alt !== 'Upload') {
-                void router.push(item.route);
-              } else {
-                // eslint-disable-next-line no-console
-                console.log(item.alt);
-              }
-            }}
-          >
-            <Flex justifyContent="center" width="auto" height={50}>
-              <Image
-                src={item.image}
-                width={item.alt === 'Upload' ? 45 : 55}
-                height={50}
-                alt={item.alt}
-                placeholder="empty"
-              />
-            </Flex>
-            <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-              {item.label}
-            </Text>
-          </Box>
+          <>{
+            item.show && (
+              <>
+                <chakra.input type="file" id='Upload' display="none"
+                  onChange={(e: any): void => {
+                    const formData = new FormData();
+                    formData.append('file', e.target.files[0]);
+                    mutate(formData as any)
+
+                  }}
+                />
+                <chakra.label
+                  htmlFor={item.alt}
+                  key={item.alt}
+                  w={100}
+                  textAlign="center"
+                  cursor='pointer'
+                  _hover={{
+                    color: 'primary',
+                  }}
+                  id={item.alt}
+
+                  onClick={(): void => {
+                    if (item.alt !== 'Upload') {
+                      void router.push(item.route);
+                    }
+                  }}
+                >
+                  <Flex justifyContent="center" width="auto" height={50}>
+                    <Image
+                      src={item.image}
+                      width={item.alt === 'Upload' ? 45 : 55}
+                      height={50}
+                      alt={item.alt}
+                      placeholder="empty"
+                    />
+                  </Flex>
+                  <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                    {item.label}
+                  </Text>
+                </chakra.label>
+              </>
+            )
+          }</>
         ))}
       </Flex>
 
@@ -155,6 +218,10 @@ const Dashboard: FC = () => {
       </Box>
 
       <TransactionHistory />
+      <TokenHistory />
+      <OpenPosHistory />
+
+      <UploadLoadingModal />
     </Container>
   );
 };

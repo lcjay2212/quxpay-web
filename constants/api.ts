@@ -29,3 +29,17 @@ export const FETCH_BANK_LIST = async ({ queryKey }: QueryFunctionContext): Promi
   await getData<any>(`web/banks/list?search=${queryKey[1]}`, localStorage.QUX_PAY_USER_TOKEN);
 export const SHOW_BANK_ACCOUNT_DETAILS = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(`web/bankaccount/show/${queryKey[1]}`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_POS_HISTORY = async (): Promise<any> =>
+  await getData<any>(`web/pos`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_POS_HISTORY_BY_ID = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
+  await getData<any>(`web/pos/${queryKey[1]}/show`, localStorage.QUX_PAY_USER_TOKEN);
+
+
+
+export const FETCH_PRODUCT_LIST = async (): Promise<any> =>
+  await getData<any>(`web/pos/product/list`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_RECENT_PRODUCT_LIST = async (): Promise<any> =>
+  await getData<any>(`web/pos/product/recent`, localStorage.QUX_PAY_USER_TOKEN);

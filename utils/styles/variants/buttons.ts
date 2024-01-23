@@ -12,8 +12,8 @@ export const PRIMARY = {
     },
   },
   _disabled: {
-    background: 'btn.background-hover',
-    color: 'btn.text-hover',
+    background: 'btn.background-base',
+    color: 'btn.text-base',
     opacity: '0.5',
     cursor: 'not-allowed',
   },
@@ -50,4 +50,25 @@ export const SEEMORE = {
   paddingBlock: '2rem',
   fontSize: '1.5rem',
   fontWeight: 'bold',
+};
+
+export const DELETE = {
+  fontFamily: "'Poppins', sans-serif",
+  transition: '0.25s ease-in',
+  background: 'btn.danger',
+  color: 'btn.text-base',
+  _hover: {
+    background: 'btn.danger',
+    color: 'btn.text-base',
+    _disabled: {
+      background: 'btn.background-hover',
+      color: 'btn.text-base',
+    },
+  },
+  _disabled: {
+    background: 'btn.danger',
+    color: 'btn.text-base',
+    opacity: '0.5',
+    cursor: 'not-allowed',
+  },
 };

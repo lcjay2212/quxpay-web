@@ -5,9 +5,11 @@ import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import usePosHistory from 'store/usePosHistory';
+import { useUser } from 'store/useUser';
 
 const OpenPosHistory: FC = () => {
   const { unpaidData } = usePosHistory()
+  const {user} = useUser()
   const [seeAll, setSeeAll] = useState(false)
   const router = useRouter()
 
@@ -16,7 +18,7 @@ const OpenPosHistory: FC = () => {
     <Box>
       <Flex justifyContent='space-between' alignItems='center' mt='1rem' mb='2rem'>
         <Text fontSize="29px" >
-          Open POs
+         {!user?.corporate ? 'Unpaid POs' : 'Open POs'}
         </Text>
 
         <Text display={!unpaidData?.length ? 'none' : 'block'} fontSize='12px' cursor='pointer' as='u' onClick={(): void => setSeeAll(!seeAll)}>{seeAll ? <ChevronDownIcon boxSize={6} /> : <ChevronUpIcon boxSize={6} />}</Text>

@@ -12,7 +12,7 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { useUser } from 'store/useUser';
 import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
@@ -22,7 +22,7 @@ const Login: FC = () => {
   const router = useRouter();
   const { control, handleSubmit } = method;
   const setUser = useUser((e) => e.setUser);
-  const setVisible = useHomePageModal((e) => e.setVisible);
+  const setVisible = usePendingAccountModal((e) => e.setVisible);
 
   const { mutate, isLoading } = useMutation((variable) => post('web/login', variable), {
     onSuccess: async ({ data }) => {

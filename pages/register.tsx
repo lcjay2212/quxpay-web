@@ -1,5 +1,6 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import PendingAccountModal from 'component/PendingAccountModal';
 import CorporationStep from 'component/RegistrationForm/CorporationStep';
 import FinalStep from 'component/RegistrationForm/FinalStep';
 import FirstStep from 'component/RegistrationForm/FirstStep';
@@ -11,6 +12,7 @@ import { QuxLogo, QuxPayLogo } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
 
@@ -20,6 +22,7 @@ const Register: FC = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [selected, setSelected] = useState('');
+  const setVisible = usePendingAccountModal((e) => e.setVisible);
 
   const { mutate, isLoading } = useMutation((variable) => post('v/register', variable), {
     onSuccess: () => {
@@ -35,8 +38,8 @@ const Register: FC = () => {
     (variable) => post('web/purchaser-register', variable),
     {
       onSuccess: () => {
+        setVisible(true);
         notify(`Corporation registration success!`);
-        void router.push('/login');
       },
       onError: ({ response }) => {
         notify(`${response?.data?.message}`, { status: 'error' });
@@ -236,6 +239,8 @@ const Register: FC = () => {
           </FormProvider>
         </Grid>
       </Box>
+
+      <PendingAccountModal />
     </>
   );
 };

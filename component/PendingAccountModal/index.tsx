@@ -1,10 +1,10 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import HeaderContainer from 'component/Header/HeaderContainer';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { usePendingAccountModal } from 'store/usePendingAccountModal';
 
 const PendingAccountModal: FC = () => {
-  const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
+  const [visible, setVisible] = usePendingAccountModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size={{ base: 'full', md: '3xl' }} isCentered>
       <ModalOverlay />

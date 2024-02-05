@@ -174,7 +174,7 @@ const Dashboard: FC = () => {
         <Label label="Redeem Pending" image={QuxTokenIcon} amount={withdrawalPending.toFixed(2)} loading={isLoading} />
       </Grid>
       <Grid
-        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' }}
+        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }}
         gap={{ base: 2, md: 6 }}
         bg="blue.100"
         py="1rem"

@@ -108,7 +108,7 @@ const Register: FC = () => {
       <Box display={!selected ? 'block' : 'none'}>
         <Grid placeContent="center" h="100vh" gap="2" textAlign="center">
           <Box display="flex" justifyContent="center">
-            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" >
+            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" />
           </Box>
 
           <Text color="primary" fontSize="3xl">

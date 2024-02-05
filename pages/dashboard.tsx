@@ -1,15 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { HamburgerIcon } from '@chakra-ui/icons';
 import {
-  Box, chakra, Container,
+  Box,
+  chakra,
+  Container,
   Flex,
+  Grid,
   IconButton,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
   Spinner,
-  Text
+  Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import UploadLoadingModal from 'component/Modal/UploadLoadingModal';
@@ -48,49 +51,48 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 
 const Dashboard: FC = () => {
   const router = useRouter();
-  const { user } = useUser()
-  const setVisible = useUploadLoadingModal((set) => set.setVisible)
+  const { user } = useUser();
+  const setVisible = useUploadLoadingModal((set) => set.setVisible);
   const temp = [
     {
       image: CashIn,
       alt: 'Purchase',
       route: '/purchase',
       label: 'Purchase',
-      show: true
+      show: true,
     },
     {
       image: WithdrawSuccessful,
       alt: 'Redeem',
       route: '/redeem',
       label: 'Redeem Tokens',
-      show: true
+      show: true,
     },
     {
       image: SendQuxCash,
       alt: 'Send',
       route: '/send-qux-token',
       label: 'Send Qux® Token',
-      show: true
+      show: true,
     },
     {
       image: UploadIcon,
       alt: 'Upload',
       route: '/',
       label: 'Upload CSV File',
-      show: user?.corporate
+      show: user?.corporate,
     },
     {
       image: SendQuxCash,
       alt: 'Send',
       route: '/create-po',
       label: 'Create PO',
-      show: user?.corporate
-
+      show: user?.corporate,
     },
   ];
 
   const { isLoading, balance, deposit, withdrawalPending } = useBalance();
-  const { refetch } = usePosHistory()
+  const { refetch } = usePosHistory();
   const logout = async (): Promise<void> => {
     const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
     const json = await loginSession.json();
@@ -114,24 +116,24 @@ const Dashboard: FC = () => {
     {
       onSuccess: () => {
         notify('Upload success!');
-        setVisible(false)
-        refetch()
+        setVisible(false);
+        refetch();
       },
       onError: ({ response }) => {
         notify(`${response.data?.data.format}`, { status: 'error' });
-        setVisible(false)
+        setVisible(false);
       },
     }
   );
 
   useEffect(() => {
     if (uploadLoading) {
-      setVisible(true)
+      setVisible(true);
     }
-  }, [uploadLoading, setVisible])
+  }, [uploadLoading, setVisible]);
 
   return (
-    <Container color="white" mb='3rem' overflow='hidden'>
+    <Container color="white" mb="3rem" overflow="hidden">
       <Flex justifyContent="space-between" alignItems="center">
         <Flex justifyContent="start" py="1rem">
           <Box display="flex" justifyContent="center" height="50px" mr="8px">
@@ -146,11 +148,7 @@ const Dashboard: FC = () => {
           <Menu>
             <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
             <MenuList>
-              <MenuItem
-                // TODO: gawan mong function
-                onClick={logout}
-                color="black"
-              >
+              <MenuItem onClick={logout} color="black">
                 Logout
               </MenuItem>
             </MenuList>
@@ -158,17 +156,19 @@ const Dashboard: FC = () => {
         </Box>
       </Flex>
 
-      <Flex justifyContent="space-between" mt="2rem">
+      <Grid templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' }} gap={{ base: 2, md: 6 }}>
         {temp.map((item) => (
-          <>{
-            item.show && (
+          <>
+            {item.show && (
               <>
-                <chakra.input type="file" id='Upload' display="none"
+                <chakra.input
+                  type="file"
+                  id="Upload"
+                  display="none"
                   onChange={(e: any): void => {
                     const formData = new FormData();
                     formData.append('file', e.target.files[0]);
-                    mutate(formData as any)
-
+                    mutate(formData as any);
                   }}
                 />
                 <chakra.label
@@ -176,12 +176,11 @@ const Dashboard: FC = () => {
                   key={item.alt}
                   w={100}
                   textAlign="center"
-                  cursor='pointer'
+                  cursor="pointer"
                   _hover={{
                     color: 'primary',
                   }}
                   id={item.alt}
-
                   onClick={(): void => {
                     if (item.alt !== 'Upload') {
                       void router.push(item.route);
@@ -202,10 +201,10 @@ const Dashboard: FC = () => {
                   </Text>
                 </chakra.label>
               </>
-            )
-          }</>
+            )}
+          </>
         ))}
-      </Flex>
+      </Grid>
 
       <Box>
         <Text fontSize="3xl" fontWeight="bold" mb="2rem" mt="1rem">

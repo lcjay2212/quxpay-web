@@ -7,7 +7,6 @@ import { FC, ReactElement } from 'react';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { useHomePageModal } from 'store/useHomePageModal';
 import { useProductModal } from 'store/useProductModal';
-import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
 
 const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement }> = ({
@@ -33,9 +32,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
               void router.push(route);
             }}
           />
-          {label === 'Wallet' && (
-            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
-          )}
+          {label === 'Wallet' && <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" />}
           <Text color="primary" fontSize={label?.charAt(0) !== 'S' ? '4xl' : '3xl'} w={300}>
             {label?.charAt(0)}
             <span style={{ color: 'white' }}>{label?.substring(1)}</span>

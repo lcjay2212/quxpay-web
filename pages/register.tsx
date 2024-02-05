@@ -13,7 +13,6 @@ import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { usePendingAccountModal } from 'store/usePendingAccountModal';
-import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
 
 const Register: FC = () => {
@@ -109,7 +108,7 @@ const Register: FC = () => {
       <Box display={!selected ? 'block' : 'none'}>
         <Grid placeContent="center" h="100vh" gap="2" textAlign="center">
           <Box display="flex" justifyContent="center">
-            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
+            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" >
           </Box>
 
           <Text color="primary" fontSize="3xl">
@@ -149,14 +148,7 @@ const Register: FC = () => {
       <Box display={!selected ? 'none' : 'block'}>
         <Grid placeContent="center" h="auto" gap="2" my="3rem">
           <Box display="flex" justifyContent="center">
-            <Image
-              src={QuxPayLogo}
-              height={70}
-              width={135}
-              alt="Qux Logo"
-              placeholder="blur"
-              blurDataURL={defaultHash}
-            />
+            <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
           </Box>
 
           {step === 1 && (

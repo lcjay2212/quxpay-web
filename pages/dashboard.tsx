@@ -31,7 +31,6 @@ import usePosHistory from 'store/usePosHistory';
 import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
 import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
-import { defaultHash } from 'utils/defaultHastBlur';
 import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
@@ -42,7 +41,7 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
     </Text>
     <Flex alignItems="center">
       <span>
-        <Image src={image} width={30} height={20} alt="Qux Token" placeholder="blur" blurDataURL={defaultHash} />
+        <Image src={image} width={30} height={20} alt="Qux Token" />
       </span>
       {!loading ? (
         <Text fontSize="24px" fontWeight="semibold">
@@ -162,14 +161,7 @@ const Dashboard: FC = () => {
         </Box>
       </Flex>
 
-      <Grid
-        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)' }}
-        gap="4"
-        bg="primary"
-        p="1rem"
-        borderRadius="xl"
-        my="1rem"
-      >
+      <Grid templateColumns="repeat(3, 1fr)" gap="4" bg="primary" p="1rem" borderRadius="xl" my="1rem">
         <Label label="Available Balance" image={QuxTokenIcon} amount={balance.toFixed(2)} loading={isLoading} />
         <Flex justifyContent="center">
           <Divider colorScheme="red" orientation="vertical" variant="dashed" />

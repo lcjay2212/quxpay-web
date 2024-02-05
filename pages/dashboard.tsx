@@ -4,6 +4,7 @@ import {
   Box,
   chakra,
   Container,
+  Divider,
   Flex,
   Grid,
   IconButton,
@@ -34,19 +35,24 @@ import { defaultHash } from 'utils/defaultHastBlur';
 import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
-const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
-  label,
-  image,
-  amount,
-  loading,
-}) => (
-  <Flex fontSize="2xl" alignItems="center">
-    <Text w={220}>{label}</Text>&nbsp;
-    <span>
-      <Image src={image} width={30} height={20} alt="Qux Token" placeholder="blur" blurDataURL={defaultHash} />
-    </span>
-    {!loading ? <> {amount}</> : <Spinner />}
-  </Flex>
+const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
+  <Box>
+    <Text fontWeight="bold" fontSize={{ base: '14px', md: '1rem' }}>
+      {label}
+    </Text>
+    <Flex alignItems="center">
+      <span>
+        <Image src={image} width={30} height={20} alt="Qux Token" placeholder="blur" blurDataURL={defaultHash} />
+      </span>
+      {!loading ? (
+        <Text fontSize="24px" fontWeight="semibold">
+          {amount}
+        </Text>
+      ) : (
+        <Spinner />
+      )}
+    </Flex>
+  </Box>
 );
 
 const Dashboard: FC = () => {
@@ -156,7 +162,33 @@ const Dashboard: FC = () => {
         </Box>
       </Flex>
 
-      <Grid templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' }} gap={{ base: 2, md: 6 }}>
+      <Grid
+        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(2, 1fr)' }}
+        gap="4"
+        bg="primary"
+        p="1rem"
+        borderRadius="xl"
+        my="1rem"
+      >
+        <Label label="Available Balance" image={QuxTokenIcon} amount={balance.toFixed(2)} loading={isLoading} />
+        <Flex justifyContent="center">
+          <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+        </Flex>
+        <Label label="Purchase Pending" image={QuxTokenIcon} amount={deposit.toFixed(2)} loading={isLoading} />
+        <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={isLoading} />
+        <Flex justifyContent="center">
+          <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+        </Flex>
+        <Label label="Redeem Pending" image={QuxTokenIcon} amount={withdrawalPending.toFixed(2)} loading={isLoading} />
+      </Grid>
+      <Grid
+        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(5, 1fr)' }}
+        gap={{ base: 2, md: 6 }}
+        bg="blue.100"
+        py="1rem"
+        px="1.5rem"
+        borderRadius="xl"
+      >
         {temp.map((item) => (
           <>
             {item.show && (
@@ -206,19 +238,9 @@ const Dashboard: FC = () => {
         ))}
       </Grid>
 
-      <Box>
-        <Text fontSize="3xl" fontWeight="bold" mb="2rem" mt="1rem">
-          My Balance
-        </Text>
-
-        <Label label="Available Balance" image={QuxTokenIcon} amount={balance} loading={isLoading} />
-        <Label label="Purchase Pending" image={QuxTokenIcon} amount={deposit} loading={isLoading} />
-        <Label label="Redeem Pending" image={QuxTokenIcon} amount={withdrawalPending} loading={isLoading} />
-      </Box>
-
       <TransactionHistory />
-      <TokenHistory />
       <OpenPosHistory />
+      <TokenHistory />
 
       <UploadLoadingModal />
     </Container>

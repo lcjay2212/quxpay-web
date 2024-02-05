@@ -30,4 +30,7 @@ export const COLORS = {
     'background-hover': '#ffffff',
     'text-hover': '#06A499',
   },
+  blue: {
+    100: '#10101F',
+  },
 };

@@ -10,9 +10,9 @@ export const useBalance = (): {
 } => {
   const { data, isLoading } = useQuery('balance', FETCH_WALLET_BALANCE, errorHandler);
   return {
-    balance: data?.balance,
-    deposit: data?.deposit,
-    withdrawalPending: data?.withdraw_pending,
+    balance: +data?.balance,
+    deposit: +data?.deposit,
+    withdrawalPending: +data?.withdraw_pending,
     isLoading,
   };
 };

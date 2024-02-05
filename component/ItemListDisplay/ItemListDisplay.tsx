@@ -1,12 +1,12 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image, { StaticImageData } from 'next/image';
-import { QuxTokenIcon } from 'public/assets';
+import { QuxPayGreenIcon } from 'public/assets';
 import { FC } from 'react';
 
 const ItemListDisplay: FC<{
   label: string;
   date: string;
-  amount: string;
+  amount: number;
   complete: boolean;
   image: StaticImageData;
   onClick?: () => void;
@@ -23,9 +23,9 @@ const ItemListDisplay: FC<{
 
       <Flex flexDir="column" justifyContent="center" alignItems="flex-end" fontSize="12px">
         <Text fontWeight="semibold">{date}</Text>
-        <Flex color="primary">
-          <Image src={QuxTokenIcon} width={25} alt="Qux Token" />
-          <Text fontSize="1rem">{amount}</Text>
+        <Flex>
+          <Image src={QuxPayGreenIcon} width={15} alt="Qux Token" />
+          <Text color="green.800">{amount.toFixed(2)}</Text>
         </Flex>
       </Flex>
     </Flex>

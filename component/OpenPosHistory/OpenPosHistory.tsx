@@ -29,7 +29,7 @@ const OpenPosHistory: FC = () => {
               // label={startCase(item.type)}
               label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
               date={item.created}
-              amount={item.amount}
+              amount={+item.amount}
               key={item.id}
               complete={item.confirmed}
               image={UnpaidHistoryIcon}

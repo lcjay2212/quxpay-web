@@ -27,7 +27,7 @@ const TransactionHistory: FC = () => {
             <ItemListDisplay
               label={`Qux User ${startCase(item.type)}`}
               date={item.created_at}
-              amount={item.amount}
+              amount={+item.amount}
               key={item.id}
               complete={item.confirmed}
               image={QuxWalletIcon}

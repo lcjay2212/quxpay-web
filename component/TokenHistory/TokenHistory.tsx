@@ -31,7 +31,7 @@ const TokenHistory: FC = () => {
                   : `PO ${item.id} Paid By ${item.po_from}`
               }
               date={item.created}
-              amount={item.amount}
+              amount={+item.amount}
               key={item.id}
               complete={item.confirmed}
               image={!item.paid_po_from ? TokenHistoryIcon : TokenHistoryGreenIcon}

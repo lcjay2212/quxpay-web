@@ -15,6 +15,7 @@ export const COLORS = {
   },
 
   green: {
+    800: '#20B878',
     900: '#2e8a41',
   },
 

@@ -14,7 +14,13 @@ const TokenHistory: FC = () => {
         <Text fontSize="1rem" fontWeight="bold">
           Token History
         </Text>
-        <Text fontSize="12px" cursor="pointer" as="u" color="primary">
+        <Text
+          fontSize="12px"
+          cursor="pointer"
+          as="u"
+          color="primary"
+          onClick={(): void => void router.push('/token-history')}
+        >
           View All
         </Text>
       </Flex>

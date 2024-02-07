@@ -7,8 +7,8 @@ import { FC } from 'react';
 import usePosHistory from 'store/usePosHistory';
 import { useUser } from 'store/useUser';
 
-const OpenPosHistory: FC = () => {
-  const { unpaidData, isLoading } = usePosHistory();
+const PaidPosHistory: FC = () => {
+  const { paidData, isLoading } = usePosHistory();
   const { user } = useUser();
   const router = useRouter();
 
@@ -21,9 +21,9 @@ const OpenPosHistory: FC = () => {
           </Box>
         ) : (
           <>
-            {unpaidData?.length ? (
+            {paidData?.length ? (
               <Box>
-                {unpaidData?.map((item) => (
+                {paidData?.map((item) => (
                   <ItemListDisplay
                     // label={startCase(item.type)}
                     label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
@@ -46,4 +46,4 @@ const OpenPosHistory: FC = () => {
   );
 };
 
-export default OpenPosHistory;
+export default PaidPosHistory;

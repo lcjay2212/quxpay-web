@@ -9,10 +9,11 @@ import { useHomePageModal } from 'store/useHomePageModal';
 import { useProductModal } from 'store/useProductModal';
 import { notify } from 'utils/notify';
 
-const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement }> = ({
+const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
   label,
   route,
   children,
+  hasMenu,
 }) => {
   const router = useRouter();
   const paymentId = useAccountPaymentId((e) => e.paymentId);
@@ -38,41 +39,33 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
             <span style={{ color: 'white' }}>{label?.substring(1)}</span>
           </Text>
         </Flex>
-        {label === 'Wallet' ? (
-          <></>
-        ) : (
-          <>
-            {label !== 'Redeem' && (
-              <Menu>
-                <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
-                <MenuList>
-                  {label === 'Purchase' && (
-                    <>
-                      <MenuItem
-                        onClick={(): void => {
-                          if (!paymentId) {
-                            notify('Please select Bank Account', { status: 'warning' });
-                          } else {
-                            void router.push('/purchase/edit');
-                          }
-                        }}
-                      >
-                        Edit Account
-                      </MenuItem>
-                      <MenuItem onClick={(): void => void router.push('/purchase/delete')}>Delete Account</MenuItem>
-                    </>
-                  )}
-                  {label === 'Send QUX ®Tokens' && (
-                    <>
-                      <MenuItem onClick={(): void => void router.push('/send-qux-token/delete')}>
-                        Delete Friends
-                      </MenuItem>
-                    </>
-                  )}
-                </MenuList>
-              </Menu>
-            )}
-          </>
+        {hasMenu && (
+          <Menu>
+            <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
+            <MenuList>
+              {label === 'Purchase' && (
+                <>
+                  <MenuItem
+                    onClick={(): void => {
+                      if (!paymentId) {
+                        notify('Please select Bank Account', { status: 'warning' });
+                      } else {
+                        void router.push('/purchase/edit');
+                      }
+                    }}
+                  >
+                    Edit Account
+                  </MenuItem>
+                  <MenuItem onClick={(): void => void router.push('/purchase/delete')}>Delete Account</MenuItem>
+                </>
+              )}
+              {label === 'Send QUX ®Tokens' && (
+                <>
+                  <MenuItem onClick={(): void => void router.push('/send-qux-token/delete')}>Delete Friends</MenuItem>
+                </>
+              )}
+            </MenuList>
+          </Menu>
         )}
       </Flex>
 

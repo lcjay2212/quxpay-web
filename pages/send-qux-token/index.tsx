@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { getServerSideProps } from 'utils/getServerSideProps';
 
 const SendQuxTokenPage: FC = () => (
-  <HeaderContainer label="Send QUX ®Tokens" route="/dashboard">
+  <HeaderContainer label="Send QUX ®Tokens" route="/dashboard" hasMenu>
     <SendQuxTokenWrapper />
   </HeaderContainer>
 );

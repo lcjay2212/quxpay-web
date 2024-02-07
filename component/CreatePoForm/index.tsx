@@ -50,8 +50,6 @@ const CreatePoForm: FC = () => {
   const [trigger, setTrigger] = useState(false);
   const [qrUrl, setQrUrl] = useState();
 
-  console.log(step);
-
   const { mutate, isLoading } = useMutation(
     (variable) =>
       axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {

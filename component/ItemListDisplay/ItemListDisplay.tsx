@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Box, Flex, Text } from '@chakra-ui/react';
 import Image, { StaticImageData } from 'next/image';
 import { QuxPayGreenIcon } from 'public/assets';
@@ -7,17 +8,19 @@ const ItemListDisplay: FC<{
   label: string;
   date: string;
   amount: number;
-  complete: boolean;
+  complete?: boolean;
   image: StaticImageData;
+  type?: string;
   onClick?: () => void;
-}> = ({ label, amount, date, complete, image, onClick }) => {
+}> = ({ label, amount, date, complete, image, onClick, type }) => {
   return (
     <Flex justifyContent="space-between" onClick={onClick} cursor="pointer">
       <Flex m="0.5rem" gap={4} justifyContent="space-between" alignItems="center">
         <Image src={image} height={50} width={50} alt="Qux Wallet" />
         <Box fontSize="12px">
           <Text>{label}</Text>
-          <Text>{!complete ? 'Pending' : 'Completed'}</Text>
+          {complete && <Text>{!complete ? 'Pending' : 'Completed'}</Text>}
+          {type && <Text>{type}</Text>}
         </Box>
       </Flex>
 

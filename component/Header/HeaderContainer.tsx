@@ -1,5 +1,5 @@
 import { ArrowBackIcon, HamburgerIcon } from '@chakra-ui/icons';
-import { Container, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
+import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxLogo } from 'public/assets';
@@ -20,8 +20,8 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
   return (
-    <Container>
-      <Flex justifyContent="space-between" alignItems="center">
+    <Box>
+      <Flex justifyContent="space-between" alignItems="center" mx="1rem">
         <Flex mt="1rem" alignItems="center">
           <ArrowBackIcon
             color="white"
@@ -70,7 +70,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
       </Flex>
 
       {children}
-    </Container>
+    </Box>
   );
 };
 

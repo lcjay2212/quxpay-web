@@ -16,7 +16,7 @@ const OpenPosHistory: FC = () => {
 
   return (
     <HeaderContainer label={!user?.corporate ? 'Unpaid POs' : 'Open POs'} route="/dashboard">
-      <Box my="1rem">
+      <Box my="1rem" px="1rem">
         {isLoading ? (
           <Box textAlign="center" py="2rem">
             <Spinner color="primary" size="xl" />

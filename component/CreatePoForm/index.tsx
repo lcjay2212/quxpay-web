@@ -119,7 +119,7 @@ const CreatePoForm: FC = () => {
           </Button>
         </Flex>
       ) : (
-        <Box color="white">
+        <Box color="white" px="1rem">
           {step === 1 && (
             <>
               <Text ml="2.25rem" my="0.5rem" fontSize="12px" fontWeight="semibold">

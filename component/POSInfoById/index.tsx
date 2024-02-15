@@ -68,7 +68,7 @@ const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => 
   return (
     <>
       {!trigger ? (
-        <Flex flexDir="column" justifyContent="space-between" color="white" mt="2rem" h="85vh">
+        <Flex flexDir="column" justifyContent="space-between" color="white" mt="2rem" h="85vh" px="1rem">
           <Box>
             <Text>Sending to {data?.po_to} for</Text>
             <Text my="0.5rem" ml="1rem">

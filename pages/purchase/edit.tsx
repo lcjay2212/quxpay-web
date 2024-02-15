@@ -59,7 +59,7 @@ const EditDepositPage: FC = () => {
 
   return (
     <HeaderContainer label="Purchase" route="/dashboard">
-      <>
+      <Box px="1rem">
         <Text color="white" fontSize="2rem" mt="2rem">
           Edit My Account
         </Text>
@@ -210,7 +210,7 @@ const EditDepositPage: FC = () => {
             Cancel
           </Button>
         </Box>
-      </>
+      </Box>
     </HeaderContainer>
   );
 };

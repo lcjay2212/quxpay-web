@@ -21,6 +21,8 @@ export const FETCH_WALLET_BALANCE = async (): Promise<any> => {
 };
 export const FETCH_TRANSACTION_HISTORY = async (): Promise<any> =>
   await getData<any>(`web/wallet/transactions`, localStorage.QUX_PAY_USER_TOKEN);
+export const FETCH_NOTIFICATION_HISTORY = async (): Promise<any> =>
+  await getData<any>(`web/notifications`, localStorage.QUX_PAY_USER_TOKEN);
 export const FETCH_BANK_AND_CREDIT_CARD = async (): Promise<any> =>
   await getData<any>(`web/bankaccount/list`, localStorage.QUX_PAY_USER_TOKEN);
 export const FETCH_FRIEND_LIST = async (): Promise<any> =>
@@ -35,8 +37,6 @@ export const FETCH_POS_HISTORY = async (): Promise<any> =>
 
 export const FETCH_POS_HISTORY_BY_ID = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(`web/pos/${queryKey[1]}/show`, localStorage.QUX_PAY_USER_TOKEN);
-
-
 
 export const FETCH_PRODUCT_LIST = async (): Promise<any> =>
   await getData<any>(`web/pos/product/list`, localStorage.QUX_PAY_USER_TOKEN);

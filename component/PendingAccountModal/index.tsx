@@ -11,7 +11,7 @@ const PendingAccountModal: FC = () => {
       <ModalContent bg="black">
         <ModalBody>
           <HeaderContainer route="/login" label="Wallet">
-            <Flex justifyContent="center" my={{ base: '2rem', md: '15rem' }}>
+            <Flex justifyContent="center" my={{ base: '2rem', md: '15rem' }} px="1rem">
               <Box color="white" fontSize="0.85rem">
                 <Text fontSize="1.25rem" fontWeight="bold">
                   Your Account Is Pending

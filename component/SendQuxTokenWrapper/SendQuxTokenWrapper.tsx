@@ -74,7 +74,7 @@ const SendQuxTokenWrapper: FC = () => {
   };
 
   return (
-    <Box textAlign="center" overflow="hidden">
+    <Box textAlign="center" overflow="hidden" px="1rem">
       {!successTrigger ? (
         <FormProvider {...method}>
           <form onSubmit={handleSubmit(onDeposit)}>

@@ -12,14 +12,15 @@ const ItemListDisplay: FC<{
   image: StaticImageData;
   type?: string;
   onClick?: () => void;
-}> = ({ label, amount, date, complete, image, onClick, type }) => {
+  hasComplete?: boolean;
+}> = ({ label, amount, date, complete, image, onClick, type, hasComplete }) => {
   return (
     <Flex justifyContent="space-between" onClick={onClick} cursor="pointer">
       <Flex m="0.5rem" gap={4} justifyContent="space-between" alignItems="center">
         <Image src={image} height={50} width={50} alt="Qux Wallet" />
         <Box fontSize="12px">
           <Text>{label}</Text>
-          {complete && <Text>{!complete ? 'Pending' : 'Completed'}</Text>}
+          {hasComplete && <Text>{!complete ? 'Pending' : 'Completed'}</Text>}
           {type && <Text>{type}</Text>}
         </Box>
       </Flex>

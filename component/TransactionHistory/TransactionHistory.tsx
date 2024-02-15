@@ -9,7 +9,6 @@ import errorHandler from 'utils/errorHandler';
 
 const TransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY, errorHandler);
-
   return (
     <Box bg="blue.100" p="1rem" borderRadius="xl" my="1rem">
       <Flex justifyContent="space-between" alignItems="center" mb="1rem">
@@ -37,6 +36,7 @@ const TransactionHistory: FC = () => {
                   key={item.id}
                   complete={item.confirmed}
                   image={QuxWalletIcon}
+                  hasComplete
                 />
               ))}
             </Box>

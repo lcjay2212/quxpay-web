@@ -46,6 +46,7 @@ const OpenPosHistory: FC = () => {
                   complete={item.confirmed}
                   image={UnpaidHistoryIcon}
                   onClick={(): void => void router.push(`/open-po/${item.id}`)}
+                  type={!item.paid_po_from ? 'Created' : 'Received'}
                 />
               ))}
             </Box>

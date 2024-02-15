@@ -45,7 +45,7 @@ const OpenPosHistory: FC = () => {
               ))}
             </Flex>
             {received?.length ? (
-              <Box>
+              <Box color="white">
                 {filter === 'RECEIVED' ? (
                   <>
                     {received?.map((item) => (

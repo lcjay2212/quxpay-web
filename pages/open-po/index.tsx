@@ -8,7 +8,6 @@ import { FC, useState } from 'react';
 import usePosHistory from 'store/usePosHistory';
 import { useUser } from 'store/useUser';
 
-const genderBoxRadius = '.5rem';
 const OpenPosHistory: FC = () => {
   const { received, created, isLoading } = usePosHistory();
   const { user } = useUser();

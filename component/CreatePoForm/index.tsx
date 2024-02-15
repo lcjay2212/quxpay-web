@@ -92,12 +92,20 @@ const CreatePoForm: FC = () => {
   return (
     <>
       {trigger ? (
-        <Flex flexDir="column" justifyContent="center" alignItems="center" color="white" textAlign="center">
+        <Flex flexDir="column" justifyContent="center" alignItems="center" color="white" textAlign="center" mx="1rem">
           <Text my="2rem" fontWeight="semibold">
             Please have your friend or visitor
             <br /> scan this code
           </Text>
-          <ChakraImage src={qrUrl} alt="Qr Code" w="100%" h="100%" p="1.5rem" />
+          <Flex flexDir="column" bg="white" borderRadius="xl" w="100%" justifyContent="center" alignItems="center">
+            <ChakraImage src={qrUrl} alt="Qr Code" w="230px" h="100%" p="1.5rem" />
+
+            <Box my="1rem" color="black">
+              <Label label="Token Amount:" image={QuxTokenIcon} amount={0.0} loading={loading} />
+              <Label label="Token Fee:" image={QuxTokenIcon} amount={0.0} loading={loading} />
+              <Label label="Total Token amount:" image={QuxTokenIcon} amount={0.0} loading={loading} />
+            </Box>
+          </Flex>
           <Button
             variant="secondary"
             borderRadius="1rem"

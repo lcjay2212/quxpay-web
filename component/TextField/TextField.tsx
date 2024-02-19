@@ -1,5 +1,14 @@
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { Box, Input, InputGroup, InputProps, InputRightElement, Spinner, Tooltip } from '@chakra-ui/react';
+import { SearchIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputProps,
+  InputRightElement,
+  Spinner,
+  Tooltip,
+} from '@chakra-ui/react';
 import { DATE_FORMAT } from 'constants/dateFormat';
 import dayjs from 'dayjs';
 import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
@@ -15,6 +24,7 @@ export const TextField: FC<
     customRightElement?: ReactElement | undefined;
     removeTooltipOnScroll?: boolean | undefined;
     disablePasting?: boolean;
+    isSearch?: boolean;
   }
 > = ({
   loading,
@@ -25,6 +35,7 @@ export const TextField: FC<
   customRightElement,
   removeTooltipOnScroll,
   disablePasting,
+  isSearch,
   ...restProps
 }) => {
   const [hidePassword, setHidePassword] = useState(true);
@@ -127,6 +138,21 @@ export const TextField: FC<
               },
             })}
           />
+          {isSearch && (
+            <InputLeftElement pointerEvents="none" justifyContent="center" alignItems="center">
+              <Box
+                h="0.75rem"
+                cursor="pointer"
+                transition="0.25s ease-in"
+                color="white"
+                _hover={{
+                  color: 'primary',
+                }}
+              >
+                <SearchIcon color="gray.300" />
+              </Box>
+            </InputLeftElement>
+          )}
 
           {isPassword && (
             <InputRightElement mt="0.25rem">

@@ -2,6 +2,7 @@ import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
+import { useRouter } from 'next/router';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
@@ -9,13 +10,20 @@ import errorHandler from 'utils/errorHandler';
 
 const TransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY, errorHandler);
+  const router = useRouter();
   return (
     <Box bg="blue.100" p="1rem" borderRadius="xl" my="1rem">
       <Flex justifyContent="space-between" alignItems="center" mb="1rem">
         <Text fontSize="1rem" fontWeight="bold">
           Transaction
         </Text>
-        <Text fontSize="12px" cursor="pointer" as="u" color="primary">
+        <Text
+          fontSize="12px"
+          cursor="pointer"
+          as="u"
+          color="primary"
+          onClick={(): void => void router.push('/transaction')}
+        >
           View All
         </Text>
       </Flex>

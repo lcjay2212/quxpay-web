@@ -20,7 +20,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
   return (
-    <Box>
+    <Box maxW="720px" mx="auto">
       <Flex justifyContent="space-between" alignItems="center" mx="1rem">
         <Flex mt="1rem" alignItems="center">
           <ArrowBackIcon

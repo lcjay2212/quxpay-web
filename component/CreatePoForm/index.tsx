@@ -43,6 +43,7 @@ const CreatePoForm: FC = () => {
   const { data: friendData } = useQuery('friendList', FETCH_FRIEND_LIST, errorHandler);
   const [radioValue, setRadioValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
+  const [associateEmail, setAssociateEmail] = useState('');
   const [selectedFriend, setSelectedFriend] = useState();
   const [visible, setSuccessVisible] = useState(false);
   const productValue = useProductModal((e) => e.productValue);
@@ -82,7 +83,7 @@ const CreatePoForm: FC = () => {
       mutate({
         product_po: true,
         filed_to: selectedFriend,
-        filed_to_using_email: emailValue,
+        filed_to_using_email: emailValue || associateEmail,
         sku: productValue,
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
       } as any);
@@ -286,11 +287,11 @@ const CreatePoForm: FC = () => {
                     </Text>
                   </Flex>
 
-                  <Radio value={`${data?.length + 1}`} colorScheme="teal" />
+                  <Radio value={`${friendData?.length + 1}`} colorScheme="teal" />
                 </Flex>
               </RadioGroup>
 
-              {radioValue !== `${data?.length + 1}` ? (
+              {radioValue !== `${friendData?.length + 1}` ? (
                 <></>
               ) : (
                 <>
@@ -306,9 +307,9 @@ const CreatePoForm: FC = () => {
                   </Text>
                   <TextField
                     type="email"
-                    value={emailValue || ''}
+                    value={associateEmail || ''}
                     placeholder="Enter Username or Email"
-                    onChange={(e): void => setEmailValue(e.target.value)}
+                    onChange={(e): void => setAssociateEmail(e.target.value)}
                   />
                 </>
               )}

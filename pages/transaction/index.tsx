@@ -3,30 +3,41 @@ import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
 import HeaderContainer from 'component/Header/HeaderContainer';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { TextField } from 'component/TextField';
+import TransactionHistoryFilterModal from 'component/TransactionHistoryFilterModal';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
+import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
 import NodeRSA from 'node-rsa';
 import { QuxWalletIcon } from 'public/assets';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
 import { secretKey } from 'utils/secretKey';
+// 'transactionHistoryPhaseTwo', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler
 const TransactionHistoryPage: FC = () => {
-  const { data, isLoading } = useQuery('transactionHistoryPhaseTwo', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler);
+  const {
+    setVisible,
+    visible,
+    setDateFilter,
+    dateFilter,
+    transactionFilter,
+    setTransactionFilter,
+    statusFilter,
+    setStatusFilter,
+  } = useTransactionHistoryFilterModal((state) => state);
+  const { data, isLoading } = useQuery({
+    queryKey: ['transactionHistoryPhaseTwo', dateFilter, transactionFilter, statusFilter],
+    queryFn: FETCH_TRANSACTION_HISTORY_PHASE_TWO,
+  });
+
+  const [id, setId] = useState('');
   return (
     <HeaderContainer label="Transaction" route="/dashboard">
       <>
         <Box mx="1rem" mt="1rem">
-          <TextField
-            isSearch
-            type="email"
-            value={''}
-            placeholder="Search"
-            // eslint-disable-next-line no-console
-            onChange={(e): void => console.log(e.target.value)}
-          />
+          <TextField isSearch type="email" value={''} placeholder="Search" />
 
           <Flex mt="1rem" gap={3} justifyContent="center">
             <Button
@@ -36,6 +47,10 @@ const TransactionHistoryPage: FC = () => {
               color="white"
               _hover={{ bg: 'blue.100' }}
               borderRadius="xl"
+              onClick={(): void => {
+                setId('date');
+                setVisible(!visible);
+              }}
             >
               Date
             </Button>
@@ -46,6 +61,10 @@ const TransactionHistoryPage: FC = () => {
               color="white"
               _hover={{ bg: 'blue.100' }}
               borderRadius="xl"
+              onClick={(): void => {
+                setId('transaction');
+                setVisible(!visible);
+              }}
             >
               Transaction
             </Button>
@@ -56,6 +75,10 @@ const TransactionHistoryPage: FC = () => {
               color="white"
               _hover={{ bg: 'blue.100' }}
               borderRadius="xl"
+              onClick={(): void => {
+                setId('status');
+                setVisible(!visible);
+              }}
             >
               Status
             </Button>
@@ -94,6 +117,25 @@ const TransactionHistoryPage: FC = () => {
             </Box>
           )}
         </Box>
+        {id === 'date' && (
+          <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} value={dateFilter} />
+        )}
+        {id === 'transaction' && (
+          <TransactionHistoryFilterModal
+            title="Transaction"
+            data={TRANSACTION_FILTER}
+            setValue={setTransactionFilter}
+            value={transactionFilter}
+          />
+        )}
+        {id === 'status' && (
+          <TransactionHistoryFilterModal
+            title="Status"
+            data={STATUS_FILTER}
+            setValue={setStatusFilter}
+            value={statusFilter}
+          />
+        )}
       </>
     </HeaderContainer>
   );

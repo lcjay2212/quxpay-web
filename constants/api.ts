@@ -7,8 +7,9 @@ export const post = async <T>(url: string, variable: void): Promise<T> =>
 
 const token = typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN;
 
-const getData = async <T>(apiUrl: string, url: string, customToken?: string): Promise<T> => {
+const getData = async <T>(apiUrl: string, url: string, customToken?: string, variable?: any): Promise<T> => {
   const { data } = await axios.get(`${apiUrl}/${url}`, {
+    params: variable,
     headers: {
       Authorization: `Bearer ${customToken ?? token}`,
     },
@@ -44,5 +45,9 @@ export const FETCH_PRODUCT_LIST = async (): Promise<any> =>
 export const FETCH_RECENT_PRODUCT_LIST = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/pos/product/recent`, localStorage.QUX_PAY_USER_TOKEN);
 
-export const FETCH_TRANSACTION_HISTORY_PHASE_TWO = async (): Promise<any> =>
-  await getData<any>(STAGING_URL_PHASE_TWO, `web/wallet/transactions`, localStorage.QUX_PAY_USER_TOKEN);
+export const FETCH_TRANSACTION_HISTORY_PHASE_TWO = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
+  await getData<any>(STAGING_URL_PHASE_TWO, `web/wallet/transactions`, localStorage.QUX_PAY_USER_TOKEN, {
+    date: queryKey[1],
+    status: queryKey[2],
+    transaction_type: queryKey[3],
+  });

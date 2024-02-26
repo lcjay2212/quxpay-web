@@ -26,6 +26,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
   CashIn,
+  InsightIcon,
   ProfileIcon,
   QuxPayLogo,
   QuxTokenIcon,
@@ -102,6 +103,13 @@ const Dashboard: FC = () => {
       route: '/create-po',
       label: 'Create PO',
       show: user?.corporate,
+    },
+    {
+      image: InsightIcon,
+      alt: 'Insights',
+      route: '/insights',
+      label: 'Insights',
+      show: true,
     },
     {
       image: ProfileIcon,

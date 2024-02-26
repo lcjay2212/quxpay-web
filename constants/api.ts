@@ -7,9 +7,8 @@ export const post = async <T>(url: string, variable: void): Promise<T> =>
 
 const token = typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN;
 
-const getData = async <T>(apiUrl: string, url: string, customToken?: string, variable?: any): Promise<T> => {
+const getData = async <T>(apiUrl: string, url: string, customToken?: string): Promise<T> => {
   const { data } = await axios.get(`${apiUrl}/${url}`, {
-    params: variable,
     headers: {
       Authorization: `Bearer ${customToken ?? token}`,
     },
@@ -46,8 +45,19 @@ export const FETCH_RECENT_PRODUCT_LIST = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/pos/product/recent`, localStorage.QUX_PAY_USER_TOKEN);
 
 export const FETCH_TRANSACTION_HISTORY_PHASE_TWO = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
-  await getData<any>(STAGING_URL_PHASE_TWO, `web/wallet/transactions`, localStorage.QUX_PAY_USER_TOKEN, {
-    date: queryKey[1],
-    status: queryKey[2],
-    transaction_type: queryKey[3],
-  });
+  await getData<any>(
+    STAGING_URL_PHASE_TWO,
+    `web/wallet/transactions?${!queryKey[1] ? '' : `date=${queryKey[1]}&`}${
+      !queryKey[2] ? '' : `status=${queryKey[2]}&`
+    }${!queryKey[3] ? '' : `transaction_type=${queryKey[3]}`}`,
+    localStorage.QUX_PAY_USER_TOKEN
+  );
+
+export const FETCH_INSIGHTS = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
+  await getData<any>(
+    STAGING_URL_PHASE_TWO,
+    `web/insight?${!queryKey[1] ? '' : `filter_type=${queryKey[1]}&`}${
+      !queryKey[2] ? '' : `filter_date=${queryKey[2]}`
+    }`,
+    localStorage.QUX_PAY_USER_TOKEN
+  );

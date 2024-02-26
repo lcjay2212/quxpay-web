@@ -15,7 +15,6 @@ import { FaEllipsisH } from 'react-icons/fa';
 import { useQuery } from 'react-query';
 import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
 import { secretKey } from 'utils/secretKey';
-// 'transactionHistoryPhaseTwo', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler
 const TransactionHistoryPage: FC = () => {
   const {
     setVisible,

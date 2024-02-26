@@ -1,4 +1,4 @@
-import { ChevronRightIcon } from '@chakra-ui/icons';
+import { ArrowBackIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Divider, Flex, Text } from '@chakra-ui/react';
 import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
@@ -42,16 +42,22 @@ const ProfilePage: FC = () => {
     <Container color="white" overflow="hidden">
       <Flex flexDir="column" justifyContent="space-between" h="95vh">
         <Box>
-          <Flex justifyContent="space-between" alignItems="center">
-            <Flex justifyContent="start" py="1rem">
-              <Box display="flex" justifyContent="center" height="50px" mr="8px">
-                <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" placeholder="empty" />
-              </Box>
+          <Flex justifyContent="start" py="1rem" alignItems="center">
+            <ArrowBackIcon
+              color="white"
+              mr="1rem"
+              cursor="pointer"
+              onClick={(): void => {
+                void router.push('/dashboard');
+              }}
+            />
+            <Box display="flex" justifyContent="center" height="50px" mr="8px">
+              <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" placeholder="empty" />
+            </Box>
 
-              <Text color="primary" fontSize="3xl" textAlign="center">
-                W<span style={{ color: 'white' }}>allet</span>{' '}
-              </Text>
-            </Flex>
+            <Text color="primary" fontSize="3xl" textAlign="center">
+              W<span style={{ color: 'white' }}>allet</span>{' '}
+            </Text>
           </Flex>
 
           <Text textAlign="center" my="2rem" fontWeight="bold">

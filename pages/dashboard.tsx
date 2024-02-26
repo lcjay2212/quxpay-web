@@ -24,7 +24,15 @@ import TransactionHistory from 'component/TransactionHistory/TransactionHistory'
 import { API_SESSION_URL, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { CashIn, QuxPayLogo, QuxTokenIcon, SendQuxCash, UploadIcon, WithdrawSuccessful } from 'public/assets';
+import {
+  CashIn,
+  ProfileIcon,
+  QuxPayLogo,
+  QuxTokenIcon,
+  SendQuxCash,
+  UploadIcon,
+  WithdrawSuccessful,
+} from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
@@ -90,10 +98,17 @@ const Dashboard: FC = () => {
     },
     {
       image: SendQuxCash,
-      alt: 'Send',
+      alt: 'Create',
       route: '/create-po',
       label: 'Create PO',
       show: user?.corporate,
+    },
+    {
+      image: ProfileIcon,
+      alt: 'Profile',
+      route: '/profile',
+      label: 'Profile',
+      show: true,
     },
   ];
 

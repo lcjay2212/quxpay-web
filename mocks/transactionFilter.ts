@@ -27,7 +27,7 @@ export const TRANSACTION_FILTER = [
     label: 'Redeem Tokens',
   },
   {
-    value: 'send_qux_tokens',
+    value: 'send_tokens',
     label: 'Send Qux Tokens',
   },
   {
@@ -47,7 +47,7 @@ export const TRANSACTION_FILTER = [
 export const STATUS_FILTER = [
   {
     icon: '',
-    value: 'successful',
+    value: 'success',
     label: 'Successful',
   },
   {

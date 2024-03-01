@@ -1,3 +1,5 @@
+import { FailedIcon, ProcessingIcon, SuccessIcon } from 'public/assets';
+
 export const DATE_FILTER = [
   {
     value: 'last_7_days',
@@ -46,17 +48,17 @@ export const TRANSACTION_FILTER = [
 
 export const STATUS_FILTER = [
   {
-    icon: '',
+    icon: SuccessIcon,
     value: 'success',
     label: 'Successful',
   },
   {
-    icon: '',
+    icon: FailedIcon,
     value: 'failed',
     label: 'Failed',
   },
   {
-    icon: '',
+    icon: ProcessingIcon,
     value: 'processing',
     label: 'Processing',
   },

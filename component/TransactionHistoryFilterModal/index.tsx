@@ -11,6 +11,7 @@ import {
   RadioGroup,
   Text,
 } from '@chakra-ui/react';
+import Image from 'next/image';
 import { FC } from 'react';
 import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
 
@@ -37,7 +38,14 @@ const TransactionHistoryFilterModal: FC<{
                   return (
                     <Box key={item.value}>
                       <Flex justifyContent="space-between" my="1rem">
-                        <Text>{item.label}</Text>
+                        <Flex>
+                          {item?.icon && (
+                            <Box mr="1rem">
+                              <Image src={item.icon} alt={item.label} height={20} width={20} />
+                            </Box>
+                          )}
+                          <Text>{item.label}</Text>
+                        </Flex>
                         <Radio value={item.value} />
                       </Flex>
                       <Divider />

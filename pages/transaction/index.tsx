@@ -33,7 +33,7 @@ const TransactionHistoryPage: FC = () => {
 
   const [id, setId] = useState('');
   return (
-    <HeaderContainer label="Transaction" route="/dashboard">
+    <HeaderContainer label="Transactions" route="/dashboard">
       <>
         <Box mx="1rem" mt="1rem">
           <TextField isSearch type="email" value={''} placeholder="Search" />

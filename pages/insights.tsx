@@ -1,4 +1,4 @@
-import { Box, Flex, Grid, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
 import HeaderContainer from 'component/Header/HeaderContainer';
 import { FETCH_INSIGHTS } from 'constants/api';
 import { startCase } from 'lodash';
@@ -8,7 +8,7 @@ import { QuxTokenBigIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
 
-const TextBox: FC<{ value: number; label: string }> = ({ value, label }) => (
+const TextBox: FC<{ value: number; label: string; isLoading: boolean }> = ({ value, label, isLoading }) => (
   <Flex
     justifyContent="space-between"
     alignItems="center"
@@ -17,16 +17,21 @@ const TextBox: FC<{ value: number; label: string }> = ({ value, label }) => (
     px="1rem"
     borderRadius="xl"
     mb="1rem"
+    h="3.5rem"
   >
     <Box fontSize={20} fontWeight="bold">
       {label}
     </Box>
-    <Flex>
-      <Image src={QuxTokenBigIcon} height={25} width={25} alt="Qux Logo" placeholder="empty" />
-      <Text color="white" fontSize={25}>
-        {value}
-      </Text>
-    </Flex>
+    {!isLoading ? (
+      <Flex>
+        <Image src={QuxTokenBigIcon} height={25} width={25} alt="Qux Logo" placeholder="empty" />
+        <Text color="white" fontSize={25}>
+          {value}
+        </Text>
+      </Flex>
+    ) : (
+      <Spinner size="md" />
+    )}
   </Flex>
 );
 
@@ -36,7 +41,7 @@ const InsightPage: FC = () => {
   const [label, setLabel] = useState('Febuary');
   const [expensesFilter, setExpensesFilter] = useState('income');
 
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['transactionHistoryPhaseTwo', filter, monthFilter],
     queryFn: FETCH_INSIGHTS,
   });
@@ -75,9 +80,13 @@ const InsightPage: FC = () => {
             <Text color="white">{label}</Text>
             <Flex>
               <Image src={QuxTokenBigIcon} height={50} width={50} alt="Qux Logo" placeholder="empty" />
-              <Text color="white" fontSize={50}>
-                {data?.total?.total_expenses.toFixed(2)}
-              </Text>
+              <Box color="white" fontSize={50}>
+                {expensesFilter === 'income' ? (
+                  <>{!isLoading ? data?.total?.total_income.toFixed(2) : <Spinner size="lg" color="primary" />}</>
+                ) : (
+                  <>{!isLoading ? data?.total?.total_expenses.toFixed(2) : <Spinner size="lg" color="primary" />}</>
+                )}
+              </Box>
             </Flex>
           </Box>
 
@@ -106,7 +115,17 @@ const InsightPage: FC = () => {
         </Box>
       </HeaderContainer>
 
-      <Box bg="blue.100" mt="1rem" py="1.5rem" h="60vh" borderTopRadius="32px" color="white">
+      <Box
+        bg="blue.100"
+        py="1.5rem"
+        h="60vh"
+        borderTopRadius="32px"
+        color="white"
+        maxW="container.md"
+        textAlign="center"
+        mx="auto"
+        mt="2rem"
+      >
         <Box
           textAlign="center"
           display="flex"
@@ -122,7 +141,7 @@ const InsightPage: FC = () => {
             <Text
               key={item}
               py="0.5rem"
-              w="200px"
+              w="350px"
               bg={expensesFilter === item ? 'primary' : 'transparent'}
               color="white"
               borderRadius="md"
@@ -135,12 +154,20 @@ const InsightPage: FC = () => {
 
         {expensesFilter === 'income' && (
           <Flex flexDir="column" mx="2rem">
-            <TextBox label="Send by friends" value={data?.income.token_from_friends.toFixed(2)} />
-            <TextBox label="Purchase Order" value={data?.income.purchase_orders.toFixed(2)} />
-            <TextBox label="Purchase Token" value={data?.income.purchase_tokens.toFixed(2)} />
+            <TextBox label="Sent by friends" value={data?.income.token_from_friends.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Purchase Order" value={data?.income.purchase_orders.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Purchase Token" value={data?.income.purchase_tokens.toFixed(2)} isLoading={isLoading} />
           </Flex>
         )}
-        {expensesFilter === 'expenses' && <>expenses</>}
+        {expensesFilter === 'expenses' && (
+          <Flex flexDir="column" mx="2rem">
+            <TextBox label="PO" value={data?.expenses.po.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Purchase" value={data?.expenses.purchase.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Redeem Tokens" value={data?.expenses.redeem_tokens.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Send to friend" value={data?.expenses.send_qux_tokens.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Services" value={data?.expenses.services.toFixed(2)} isLoading={isLoading} />
+          </Flex>
+        )}
       </Box>
     </>
   );

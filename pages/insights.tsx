@@ -1,6 +1,7 @@
 import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
 import HeaderContainer from 'component/Header/HeaderContainer';
 import { FETCH_INSIGHTS } from 'constants/api';
+import dayjs from 'dayjs';
 import { startCase } from 'lodash';
 import { MONTHS } from 'mocks/month';
 import Image from 'next/image';
@@ -37,12 +38,14 @@ const TextBox: FC<{ value: number; label: string; isLoading: boolean }> = ({ val
 
 const InsightPage: FC = () => {
   const [filter, setFilter] = useState('monthly');
-  const [monthFilter, setMonthFilter] = useState('02');
+
+  const [monthFilter, setMonthFilter] = useState(dayjs().format('MM'));
+  const [dayFilter] = useState(dayjs().format('DD'));
+  const dayOrMonthFilter = filter === 'monthly' ? monthFilter : dayFilter;
   const [label, setLabel] = useState('Febuary');
   const [expensesFilter, setExpensesFilter] = useState('income');
-
   const { data, isLoading } = useQuery({
-    queryKey: ['transactionHistoryPhaseTwo', filter, monthFilter],
+    queryKey: ['transactionHistoryPhaseTwo', filter, dayOrMonthFilter],
     queryFn: FETCH_INSIGHTS,
   });
 

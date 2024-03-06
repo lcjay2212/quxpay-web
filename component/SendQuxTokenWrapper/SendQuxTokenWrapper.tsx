@@ -3,7 +3,7 @@ import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FETCH_FRIEND_LIST } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
+import { STAGING_URL, STAGING_URL_PHASE_TWO } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
@@ -32,11 +32,15 @@ const SendQuxTokenWrapper: FC = () => {
 
   const { mutate: sendTokens, isLoading: sending } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-        },
-      }),
+      axios.post(
+        `${STAGING_URL_PHASE_TWO}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`,
+        variable,
+        {
+          headers: {
+            Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          },
+        }
+      ),
     {
       onSuccess: () => {
         setSuccessTrigger(true);

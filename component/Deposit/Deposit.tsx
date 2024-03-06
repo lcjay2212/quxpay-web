@@ -17,7 +17,7 @@ import BankAccount from 'component/BankAccount/BankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
+import { STAGING_URL_PHASE_TWO } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddBankIcons, DepositSuccessful, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
@@ -45,7 +45,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, {
+      axios.post(`${STAGING_URL_PHASE_TWO}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
         },

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { QueryFunctionContext } from 'react-query';
-import { STAGING_URL, STAGING_URL_PHASE_TWO } from './url';
+import { STAGING_URL } from './url';
 
 export const post = async <T>(url: string, variable: void): Promise<T> =>
   await axios.post(`${STAGING_URL}/${url}`, variable);
@@ -46,7 +46,7 @@ export const FETCH_RECENT_PRODUCT_LIST = async (): Promise<any> =>
 
 export const FETCH_TRANSACTION_HISTORY_PHASE_TWO = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(
-    STAGING_URL_PHASE_TWO,
+    STAGING_URL,
     `web/wallet/transactions?${!queryKey[1] ? '' : `date=${queryKey[1]}&`}${
       !queryKey[2] ? '' : `status=${queryKey[2]}&`
     }${!queryKey[3] ? '' : `transaction_type=${queryKey[3]}`}`,
@@ -55,7 +55,7 @@ export const FETCH_TRANSACTION_HISTORY_PHASE_TWO = async ({ queryKey }: QueryFun
 
 export const FETCH_INSIGHTS = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(
-    STAGING_URL_PHASE_TWO,
+    STAGING_URL,
     `web/insight?${!queryKey[1] ? '' : `filter_type=${queryKey[1]}&`}${
       !queryKey[2] ? '' : `filter_date=${queryKey[2]}`
     }`,

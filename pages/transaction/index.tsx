@@ -13,8 +13,8 @@ import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
 import { useQuery } from 'react-query';
+import { usePrivatekey } from 'store/usePrivatekey';
 import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
-import { secretKey } from 'utils/secretKey';
 const TransactionHistoryPage: FC = () => {
   const {
     setVisible,
@@ -30,6 +30,7 @@ const TransactionHistoryPage: FC = () => {
     queryKey: ['transactionHistoryPhaseTwo', dateFilter, transactionFilter, statusFilter],
     queryFn: FETCH_TRANSACTION_HISTORY_PHASE_TWO,
   });
+  const privatekey = usePrivatekey((state) => state.privatekey);
 
   const [id, setId] = useState('');
   return (
@@ -94,7 +95,7 @@ const TransactionHistoryPage: FC = () => {
                 <Box>
                   {data?.map((item) => {
                     const amount = item.amount;
-                    const privateKey = new NodeRSA(secretKey);
+                    const privateKey = new NodeRSA(privatekey);
                     const decryptedData = privateKey.decrypt(amount, 'utf8');
 
                     return (

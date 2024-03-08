@@ -46,7 +46,7 @@ import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
-  <Box>
+  <Box w={{ base: 150, md: 250 }}>
     <Text fontWeight="bold" fontSize={{ base: '14px', md: '1rem' }}>
       {label}
     </Text>
@@ -203,7 +203,7 @@ const Dashboard: FC = () => {
         </Box>
       </Flex>
 
-      <Grid templateColumns="repeat(3, 1fr)" gap="4" bg="primary" p="1rem" borderRadius="xl" my="1rem">
+      <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
         <Label label="Available Balance" image={QuxTokenIcon} amount={balance.toFixed(2)} loading={isLoading} />
         <Flex justifyContent="center">
           <Divider colorScheme="red" orientation="vertical" variant="dashed" />

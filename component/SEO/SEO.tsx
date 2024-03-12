@@ -18,6 +18,7 @@ export const SEO: FC<SEOProps> = ({ page, title, description, image, customDescr
   const metaDescription = page ? SEO_META_TAGS[page]?.description : description;
   const metaImage = page ? SEO_META_TAGS[page]?.image : image;
   const url = isBrowser ? window.location.href : '';
+  const metaKeyphrase = page ? SEO_META_TAGS[page]?.keyphrase : '';
 
   return (
     <Head>
@@ -26,6 +27,7 @@ export const SEO: FC<SEOProps> = ({ page, title, description, image, customDescr
       <meta name="description" content={customDescription || metaDescription} />
       <meta charSet="UTF-8" />
       <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0" />
+      <meta name="keywords" content={metaKeyphrase} />
       <meta property="og:type" content="website" />
       <meta property="og:url" content={url} />
       <meta property="og:title" content={metaTitle} />

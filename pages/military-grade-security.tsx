@@ -9,7 +9,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={MILITARY_GRADE_SECURITY_MOCK} title="Military-Grade Security">
+    <PageWrapper staticData={MILITARY_GRADE_SECURITY_MOCK} title="military-grade-security">
       <Grid
         h="120vh"
         bgImage={{

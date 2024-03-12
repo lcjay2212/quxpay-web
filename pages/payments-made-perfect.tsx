@@ -10,7 +10,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const PaymentsMadePerfectPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper staticData={PAYMENTS_MADE_PERFECT_MOCKS} title="P2P Payments Made Perfect">
+    <PageWrapper staticData={PAYMENTS_MADE_PERFECT_MOCKS} title="payments-made-perfect">
       <Grid
         h={{ base: 'auto', md: '100vh' }}
         bgImage={{ base: '', md: "url('/assets/images/payments-made-perfect.webp')" }}

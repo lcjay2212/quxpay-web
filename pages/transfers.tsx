@@ -10,13 +10,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const TransfersPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper
-      staticData={TRANSFERS_MOCKS}
-      title="Transfers in a Flash"
-      my="10rem"
-      justifyContent="center"
-      textAlign="center"
-    >
+    <PageWrapper staticData={TRANSFERS_MOCKS} title="transfers" my="10rem" justifyContent="center" textAlign="center">
       <Grid
         h={{ base: 'auto', md: '120vh' }}
         bgImage={{ base: '', md: "url('/assets/images/transfers.webp')" }}

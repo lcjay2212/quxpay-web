@@ -52,7 +52,16 @@ const TopBarHeader: FC = () => {
             _active={{ bg: 'transparent' }}
             _hover={{ bg: 'transparent' }}
             aria-label="hamburger"
-            icon={<HamburgerIcon color="purple" h={35} w={35} />}
+            icon={
+              <HamburgerIcon
+                color="purple"
+                _active={{
+                  color: 'white',
+                }}
+                h={35}
+                w={35}
+              />
+            }
             onClick={(): void => setVisible(!visible)}
           />
         </Flex>

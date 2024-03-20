@@ -2,14 +2,17 @@ import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
 import { TextField } from 'component/TextField';
 import { FETCH_BILLING_CATEGORIES } from 'constants/api';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
+import { useHeaderName } from 'store/useHeaderName';
 import errorHandler from 'utils/errorHandler';
 
 const PayBillsPageWrapper: FC = () => {
   const { data, isLoading } = useQuery('billingCategories', FETCH_BILLING_CATEGORIES, errorHandler);
-
+  const router = useRouter();
+  const setName = useHeaderName((state) => state.setName);
   return (
     <Box mx="1rem" mt="1rem">
       <TextField isSearch type="email" value={''} placeholder="Search" />
@@ -37,6 +40,10 @@ const PayBillsPageWrapper: FC = () => {
                       color: 'primary',
                     }}
                     id={item.id}
+                    onClick={(): void => {
+                      setName(item.name);
+                      void router.push(`/pay-bills/${item.id}`);
+                    }}
                   >
                     <Flex justifyContent="center" width="auto" height={50}>
                       <Image src={BillsIcon} width={45} height={50} alt={item.id} placeholder="empty" />

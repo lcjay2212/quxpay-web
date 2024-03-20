@@ -1,4 +1,4 @@
-import { Box, chakra, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
+import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
 import { TextField } from 'component/TextField';
 import { FETCH_BILLING_CATEGORIES } from 'constants/api';
 import Image from 'next/image';
@@ -26,29 +26,25 @@ const PayBillsPageWrapper: FC = () => {
                 No Billing Categories yet
               </Box>
             ) : (
-              <Grid templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }} gap={{ base: 2, md: 6 }}>
+              <Grid templateColumns="repeat(4, 1fr)" gap={{ base: 2, md: 6 }}>
                 {data?.map((item) => (
-                  <>
-                    {
-                      <chakra.label
-                        key={item.id}
-                        w={100}
-                        textAlign="center"
-                        cursor="pointer"
-                        _hover={{
-                          color: 'primary',
-                        }}
-                        id={item.id}
-                      >
-                        <Flex justifyContent="center" width="auto" height={50}>
-                          <Image src={BillsIcon} width={45} height={50} alt={item.id} placeholder="empty" />
-                        </Flex>
-                        <Text color="white" mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-                          {item.name}
-                        </Text>
-                      </chakra.label>
-                    }
-                  </>
+                  <Flex
+                    flexDir="column"
+                    key={item.id}
+                    textAlign="center"
+                    cursor="pointer"
+                    _hover={{
+                      color: 'primary',
+                    }}
+                    id={item.id}
+                  >
+                    <Flex justifyContent="center" width="auto" height={50}>
+                      <Image src={BillsIcon} width={45} height={50} alt={item.id} placeholder="empty" />
+                    </Flex>
+                    <Text color="white" mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                      {item.name}
+                    </Text>
+                  </Flex>
                 ))}
               </Grid>
             )}

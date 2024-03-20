@@ -3,17 +3,16 @@ import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
-import NodeRSA from 'node-rsa';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import { usePrivatekey } from 'store/usePrivatekey';
+// import { usePrivatekey } from 'store/usePrivatekey';
 import errorHandler from 'utils/errorHandler';
 
 const TransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler);
   const router = useRouter();
-  const privatekey = usePrivatekey((state) => state.privatekey);
+  // const privatekey = usePrivatekey((state) => state.privatekey);
 
   return (
     <Box bg="blue.100" p="1rem" borderRadius="xl" my="1rem">
@@ -41,14 +40,14 @@ const TransactionHistory: FC = () => {
           {data?.length ? (
             <Box>
               {data?.slice(0, 3).map((item) => {
-                const amount = item.amount;
-                const privateKey = new NodeRSA(privatekey);
-                const decryptedData = privateKey.decrypt(amount, 'utf8');
+                // const amount = item.amount;
+                // const privateKey = new NodeRSA(privatekey);
+                // const decryptedData = privateKey.decrypt(amount, 'utf8');
                 return (
                   <ItemListDisplay
                     label={`Qux User ${startCase(item.type)}`}
                     date={item.created_at}
-                    amount={+decryptedData}
+                    amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}
                     image={QuxWalletIcon}

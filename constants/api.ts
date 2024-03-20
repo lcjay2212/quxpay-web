@@ -61,3 +61,6 @@ export const FETCH_INSIGHTS = async ({ queryKey }: QueryFunctionContext): Promis
     }`,
     localStorage.QUX_PAY_USER_TOKEN
   );
+
+export const FETCH_BILLING_CATEGORIES = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/billing/categories`, localStorage.QUX_PAY_USER_TOKEN);

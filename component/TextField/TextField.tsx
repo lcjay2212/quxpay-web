@@ -98,10 +98,9 @@ export const TextField: FC<
             onClick={(): void => setFocused(true)}
             onFocus={(): void => setFocused(true)}
             onMouseLeave={(): void => setFocused(false)}
-            bg={loading ? 'lightgray' : 'gray.200'}
-            border="1px solid #cccccc"
+            bg={loading ? 'lightgray' : '#10101F'}
+            border="1px solid #4D4D6B"
             borderRadius="16px"
-            boxShadow="rgba(100, 100, 111, 0.2) 0rem 0.438rem 1.813rem 0rem"
             height="3.5rem"
             color="white"
             _placeholder={{

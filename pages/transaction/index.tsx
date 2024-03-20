@@ -7,13 +7,12 @@ import TransactionHistoryFilterModal from 'component/TransactionHistoryFilterMod
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
-import NodeRSA from 'node-rsa';
 import { QuxWalletIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
 import { useQuery } from 'react-query';
-import { usePrivatekey } from 'store/usePrivatekey';
+// import { usePrivatekey } from 'store/usePrivatekey';
 import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
 const TransactionHistoryPage: FC = () => {
   const {
@@ -30,7 +29,7 @@ const TransactionHistoryPage: FC = () => {
     queryKey: ['transactionHistoryPhaseTwo', dateFilter, transactionFilter, statusFilter],
     queryFn: FETCH_TRANSACTION_HISTORY_PHASE_TWO,
   });
-  const privatekey = usePrivatekey((state) => state.privatekey);
+  // const privatekey = usePrivatekey((state) => state.privatekey);
 
   const [id, setId] = useState('');
   return (
@@ -94,15 +93,15 @@ const TransactionHistoryPage: FC = () => {
               {data?.length ? (
                 <Box>
                   {data?.map((item) => {
-                    const amount = item.amount;
-                    const privateKey = new NodeRSA(privatekey);
-                    const decryptedData = privateKey.decrypt(amount, 'utf8');
+                    // const amount = item.amount;
+                    // const privateKey = new NodeRSA(privatekey);
+                    // const decryptedData = privateKey.decrypt(amount, 'utf8');
 
                     return (
                       <ItemListDisplay
                         label={`Qux User ${startCase(item.type)}`}
                         date={item.created_at}
-                        amount={+decryptedData}
+                        amount={+item.amount}
                         key={item.id}
                         complete={item.confirmed}
                         image={QuxWalletIcon}

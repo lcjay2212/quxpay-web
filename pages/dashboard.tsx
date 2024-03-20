@@ -25,6 +25,7 @@ import { API_SESSION_URL, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
+  BillsIcon,
   CashIn,
   InsightIcon,
   ProfileIcon,
@@ -106,6 +107,13 @@ const Dashboard: FC = () => {
       alt: 'Send',
       route: '/send-qux-token',
       label: 'Send Qux® Token',
+      show: true,
+    },
+    {
+      image: BillsIcon,
+      alt: 'Pay Bills',
+      route: '/pay-bills',
+      label: 'Pay Bills',
       show: true,
     },
     {

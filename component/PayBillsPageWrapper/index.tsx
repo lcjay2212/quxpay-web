@@ -12,7 +12,7 @@ import errorHandler from 'utils/errorHandler';
 const PayBillsPageWrapper: FC = () => {
   const { data, isLoading } = useQuery('billingCategories', FETCH_BILLING_CATEGORIES, errorHandler);
   const router = useRouter();
-  const setName = useHeaderName((state) => state.setName);
+  const setHeaderName = useHeaderName((state) => state.setHeaderName);
   return (
     <Box mx="1rem" mt="1rem">
       <TextField isSearch type="email" value={''} placeholder="Search" />
@@ -41,7 +41,7 @@ const PayBillsPageWrapper: FC = () => {
                     }}
                     id={item.id}
                     onClick={(): void => {
-                      setName(item.name);
+                      setHeaderName(item.name);
                       void router.push(`/pay-bills/${item.id}`);
                     }}
                   >

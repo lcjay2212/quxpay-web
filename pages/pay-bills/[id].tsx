@@ -1,6 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import HeaderContainer from 'component/Header/HeaderContainer';
+import PayBillsModal from 'component/PayBillsModal';
 import { TextField } from 'component/TextField';
 import { FETCH_BILLER_BY_CATEGORY_ID } from 'constants/api';
 import Image from 'next/image';
@@ -9,15 +10,21 @@ import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useHeaderName } from 'store/useHeaderName';
+import { usePayBillsModall } from 'store/usePayBillsModall';
 import errorHandler from 'utils/errorHandler';
 
 const PayBillsByCategory: FC = () => {
   const router = useRouter();
   const { data, isLoading } = useQuery(['posHistoryById', router.query.id], FETCH_BILLER_BY_CATEGORY_ID, errorHandler);
-  const name = useHeaderName((state) => state.name);
+  const headerName = useHeaderName((state) => state.headerName);
+  const { setVisible, setHeaderName, setBillerData } = usePayBillsModall((state) => ({
+    setVisible: state.setVisible,
+    setHeaderName: state.setHeaderName,
+    setBillerData: state.setBillerData,
+  }));
 
   return (
-    <HeaderContainer label={name} route="/pay-bills">
+    <HeaderContainer label={headerName} route="/pay-bills">
       <Box mx="1rem" mt="1rem">
         <TextField isSearch type="email" value={''} placeholder="Search" />
         {isLoading ? (
@@ -27,7 +34,16 @@ const PayBillsByCategory: FC = () => {
         ) : (
           <Box my="2rem">
             {data?.map((item) => (
-              <Flex key={item.id} justifyContent="space-between" alignItems="center">
+              <Flex
+                key={item.id}
+                justifyContent="space-between"
+                alignItems="center"
+                onClick={(): void => {
+                  setBillerData(item);
+                  setHeaderName(item.name);
+                  setVisible(true);
+                }}
+              >
                 <Flex justifyContent="center" alignItems="center">
                   <Flex justifyContent="center" width="auto" height={50}>
                     <Image
@@ -50,6 +66,8 @@ const PayBillsByCategory: FC = () => {
             ))}
           </Box>
         )}
+
+        <PayBillsModal />
       </Box>
     </HeaderContainer>
   );

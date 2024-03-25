@@ -1,13 +1,13 @@
 import { create } from 'zustand';
 
 type Props = {
-  name: string;
-  setName: (name: string) => void;
+  headerName: string;
+  setHeaderName: (headerName: string) => void;
 };
 export const useHeaderName = create<Props>((set) => ({
-  name: '',
-  setName: (name: string): void =>
+  headerName: '',
+  setHeaderName: (headerName: string): void =>
     set(() => ({
-      name,
+      headerName,
     })),
 }));

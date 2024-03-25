@@ -232,9 +232,9 @@ const Dashboard: FC = () => {
         borderRadius="xl"
       >
         {temp.map((item) => (
-          <>
+          <Box key={item.alt}>
             {item.show && (
-              <>
+              <Box key={item.label}>
                 <chakra.input
                   type="file"
                   id="Upload"
@@ -274,9 +274,9 @@ const Dashboard: FC = () => {
                     {item.label}
                   </Text>
                 </chakra.label>
-              </>
+              </Box>
             )}
-          </>
+          </Box>
         ))}
       </Grid>
 

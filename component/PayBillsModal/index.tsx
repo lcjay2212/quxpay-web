@@ -2,6 +2,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import {
   Box,
   Button,
+  Divider,
   Flex,
   Input,
   Modal,
@@ -11,13 +12,28 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
+import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
-import { QuxTokenIcon } from 'public/assets';
+import { useRouter } from 'next/router';
+import { QuxTokenIcon, SuccessCircleIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
 import { usePayBillsModall } from 'store/usePayBillsModall';
+import { notify } from 'utils/notify';
+
+type TempDataType = {
+  account_number?: number;
+  amount_paid?: number;
+  biller_name?: string;
+  date?: string;
+  fee?: number;
+  reference_number?: number;
+  total_amount?: number;
+};
 
 const PayBillsModal: FC = () => {
   const [visible, setVisible] = usePayBillsModall((state) => [state.visible, state.setVisible]);
@@ -28,16 +44,32 @@ const PayBillsModal: FC = () => {
   const [step, setStep] = useState(1);
   const method = useForm({
     defaultValues: {
-      email: '',
-      biller_id: '',
-      amount: 0,
-      account_number: 0,
+      payment_method: 'token',
     },
   });
   const { handleSubmit, control } = method;
   const { balance, isLoading } = useBalance();
+  const [trigger, setTrigger] = useState(false);
+  const [tempData, setTempDate] = useState<TempDataType>();
+  const router = useRouter();
 
-  console.log(billerData);
+  const { mutate, isLoading: loading } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
+    {
+      onSuccess: ({ data }) => {
+        setTempDate(data?.data);
+        setTrigger(true);
+      },
+      onError: () => {
+        notify(`Error`, { status: 'error' });
+      },
+    }
+  );
 
   const onSubmit = (val): void => {
     if (step === 1) {
@@ -46,7 +78,7 @@ const PayBillsModal: FC = () => {
     }
 
     if (step === 2) {
-      console.log(val);
+      mutate(val);
     }
   };
 
@@ -55,59 +87,85 @@ const PayBillsModal: FC = () => {
       <ModalOverlay />
       <ModalContent bg="black">
         <ModalBody>
-          <FormProvider {...method}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Flex flexDir="column" justifyContent="space-between" h="98vh">
-                <Box>
-                  <Flex justifyContent="space-between" alignItems="center" color="white">
-                    <Flex mt="1rem" alignItems="center">
-                      <ArrowBackIcon
-                        mr="1rem"
-                        cursor="pointer"
-                        onClick={(): void => {
-                          if (step === 2) {
-                            setStep(1);
-                          } else {
-                            setVisible(false);
-                          }
-                        }}
-                      />
-                      <Text fontWeight="semibold">Pay bills to {headerName}</Text>
+          {!trigger ? (
+            <FormProvider {...method}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Flex flexDir="column" justifyContent="space-between" h="98vh">
+                  <Box>
+                    <Flex justifyContent="space-between" alignItems="center" color="white">
+                      <Flex mt="1rem" alignItems="center">
+                        <ArrowBackIcon
+                          mr="1rem"
+                          cursor="pointer"
+                          onClick={(): void => {
+                            if (step === 2) {
+                              setStep(1);
+                            } else {
+                              setVisible(false);
+                            }
+                          }}
+                        />
+                        <Text fontWeight="semibold">Pay bills to {headerName}</Text>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                  <Box textAlign="center">
-                    {step === 1 && (
-                      <Box textAlign="start" color="white" my="3rem">
-                        <Text fontSize="1.2rem" fontWeight="semibold">
-                          Available Balance
-                        </Text>
-                        <Flex alignItems="center">
-                          <span>
-                            <Image src={QuxTokenIcon} width={20} height={20} alt="Qux Token" />
-                          </span>
-                          {!isLoading ? (
-                            <Text fontSize="1.2rem" fontWeight="semibold">
-                              {balance.toFixed(2)}
-                            </Text>
-                          ) : (
-                            <Spinner />
-                          )}
-                        </Flex>
+                    <Box textAlign="center">
+                      {step === 1 && (
+                        <Box textAlign="start" color="white" my="3rem">
+                          <Text fontSize="1.2rem" fontWeight="semibold">
+                            Available Balance
+                          </Text>
+                          <Flex alignItems="center">
+                            <span>
+                              <Image src={QuxTokenIcon} width={20} height={20} alt="Qux Token" />
+                            </span>
+                            {!isLoading ? (
+                              <Text fontSize="1.2rem" fontWeight="semibold">
+                                {balance.toFixed(2)}
+                              </Text>
+                            ) : (
+                              <Spinner />
+                            )}
+                          </Flex>
 
+                          <Box my="5rem">
+                            <Controller
+                              control={control}
+                              name="amount"
+                              rules={{ required: 'Amount is required' }}
+                              render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+                                <FormContainer errorMessage={error?.message ?? ''}>
+                                  <Input
+                                    variant="flushed"
+                                    placeholder="0.00"
+                                    textAlign="center"
+                                    fontSize="2rem"
+                                    fontWeight="semibold"
+                                    onChange={(e): void => onChange(+e.target.value)}
+                                    value={value}
+                                    onBlur={onBlur}
+                                    type="number"
+                                  />
+                                </FormContainer>
+                              )}
+                            />
+                          </Box>
+                        </Box>
+                      )}
+                      {step === 2 && (
                         <Box my="5rem">
                           <Controller
                             control={control}
-                            name="amount"
-                            rules={{ required: 'Amount is required' }}
+                            name="account_number"
+                            rules={{ required: 'Account number is required' }}
                             render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                               <FormContainer errorMessage={error?.message ?? ''}>
                                 <Input
                                   variant="flushed"
-                                  placeholder="0.00"
+                                  placeholder="Customer Account Number"
                                   textAlign="center"
-                                  fontSize="2rem"
+                                  fontSize="1rem"
                                   fontWeight="semibold"
-                                  onChange={onChange}
+                                  onChange={(e): void => onChange(+e.target.value)}
                                   value={value}
                                   onBlur={onBlur}
                                   type="number"
@@ -116,42 +174,66 @@ const PayBillsModal: FC = () => {
                             )}
                           />
                         </Box>
-                      </Box>
-                    )}
-                    {step === 2 && (
-                      <Box my="5rem">
-                        <Controller
-                          control={control}
-                          name="account_number"
-                          rules={{ required: 'Account number is required' }}
-                          render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                            <FormContainer errorMessage={error?.message ?? ''}>
-                              <Input
-                                variant="flushed"
-                                placeholder="Customer Account Number"
-                                textAlign="center"
-                                fontSize="1rem"
-                                fontWeight="semibold"
-                                onChange={onChange}
-                                value={value}
-                                onBlur={onBlur}
-                                type="number"
-                              />
-                            </FormContainer>
-                          )}
-                        />
-                      </Box>
-                    )}
+                      )}
+                    </Box>
                   </Box>
-                </Box>
-                <Box textAlign="center">
-                  <Button type="submit" variant="primary" borderRadius="1rem" w={350} h="3.25rem">
-                    Next
-                  </Button>
-                </Box>
+                  <Box textAlign="center">
+                    <Button type="submit" variant="primary" borderRadius="1rem" w={350} h="3.25rem" isLoading={loading}>
+                      Next
+                    </Button>
+                  </Box>
+                </Flex>
+              </form>
+            </FormProvider>
+          ) : (
+            <Box>
+              <ArrowBackIcon
+                mt="1rem"
+                color="white"
+                mr="1rem"
+                cursor="pointer"
+                onClick={(): void => void router.push('/pay-bills')}
+              />
+              <Flex display="column" textAlign="center" my="6rem" color="white">
+                <Flex justifyContent="center">
+                  <Image src={SuccessCircleIcon} width={80} height={80} alt="success" />
+                </Flex>
+                <Text fontSize="1.5rem" fontWeight="bold" color="primary" mt="1rem">
+                  Payment Received
+                </Text>
+                <Text fontWeight="bold">{headerName}</Text>
+                <Text fontWeight="bold" fontSize="2rem">
+                  {tempData?.total_amount?.toFixed(2)}
+                </Text>
+                <Divider mt="1rem" mb="2rem" />
+                <Flex justifyContent="space-between">
+                  <Text>Account Number</Text>
+                  <Text>{tempData?.reference_number}</Text>
+                </Flex>
+                <Flex justifyContent="space-between" mt="1rem">
+                  <Text>Account Name</Text>
+                  <Text>{tempData?.biller_name}</Text>
+                </Flex>
+                <Flex justifyContent="space-between" my="1rem">
+                  <Text>Amount Paid</Text>
+                  <Text>{tempData?.amount_paid?.toFixed(2)}</Text>
+                </Flex>
+                <Flex justifyContent="space-between" mb="1rem">
+                  <Text>Fee</Text>
+                  <Text>{tempData?.fee?.toFixed(2)}</Text>
+                </Flex>
+                <Divider mt="1rem" mb="2rem" />
+                <Text fontSize="12px">Ref. No. 12345 6780 9</Text>
+                <Text fontSize="12px" mt="1rem" mb="2rem">
+                  {tempData?.date}
+                </Text>
+                <Text fontSize="12px">
+                  This has been processed and your payment will be <br />
+                  <br /> posted next business day
+                </Text>
               </Flex>
-            </form>
-          </FormProvider>
+            </Box>
+          )}
         </ModalBody>
       </ModalContent>
     </Modal>

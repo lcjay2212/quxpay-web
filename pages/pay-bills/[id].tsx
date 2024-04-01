@@ -10,14 +10,14 @@ import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useHeaderName } from 'store/useHeaderName';
-import { usePayBillsModall } from 'store/usePayBillsModall';
+import { usePayBillsModal } from 'store/usePayBillsModal';
 import errorHandler from 'utils/errorHandler';
 
 const PayBillsByCategory: FC = () => {
   const router = useRouter();
   const { data, isLoading } = useQuery(['posHistoryById', router.query.id], FETCH_BILLER_BY_CATEGORY_ID, errorHandler);
   const headerName = useHeaderName((state) => state.headerName);
-  const { setVisible, setHeaderName, setBillerData } = usePayBillsModall((state) => ({
+  const { setVisible, setHeaderName, setBillerData } = usePayBillsModal((state) => ({
     setVisible: state.setVisible,
     setHeaderName: state.setHeaderName,
     setBillerData: state.setBillerData,

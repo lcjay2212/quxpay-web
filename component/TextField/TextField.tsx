@@ -78,7 +78,7 @@ export const TextField: FC<
           <Box
             pos="absolute"
             bg="transparent"
-            zIndex={2}
+            zIndex={1}
             w="70%"
             h="100%"
             display="flex"

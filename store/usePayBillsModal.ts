@@ -13,7 +13,7 @@ type Props = {
   };
   setBillerData: (billerData: { corporate_name: string; id: number; image: null; name: string }) => void;
 };
-export const usePayBillsModall = create<Props>((set) => ({
+export const usePayBillsModal = create<Props>((set) => ({
   visible: false,
   setVisible: (visible: boolean): void =>
     set(() => ({

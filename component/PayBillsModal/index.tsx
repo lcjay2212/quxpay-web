@@ -22,7 +22,7 @@ import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
-import { usePayBillsModall } from 'store/usePayBillsModall';
+import { usePayBillsModal } from 'store/usePayBillsModal';
 import { notify } from 'utils/notify';
 
 type TempDataType = {
@@ -36,8 +36,8 @@ type TempDataType = {
 };
 
 const PayBillsModal: FC = () => {
-  const [visible, setVisible] = usePayBillsModall((state) => [state.visible, state.setVisible]);
-  const { headerName, billerData } = usePayBillsModall((state) => ({
+  const [visible, setVisible] = usePayBillsModal((state) => [state.visible, state.setVisible]);
+  const { headerName, billerData } = usePayBillsModal((state) => ({
     headerName: state.headerName,
     billerData: state.billerData,
   }));

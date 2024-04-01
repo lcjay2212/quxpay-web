@@ -1,4 +1,5 @@
 import { globalFonts } from 'constants/globalFonts';
+import 'react-datepicker/dist/react-datepicker.css';
 import { COLORS as colors } from './colors';
 export const STYLED_CONFIG = {
   global: {

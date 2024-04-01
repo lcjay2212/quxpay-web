@@ -111,9 +111,9 @@ const ScheduleBillerStepThree: FC = () => {
         cursor="pointer"
         onClick={(): void => setVisible(true)}
       >
-        {watch('start_date') ? (
+        {watch('date') ? (
           <Flex flexDir="column" fontSize="12px" textAlign="start">
-            <Text>Start: {dayjs(watch('start_date')).format('MMMM DD,YYYY')}</Text>
+            <Text>Start: {dayjs(watch('date')).format('MMMM DD,YYYY')}</Text>
             {watch('frequency') && <Text>Frequency: {startCase(watch('frequency'))}</Text>}
           </Flex>
         ) : (

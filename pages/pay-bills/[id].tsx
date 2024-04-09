@@ -22,7 +22,6 @@ const PayBillsByCategory: FC = () => {
     setHeaderName: state.setHeaderName,
     setBillerData: state.setBillerData,
   }));
-
   return (
     <HeaderContainer label={headerName} route="/pay-bills">
       <Box mx="1rem" mt="1rem">
@@ -33,14 +32,14 @@ const PayBillsByCategory: FC = () => {
           </Box>
         ) : (
           <Box my="2rem">
-            {data?.billers?.map((item) => (
+            {data?.saved_payment_infos?.map((item) => (
               <Flex
                 key={item.id}
                 justifyContent="space-between"
                 alignItems="center"
                 onClick={(): void => {
                   setBillerData(item);
-                  setHeaderName(item.name);
+                  setHeaderName(item.biller_name);
                   setVisible(true);
                 }}
               >
@@ -58,7 +57,7 @@ const PayBillsByCategory: FC = () => {
                     />
                   </Flex>
                   <Text color="white" fontWeight="semibold" fontSize="14px">
-                    {item.name}
+                    {item.biller_name}
                   </Text>
                 </Flex>
                 <ChevronRightIcon color="white" w={10} h={10} />

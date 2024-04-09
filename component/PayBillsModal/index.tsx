@@ -27,12 +27,15 @@ import { notify } from 'utils/notify';
 
 type TempDataType = {
   account_number?: number;
+  account_name?: string;
   amount_paid?: number;
   biller_name?: string;
   date?: string;
   fee?: number;
   reference_number?: number;
   total_amount?: number;
+  biller_category_id: number;
+  biller_id: number;
 };
 
 const PayBillsModal: FC = () => {
@@ -60,6 +63,25 @@ const PayBillsModal: FC = () => {
       onSuccess: ({ data }) => {
         setTempDate(data?.data);
         setTrigger(true);
+      },
+      onError: () => {
+        notify(`Error`, { status: 'error' });
+      },
+    }
+  );
+
+  const { mutate: savePayment, isLoading: savePaymentLoading } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/billing/save-info`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+        },
+      }),
+    {
+      onSuccess: ({ data }) => {
+        setTempDate(data?.data);
+        notify('Saved payment info successfully');
+        void router.push('/pay-bills');
       },
       onError: () => {
         notify(`Error`, { status: 'error' });
@@ -234,6 +256,28 @@ const PayBillsModal: FC = () => {
                   <br /> posted next business day
                 </Text>
               </Flex>
+
+              <Box textAlign="center">
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  isLoading={savePaymentLoading}
+                  onClick={(): void =>
+                    savePayment({
+                      account_number: tempData?.account_number,
+                      account_name: tempData?.account_name,
+                      biller_category_id: tempData?.biller_category_id,
+                      biller_id: tempData?.biller_id,
+                      tag: 'Service',
+                    } as any)
+                  }
+                >
+                  Save to biller list
+                </Button>
+              </Box>
             </Box>
           )}
         </ModalBody>

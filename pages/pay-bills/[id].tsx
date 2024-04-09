@@ -33,7 +33,7 @@ const PayBillsByCategory: FC = () => {
           </Box>
         ) : (
           <Box my="2rem">
-            {data?.map((item) => (
+            {data?.billers?.map((item) => (
               <Flex
                 key={item.id}
                 justifyContent="space-between"

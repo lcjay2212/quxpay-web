@@ -42,11 +42,7 @@ const PayBillsModal: FC = () => {
     billerData: state.billerData,
   }));
   const [step, setStep] = useState(1);
-  const method = useForm({
-    defaultValues: {
-      payment_method: 'token',
-    },
-  });
+  const method = useForm();
   const { handleSubmit, control } = method;
   const { balance, isLoading } = useBalance();
   const [trigger, setTrigger] = useState(false);
@@ -78,7 +74,13 @@ const PayBillsModal: FC = () => {
     }
 
     if (step === 2) {
-      mutate(val);
+      mutate({
+        payment_method: 'token',
+        biller_category_id: billerData.biller_category_id,
+        amount: val.amount,
+        account_number: val.account_number,
+        account_name: 'John Doe',
+      } as any);
     }
   };
 
@@ -152,7 +154,7 @@ const PayBillsModal: FC = () => {
                         </Box>
                       )}
                       {step === 2 && (
-                        <Box my="5rem">
+                        <Box my="5rem" color="white">
                           <Controller
                             control={control}
                             name="account_number"

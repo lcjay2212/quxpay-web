@@ -10,6 +10,7 @@ type Props = {
     id?: number;
     image?: null;
     name?: string;
+    biller_category_id?: number;
   };
   setBillerData: (billerData: { corporate_name: string; id: number; image: null; name: string }) => void;
 };

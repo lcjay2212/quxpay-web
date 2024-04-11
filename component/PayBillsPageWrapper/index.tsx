@@ -1,7 +1,6 @@
 import { CalendarIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
 import PayBillsModal from 'component/PayBillsModal';
-import SchedulePayBillModal from 'component/SchedulePayBillModal';
 import { TextField } from 'component/TextField';
 import { FETCH_BILLER, FETCH_BILLING_CATEGORIES } from 'constants/api';
 import Image from 'next/image';
@@ -145,7 +144,6 @@ const PayBillsPageWrapper: FC = () => {
           )}
         </>
       )}
-      <SchedulePayBillModal />
       <PayBillsModal />
     </Box>
   );

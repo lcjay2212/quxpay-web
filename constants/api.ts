@@ -74,3 +74,10 @@ export const FETCH_BILLER_BY_CATEGORY_ID = async ({ queryKey }: QueryFunctionCon
 
 export const FETCH_BILLER = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(STAGING_URL, `web/billing/search/billers?search=${queryKey[1]}`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_SCHEDULED_PAYMENT_INFO_BY_ID = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
+  await getData<any>(
+    STAGING_URL,
+    `web/billing/saved-info?saved_payment_info_id=${queryKey[1]}`,
+    localStorage.QUX_PAY_USER_TOKEN
+  );

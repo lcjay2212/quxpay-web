@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import HeaderContainer from 'component/Header/HeaderContainer';
-import PayBillsModal from 'component/PayBillsModal';
+import SchedulePayBillModal from 'component/SchedulePayBillModal';
 import { TextField } from 'component/TextField';
 import { FETCH_BILLER_BY_CATEGORY_ID } from 'constants/api';
 import Image from 'next/image';
@@ -10,14 +10,14 @@ import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useHeaderName } from 'store/useHeaderName';
-import { usePayBillsModal } from 'store/usePayBillsModal';
+import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
 import errorHandler from 'utils/errorHandler';
 
 const PayBillsByCategory: FC = () => {
   const router = useRouter();
   const { data, isLoading } = useQuery(['posHistoryById', router.query.id], FETCH_BILLER_BY_CATEGORY_ID, errorHandler);
   const headerName = useHeaderName((state) => state.headerName);
-  const { setVisible, setHeaderName, setBillerData } = usePayBillsModal((state) => ({
+  const { setVisible, setHeaderName, setBillerData } = useSchedulePayBillModal((state) => ({
     setVisible: state.setVisible,
     setHeaderName: state.setHeaderName,
     setBillerData: state.setBillerData,
@@ -65,8 +65,7 @@ const PayBillsByCategory: FC = () => {
             ))}
           </Box>
         )}
-
-        <PayBillsModal />
+        <SchedulePayBillModal />
       </Box>
     </HeaderContainer>
   );

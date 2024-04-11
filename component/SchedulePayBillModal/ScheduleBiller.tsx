@@ -2,22 +2,27 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Input, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import { FETCH_SCHEDULED_PAYMENT_INFO_BY_ID } from 'constants/api';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
 import Image from 'next/image';
 import { BillsIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useQuery } from 'react-query';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
 import { useSetScheduleModal } from 'store/useSetScheduleModal';
+import errorHandler from 'utils/errorHandler';
 import SetScheduleModal from './SetScheduleModal';
 
-const ScheduleBillerStepThree: FC = () => {
+const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
   const { billerData } = useSchedulePayBillModal((state) => ({
     billerData: state.billerData,
   }));
   const { control, watch } = useFormContext();
   const setVisible = useSetScheduleModal((state) => state.setVisible);
+
+  const { data } = useQuery(['billingCategories', id], FETCH_SCHEDULED_PAYMENT_INFO_BY_ID, errorHandler);
 
   return (
     <Box my="1rem">
@@ -78,7 +83,7 @@ const ScheduleBillerStepThree: FC = () => {
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer errorMessage={error?.message ?? ''} label="9-10 Account Number">
               <TextField
-                value={value}
+                value={value ?? data?.account_number}
                 placeholder="Enter 9-10 Account Number"
                 onChange={onChange}
                 onBlur={onBlur}
@@ -93,9 +98,14 @@ const ScheduleBillerStepThree: FC = () => {
         control={control}
         name="account_name"
         rules={{ required: 'Account name is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+        render={({ field: { onChange, value = data?.account_name, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer errorMessage={error?.message ?? ''} label="Account Name">
-            <TextField value={value} placeholder="Enter Account Name" onChange={onChange} onBlur={onBlur} />
+            <TextField
+              value={value ?? data?.account_name}
+              placeholder="Enter Account Name"
+              onChange={onChange}
+              onBlur={onBlur}
+            />
           </FormContainer>
         )}
       />
@@ -127,4 +137,4 @@ const ScheduleBillerStepThree: FC = () => {
   );
 };
 
-export default ScheduleBillerStepThree;
+export default ScheduleBiller;

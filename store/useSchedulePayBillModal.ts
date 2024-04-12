@@ -7,13 +7,26 @@ type Props = {
   setHeaderName: (headerName: string) => void;
   billerId: string;
   setBillerId: (billerId: string) => void;
-  billerData: {
-    corporate_name?: string;
+  billerData?: {
     id?: number;
-    image?: null;
-    name?: string;
+    biller?: string;
+    account_number?: string;
+    account_name?: string;
+    nickname?: string;
+    amount?: string;
+    frequency?: string;
+    payment_date?: string;
   };
-  setBillerData: (billerData: { corporate_name: string; id: number; image: null; name: string }) => void;
+  setBillerData: (billerData?: {
+    id?: number;
+    biller?: string;
+    account_number?: string;
+    account_name?: string;
+    nickname?: string;
+    amount?: string;
+    frequency?: string;
+    payment_date?: string;
+  }) => void;
 };
 export const useSchedulePayBillModal = create<Props>((set) => ({
   visible: false,

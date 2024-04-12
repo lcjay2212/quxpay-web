@@ -81,3 +81,6 @@ export const FETCH_SCHEDULED_PAYMENT_INFO_BY_ID = async ({ queryKey }: QueryFunc
     `web/billing/saved-info?saved_payment_info_id=${queryKey[1]}`,
     localStorage.QUX_PAY_USER_TOKEN
   );
+
+export const FETCH_SCHEDULED_PAYMENT_LISTS = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/billing/scheduled-payments`, localStorage.QUX_PAY_USER_TOKEN);

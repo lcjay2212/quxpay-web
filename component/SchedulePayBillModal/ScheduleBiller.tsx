@@ -40,7 +40,7 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
           />
         </Flex>
         <Text color="white" fontWeight="semibold" fontSize="14px">
-          {billerData.name}
+          {billerData?.biller}
         </Text>
       </Flex>
 
@@ -83,11 +83,10 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer errorMessage={error?.message ?? ''} label="9-10 Account Number">
               <TextField
-                value={value ?? data?.account_number}
+                value={value ?? data?.account_number ?? billerData?.account_number}
                 placeholder="Enter 9-10 Account Number"
                 onChange={onChange}
                 onBlur={onBlur}
-                type="number"
               />
             </FormContainer>
           )}
@@ -101,7 +100,7 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
         render={({ field: { onChange, value = data?.account_name, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer errorMessage={error?.message ?? ''} label="Account Name">
             <TextField
-              value={value ?? data?.account_name}
+              value={value ?? data?.account_name ?? billerData?.account_name}
               placeholder="Enter Account Name"
               onChange={onChange}
               onBlur={onBlur}
@@ -121,10 +120,10 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
         cursor="pointer"
         onClick={(): void => setVisible(true)}
       >
-        {watch('date') ? (
+        {watch('date') || billerData ? (
           <Flex flexDir="column" fontSize="12px" textAlign="start">
-            <Text>Start: {dayjs(watch('date')).format('MMMM DD,YYYY')}</Text>
-            {watch('frequency') && <Text>Frequency: {startCase(watch('frequency'))}</Text>}
+            <Text>Start: {dayjs(watch('date')).format('MMMM DD,YYYY') || billerData?.payment_date}</Text>
+            {watch('frequency') && <Text>Frequency: {startCase(watch('frequency')) || billerData?.frequency}</Text>}
           </Flex>
         ) : (
           <Text>Input Payment Schedule</Text>

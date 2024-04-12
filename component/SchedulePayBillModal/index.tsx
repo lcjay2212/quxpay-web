@@ -24,7 +24,7 @@ const SchedulePayBillModal: FC = () => {
 
   const { mutate, isLoading: loading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/web/billing/scheduled-payment?biller_id=${billerData.id}`, variable, {
+      axios.post(`${STAGING_URL}/web/billing/scheduled-payment?biller_id=${billerData?.id}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
         },
@@ -75,7 +75,7 @@ const SchedulePayBillModal: FC = () => {
                     </Flex>
                   </Flex>
                   <Box textAlign="center">
-                    <ScheduleBiller id={billerData.id} />
+                    <ScheduleBiller id={billerData?.id} />
                   </Box>
                 </Box>
                 <Box textAlign="center">

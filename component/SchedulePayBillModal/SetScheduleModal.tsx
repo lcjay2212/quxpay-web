@@ -11,6 +11,7 @@ import { useSetScheduleModal } from 'store/useSetScheduleModal';
 const SetScheduleModal: FC = () => {
   const { control } = useFormContext();
   const [visible, setVisible] = useSetScheduleModal((state) => [state.visible, state.setVisible]);
+
   const [filter, setFilter] = useState('repeat');
 
   const FREQUENCY = [

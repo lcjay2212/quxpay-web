@@ -55,6 +55,7 @@ const PayBillsPageWrapper: FC = () => {
                 color="white"
                 justifyContent="space-between"
                 alignItems="center"
+                onClick={(): void => void router.push('/pay-bills/scheduled-list')}
               >
                 <Flex gap={4} justifyContent="center" alignItems="center">
                   <CalendarIcon width={25} height={25} />

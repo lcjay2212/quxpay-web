@@ -72,7 +72,6 @@ const PayBillsModal: FC = () => {
         biller_category_id: billerData.biller_category_id,
         amount: val.amount,
         account_number: val.account_number,
-        account_name: 'John Doe',
       } as any);
     }
   };

@@ -6,6 +6,7 @@ import { QuxLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { useHomePageModal } from 'store/useHomePageModal';
+import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { useProductModal } from 'store/useProductModal';
 import { notify } from 'utils/notify';
 
@@ -19,6 +20,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
   const paymentId = useAccountPaymentId((e) => e.paymentId);
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
+  const setPendingAccountModalVisible = usePendingAccountModal((e) => e.setVisible);
   return (
     <Box maxW="720px" mx="auto">
       <Flex justifyContent="space-between" alignItems="center" mx="1rem">
@@ -30,6 +32,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
             onClick={(): void => {
               setProductValue(null);
               setVisible(false);
+              setPendingAccountModalVisible(false);
               void router.push(route);
             }}
           />

@@ -23,7 +23,6 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
   const setVisible = useSetScheduleModal((state) => state.setVisible);
 
   const { data } = useQuery(['billingCategories', id], FETCH_SCHEDULED_PAYMENT_INFO_BY_ID, errorHandler);
-
   return (
     <Box my="1rem">
       <Flex justifyContent="flex-start" alignItems="center">
@@ -120,7 +119,7 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
         cursor="pointer"
         onClick={(): void => setVisible(true)}
       >
-        {watch('date') || billerData ? (
+        {watch('date') || !billerData ? (
           <Flex flexDir="column" fontSize="12px" textAlign="start">
             <Text>Start: {dayjs(watch('date')).format('MMMM DD,YYYY') || billerData?.payment_date}</Text>
             {watch('frequency') && <Text>Frequency: {startCase(watch('frequency')) || billerData?.frequency}</Text>}

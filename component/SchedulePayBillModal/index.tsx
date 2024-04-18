@@ -15,8 +15,14 @@ const SchedulePayBillModal: FC = () => {
   const { billerData } = useSchedulePayBillModal((state) => ({
     billerData: state.billerData,
   }));
+
   const [step, setStep] = useState(1);
-  const method = useForm();
+  const method = useForm({
+    defaultValues: {
+      account_name: billerData?.account_name,
+      account_number: billerData?.account_number,
+    },
+  });
 
   const { handleSubmit } = method;
 
@@ -34,8 +40,8 @@ const SchedulePayBillModal: FC = () => {
         notify(`Scheduled set successfully`);
         void router.push('/dashboard');
       },
-      onError: () => {
-        notify(`Error`, { status: 'error' });
+      onError: ({ response }) => {
+        notify(`${response?.data?.data?.errors?.scheduled_type}`, { status: 'error' });
       },
     }
   );

@@ -1,12 +1,13 @@
 import { Box, BoxProps, Container, Flex, Heading, Text } from '@chakra-ui/react';
 import Footer from 'component/Footer';
-import Head from 'next/head';
+import { SEO } from 'component/SEO';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { Pages } from 'typings';
 
 interface Props {
-  title: string;
+  title: Pages;
   staticData?: {
     title: string;
     context: string;
@@ -20,12 +21,7 @@ const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children }) => {
   const { pathname } = useRouter();
   return (
     <Box bg="#3D075F">
-      <Head>
-        <title>{title}</title>
-        <meta name="description" content="Quxpay" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <SEO page={title} />
       {children}
 
       <Container maxW="1080px">

@@ -1,5 +1,6 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import PendingAccountModal from 'component/PendingAccountModal';
 import CorporationStep from 'component/RegistrationForm/CorporationStep';
 import FinalStep from 'component/RegistrationForm/FinalStep';
 import FirstStep from 'component/RegistrationForm/FirstStep';
@@ -11,7 +12,7 @@ import { QuxLogo, QuxPayLogo } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { defaultHash } from 'utils/defaultHastBlur';
+import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { notify } from 'utils/notify';
 
 const Register: FC = () => {
@@ -20,6 +21,7 @@ const Register: FC = () => {
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [selected, setSelected] = useState('');
+  const setVisible = usePendingAccountModal((e) => e.setVisible);
 
   const { mutate, isLoading } = useMutation((variable) => post('v/register', variable), {
     onSuccess: () => {
@@ -35,8 +37,8 @@ const Register: FC = () => {
     (variable) => post('web/purchaser-register', variable),
     {
       onSuccess: () => {
+        setVisible(true);
         notify(`Corporation registration success!`);
-        void router.push('/login');
       },
       onError: ({ response }) => {
         notify(`${response?.data?.message}`, { status: 'error' });
@@ -94,6 +96,7 @@ const Register: FC = () => {
         formData.append('contact_person_email', val.contact_person_email);
         formData.append('passport', val.passport[0]);
         formData.append('driver_license', val.driver_license[0]);
+        formData.append('dob', birthdate);
 
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         corporationMutate(formData as any);
@@ -106,7 +109,7 @@ const Register: FC = () => {
       <Box display={!selected ? 'block' : 'none'}>
         <Grid placeContent="center" h="100vh" gap="2" textAlign="center">
           <Box display="flex" justifyContent="center">
-            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
+            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" />
           </Box>
 
           <Text color="primary" fontSize="3xl">
@@ -146,14 +149,7 @@ const Register: FC = () => {
       <Box display={!selected ? 'none' : 'block'}>
         <Grid placeContent="center" h="auto" gap="2" my="3rem">
           <Box display="flex" justifyContent="center">
-            <Image
-              src={QuxPayLogo}
-              height={70}
-              width={135}
-              alt="Qux Logo"
-              placeholder="blur"
-              blurDataURL={defaultHash}
-            />
+            <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
           </Box>
 
           {step === 1 && (
@@ -236,6 +232,8 @@ const Register: FC = () => {
           </FormProvider>
         </Grid>
       </Box>
+
+      <PendingAccountModal />
     </>
   );
 };

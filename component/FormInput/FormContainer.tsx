@@ -19,30 +19,32 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
 }) => (
   <FormControl isInvalid={Boolean(errorMessage)}>
     <Box mb={{ base: '3', md: '5' }} {...rest}>
-      <Flex justifyContent={place}>
-        <FormLabel
-          fontSize="1rem"
-          mb="0.3rem"
-          color="white"
-          htmlFor={label}
-          {...(!label && {
-            h: '1.3125rem',
-          })}
-          ml="1rem"
-        >
-          {label === 'max' ? (
-            <Flex>
-              <Text>Maximum Amount Available</Text>
-              <Box ml={2} display="flex" justifyContent="center" alignItems="center">
-                <Image src={QuxTokenIcon} height={20} width={20} alt="Qux Logo" placeholder="empty" />
-              </Box>
-              <Text>100</Text>
-            </Flex>
-          ) : (
-            label
-          )}
-        </FormLabel>
-      </Flex>
+      {label && (
+        <Flex justifyContent={place}>
+          <FormLabel
+            fontSize="1rem"
+            mb="0.3rem"
+            color="white"
+            htmlFor={label}
+            {...(!label && {
+              h: '1.3125rem',
+            })}
+            ml="1rem"
+          >
+            {label === 'max' ? (
+              <Flex>
+                <Text>Maximum Amount Available</Text>
+                <Box ml={2} display="flex" justifyContent="center" alignItems="center">
+                  <Image src={QuxTokenIcon} height={20} width={20} alt="Qux Logo" placeholder="empty" />
+                </Box>
+                <Text>100</Text>
+              </Flex>
+            ) : (
+              label
+            )}
+          </FormLabel>
+        </Flex>
+      )}
       {children}
       {errorMessage && !hideErrorMessage && (
         <SlideFade in={true} offsetY="-1rem">

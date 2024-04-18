@@ -1,6 +1,7 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
+import PendingAccountModal from 'component/PendingAccountModal';
 import { TextField } from 'component/TextField';
 import { post } from 'constants/api';
 import storage from 'constants/storage';
@@ -11,8 +12,8 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
+import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { useUser } from 'store/useUser';
-import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
 
 const Login: FC = () => {
@@ -20,6 +21,7 @@ const Login: FC = () => {
   const router = useRouter();
   const { control, handleSubmit } = method;
   const setUser = useUser((e) => e.setUser);
+  const setVisible = usePendingAccountModal((e) => e.setVisible);
 
   const { mutate, isLoading } = useMutation((variable) => post('web/login', variable), {
     onSuccess: async ({ data }) => {
@@ -38,7 +40,8 @@ const Login: FC = () => {
       void router.push('/dashboard');
     },
     onError: ({ response }) => {
-      notify(`${response?.data?.messages}`, { status: 'error' });
+      setVisible(true);
+      notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
     },
   });
 
@@ -49,7 +52,7 @@ const Login: FC = () => {
   return (
     <Grid placeContent="center" h="100vh" gap="2">
       <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
+        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
       </Box>
       <Flex mt="2rem">
         <ArrowBackIcon
@@ -122,6 +125,8 @@ const Login: FC = () => {
           Click here
         </span>
       </Text>
+
+      <PendingAccountModal />
     </Grid>
   );
 };

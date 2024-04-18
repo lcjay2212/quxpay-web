@@ -1,42 +1,65 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
-import { FETCH_TRANSACTION_HISTORY } from 'constants/api';
+import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
+import { useRouter } from 'next/router';
 import { QuxWalletIcon } from 'public/assets';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { useQuery } from 'react-query';
+// import { usePrivatekey } from 'store/usePrivatekey';
 import errorHandler from 'utils/errorHandler';
 
 const TransactionHistory: FC = () => {
-  const { data } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY, errorHandler);
-  const [seeAll, setSeeAll] = useState(false)
+  const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler);
+  const router = useRouter();
+  // const privatekey = usePrivatekey((state) => state.privatekey);
 
   return (
-    <Box >
-      <Flex justifyContent='space-between' alignItems='center' mt='1rem' mb='2rem'>
-        <Text fontSize="29px" >
-          Transaction History
+    <Box bg="blue.100" p="1rem" borderRadius="xl" my="1rem">
+      <Flex justifyContent="space-between" alignItems="center" mb="1rem">
+        <Text fontSize="1rem" fontWeight="bold">
+          Transactions
         </Text>
-
-        <Text display={!data?.length ? 'none' : 'block'} fontSize='12px' cursor='pointer' as='u' onClick={(): void => setSeeAll(!seeAll)}>{seeAll ? <ChevronDownIcon boxSize={6} /> : <ChevronUpIcon boxSize={6} />}</Text>
+        <Text
+          fontSize="12px"
+          cursor="pointer"
+          as="u"
+          color="primary"
+          onClick={(): void => void router.push('/transaction')}
+        >
+          View All
+        </Text>
       </Flex>
 
-      {data?.length ? (
-        <Box>
-          {(!seeAll ? data?.slice(0, 3) : data).map((item) => (
-            <ItemListDisplay
-              label={`Qux User ${startCase(item.type)}`}
-              date={item.created_at}
-              amount={item.amount}
-              key={item.id}
-              complete={item.confirmed}
-              image={QuxWalletIcon}
-            />
-          ))}
+      {isLoading ? (
+        <Box textAlign="center" py="2rem">
+          <Spinner color="primary" size="xl" />
         </Box>
       ) : (
-        <>No Record</>
+        <>
+          {data?.length ? (
+            <Box>
+              {data?.slice(0, 3).map((item) => {
+                // const amount = item.amount;
+                // const privateKey = new NodeRSA(privatekey);
+                // const decryptedData = privateKey.decrypt(amount, 'utf8');
+                return (
+                  <ItemListDisplay
+                    label={`Qux User ${startCase(item.type)}`}
+                    date={item.created_at}
+                    amount={+item.amount}
+                    key={item.id}
+                    complete={item.confirmed}
+                    image={QuxWalletIcon}
+                    hasComplete
+                  />
+                );
+              })}
+            </Box>
+          ) : (
+            <>No Record</>
+          )}
+        </>
       )}
     </Box>
   );

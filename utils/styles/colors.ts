@@ -15,6 +15,7 @@ export const COLORS = {
   },
 
   green: {
+    800: '#20B878',
     900: '#2e8a41',
   },
 
@@ -29,5 +30,8 @@ export const COLORS = {
     'text-base': '#ffffff',
     'background-hover': '#ffffff',
     'text-hover': '#06A499',
+  },
+  blue: {
+    100: '#10101F',
   },
 };

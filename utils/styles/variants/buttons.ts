@@ -50,6 +50,10 @@ export const SEEMORE = {
   paddingBlock: '2rem',
   fontSize: '1.5rem',
   fontWeight: 'bold',
+  _active: {
+    background: '#D222A8',
+    color: 'white',
+  },
 };
 
 export const DELETE = {

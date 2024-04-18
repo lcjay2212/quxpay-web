@@ -39,7 +39,7 @@ const DeleteAccount: FC = () => {
   return (
     <Box h="100vh" overflow="hidden">
       <HeaderContainer label="Purchase" route="/dashboard">
-        <Box>
+        <Box px="1rem">
           <Box maxH={600}>
             <Text color="white" fontSize="2rem" mt="2rem">
               My Account

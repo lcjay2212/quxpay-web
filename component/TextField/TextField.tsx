@@ -1,5 +1,14 @@
-import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
-import { Box, Input, InputGroup, InputProps, InputRightElement, Spinner, Tooltip } from '@chakra-ui/react';
+import { SearchIcon, ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import {
+  Box,
+  Input,
+  InputGroup,
+  InputLeftElement,
+  InputProps,
+  InputRightElement,
+  Spinner,
+  Tooltip,
+} from '@chakra-ui/react';
 import { DATE_FORMAT } from 'constants/dateFormat';
 import dayjs from 'dayjs';
 import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
@@ -15,6 +24,7 @@ export const TextField: FC<
     customRightElement?: ReactElement | undefined;
     removeTooltipOnScroll?: boolean | undefined;
     disablePasting?: boolean;
+    isSearch?: boolean;
   }
 > = ({
   loading,
@@ -25,6 +35,7 @@ export const TextField: FC<
   customRightElement,
   removeTooltipOnScroll,
   disablePasting,
+  isSearch,
   ...restProps
 }) => {
   const [hidePassword, setHidePassword] = useState(true);
@@ -67,7 +78,7 @@ export const TextField: FC<
           <Box
             pos="absolute"
             bg="transparent"
-            zIndex={2}
+            zIndex={1}
             w="70%"
             h="100%"
             display="flex"
@@ -87,10 +98,9 @@ export const TextField: FC<
             onClick={(): void => setFocused(true)}
             onFocus={(): void => setFocused(true)}
             onMouseLeave={(): void => setFocused(false)}
-            bg={loading ? 'lightgray' : 'gray.200'}
-            border="1px solid #cccccc"
+            bg={loading ? 'lightgray' : '#10101F'}
+            border="1px solid #4D4D6B"
             borderRadius="16px"
-            boxShadow="rgba(100, 100, 111, 0.2) 0rem 0.438rem 1.813rem 0rem"
             height="3.5rem"
             color="white"
             _placeholder={{
@@ -127,6 +137,21 @@ export const TextField: FC<
               },
             })}
           />
+          {isSearch && (
+            <InputLeftElement pointerEvents="none" justifyContent="center" alignItems="center">
+              <Box
+                h="0.75rem"
+                cursor="pointer"
+                transition="0.25s ease-in"
+                color="white"
+                _hover={{
+                  color: 'primary',
+                }}
+              >
+                <SearchIcon color="gray.300" />
+              </Box>
+            </InputLeftElement>
+          )}
 
           {isPassword && (
             <InputRightElement mt="0.25rem">

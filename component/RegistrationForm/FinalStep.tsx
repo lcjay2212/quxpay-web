@@ -144,7 +144,7 @@ const FinalStep: FC = () => {
         rules={{ required: 'Month is required' }}
         render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
           return (
-            <FormContainer label="Select Month" errorMessage={error?.message ?? ''}>
+            <FormContainer label="Date of Birth" errorMessage={error?.message ?? ''}>
               <Select
                 onBlur={onBlur}
                 styles={reactSelectStyles}
@@ -165,7 +165,7 @@ const FinalStep: FC = () => {
           rules={{ required: 'Day is required' }}
           render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
             return (
-              <FormContainer label="Select Day" errorMessage={error?.message ?? ''}>
+              <FormContainer errorMessage={error?.message ?? ''}>
                 <Select
                   onBlur={onBlur}
                   styles={reactSelectStyles}
@@ -187,7 +187,7 @@ const FinalStep: FC = () => {
           rules={{ required: 'Year is required' }}
           render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
             return (
-              <FormContainer label="Select Year" errorMessage={error?.message ?? ''}>
+              <FormContainer errorMessage={error?.message ?? ''}>
                 <Select
                   onBlur={onBlur}
                   styles={reactSelectStyles}

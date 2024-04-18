@@ -1,7 +1,7 @@
 import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpoint } from '@chakra-ui/react';
 import Footer from 'component/Footer';
+import { SEO } from 'component/SEO';
 import TopBarHeader from 'component/TopBarHeader';
-import Head from 'next/head';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PhoneImage } from 'public/assets';
@@ -55,12 +55,7 @@ const Home: FC = () => {
   const breakPoint = useBreakpoint();
   return (
     <Box bg="#3D075F">
-      <Head>
-        <title>Quxpay</title>
-        <meta name="description" content="Quxpay" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <SEO page="index" />
       <Grid filter={visible ? 'blur(8px)' : ''} position="relative">
         <Box display={{ base: 'none', md: 'block' }}>
           <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>

@@ -37,7 +37,7 @@ const PayBillsModal: FC = () => {
   const [tempData, setTempDate] = useState();
   const [step, setStep] = useState(1);
   const method = useForm();
-  const { handleSubmit, control } = method;
+  const { handleSubmit, control, reset } = method;
   const { balance, isLoading } = useBalance();
 
   const { mutate, isLoading: loading } = useMutation(
@@ -53,6 +53,7 @@ const PayBillsModal: FC = () => {
         setVisible(false);
         setTrigger(true);
         setStep(1);
+        reset();
       },
       onError: () => {
         notify(`Error`, { status: 'error' });

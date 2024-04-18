@@ -95,12 +95,12 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
       <Controller
         control={control}
         name="account_name"
-        rules={{ required: 'Account name is required' }}
+        rules={{ required: 'Account Nickname is required' }}
         render={({ field: { onChange, value = data?.account_name, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer errorMessage={error?.message ?? ''} label="Account Name">
+          <FormContainer errorMessage={error?.message ?? ''} label="Account Nickname">
             <TextField
               value={value ?? data?.account_name ?? billerData?.account_name}
-              placeholder="Enter Account Name"
+              placeholder="Enter Account Nickname"
               onChange={onChange}
               onBlur={onBlur}
             />

@@ -21,7 +21,7 @@ const SetScheduleModal: FC = () => {
   ];
 
   return (
-    <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size="2xl" isCentered scrollBehavior="inside">
+    <Modal isOpen={visible} onClose={(): void => setVisible(!visible)} size="2xl" isCentered scrollBehavior="inside">
       <ModalOverlay />
       <ModalContent
         display="flex"

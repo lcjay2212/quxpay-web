@@ -55,8 +55,8 @@ const PayBillsModal: FC = () => {
         setStep(1);
         reset();
       },
-      onError: () => {
-        notify(`Error`, { status: 'error' });
+      onError: ({ response }) => {
+        notify(`${response?.data?.data?.errors?.balance}`, { status: 'error' });
       },
     }
   );

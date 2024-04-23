@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Box, Button, Divider, Flex, Radio, RadioGroup, Spinner, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import HeaderContainer from 'component/Header/HeaderContainer';

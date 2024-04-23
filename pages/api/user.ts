@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { COOKIE_NAME, COOKIE_PASSWORD } from 'constants/ironSession';
 import { withIronSessionApiRoute } from 'iron-session/next';
 

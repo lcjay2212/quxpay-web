@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Input, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import BankAccount from 'component/BankAccount/BankAccount';

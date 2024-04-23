@@ -9,7 +9,7 @@ import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
-import { FC, ReactElement, useEffect } from 'react';
+import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { usePendingAccountModal } from 'store/usePendingAccountModal';
@@ -23,8 +23,7 @@ const Login: FC = () => {
   const { control, handleSubmit } = method;
   const setUser = useUser((e) => e.setUser);
   const setVisible = usePendingAccountModal((e) => e.setVisible);
-  const [params, setParams] = useRouteParams((e) => [e.params, e.setParams]);
-  useEffect(() => setParams(router.query), [setParams, router]);
+  const params = useRouteParams((e) => e.params);
 
   const { mutate, isLoading } = useMutation((variable) => post('web/login', variable), {
     onSuccess: async ({ data }) => {

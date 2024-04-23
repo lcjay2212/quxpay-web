@@ -9,10 +9,11 @@ import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { usePendingAccountModal } from 'store/usePendingAccountModal';
+import { useRouteParams } from 'store/useRouteParams';
 import { useUser } from 'store/useUser';
 import { notify } from 'utils/notify';
 
@@ -22,6 +23,8 @@ const Login: FC = () => {
   const { control, handleSubmit } = method;
   const setUser = useUser((e) => e.setUser);
   const setVisible = usePendingAccountModal((e) => e.setVisible);
+  const [params, setParams] = useRouteParams((e) => [e.params, e.setParams]);
+  useEffect(() => setParams(router.query), [setParams, router]);
 
   const { mutate, isLoading } = useMutation((variable) => post('web/login', variable), {
     onSuccess: async ({ data }) => {
@@ -37,6 +40,12 @@ const Login: FC = () => {
       } else {
         throw new Error('Something went wrong');
       }
+
+      if (params?.t) {
+        void router.push('/checkout');
+        return;
+      }
+
       void router.push('/dashboard');
     },
     onError: ({ response }) => {

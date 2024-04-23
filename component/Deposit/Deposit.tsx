@@ -33,11 +33,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
   const [amountValue, setAmountValue] = useState(0);
 
-  const method = useForm({
-    defaultValues: {
-      payment_method: 'ach_bank',
-    },
-  });
+  const method = useForm();
   const { control, handleSubmit } = method;
   const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
@@ -65,7 +61,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   );
 
   const onDeposit = (val): void => {
-    mutate(val);
+    mutate({ ...val, payment_method: 'ach_bank' });
   };
   return (
     <Box textAlign="center" overflow="hidden" px="1rem">

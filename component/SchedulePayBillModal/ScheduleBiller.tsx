@@ -2,17 +2,14 @@ import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Input, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
-import { FETCH_SCHEDULED_PAYMENT_INFO_BY_ID } from 'constants/api';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
 import Image from 'next/image';
 import { BillsIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useQuery } from 'react-query';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
 import { useSetScheduleModal } from 'store/useSetScheduleModal';
-import errorHandler from 'utils/errorHandler';
 import SetScheduleModal from './SetScheduleModal';
 
 const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
@@ -22,7 +19,6 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
   const { control, watch } = useFormContext();
   const setVisible = useSetScheduleModal((state) => state.setVisible);
 
-  const { data } = useQuery(['billingCategories', id], FETCH_SCHEDULED_PAYMENT_INFO_BY_ID, errorHandler);
   return (
     <Box my="1rem">
       <Flex justifyContent="flex-start" alignItems="center">
@@ -82,11 +78,10 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer errorMessage={error?.message ?? ''} label="9-10 Account Number">
               <TextField
-                value={value}
+                value={value ?? billerData?.account_number}
                 placeholder="Enter 9-10 Account Number"
                 onChange={onChange}
                 onBlur={onBlur}
-                defaultValue={data?.account_number ?? billerData?.account_number}
               />
             </FormContainer>
           )}
@@ -100,11 +95,10 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer errorMessage={error?.message ?? ''} label="Account Nickname">
             <TextField
-              value={value}
+              value={value ?? billerData?.account_name}
               placeholder="Enter Account Nickname"
               onChange={onChange}
               onBlur={onBlur}
-              defaultValue={data?.account_name ?? billerData?.account_name}
             />
           </FormContainer>
         )}

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
@@ -16,13 +17,7 @@ const SchedulePayBillModal: FC = () => {
     billerData: state.billerData,
   }));
 
-  const [step, setStep] = useState(1);
-  const method = useForm({
-    defaultValues: {
-      account_name: billerData?.account_name,
-      account_number: billerData?.account_number,
-    },
-  });
+  const method = useForm();
 
   const { handleSubmit, reset } = method;
 
@@ -30,7 +25,7 @@ const SchedulePayBillModal: FC = () => {
 
   const { mutate, isLoading: loading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/web/billing/scheduled-payment?biller_id=${billerData?.id}`, variable, {
+      axios.post(`${STAGING_URL}/web/billing/scheduled-payment`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
         },
@@ -48,7 +43,11 @@ const SchedulePayBillModal: FC = () => {
   );
 
   const onSubmit = (val): void => {
-    mutate(val);
+    mutate({
+      account_name: val?.account_name || billerData?.account_name,
+      account_number: val?.account_number || billerData?.account_number,
+      biller_id: billerData?.id,
+    } as any);
   };
 
   return (
@@ -74,14 +73,8 @@ const SchedulePayBillModal: FC = () => {
                         mr="1rem"
                         cursor="pointer"
                         onClick={(): void => {
-                          if (step === 3) {
-                            setStep(2);
-                          }
-                          if (step === 2) {
-                            setStep(1);
-                          } else {
-                            setVisible(false);
-                          }
+                          setVisible(false);
+                          reset();
                         }}
                       />
                       <Text color="primary" fontSize="3xl" fontWeight="bold">

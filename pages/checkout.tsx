@@ -10,6 +10,7 @@ import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useRouteParams } from 'store/useRouteParams';
+import { useUser } from 'store/useUser';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
@@ -35,6 +36,10 @@ const CheckoutPage: FC = () => {
   const totalPurchaseAndSubsAmount = data?.recurring_payment_amount + data?.single_purchase_amount;
   const router = useRouter();
   const [successPayment, setSuccessPayment] = useState(false);
+
+  const { user } = useUser();
+
+  console.log(user);
 
   const {
     mutate,
@@ -87,7 +92,7 @@ const CheckoutPage: FC = () => {
               h="3.25rem"
               onClick={(): void => void router.push('/dashboard')}
             >
-              Back Home
+              Back to Site
             </Button>
           </Flex>
         ) : (
@@ -95,7 +100,7 @@ const CheckoutPage: FC = () => {
             <Box>
               <Text>Sending to {data?.sending_to} for</Text>
               <Text my="0.5rem" ml="1rem">
-                PO {data?.id}
+                PO {user?.profile_id}
               </Text>
 
               {data?.recurring_payment && (

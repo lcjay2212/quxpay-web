@@ -2,7 +2,7 @@ import { ArrowBackIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxLogo } from 'public/assets';
+import { QuxLogo, UnpaidHistoryIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { useHomePageModal } from 'store/useHomePageModal';
@@ -37,10 +37,15 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
             }}
           />
           {label === 'Wallet' && <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" />}
-          <Text color="primary" fontSize={label?.charAt(0) !== 'S' ? '4xl' : '3xl'} w={300}>
+          <Text color="primary" fontSize={label?.charAt(0) !== 'S' ? '4xl' : '3xl'} w="auto">
             {label?.charAt(0)}
             <span style={{ color: 'white' }}>{label?.substring(1)}</span>
           </Text>
+          {label === 'Checkout' && (
+            <Box ml="1rem">
+              <Image src={UnpaidHistoryIcon} height={30} width={30} alt="Qux Wallet" />
+            </Box>
+          )}
         </Flex>
         {hasMenu && (
           <Menu>

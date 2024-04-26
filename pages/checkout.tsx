@@ -5,7 +5,6 @@ import HeaderContainer from 'component/Header/HeaderContainer';
 import { FETCH_WP_PO_DETAILS } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
@@ -34,12 +33,9 @@ const CheckoutPage: FC = () => {
   const params = useRouteParams((e) => e.params);
   const { data, isLoading } = useQuery(['wpPoDetails', params?.t], FETCH_WP_PO_DETAILS, errorHandler);
   const totalPurchaseAndSubsAmount = data?.recurring_payment_amount + data?.single_purchase_amount;
-  const router = useRouter();
   const [successPayment, setSuccessPayment] = useState(false);
 
   const { user } = useUser();
-
-  console.log(user);
 
   const {
     mutate,
@@ -63,6 +59,8 @@ const CheckoutPage: FC = () => {
   );
 
   const tempData = paymentData?.data?.data;
+
+  console.log(data);
 
   return (
     <HeaderContainer label="Checkout" route="/dashboard">
@@ -90,7 +88,7 @@ const CheckoutPage: FC = () => {
               mt="16rem"
               w={350}
               h="3.25rem"
-              onClick={(): void => void router.push('/dashboard')}
+              onClick={(): void => void window.open(tempData?.redirect, 'noopener,noreferrer')}
             >
               Back to Site
             </Button>
@@ -103,7 +101,7 @@ const CheckoutPage: FC = () => {
                 PO {user?.profile_id}
               </Text>
 
-              {data?.recurring_payment && data?.single_and_recurring_payment && (
+              {(data?.recurring_payment || data?.single_and_recurring_payment) && (
                 <Label
                   label="Recurring Billing:"
                   image={QuxTokenIcon}
@@ -111,7 +109,7 @@ const CheckoutPage: FC = () => {
                   loading={isLoading}
                 />
               )}
-              {data?.is_single_purchase && data?.single_and_recurring_payment && (
+              {(data?.is_single_purchase || data?.single_and_recurring_payment) && (
                 <Label
                   label="Single Purchase:"
                   image={QuxTokenIcon}

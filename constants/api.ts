@@ -11,6 +11,7 @@ const getData = async <T>(apiUrl: string, url: string, customToken?: string): Pr
   const { data } = await axios.get(`${apiUrl}/${url}`, {
     headers: {
       Authorization: `Bearer ${customToken ?? token}`,
+      Version: 2,
     },
   });
   return data.data;

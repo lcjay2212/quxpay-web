@@ -23,6 +23,7 @@ const DeleteFriend: FC = () => {
       axios.post(`${STAGING_URL}/web/friends/remove`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {

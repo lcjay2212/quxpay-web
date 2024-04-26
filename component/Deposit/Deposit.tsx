@@ -44,6 +44,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
       axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {

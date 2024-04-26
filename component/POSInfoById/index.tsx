@@ -35,6 +35,7 @@ const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => 
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           'QuxPay-Web': 1,
+          Version: 2,
         },
       }),
     {
@@ -52,6 +53,7 @@ const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => 
       axios.delete(`${STAGING_URL}/web/pos/${data?.id}/delete`, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {

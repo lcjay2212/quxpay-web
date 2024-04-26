@@ -28,6 +28,7 @@ const SchedulePayBillModal: FC = () => {
       axios.post(`${STAGING_URL}/web/billing/scheduled-payment`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {

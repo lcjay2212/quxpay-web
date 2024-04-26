@@ -46,6 +46,7 @@ const CheckoutPage: FC = () => {
       axios.post(`${STAGING_URL}/web/wp/po-paid`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {
@@ -59,8 +60,6 @@ const CheckoutPage: FC = () => {
   );
 
   const tempData = paymentData?.data?.data;
-
-  console.log(data);
 
   return (
     <HeaderContainer label="Checkout" route="/dashboard">

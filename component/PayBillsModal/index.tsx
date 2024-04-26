@@ -45,6 +45,7 @@ const PayBillsModal: FC = () => {
       axios.post(`${STAGING_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {

@@ -165,6 +165,7 @@ const Dashboard: FC = () => {
       axios.post(`${STAGING_URL}/web/corporate/upload/transactions`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {

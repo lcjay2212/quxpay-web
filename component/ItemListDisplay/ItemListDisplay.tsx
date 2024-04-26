@@ -1,39 +1,39 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Box, Flex, Text } from '@chakra-ui/react';
-import Image from 'next/image';
-import { QuxTokenIcon, QuxWalletIcon } from 'public/assets';
+import Image, { StaticImageData } from 'next/image';
+import { QuxPayGreenIcon } from 'public/assets';
 import { FC } from 'react';
-import { defaultHash } from 'utils/defaultHastBlur';
 
-const ItemListDisplay: FC<{ type: string; date: string; amount: string; complete: boolean }> = ({
-  type,
-  amount,
-  date,
-  complete,
-}) => (
-  <Flex gap={8} height={100} mb="1rem">
-    <Box height={80}>
-      <Image
-        src={QuxWalletIcon}
-        height={80}
-        width={100}
-        alt="Qux Wallet"
-        placeholder="blur"
-        blurDataURL={defaultHash}
-      />
-    </Box>
-    <Box fontSize="xl">
-      <Text>QUX Token {type}</Text>
-      <Text>
-        {!complete ? 'Pending' : 'Completed'} {date}
-      </Text>
-      <Flex alignItems="center">
-        <span>
-          <Image src={QuxTokenIcon} width={25} height={20} alt="Qux Token" placeholder="empty" />
-        </span>
-        {amount}
+const ItemListDisplay: FC<{
+  label: string;
+  date: string;
+  amount: number;
+  complete?: boolean;
+  image: StaticImageData;
+  type?: string;
+  onClick?: () => void;
+  hasComplete?: boolean;
+}> = ({ label, amount, date, complete, image, onClick, type, hasComplete }) => {
+  return (
+    <Flex justifyContent="space-between" onClick={onClick} cursor="pointer">
+      <Flex m="0.5rem" gap={4} justifyContent="space-between" alignItems="center">
+        <Image src={image} height={50} width={50} alt="Qux Wallet" />
+        <Box fontSize="12px">
+          <Text>{label}</Text>
+          {hasComplete && <Text>{!complete ? 'Pending' : 'Completed'}</Text>}
+          {type && <Text>{type}</Text>}
+        </Box>
       </Flex>
-    </Box>
-  </Flex>
-);
+
+      <Flex flexDir="column" justifyContent="center" alignItems="flex-end" fontSize="12px">
+        <Text fontWeight="semibold">{date}</Text>
+        <Flex>
+          <Image src={QuxPayGreenIcon} width={15} alt="Qux Token" />
+          <Text color="green.800">{amount.toFixed(2)}</Text>
+        </Flex>
+      </Flex>
+    </Flex>
+  );
+};
 
 export default ItemListDisplay;

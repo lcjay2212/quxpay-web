@@ -15,19 +15,23 @@ export const COLORS = {
   },
 
   green: {
+    800: '#20B878',
     900: '#2e8a41',
   },
 
   primary: '#06A499',
-  error: '#E60C0C',
+  error: '#DC4143',
 
   btn: {
     success: '#5EAC81',
-    danger: '#D0171B',
+    danger: '#DC4143',
     transparent: 'transparent',
     'background-base': '#06A499',
     'text-base': '#ffffff',
     'background-hover': '#ffffff',
     'text-hover': '#06A499',
+  },
+  blue: {
+    100: '#10101F',
   },
 };

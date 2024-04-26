@@ -38,7 +38,7 @@ const STATIC_DATA = [
     routes: '/transfers',
   },
   {
-    image: '/assets/images/1.webp',
+    image: '/assets/images/5.png',
     label: 'The Future of Payments. Today.',
     routes: '/',
   },
@@ -91,7 +91,16 @@ const HomeModal: FC = () => {
             my={{ base: '2rem', md: '15rem' }}
           >
             {STATIC_DATA.map(({ image, label, routes }) => (
-              <Box w={{ base: 250, md: 150, lg: 250 }} h={{ base: 300, md: 250, lg: 350 }} key={label}>
+              <Box
+                w={{ base: 250, md: 150, lg: 250 }}
+                h={{ base: 300, md: 250, lg: 350 }}
+                key={label}
+                _hover={{
+                  textDecoration: 'underline',
+                  color: 'white',
+                  transform: 'scale(1.1)',
+                }}
+              >
                 <Box
                   border="1px solid purple"
                   borderRadius="xl"

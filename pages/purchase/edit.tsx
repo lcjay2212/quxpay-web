@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Input, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import BankAccount from 'component/BankAccount/BankAccount';
@@ -33,6 +34,7 @@ const EditDepositPage: FC = () => {
       axios.post(`${STAGING_URL}/web/bankaccount/update`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {
@@ -59,7 +61,7 @@ const EditDepositPage: FC = () => {
 
   return (
     <HeaderContainer label="Purchase" route="/dashboard">
-      <>
+      <Box px="1rem">
         <Text color="white" fontSize="2rem" mt="2rem">
           Edit My Account
         </Text>
@@ -210,7 +212,7 @@ const EditDepositPage: FC = () => {
             Cancel
           </Button>
         </Box>
-      </>
+      </Box>
     </HeaderContainer>
   );
 };

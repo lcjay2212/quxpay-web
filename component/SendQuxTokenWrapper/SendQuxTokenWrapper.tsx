@@ -35,6 +35,7 @@ const SendQuxTokenWrapper: FC = () => {
       axios.post(`${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {
@@ -52,6 +53,7 @@ const SendQuxTokenWrapper: FC = () => {
       axios.post(`${STAGING_URL}/web/friends/add`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {
@@ -74,7 +76,7 @@ const SendQuxTokenWrapper: FC = () => {
   };
 
   return (
-    <Box textAlign="center" overflow="hidden">
+    <Box textAlign="center" overflow="hidden" px="1rem">
       {!successTrigger ? (
         <FormProvider {...method}>
           <form onSubmit={handleSubmit(onDeposit)}>

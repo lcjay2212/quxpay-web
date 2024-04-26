@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Box, Button, Divider, Flex, Radio, RadioGroup, Spinner, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import HeaderContainer from 'component/Header/HeaderContainer';
@@ -22,6 +23,7 @@ const DeleteFriend: FC = () => {
       axios.post(`${STAGING_URL}/web/friends/remove`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
         },
       }),
     {
@@ -38,7 +40,7 @@ const DeleteFriend: FC = () => {
   return (
     <Box h="100vh" overflow="hidden">
       <HeaderContainer label="Send QUX ®Tokens" route="/dashboard">
-        <Box>
+        <Box px="1rem">
           <Box maxH={600}>
             <Text color="white" fontSize="2rem" mt="2rem">
               My Friend

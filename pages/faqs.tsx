@@ -20,7 +20,7 @@ import { useHomePageModal } from 'store/useHomePageModal';
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
   return (
-    <PageWrapper title="Frequently asked questions">
+    <PageWrapper title="faqs">
       <Grid
         h={{ base: 'auto', md: '220vh' }}
         bgImage="url('/assets/images/faqs-background.webp')"

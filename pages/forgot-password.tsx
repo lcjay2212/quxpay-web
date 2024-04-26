@@ -9,7 +9,6 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { defaultHash } from 'utils/defaultHastBlur';
 import { notify } from 'utils/notify';
 
 const ForgotPassword: FC = () => {
@@ -34,7 +33,7 @@ const ForgotPassword: FC = () => {
   return (
     <Grid placeContent="center" h="100vh" gap="2">
       <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" placeholder="blur" blurDataURL={defaultHash} />
+        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
       </Box>
 
       <Flex mt="2rem" alignItems="center">

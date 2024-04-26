@@ -82,10 +82,11 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer errorMessage={error?.message ?? ''} label="9-10 Account Number">
               <TextField
-                value={value ?? data?.account_number ?? billerData?.account_number}
+                value={value}
                 placeholder="Enter 9-10 Account Number"
                 onChange={onChange}
                 onBlur={onBlur}
+                defaultValue={data?.account_number ?? billerData?.account_number}
               />
             </FormContainer>
           )}
@@ -96,13 +97,14 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
         control={control}
         name="account_name"
         rules={{ required: 'Account Nickname is required' }}
-        render={({ field: { onChange, value = data?.account_name, onBlur }, fieldState: { error } }): ReactElement => (
+        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer errorMessage={error?.message ?? ''} label="Account Nickname">
             <TextField
-              value={value ?? data?.account_name ?? billerData?.account_name}
+              value={value}
               placeholder="Enter Account Nickname"
               onChange={onChange}
               onBlur={onBlur}
+              defaultValue={data?.account_name ?? billerData?.account_name}
             />
           </FormContainer>
         )}

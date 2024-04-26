@@ -24,7 +24,7 @@ const SchedulePayBillModal: FC = () => {
     },
   });
 
-  const { handleSubmit } = method;
+  const { handleSubmit, reset } = method;
 
   const router = useRouter();
 
@@ -39,6 +39,7 @@ const SchedulePayBillModal: FC = () => {
       onSuccess: () => {
         notify(`Scheduled set successfully`);
         void router.push('/dashboard');
+        reset();
       },
       onError: ({ response }) => {
         notify(`${response?.data?.data?.errors?.scheduled_type}`, { status: 'error' });
@@ -51,7 +52,15 @@ const SchedulePayBillModal: FC = () => {
   };
 
   return (
-    <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size={{ base: 'full', md: '3xl' }} isCentered>
+    <Modal
+      isOpen={visible}
+      onClose={(): void => {
+        setVisible(visible);
+        reset();
+      }}
+      size={{ base: 'full', md: '3xl' }}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent bg="black">
         <ModalBody>

@@ -39,7 +39,6 @@ import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
 import usePosHistory from 'store/usePosHistory';
-import { usePrivatekey } from 'store/usePrivatekey';
 import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
 import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
@@ -70,22 +69,22 @@ const Dashboard: FC = () => {
   const router = useRouter();
   const { user } = useUser();
   const setVisible = useUploadLoadingModal((set) => set.setVisible);
-  const setPrivatekey = usePrivatekey((state) => state.setPrivatekey);
+  // const setPrivatekey = usePrivatekey((state) => state.setPrivatekey);
 
-  useEffect(() => {
-    const url = user?.privatekey;
+  // useEffect(() => {
+  //   const url = user?.privatekey;
 
-    const config = {
-      mode: 'get',
-      url,
-    };
+  //   const config = {
+  //     mode: 'get',
+  //     url,
+  //   };
 
-    axios
-      .request(config)
-      .then((response) => setPrivatekey(response.data))
-      // eslint-disable-next-line no-console
-      .catch((error) => console.error(error));
-  }, [setPrivatekey, user]);
+  //   axios
+  //     .request(config)
+  //     .then((response) => setPrivatekey(response.data))
+  //     // eslint-disable-next-line no-console
+  //     .catch((error) => console.error(error));
+  // }, [setPrivatekey, user]);
 
   const temp = [
     {

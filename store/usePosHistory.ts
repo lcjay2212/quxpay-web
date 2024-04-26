@@ -14,8 +14,8 @@ const usePosHistory = (): {
   const { data, isLoading, refetch } = useQuery('posHistory', FETCH_POS_HISTORY, errorHandler);
   const unpaidData = data?.unpaid_or_open;
   const paidData = data?.paid;
-  const received = data?.open.received;
-  const created = data?.open.created;
+  const received = data?.open?.received;
+  const created = data?.open?.created;
   return {
     unpaidData,
     paidData,

@@ -48,8 +48,12 @@ const Login: FC = () => {
       void router.push('/dashboard');
     },
     onError: ({ response }) => {
-      setVisible(true);
-      notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
+      if (response?.data.message === 'These credentials do not match our records.') {
+        notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
+      } else {
+        setVisible(true);
+        notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
+      }
     },
   });
 

@@ -48,7 +48,7 @@ const Login: FC = () => {
       void router.push('/dashboard');
     },
     onError: ({ response }) => {
-      if (response?.data.message === 'These credentials do not match our records.') {
+      if (response?.data.message !== 'Account pending.') {
         notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
       } else {
         setVisible(true);

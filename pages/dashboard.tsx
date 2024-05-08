@@ -21,7 +21,7 @@ import NotificationHistory from 'component/NotificationHistory/NotificationHisto
 import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
 import TokenHistory from 'component/TokenHistory/TokenHistory';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
-import { API_SESSION_URL, STAGING_URL } from 'constants/url';
+import { API_SESSION_URL, isLocalHost, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
@@ -113,7 +113,7 @@ const Dashboard: FC = () => {
       alt: 'Pay Bills',
       route: '/pay-bills',
       label: 'Pay Bills',
-      show: true,
+      show: isLocalHost() ? true : false,
     },
     {
       image: UploadIcon,
@@ -134,7 +134,7 @@ const Dashboard: FC = () => {
       alt: 'Insights',
       route: '/insights',
       label: 'Insights',
-      show: true,
+      show: isLocalHost() ? true : false,
     },
     {
       image: ProfileIcon,
@@ -231,53 +231,55 @@ const Dashboard: FC = () => {
         px="1.5rem"
         borderRadius="xl"
       >
-        {temp.map((item) => (
-          <Box key={item.alt}>
-            {item.show && (
-              <Box key={item.label}>
-                <chakra.input
-                  type="file"
-                  id="Upload"
-                  display="none"
-                  onChange={(e: any): void => {
-                    const formData = new FormData();
-                    formData.append('file', e.target.files[0]);
-                    mutate(formData as any);
-                  }}
-                />
-                <chakra.label
-                  htmlFor={item.alt}
-                  key={item.alt}
-                  w={100}
-                  textAlign="center"
-                  cursor="pointer"
-                  _hover={{
-                    color: 'primary',
-                  }}
-                  id={item.alt}
-                  onClick={(): void => {
-                    if (item.alt !== 'Upload') {
-                      void router.push(item.route);
-                    }
-                  }}
-                >
-                  <Flex justifyContent="center" width="auto" height={50}>
-                    <Image
-                      src={item.image}
-                      width={item.alt === 'Upload' ? 45 : 55}
-                      height={50}
-                      alt={item.alt}
-                      placeholder="empty"
-                    />
-                  </Flex>
-                  <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-                    {item.label}
-                  </Text>
-                </chakra.label>
-              </Box>
-            )}
-          </Box>
-        ))}
+        {temp
+          .filter((q) => q.show)
+          .map((item) => (
+            <Box key={item.alt}>
+              {item.show && (
+                <Box key={item.label}>
+                  <chakra.input
+                    type="file"
+                    id="Upload"
+                    display="none"
+                    onChange={(e: any): void => {
+                      const formData = new FormData();
+                      formData.append('file', e.target.files[0]);
+                      mutate(formData as any);
+                    }}
+                  />
+                  <chakra.label
+                    htmlFor={item.alt}
+                    key={item.alt}
+                    w={100}
+                    textAlign="center"
+                    cursor="pointer"
+                    _hover={{
+                      color: 'primary',
+                    }}
+                    id={item.alt}
+                    onClick={(): void => {
+                      if (item.alt !== 'Upload') {
+                        void router.push(item.route);
+                      }
+                    }}
+                  >
+                    <Flex justifyContent="center" width="auto" height={50}>
+                      <Image
+                        src={item.image}
+                        width={item.alt === 'Upload' ? 45 : 55}
+                        height={50}
+                        alt={item.alt}
+                        placeholder="empty"
+                      />
+                    </Flex>
+                    <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                      {item.label}
+                    </Text>
+                  </chakra.label>
+                </Box>
+              )}
+            </Box>
+          ))}
       </Grid>
 
       <NotificationHistory />

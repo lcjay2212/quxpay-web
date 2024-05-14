@@ -17,7 +17,7 @@ const BankAccount: FC<{ name?: string; accountNumber: string; bankName: string; 
         </Box>
         <Box fontSize="lg">
           <Text>
-            <span>{bankName.slice(0, 15)}</span>&nbsp;
+            <span>{bankName}</span>&nbsp;
             {accountNumber}
           </Text>
           <Text>Name: {name}</Text>

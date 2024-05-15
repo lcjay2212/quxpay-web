@@ -1,3 +1,4 @@
+import { Checkbox, chakra } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FC, ReactElement } from 'react';
@@ -72,6 +73,28 @@ const FirstStep: FC = () => {
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Username" errorMessage={error?.message ?? ''}>
             <TextField value={value ?? ''} placeholder="Choose your username" onChange={onChange} onBlur={onBlur} />
+          </FormContainer>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="term_and_condition"
+        rules={{ required: 'Username is required' }}
+        render={({ field: { onChange, value }, fieldState: { error } }): ReactElement => (
+          <FormContainer errorMessage={error?.message ?? ''}>
+            <Checkbox color="white" value={value} onChange={(e): void => onChange(e.target.value)}>
+              I agree to the{' '}
+              <chakra.span
+                color="primary"
+                _hover={{
+                  cursor: 'pointer',
+                  textDecor: 'underline',
+                }}
+              >
+                Term and Condition
+              </chakra.span>
+            </Checkbox>
           </FormContainer>
         )}
       />

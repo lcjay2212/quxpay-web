@@ -92,7 +92,7 @@ const FirstStep: FC = () => {
                   textDecor: 'underline',
                 }}
               >
-                Term and Condition
+                Term and Conditions
               </chakra.span>
             </Checkbox>
           </FormContainer>

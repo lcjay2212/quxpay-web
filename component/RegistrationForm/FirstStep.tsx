@@ -1,4 +1,4 @@
-import { Checkbox, chakra } from '@chakra-ui/react';
+import { Checkbox } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { FC, ReactElement } from 'react';
@@ -80,20 +80,24 @@ const FirstStep: FC = () => {
       <Controller
         control={control}
         name="term_and_condition"
-        rules={{ required: 'Username is required' }}
+        rules={{ required: 'Please agree to the terms and conditions' }}
         render={({ field: { onChange, value }, fieldState: { error } }): ReactElement => (
           <FormContainer errorMessage={error?.message ?? ''}>
             <Checkbox color="white" value={value} onChange={onChange}>
               I agree to the{' '}
-              <chakra.span
-                color="primary"
-                _hover={{
-                  cursor: 'pointer',
-                  textDecor: 'underline',
-                }}
+              <a
+                href="https://qux.tv/terms-and-condition"
+                target="_blank"
+                // color="primary"
+                // _hover={{
+                //   cursor: 'pointer',
+                //   textDecor: 'underline',
+                // }}
+                style={{ color: '#06A499' }}
+                rel="noreferrer"
               >
-                Term and Conditions
-              </chakra.span>
+                Terms and Conditions
+              </a>
             </Checkbox>
           </FormContainer>
         )}

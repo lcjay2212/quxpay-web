@@ -83,7 +83,7 @@ const FirstStep: FC = () => {
         rules={{ required: 'Username is required' }}
         render={({ field: { onChange, value }, fieldState: { error } }): ReactElement => (
           <FormContainer errorMessage={error?.message ?? ''}>
-            <Checkbox color="white" value={value} onChange={(e): void => onChange(e.target.value)}>
+            <Checkbox color="white" value={value} onChange={onChange}>
               I agree to the{' '}
               <chakra.span
                 color="primary"

@@ -122,24 +122,6 @@ const FinalStep: FC = () => {
 
       <Controller
         control={control}
-        name="ssn"
-        rules={{ required: 'Social Security Number is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Social Security Number" errorMessage={error?.message ?? ''}>
-            <TextField
-              type="number"
-              value={value ?? ''}
-              onKeyDown={blockInvalidChar}
-              placeholder="Enter SSN e.g. 123-45-6789"
-              onChange={onChange}
-              onBlur={onBlur}
-            />
-          </FormContainer>
-        )}
-      />
-
-      <Controller
-        control={control}
         name="month"
         rules={{ required: 'Month is required' }}
         render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {

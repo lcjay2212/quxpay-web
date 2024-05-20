@@ -1,4 +1,4 @@
-import { Box, chakra, Text } from '@chakra-ui/react';
+import { Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { startCase } from 'lodash';
@@ -186,88 +186,6 @@ const CorporationStep: FC = () => {
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Zip" errorMessage={error?.message ?? ''}>
             <TextField value={value ?? ''} placeholder="Enter Zip Code" onChange={onChange} onBlur={onBlur} />
-          </FormContainer>
-        )}
-      />
-
-
-
-      <Text color="white" fontSize="26px" my="1.5rem">
-        Upload Files
-      </Text>
-
-
-
-      <Controller
-        control={control}
-        name="passport"
-        rules={{ required: 'Passport is required' }}
-        render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Passport" errorMessage={error?.message ?? ''}>
-            <Box w="100%" my="1rem">
-              <chakra.input type="file" id="passport" display="none" onChange={(e): void => {
-                onChange(e.target.files)
-              }} />
-              <chakra.label htmlFor="passport">
-                <Box
-                  w="100%"
-                  h="50px"
-                  display="grid"
-                  placeContent="center"
-                  cursor="pointer"
-                  bg="btn.background-base"
-                  color="btn.text-base"
-                  transition="0.2s ease-in"
-                  borderRadius="1rem"
-                  _hover={{
-                    bg: 'btn.background-hover',
-                    color: 'btn.text-hover',
-                  }}
-                  fontSize="1rem"
-
-                  fontWeight="semibold"
-                >
-                  Upload File
-                </Box>
-              </chakra.label>
-            </Box>
-          </FormContainer>
-        )}
-      />
-
-      <Controller
-        control={control}
-        name="driver_license"
-        rules={{ required: 'Driver License is required' }}
-        render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Driver License" errorMessage={error?.message ?? ''}>
-            <Box w="100%" my="1rem">
-              <chakra.input type="file" id="driver_license" display="none" onChange={(e): void => {
-                onChange(e.target.files)
-              }} />
-              <chakra.label htmlFor="driver_license">
-                <Box
-                  w="100%"
-                  h="50px"
-                  display="grid"
-                  placeContent="center"
-                  cursor="pointer"
-                  bg="btn.background-base"
-                  color="btn.text-base"
-                  transition="0.2s ease-in"
-                  borderRadius="1rem"
-                  _hover={{
-                    bg: 'btn.background-hover',
-                    color: 'btn.text-hover',
-                  }}
-                  fontSize="1rem"
-
-                  fontWeight="semibold"
-                >
-                  Upload File
-                </Box>
-              </chakra.label>
-            </Box>
           </FormContainer>
         )}
       />

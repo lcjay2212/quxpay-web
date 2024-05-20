@@ -23,7 +23,7 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
         <Flex justifyContent={place}>
           <FormLabel
             fontSize="1rem"
-            mb="0.3rem"
+            mb="0.5rem"
             color="white"
             htmlFor={label}
             {...(!label && {

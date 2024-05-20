@@ -17,6 +17,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import UploadLoadingModal from 'component/Modal/UploadLoadingModal';
+import VerifyModal from 'component/Modal/VerifyModal';
 import NotificationHistory from 'component/NotificationHistory/NotificationHistory';
 import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
 import TokenHistory from 'component/TokenHistory/TokenHistory';
@@ -288,6 +289,8 @@ const Dashboard: FC = () => {
       <TokenHistory />
 
       <UploadLoadingModal />
+
+      <VerifyModal />
     </Container>
   );
 };

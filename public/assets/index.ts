@@ -9,6 +9,7 @@ import QuxPayLogoPng from './images/quxpay-logo.webp';
 import AddBankIcon from './icons/add-bank-icon.webp';
 import AddFriendIcon from './icons/add-friend-icon.webp';
 import AddBankIcons from './icons/add_credit_card_icon.webp';
+import HandsIcon from './icons/awesome-hands.svg';
 import BankIcon from './icons/bank.svg';
 import BillsIcon from './icons/bills.svg';
 import CalendarIcon from './icons/calendar-icon.svg';
@@ -23,6 +24,7 @@ import QuxTokenBigIcon from './icons/qux-token-big-icon.svg';
 import QuxTokenIcon from './icons/qux-token.webp';
 import QuxWalletIcon from './icons/qux_wallet.webp';
 import SendQuxCash from './icons/send_qux_cash.webp';
+import ShieldIcon from './icons/shield.svg';
 import SuccessIcon from './icons/succesful-icon.svg';
 import SuccessCircleIcon from './icons/success-circle-icon.svg';
 import TokenHistoryGreenIcon from './icons/token-history-green-icon.svg';
@@ -35,5 +37,5 @@ import WithdrawSuccessful from './icons/withdraw_successful.webp';
 import DownloadImg from './images/download.webp';
 import PhoneImage from './images/phone.webp';
 
-export { AddBankIcon, AddBankIcons, AddFriendIcon, BankIcon, BillsIcon, CalendarIcon, CashIn, CircleAddIcon, DepositSuccessful, DownloadImg, FailedIcon, InsightIcon, PhoneImage, ProcessingIcon, ProfileIcon, QuxLogo, QuxPayGreenIcon, QuxPayLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxTokenBigIcon, QuxTokenIcon, QuxWalletIcon, SendQuxCash, SuccessCircleIcon, SuccessIcon, TokenHistoryGreenIcon, TokenHistoryIcon, UnpaidHistoryIcon, UploadIcon, UploadIcon2, WithdrawSuccessful };
+export { AddBankIcon, AddBankIcons, AddFriendIcon, BankIcon, BillsIcon, CalendarIcon, CashIn, CircleAddIcon, DepositSuccessful, DownloadImg, FailedIcon, HandsIcon, InsightIcon, PhoneImage, ProcessingIcon, ProfileIcon, QuxLogo, QuxPayGreenIcon, QuxPayLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxTokenBigIcon, QuxTokenIcon, QuxWalletIcon, SendQuxCash, ShieldIcon, SuccessCircleIcon, SuccessIcon, TokenHistoryGreenIcon, TokenHistoryIcon, UnpaidHistoryIcon, UploadIcon, UploadIcon2, WithdrawSuccessful };
 

@@ -8,7 +8,7 @@ import SecondStep from 'component/RegistrationForm/SecondStep';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxLogo, QuxPayLogo } from 'public/assets';
+import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
@@ -193,13 +193,14 @@ const Register: FC = () => {
               <Flex mt="2rem">
                 <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(2)} />
                 <Text color="primary" fontSize="4xl" w={300}>
-                  C<span style={{ color: 'white' }}>omplete Your Registration</span>
+                  C<span style={{ color: 'white' }}>ontinue Your Registration</span>
                 </Text>
               </Flex>
 
               <Flex justifyContent="space-around" alignItems="center" my="1rem">
-                <Flex>
-                  <LockIcon color="primary" w={50} h={50} />
+                <Flex flexDirection="column">
+                  <Image src={ShieldIcon} height={45} width={45} alt="Shield" />
+                  <Image src={HandsIcon} height={45} width={45} alt="Shield" />
                 </Flex>
                 <Text color="white" fontSize="1.25rem">
                   Securely enter your bank <br />

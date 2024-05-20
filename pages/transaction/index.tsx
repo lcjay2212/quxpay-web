@@ -83,7 +83,7 @@ const TransactionHistoryPage: FC = () => {
             </Button>
           </Flex>
         </Box>
-        <Box bg="blue.100" mt="1rem" py="1.5rem" h="100vh" borderTopRadius="32px" color="white">
+        <Box bg="blue.100" mt="1rem" py="1.5rem" minH="100vh" h="auto" borderTopRadius="32px" color="white">
           {isLoading ? (
             <Box textAlign="center" py="2rem">
               <Spinner color="primary" size="xl" />

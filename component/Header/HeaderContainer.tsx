@@ -2,7 +2,7 @@ import { ArrowBackIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxLogo, UnpaidHistoryIcon } from 'public/assets';
+import { QuxLogo, UnpaidHistoryIcon, UploadIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { useHomePageModal } from 'store/useHomePageModal';
@@ -74,6 +74,11 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
               )}
             </MenuList>
           </Menu>
+        )}
+        {label === 'Transactions' && (
+          <Box mt="0.5rem">
+            <Image src={UploadIcon} height={25} width={25} alt="Upload icon" />
+          </Box>
         )}
       </Flex>
 

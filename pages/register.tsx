@@ -200,7 +200,7 @@ const Register: FC = () => {
               <Flex justifyContent="space-around" alignItems="center" my="1rem">
                 <Flex flexDirection="column">
                   <Image src={ShieldIcon} height={45} width={45} alt="Shield" />
-                  <Image src={HandsIcon} height={45} width={45} alt="Shield" />
+                  <Image src={HandsIcon} height={45} width={45} alt="Hands" />
                 </Flex>
                 <Text color="white" fontSize="1.25rem">
                   Securely enter your bank <br />

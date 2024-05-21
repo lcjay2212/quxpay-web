@@ -2,10 +2,10 @@ import {
   Avatar,
   Box,
   Button,
+  Image as ChakraImage,
   Checkbox,
   Divider,
   Flex,
-  Image as ChakraImage,
   Modal,
   ModalBody,
   ModalContent,
@@ -50,6 +50,7 @@ const CreatePoForm: FC = () => {
   const setProductValue = useProductModal((e) => e.setProductValue);
   const [trigger, setTrigger] = useState(false);
   const [qrUrl, setQrUrl] = useState();
+  const [searchProduct, setSearchProduct] = useState('');
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
@@ -178,10 +179,10 @@ const CreatePoForm: FC = () => {
                 </Text>
                 <TextField
                   type="email"
-                  value={''}
+                  value={searchProduct}
                   placeholder="Search By Product Name"
                   // eslint-disable-next-line no-console
-                  onChange={(e): void => console.log(e.target.value)}
+                  onChange={(e): void => setSearchProduct(e.target.value)}
                 />
 
                 <Box mt="2rem">

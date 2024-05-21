@@ -15,6 +15,7 @@ import { useQuery } from 'react-query';
 // import { usePrivatekey } from 'store/usePrivatekey';
 import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
 const TransactionHistoryPage: FC = () => {
+  const [search, setSearch] = useState('');
   const {
     setVisible,
     visible,
@@ -36,7 +37,13 @@ const TransactionHistoryPage: FC = () => {
     <HeaderContainer label="Transactions" route="/dashboard">
       <>
         <Box mx="1rem" mt="1rem">
-          <TextField isSearch type="email" value={''} placeholder="Search" />
+          <TextField
+            isSearch
+            type="email"
+            value={search}
+            onChange={(e): void => setSearch(e.target.value)}
+            placeholder="Search"
+          />
 
           <Flex mt="1rem" gap={3} justifyContent="center">
             <Button

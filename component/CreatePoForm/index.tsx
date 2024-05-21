@@ -289,7 +289,11 @@ const CreatePoForm: FC = () => {
                     </Text>
                   </Flex>
 
-                  <Radio value={`${friendData?.length + 1}`} colorScheme="teal" />
+                  <Radio
+                    value={`${friendData?.length + 1}`}
+                    onClick={(): void => setEmailValue('')}
+                    colorScheme="teal"
+                  />
                 </Flex>
               </RadioGroup>
 

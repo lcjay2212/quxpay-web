@@ -71,7 +71,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
           {!loading ? (
             <FormProvider {...method}>
               <form onSubmit={handleSubmit(onDeposit)}>
-                <Flex flexDir="column" justifyContent="space-between">
+                <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
                   <Box display="flex" flexDir="column">
                     <Controller
                       control={control}
@@ -163,12 +163,12 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                     <Divider />
                   </Box>
 
-                  <Box my="2rem">
+                  <Box mt="2rem">
                     <Button
                       type="submit"
                       variant="primary"
                       borderRadius="1rem"
-                      w={350}
+                      w="400px"
                       h="3.25rem"
                       isLoading={isLoading}
                     >

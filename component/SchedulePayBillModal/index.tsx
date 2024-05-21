@@ -4,7 +4,7 @@ import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text }
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
-import { FC } from 'react';
+import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
@@ -19,9 +19,15 @@ const SchedulePayBillModal: FC = () => {
 
   const method = useForm();
 
-  const { handleSubmit, reset } = method;
+  const { handleSubmit, reset, setValue } = method;
 
   const router = useRouter();
+
+  useEffect(() => {
+    setValue('account_name', billerData?.account_name);
+    setValue('account_number', billerData?.account_number);
+    setValue('biller_id', billerData?.id);
+  }, [setValue, billerData]);
 
   const { mutate, isLoading: loading } = useMutation(
     (variable) =>
@@ -84,7 +90,7 @@ const SchedulePayBillModal: FC = () => {
                     </Flex>
                   </Flex>
                   <Box textAlign="center">
-                    <ScheduleBiller id={billerData?.id} />
+                    <ScheduleBiller />
                   </Box>
                 </Box>
                 <Box textAlign="center">

@@ -12,13 +12,12 @@ import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
 import { useSetScheduleModal } from 'store/useSetScheduleModal';
 import SetScheduleModal from './SetScheduleModal';
 
-const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
+const ScheduleBiller: FC<{ id?: number }> = () => {
   const { billerData } = useSchedulePayBillModal((state) => ({
     billerData: state.billerData,
   }));
   const { control, watch } = useFormContext();
   const setVisible = useSetScheduleModal((state) => state.setVisible);
-
   return (
     <Box my="1rem">
       <Flex justifyContent="flex-start" alignItems="center">
@@ -35,7 +34,7 @@ const ScheduleBiller: FC<{ id?: number }> = ({ id }) => {
           />
         </Flex>
         <Text color="white" fontWeight="semibold" fontSize="14px">
-          {billerData?.biller}
+          {billerData?.biller || billerData?.biller_name}
         </Text>
       </Flex>
 

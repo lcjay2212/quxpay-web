@@ -150,7 +150,7 @@ const VerifyModal: FC = () => {
                       rules={{ required: 'Passport is required' }}
                       render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
                         <FormContainer label="Passport" errorMessage={error?.message ?? ''}>
-                          <Box w="100%" my="1rem">
+                          <Box w="100%" my="0.5rem">
                             <chakra.input
                               type="file"
                               id="passport"
@@ -162,7 +162,7 @@ const VerifyModal: FC = () => {
                             <chakra.label htmlFor="passport">
                               <Flex
                                 w="100%"
-                                h="60px"
+                                h="55px"
                                 placeContent="center"
                                 cursor="pointer"
                                 bg="btn.background-hover"
@@ -193,7 +193,7 @@ const VerifyModal: FC = () => {
                       rules={{ required: 'Driver License is required' }}
                       render={({ field: { onChange }, fieldState: { error } }): ReactElement => (
                         <FormContainer label="Driver License" errorMessage={error?.message ?? ''}>
-                          <Box w="100%" my="1rem">
+                          <Box w="100%" my="0.5rem">
                             <chakra.input
                               type="file"
                               id="driver_license"
@@ -205,7 +205,7 @@ const VerifyModal: FC = () => {
                             <chakra.label htmlFor="driver_license">
                               <Flex
                                 w="100%"
-                                h="60px"
+                                h="55px"
                                 placeContent="center"
                                 cursor="pointer"
                                 bg="btn.background-hover"
@@ -232,7 +232,7 @@ const VerifyModal: FC = () => {
                   </Box>
                 )}
 
-                <Box textAlign="center" mt="2rem">
+                <Box textAlign="center" my="2rem">
                   <Button type="submit" variant="primary" borderRadius="1rem" w="100%" h="3.5rem" isLoading={isLoading}>
                     Continue
                   </Button>

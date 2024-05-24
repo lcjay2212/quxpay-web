@@ -42,6 +42,7 @@ import { useBalance } from 'store/useBalance';
 import usePosHistory from 'store/usePosHistory';
 import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
 import { useUser } from 'store/useUser';
+import { useVerifyModal } from 'store/useVerifyModal';
 import { clearStorage } from 'utils/clearStorage';
 import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
@@ -67,9 +68,7 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 );
 
 const Dashboard: FC = () => {
-  const router = useRouter();
   const { user } = useUser();
-  const setVisible = useUploadLoadingModal((set) => set.setVisible);
   // const setPrivatekey = usePrivatekey((state) => state.setPrivatekey);
 
   // useEffect(() => {
@@ -146,8 +145,12 @@ const Dashboard: FC = () => {
     },
   ];
 
-  const { isLoading, balance, deposit, withdrawalPending } = useBalance();
+  const router = useRouter();
+  const setVisible = useUploadLoadingModal((set) => set.setVisible);
+
+  const { isLoading, balance, deposit, withdrawalPending, totalPurchase } = useBalance();
   const { refetch } = usePosHistory();
+  const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
   const logout = async (): Promise<void> => {
     const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
     const json = await loginSession.json();
@@ -160,6 +163,12 @@ const Dashboard: FC = () => {
       // TODO: handler
     }
   };
+
+  useEffect(() => {
+    if (!user?.is_verified && totalPurchase >= 600) {
+      setVerifyModalVisible(true);
+    }
+  }, [setVerifyModalVisible, totalPurchase, user]);
 
   const { mutate, isLoading: uploadLoading } = useMutation(
     (variable) =>
@@ -287,9 +296,7 @@ const Dashboard: FC = () => {
       <TransactionHistory />
       <OpenPosHistory />
       <TokenHistory />
-
       <UploadLoadingModal />
-
       <VerifyModal />
     </Container>
   );

@@ -22,6 +22,7 @@ type Me = {
   incomplete_registration: any;
   purchaser_info: any;
   privatekey: string;
+  is_verified: boolean;
 } | null;
 
 type Props = {

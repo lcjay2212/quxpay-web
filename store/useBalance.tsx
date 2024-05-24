@@ -6,6 +6,8 @@ export const useBalance = (): {
   balance: number;
   deposit: number;
   withdrawalPending: number;
+  totalPurchase: number;
+  totalWithdraw: number;
   isLoading: boolean;
 } => {
   const { data, isLoading } = useQuery('balance', FETCH_WALLET_BALANCE, errorHandler);
@@ -13,6 +15,8 @@ export const useBalance = (): {
     balance: +data?.balance,
     deposit: +data?.deposit,
     withdrawalPending: +data?.withdraw_pending,
+    totalPurchase: +data?.total_purchase,
+    totalWithdraw: +data?.total_withdraw,
     isLoading,
   };
 };

@@ -1,10 +1,10 @@
-import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text, chakra } from '@chakra-ui/react';
+import { Box, Button, chakra, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
+import storage from 'constants/storage';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { BankIcon, UploadIcon2 } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -15,7 +15,6 @@ import { blockInvalidChar } from 'utils/blockInvalidChar';
 import { notify } from 'utils/notify';
 
 const VerifyModal: FC = () => {
-  const router = useRouter();
   const { user } = useUser();
   const [visible, setVisible] = useVerifyModal(({ visible, setVisible }) => [visible, setVisible]);
   const method = useForm();
@@ -33,7 +32,10 @@ const VerifyModal: FC = () => {
     {
       onSuccess: () => {
         notify(`Success!`);
-        void router.push('/login');
+        setVisible(false);
+        const temp = JSON.parse(localStorage.getItem(storage.QUX_PAY_USER_DETAILS) || '');
+        temp.is_verified = true;
+        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(temp));
       },
       onError: ({ response }) => {
         notify(`${response?.data?.message}`, { status: 'error' });
@@ -80,9 +82,9 @@ const VerifyModal: FC = () => {
             </Text>
 
             <Text my="1rem" fontSize="10px" textAlign="center" color="white">
-              in order to complete setting up your account and continue using QUXPay™,
+              In order to complete setting up your account and continue using QUXPay™,
               <br /> please enter your information. Remember that all information will
-              <br /> follow the strictest form of our privacy policy
+              <br /> follow the strictest form of our privacy policy.
             </Text>
           </Flex>
           <FormProvider {...method}>

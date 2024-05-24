@@ -206,13 +206,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
                     {step === 2 && (
                       <Button
-                        type="submit"
                         variant="secondary"
                         borderRadius="1rem"
                         w="400px"
                         h="3.25rem"
                         isLoading={isLoading}
                         mt="1rem"
+                        onClick={(): void => void router.push('dashboard')}
                       >
                         Cancel
                       </Button>

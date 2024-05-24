@@ -15,6 +15,7 @@ import axios from 'axios';
 import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
 import BankAccount from 'component/BankAccount/BankAccount';
 import { FormContainer } from 'component/FormInput';
+import { Label } from 'component/PaidPosInfoById';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
@@ -31,13 +32,13 @@ import { notify } from 'utils/notify';
 const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
-  const [amountValue, setAmountValue] = useState(0);
 
   const method = useForm();
-  const { control, handleSubmit } = method;
+  const { control, handleSubmit, watch } = method;
   const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
   const setPaymentId = useAccountPaymentId((e) => e.setPaymentId);
+  const [step, setStep] = useState(1);
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
@@ -61,8 +62,18 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     }
   );
 
+  const calculateThreePercent = (amount: number): number => amount * 0.03;
+  const amount = watch('amount');
+
   const onDeposit = (val): void => {
-    mutate({ ...val, payment_method: 'ach_bank' });
+    if (step === 1) {
+      setStep((e) => e + 1);
+      return;
+    }
+
+    if (step === 2) {
+      mutate({ ...val, payment_method: 'ach_bank' });
+    }
   };
   return (
     <Box textAlign="center" overflow="hidden" px="1rem">
@@ -72,96 +83,114 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
             <FormProvider {...method}>
               <form onSubmit={handleSubmit(onDeposit)}>
                 <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
-                  <Box display="flex" flexDir="column">
-                    <Controller
-                      control={control}
-                      name="amount"
-                      rules={{ required: 'Amount is required' }}
-                      render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                        <FormContainer
-                          label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
-                          errorMessage={error?.message ?? ''}
-                          place="end"
-                        >
-                          <TextField
-                            type="number"
-                            value={value || ''}
-                            placeholder="Enter Amount"
-                            onChange={(e): void => {
-                              onChange(+e.target.value);
-                              setAmountValue(+e.target.value);
-                            }}
-                            onBlur={onBlur}
-                            min={20}
-                            max={label === 'Redeem' ? 100 : 9999}
-                          />
-                        </FormContainer>
-                      )}
-                    />
-
-                    <RadioGroup onChange={setRadioValue} value={radioValue}>
+                  {step === 1 && (
+                    <Box display="flex" flexDir="column">
                       <Controller
                         control={control}
-                        name="payment_profile_id"
-                        rules={{
-                          required: radioValue !== `${data?.payments?.length + 1}` ? 'Payment is required' : false,
-                        }}
-                        render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
-                          return (
-                            <FormControl isInvalid={!!error?.message}>
-                              {data?.payments?.map((item, index) => (
-                                <Flex justifyContent="space-between" key={index}>
-                                  <Box mt="1rem">
-                                    <BankAccount
-                                      bankName={item?.bank_name ?? ''}
-                                      name={item?.account_name ?? ''}
-                                      accountNumber={item?.account_number ?? ''}
-                                      loading={loading}
-                                    />
-                                    {error?.message && (
-                                      <SlideFade in={true} offsetY="-1rem">
-                                        <FormErrorMessage fontSize="0.9rem" color="error">
-                                          {error.message}
-                                        </FormErrorMessage>
-                                      </SlideFade>
-                                    )}
-                                  </Box>
-                                  <Radio
-                                    value={`${index + 1}`}
-                                    colorScheme="teal"
-                                    onChange={(): void => {
-                                      onChange(item.payment_profile_id);
-                                      setPaymentId(item.payment_profile_id);
-                                    }}
-                                  />
-                                </Flex>
-                              ))}
-                            </FormControl>
-                          );
-                        }}
+                        name="amount"
+                        rules={{ required: 'Amount is required' }}
+                        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+                          <FormContainer
+                            label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
+                            errorMessage={error?.message ?? ''}
+                            place="end"
+                          >
+                            <TextField
+                              type="number"
+                              value={value || ''}
+                              placeholder="Enter Amount"
+                              onChange={(e): void => {
+                                onChange(+e.target.value);
+                              }}
+                              onBlur={onBlur}
+                              min={20}
+                              max={label === 'Redeem' ? 100 : 9999}
+                            />
+                          </FormContainer>
+                        )}
                       />
 
-                      <Divider mt="1rem" />
+                      <RadioGroup onChange={setRadioValue} value={radioValue}>
+                        <Controller
+                          control={control}
+                          name="payment_profile_id"
+                          rules={{
+                            required: radioValue !== `${data?.payments?.length + 1}` ? 'Payment is required' : false,
+                          }}
+                          render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
+                            return (
+                              <FormControl isInvalid={!!error?.message}>
+                                {data?.payments?.map((item, index) => (
+                                  <Flex justifyContent="space-between" key={index}>
+                                    <Box mt="1rem">
+                                      <BankAccount
+                                        bankName={item?.bank_name ?? ''}
+                                        name={item?.account_name ?? ''}
+                                        accountNumber={item?.account_number ?? ''}
+                                        loading={loading}
+                                      />
+                                      {error?.message && (
+                                        <SlideFade in={true} offsetY="-1rem">
+                                          <FormErrorMessage fontSize="0.9rem" color="error">
+                                            {error.message}
+                                          </FormErrorMessage>
+                                        </SlideFade>
+                                      )}
+                                    </Box>
+                                    <Radio
+                                      value={`${index + 1}`}
+                                      colorScheme="teal"
+                                      onChange={(): void => {
+                                        onChange(item.payment_profile_id);
+                                        setPaymentId(item.payment_profile_id);
+                                      }}
+                                    />
+                                  </Flex>
+                                ))}
+                              </FormControl>
+                            );
+                          }}
+                        />
 
-                      {label === 'Purchase' && (
-                        <>
-                          <Flex my="1.5rem" justifyContent="space-between">
-                            <Flex>
-                              <Image src={AddBankIcons} alt="Add Bank Icon" />
-                              <Text ml="1rem" color="white" fontSize="1.25rem">
-                                Add New Bank Account
-                              </Text>
+                        <Divider mt="1rem" />
+
+                        {label === 'Purchase' && (
+                          <>
+                            <Flex my="1.5rem" justifyContent="space-between">
+                              <Flex>
+                                <Image src={AddBankIcons} alt="Add Bank Icon" />
+                                <Text ml="1rem" color="white" fontSize="1.25rem">
+                                  Add New Bank Account
+                                </Text>
+                              </Flex>
+
+                              <Radio value={`${data?.payments?.length + 1}`} colorScheme="teal" />
                             </Flex>
+                            {radioValue !== `${data?.payments?.length + 1}` ? <></> : <AddBankAccount />}
+                          </>
+                        )}
+                      </RadioGroup>
 
-                            <Radio value={`${data?.payments?.length + 1}`} colorScheme="teal" />
-                          </Flex>
-                          {radioValue !== `${data?.payments?.length + 1}` ? <></> : <AddBankAccount />}
-                        </>
-                      )}
-                    </RadioGroup>
-
-                    <Divider />
-                  </Box>
+                      <Divider />
+                    </Box>
+                  )}
+                  {step === 2 && (
+                    <Box color="white" m="2rem">
+                      <Label label="Token Amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
+                      <Label
+                        label="Token Fee:"
+                        image={QuxTokenIcon}
+                        amount={calculateThreePercent(amount) || 0.0}
+                        loading={loading}
+                      />
+                      <Label
+                        label="Total Token amount:"
+                        image={QuxTokenIcon}
+                        amount={amount + calculateThreePercent(amount) || 0.0}
+                        loading={loading}
+                      />
+                    </Box>
+                  )}
 
                   <Box mt="2rem">
                     <Button
@@ -172,8 +201,22 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       h="3.25rem"
                       isLoading={isLoading}
                     >
-                      {label}
+                      {step === 1 ? label : 'Confirm'}
                     </Button>
+
+                    {step === 2 && (
+                      <Button
+                        type="submit"
+                        variant="secondary"
+                        borderRadius="1rem"
+                        w="400px"
+                        h="3.25rem"
+                        isLoading={isLoading}
+                        mt="1rem"
+                      >
+                        Cancel
+                      </Button>
+                    )}
                   </Box>
                 </Flex>
               </form>
@@ -197,7 +240,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
           </Box>
           {label === 'Redeem' ? (
             <Text color="white" fontSize="2rem">
-              $ {amountValue.toFixed(2)}
+              $ {(amount + calculateThreePercent(amount)).toFixed(2)}
             </Text>
           ) : (
             <Flex>
@@ -205,7 +248,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                 <Image src={QuxTokenIcon} height={30} width={32} alt="Qux Logo" />
               </Box>
               <Text color="white" fontSize="2rem">
-                {amountValue.toFixed(2)}
+                {(amount + calculateThreePercent(amount)).toFixed(2)}
               </Text>
             </Flex>
           )}

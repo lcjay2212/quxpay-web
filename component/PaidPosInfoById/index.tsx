@@ -41,7 +41,7 @@ export const Label: FC<{ label: string; image: any; amount: number; loading: boo
           <span>
             <Image src={image} width={24} height={20} alt="Qux Token" />
           </span>
-          {!loading ? <> {amount}</> : <Spinner />}
+          {!loading ? <> {amount.toFixed(2)}</> : <Spinner />}
         </Flex>
       </Flex>
       <QuxTokenFeeModal />

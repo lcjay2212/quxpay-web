@@ -3,7 +3,11 @@ import { QueryFunctionContext } from 'react-query';
 import { STAGING_URL } from './url';
 
 export const post = async <T>(url: string, variable: void): Promise<T> =>
-  await axios.post(`${STAGING_URL}/${url}`, variable);
+  await axios.post(`${STAGING_URL}/${url}`, variable, {
+    headers: {
+      Version: 2,
+    },
+  });
 
 const token = typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN;
 

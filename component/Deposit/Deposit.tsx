@@ -21,7 +21,7 @@ import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIcons, DepositSuccessful, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
+import { AddBankIconTwo, DepositSuccessful, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -157,8 +157,8 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                         {label === 'Purchase' && (
                           <>
                             <Flex my="1.5rem" justifyContent="space-between">
-                              <Flex>
-                                <Image src={AddBankIcons} alt="Add Bank Icon" />
+                              <Flex alignItems="center">
+                                <Image src={AddBankIconTwo} height={50} width={60} alt="Add Bank Icon" />
                                 <Text ml="1rem" color="white" fontSize="1.25rem">
                                   Add New Bank Account
                                 </Text>

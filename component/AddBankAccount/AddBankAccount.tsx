@@ -30,10 +30,9 @@ export const reactSelectStyles = {
     ...provided,
     padding: 13,
     fontSize: '1rem',
-    border: '1px solid #cccccc',
+    border: '1px solid #4D4D6B',
     borderRadius: '16px',
-    boxShadow: 'rgba(100, 100, 111, 0.2) 0rem 0.438rem 1.813rem 0rem',
-    background: '#3D3C3C',
+    background: '#10101F',
     textAlign: 'start',
     color: 'white',
     ':active': {

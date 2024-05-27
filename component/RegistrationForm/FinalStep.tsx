@@ -4,7 +4,7 @@ import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
-import { AddBankIcons } from 'public/assets';
+import { AddBankIconTwo } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
@@ -37,8 +37,8 @@ const FinalStep: FC = () => {
 
   return (
     <>
-      <Flex mb="1.5rem">
-        <Image src={AddBankIcons} alt="Add Bank Icon" />
+      <Flex mb="1.5rem" alignItems="center">
+        <Image src={AddBankIconTwo} height={50} width={60} alt="Add Bank Icon" />
         <Text ml="1rem" color="white" fontSize="1.25rem">
           Add New Bank Account
         </Text>

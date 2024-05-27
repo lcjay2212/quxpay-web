@@ -148,7 +148,7 @@ const Dashboard: FC = () => {
   const router = useRouter();
   const setVisible = useUploadLoadingModal((set) => set.setVisible);
 
-  const { isLoading, balance, deposit, withdrawalPending, totalPurchase } = useBalance();
+  const { isLoading, balance, deposit, withdrawalPending, totalPurchase, verificationStatus } = useBalance();
   const { refetch } = usePosHistory();
   const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
   const logout = async (): Promise<void> => {
@@ -165,10 +165,10 @@ const Dashboard: FC = () => {
   };
 
   useEffect(() => {
-    if (!user?.is_verified && totalPurchase >= 600) {
+    if (verificationStatus !== 'for_review' && totalPurchase >= 600) {
       setVerifyModalVisible(true);
     }
-  }, [setVerifyModalVisible, totalPurchase, user]);
+  }, [setVerifyModalVisible, totalPurchase, verificationStatus]);
 
   const { mutate, isLoading: uploadLoading } = useMutation(
     (variable) =>

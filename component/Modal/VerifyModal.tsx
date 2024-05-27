@@ -2,7 +2,6 @@ import { Box, Button, chakra, Flex, Modal, ModalBody, ModalContent, ModalOverlay
 import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
-import storage from 'constants/storage';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { BankIcon, UploadIcon2 } from 'public/assets';
@@ -33,9 +32,6 @@ const VerifyModal: FC = () => {
       onSuccess: () => {
         notify(`Success!`);
         setVisible(false);
-        const temp = JSON.parse(localStorage.getItem(storage.QUX_PAY_USER_DETAILS) || '');
-        temp.is_verified = true;
-        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(temp));
       },
       onError: ({ response }) => {
         notify(`${response?.data?.message}`, { status: 'error' });

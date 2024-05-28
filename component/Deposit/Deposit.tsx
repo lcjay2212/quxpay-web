@@ -10,6 +10,7 @@ import {
   SlideFade,
   Spinner,
   Text,
+  Textarea,
 } from '@chakra-ui/react';
 import axios from 'axios';
 import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
@@ -188,6 +189,23 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                         image={QuxTokenIcon}
                         amount={amount + calculateThreePercent(amount) || 0.0}
                         loading={loading}
+                      />
+
+                      <Controller
+                        control={control}
+                        name="description"
+                        render={({ field: { onChange, value, onBlur } }): ReactElement => (
+                          <Box mt="1rem">
+                            <FormContainer label="Comment">
+                              <Textarea
+                                value={value || ''}
+                                placeholder="Comment (Optional)"
+                                onChange={onChange}
+                                onBlur={onBlur}
+                              />
+                            </FormContainer>
+                          </Box>
+                        )}
                       />
                     </Box>
                   )}

@@ -29,6 +29,7 @@ import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
+export const calculateThreePercent = (amount: number): number => amount * 0.03;
 const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
@@ -62,7 +63,6 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     }
   );
 
-  const calculateThreePercent = (amount: number): number => amount * 0.03;
   const amount = watch('amount');
 
   const onDeposit = (val): void => {

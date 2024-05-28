@@ -2,10 +2,10 @@ import {
   Avatar,
   Box,
   Button,
-  Image as ChakraImage,
   Checkbox,
   Divider,
   Flex,
+  Image as ChakraImage,
   Modal,
   ModalBody,
   ModalContent,
@@ -16,6 +16,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import { calculateThreePercent } from 'component/Deposit';
 import { Label } from 'component/PaidPosInfoById';
 import ProductModal from 'component/ProductModal';
 import { TextField } from 'component/TextField';
@@ -51,6 +52,7 @@ const CreatePoForm: FC = () => {
   const [trigger, setTrigger] = useState(false);
   const [qrUrl, setQrUrl] = useState();
   const [searchProduct, setSearchProduct] = useState('');
+  const price = useProductModal((e) => e.price);
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
@@ -104,9 +106,19 @@ const CreatePoForm: FC = () => {
             <ChakraImage src={qrUrl} alt="Qr Code" w="230px" h="100%" p="1.5rem" />
 
             <Box my="1rem" color="black">
-              <Label label="Token Amount:" image={QuxTokenIcon} amount={0.0} loading={loading} />
-              <Label label="Token Fee:" image={QuxTokenIcon} amount={0.0} loading={loading} />
-              <Label label="Total Token amount:" image={QuxTokenIcon} amount={0.0} loading={loading} />
+              <Label label="Token Amount:" image={QuxTokenIcon} amount={price || 0.0} loading={loading} />
+              <Label
+                label="Token Fee:"
+                image={QuxTokenIcon}
+                amount={calculateThreePercent(price || 0)}
+                loading={loading}
+              />
+              <Label
+                label="Total Token amount:"
+                image={QuxTokenIcon}
+                amount={calculateThreePercent(price || 0) + (price || 0) || 0.0}
+                loading={loading}
+              />
             </Box>
           </Flex>
           <Button
@@ -226,9 +238,19 @@ const CreatePoForm: FC = () => {
               </Box>
 
               <Box my="1rem">
-                <Label label="Token Amount:" image={QuxTokenIcon} amount={0.0} loading={loading} />
-                <Label label="Token Fee:" image={QuxTokenIcon} amount={0.0} loading={loading} />
-                <Label label="Total Token amount:" image={QuxTokenIcon} amount={0.0} loading={loading} />
+                <Label label="Token Amount:" image={QuxTokenIcon} amount={price || 0.0} loading={loading} />
+                <Label
+                  label="Token Fee:"
+                  image={QuxTokenIcon}
+                  amount={calculateThreePercent(price || 0)}
+                  loading={loading}
+                />
+                <Label
+                  label="Total Token amount:"
+                  image={QuxTokenIcon}
+                  amount={calculateThreePercent(price || 0) + (price || 0) || 0.0}
+                  loading={loading}
+                />
               </Box>
             </>
           )}

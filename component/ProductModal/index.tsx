@@ -6,6 +6,7 @@ import { useProductModal } from 'store/useProductModal';
 const ProductModal: FC<{ data?: any }> = ({ data }) => {
   const [visible, setVisible] = useProductModal((e) => [e.visible, e.setVisible]);
   const setProductValue = useProductModal((e) => e.setProductValue);
+  const setPrice = useProductModal((e) => e.setPrice);
   const [value, setValue] = useState('1');
   const [selectedVariant, setSelectedVariant] = useState<string>(data?.skus[0].sku);
 
@@ -56,6 +57,7 @@ const ProductModal: FC<{ data?: any }> = ({ data }) => {
                   },
                 ]);
                 setVisible(!visible);
+                setPrice(data?.skus[0].price);
               }}
             >
               Continue

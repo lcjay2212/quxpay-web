@@ -177,15 +177,15 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   )}
                   {step === 2 && (
                     <Box color="white" m="2rem">
-                      <Label label="Token Amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
+                      <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
                       <Label
-                        label="Token Fee:"
+                        label="Token Fee"
                         image={QuxTokenIcon}
                         amount={calculateThreePercent(amount) || 0.0}
                         loading={loading}
                       />
                       <Label
-                        label="Total Token amount:"
+                        label={`Total ${label} amount:`}
                         image={QuxTokenIcon}
                         amount={amount + calculateThreePercent(amount) || 0.0}
                         loading={loading}
@@ -219,7 +219,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       h="3.25rem"
                       isLoading={isLoading}
                     >
-                      {step === 1 ? label : 'Confirm'}
+                      {step === 1 ? label : 'Continue'}
                     </Button>
 
                     {step === 2 && (

@@ -23,7 +23,7 @@ class MyDocument extends Document {
                     console.warn('Received message from unauthorized origin:', event.origin);
                     return;
                   }
-
+                  console.log(event);
                   const token = event.data.token;
                   console.log('Received token:', token);
 

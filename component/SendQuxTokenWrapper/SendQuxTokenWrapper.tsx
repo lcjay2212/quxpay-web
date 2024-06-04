@@ -1,4 +1,16 @@
-import { Avatar, Box, Button, Divider, Flex, FormControl, Radio, RadioGroup, Spinner, Text } from '@chakra-ui/react';
+import {
+  Avatar,
+  Box,
+  Button,
+  Divider,
+  Flex,
+  FormControl,
+  Radio,
+  RadioGroup,
+  Spinner,
+  Text,
+  Textarea,
+} from '@chakra-ui/react';
 import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
@@ -96,6 +108,36 @@ const SendQuxTokenWrapper: FC = () => {
                     }}
                     onBlur={onBlur}
                     min={20}
+                  />
+                </FormContainer>
+              )}
+            />
+
+            <Controller
+              control={control}
+              name="comment"
+              render={({ field: { onChange, value, onBlur } }): ReactElement => (
+                <FormContainer>
+                  <Textarea
+                    bg={loading ? 'lightgray' : '#10101F'}
+                    border="1px solid #4D4D6B"
+                    borderRadius="16px"
+                    height="3.5rem"
+                    color="white"
+                    _placeholder={{
+                      color: 'gray',
+                    }}
+                    _focus={{
+                      border: `2px solid`,
+                      borderColor: 'primary',
+                      bg: 'black',
+                    }}
+                    placeholder="Add Comment (optional)"
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    value={value}
+                    py="1rem"
+                    h="120px"
                   />
                 </FormContainer>
               )}

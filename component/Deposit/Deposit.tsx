@@ -31,6 +31,7 @@ import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
 export const calculateThreePercent = (amount: number): number => amount * 0.03;
+export const calculateFivePercent = (amount: number): number => amount * 0.05;
 const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
@@ -182,13 +183,19 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       <Label
                         label="Token Fee"
                         image={QuxTokenIcon}
-                        amount={calculateThreePercent(amount) || 0.0}
+                        amount={
+                          (label === 'Redeem' ? calculateFivePercent(amount) : calculateThreePercent(amount)) || 0.0
+                        }
                         loading={loading}
                       />
                       <Label
                         label={`Total ${label} amount:`}
                         image={QuxTokenIcon}
-                        amount={amount + calculateThreePercent(amount) || 0.0}
+                        amount={
+                          (label === 'Redeem'
+                            ? amount + calculateFivePercent(amount)
+                            : amount + calculateThreePercent(amount)) || 0.0
+                        }
                         loading={loading}
                       />
 

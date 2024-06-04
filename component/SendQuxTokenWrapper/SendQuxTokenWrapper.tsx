@@ -34,6 +34,7 @@ const SendQuxTokenWrapper: FC = () => {
   const [successTrigger, setSuccessTrigger] = useState(false);
   const [amount, setAmount] = useState(0);
   const [friendId, setFriendId] = useState();
+  const [comment, setComment] = useState('');
 
   const { data, isLoading: loading, refetch } = useQuery('friendList', FETCH_FRIEND_LIST, errorHandler);
   const [sentToDetail, setSetToDetail] = useState<{
@@ -44,12 +45,16 @@ const SendQuxTokenWrapper: FC = () => {
 
   const { mutate: sendTokens, isLoading: sending } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
+      axios.post(
+        `${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token&comment=${comment}`,
+        variable,
+        {
+          headers: {
+            Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+            Version: 2,
+          },
+        }
+      ),
     {
       onSuccess: () => {
         setSuccessTrigger(true);
@@ -133,7 +138,10 @@ const SendQuxTokenWrapper: FC = () => {
                       bg: 'black',
                     }}
                     placeholder="Add Comment (optional)"
-                    onChange={onChange}
+                    onChange={(e): void => {
+                      onChange(e.target.value);
+                      setComment(e.target.value);
+                    }}
                     onBlur={onBlur}
                     value={value}
                     py="1rem"

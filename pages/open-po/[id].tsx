@@ -5,6 +5,7 @@ import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
+import { getServerSideProps } from 'utils/getServerSideProps';
 
 const PosHistoryById: FC = () => {
   const router = useRouter();
@@ -15,5 +16,7 @@ const PosHistoryById: FC = () => {
     </HeaderContainer>
   );
 };
+
+export { getServerSideProps };
 
 export default PosHistoryById;

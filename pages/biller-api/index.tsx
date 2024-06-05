@@ -9,7 +9,6 @@ import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 
 const BillerApiPage: FC = () => {
-  // const { data, isLoading } = useQuery('notificationHistory', FETCH_NOTIFICATION_HISTORY, errorHandler);
   const router = useRouter();
   const [step, setStep] = useState(1);
   const { data, refetch, isLoading } = useQuery('authentication', FETCH_AUTHENTICATION);

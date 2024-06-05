@@ -92,3 +92,6 @@ export const FETCH_SCHEDULED_PAYMENT_LISTS = async (): Promise<any> =>
 
 export const FETCH_WP_PO_DETAILS = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(STAGING_URL, `web/wp/po-details?wp=${queryKey[1]}`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_AUTHENTICATION = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/authentication`, localStorage.QUX_PAY_USER_TOKEN);

@@ -143,6 +143,13 @@ const Dashboard: FC = () => {
       label: 'Profile',
       show: true,
     },
+    {
+      image: BillsIcon,
+      alt: 'Biller API',
+      route: '/biller-api',
+      label: 'Biller API',
+      show: user?.corporate,
+    },
   ];
 
   const router = useRouter();

@@ -7,6 +7,7 @@ import { UnpaidHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import usePosHistory from 'store/usePosHistory';
 import { useUser } from 'store/useUser';
+import { getServerSideProps } from 'utils/getServerSideProps';
 
 const OpenPosHistory: FC = () => {
   const { received, created, isLoading } = usePosHistory();
@@ -88,5 +89,7 @@ const OpenPosHistory: FC = () => {
     </HeaderContainer>
   );
 };
+
+export { getServerSideProps };
 
 export default OpenPosHistory;

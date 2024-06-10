@@ -18,6 +18,7 @@ const LoginOrRegisterPage: FC = () => {
       axios.post(`${STAGING_URL}/web/login/cookie`, variable, {
         headers: {
           Version: 2,
+          Cookie: 'qux_media_session=gYO4zweijJVfYSIb7dseSCiTVIXEamISzj2kvdqG',
         },
       }),
     {

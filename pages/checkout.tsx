@@ -10,7 +10,6 @@ import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useRouteParams } from 'store/useRouteParams';
 import { useUser } from 'store/useUser';
-import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,
@@ -31,7 +30,14 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 
 const CheckoutPage: FC = () => {
   const params = useRouteParams((e) => e.params);
-  const { data, isLoading } = useQuery(['wpPoDetails', params?.t], FETCH_WP_PO_DETAILS, errorHandler);
+  const { data, isLoading } = useQuery(['wpPoDetails', params?.t], FETCH_WP_PO_DETAILS, {
+    onError: ({ response }) => {
+      notify(`${response?.data?.data?.message}`, { status: 'error' });
+      setTimeout(() => {
+        window.location.replace(`${response?.data?.data?.return_url}`);
+      }, 5000);
+    },
+  });
   const totalPurchaseAndSubsAmount = data?.recurring_payment_amount + data?.single_purchase_amount;
   const [successPayment, setSuccessPayment] = useState(false);
 

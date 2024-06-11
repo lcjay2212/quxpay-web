@@ -1,14 +1,37 @@
 import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
+import axios from 'axios';
+import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC, useEffect } from 'react';
+import { useMutation } from 'react-query';
 import { useRouteParams } from 'store/useRouteParams';
 
 const LoginOrRegisterPage: FC = () => {
   const router = useRouter();
   const setParams = useRouteParams((e) => e.setParams);
   useEffect(() => setParams(router.query), [setParams, router]);
+
+  const { mutate } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/login/cookie`, variable, {
+        headers: {
+          Version: 2,
+          Cookie: 'qux_media_session=gYO4zweijJVfYSIb7dseSCiTVIXEamISzj2kvdqG',
+        },
+      }),
+    {
+      onSuccess: ({ data }) => {
+        if (data?.data?.token) {
+          void router.push('/dashboard');
+        }
+      },
+    }
+  );
+  useEffect(() => {
+    setTimeout(() => mutate(), 1000);
+  }, [mutate]);
 
   return (
     <Grid placeContent="center" h="100vh" gap="2">

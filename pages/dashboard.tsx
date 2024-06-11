@@ -20,6 +20,7 @@ import UploadLoadingModal from 'component/Modal/UploadLoadingModal';
 import VerifyModal from 'component/Modal/VerifyModal';
 import NotificationHistory from 'component/NotificationHistory/NotificationHistory';
 import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
+import PoFromPluginHistory from 'component/PoFromPluginHistory/PoFromPluginHistory';
 import TokenHistory from 'component/TokenHistory/TokenHistory';
 import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
 import { API_SESSION_URL, isLocalHost, STAGING_URL } from 'constants/url';
@@ -302,6 +303,7 @@ const Dashboard: FC = () => {
       <NotificationHistory />
       <TransactionHistory />
       <OpenPosHistory />
+      {user?.corporate && <PoFromPluginHistory />}
       <TokenHistory />
       <UploadLoadingModal />
       <VerifyModal />

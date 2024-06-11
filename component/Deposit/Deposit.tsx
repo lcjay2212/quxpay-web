@@ -107,7 +107,6 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                               onBlur={onBlur}
                               min={20}
                               max={label === 'Redeem' ? 100 : 9999}
-                              step="0.01"
                             />
                           </FormContainer>
                         )}
@@ -189,7 +188,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                         loading={loading}
                       />
                       <Label
-                        label={`Total ${label} amount:`}
+                        label="Total Purchase amount:"
                         image={QuxTokenIcon}
                         amount={
                           (label === 'Redeem'

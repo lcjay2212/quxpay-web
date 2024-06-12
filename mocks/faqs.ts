@@ -65,4 +65,16 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     question: 'How does QuxPay handle disputes or fraud? ',
     answers: `Our dispute resolution process at QuxPay ensures fair and timely resolutions for customers. Please e-mail us at info@quxtech.tv for assistance`,
   },
+  {
+    question: 'CHECK OUT',
+    answers: `The "Check Out" screen is where you will be prompted to input your billing and shipping addresses for the orders you have purchased. Payment will be processed using QuxPay™.`,
+  },
+  {
+    question: 'What is the Qux® Token?',
+    answers: `QUX® Tokens are exonumia used in our marketplace, as a numismatic management system, for any kind of goods or services offered in the QUX® store. QUX® Tokens privately secure purchases without financial data being collected or transmitted. When a token is purchased, funds are drawn through ACH transfer from the user's bank account. If the user doesn't have enough QUX® Tokens to cover the payment, the user will be redirected to the "top-up" screen to replenish their balance. Merchants can redeem QUX® tokens by directing funds to be transferred through ACH into their bank account.<br/><br/> The minimum purchase of QUX® Tokens $20.<br/><br/>$1 = 𐤒1 = One Dollar = One Qux® Token. Always.`,
+  },
+  {
+    question: 'HOW TO TOP UP YOUR QUX® TOKENS',
+    answers: `1. Qux Token purchases and redemptions are through ACH payments. Your bank information is stored in a secured server that is kept offline.<br/>2. After selecting your payment method, click the "Top Up" button to draw funds from your account to purchase QUX® Tokens.<br/>3. You will need to provide your account name, account number, and bank name. <br/>4. After you have finished, you have successfully topped up your Qux® Tokens.<br/><br/>Advertise on QUX®!`,
+  },
 ];

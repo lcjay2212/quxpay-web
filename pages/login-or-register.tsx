@@ -7,6 +7,7 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useRouteParams } from 'store/useRouteParams';
+import { notify } from 'utils/notify';
 
 const LoginOrRegisterPage: FC = () => {
   const router = useRouter();
@@ -15,10 +16,9 @@ const LoginOrRegisterPage: FC = () => {
 
   const { mutate } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/web/login/cookie`, variable, {
+      axios.post(`${STAGING_URL}/web/login/sso`, variable, {
         headers: {
           Version: 2,
-          Cookie: 'qux_media_session=gYO4zweijJVfYSIb7dseSCiTVIXEamISzj2kvdqG',
         },
       }),
     {
@@ -27,11 +27,18 @@ const LoginOrRegisterPage: FC = () => {
           void router.push('/dashboard');
         }
       },
+      onError: ({ response }) => {
+        notify(`${response?.data?.status?.message || 'Login Failed'}`, { status: 'error' });
+      },
     }
   );
   useEffect(() => {
-    setTimeout(() => mutate(), 1000);
-  }, [mutate]);
+    if (router.query.sso) {
+      void mutate({
+        sso_key: router.query.sso,
+      } as any);
+    }
+  }, [mutate, router]);
 
   return (
     <Grid placeContent="center" h="100vh" gap="2">

@@ -66,7 +66,7 @@ const MilitaryGradeSecurityPage: FC = () => {
                   <AccordionPanel mx={{ base: '1rem', md: '2rem' }}>
                     <UnorderedList>
                       <ListItem fontSize={{ base: '0.75rem', md: '1rem' }} mb={{ base: '0.5rem', md: '1rem' }}>
-                        {item.answers}
+                        <Box dangerouslySetInnerHTML={{ __html: item.answers }} />
                       </ListItem>
                     </UnorderedList>
                   </AccordionPanel>

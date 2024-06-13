@@ -8,23 +8,23 @@ import { openInNewTab } from 'utils/openNewTab';
 const footerLink = [
   {
     label: 'Legal',
-    routes: '/',
+    routes: 'https://blog.quxpay.com/legal',
   },
   {
     label: 'Licenses',
-    routes: '/',
+    routes: 'https://blog.quxpay.com/licenses',
   },
   {
     label: 'Security',
-    routes: '/',
+    routes: 'https://blog.quxpay.com/security',
   },
   {
     label: 'Press',
-    routes: '/',
+    routes: 'https://blog.quxpay.com/press',
   },
   {
     label: 'Help',
-    routes: '/',
+    routes: 'https://blog.quxpay.com/help',
   },
   {
     label: 'FAQs',
@@ -32,7 +32,7 @@ const footerLink = [
   },
   {
     label: 'Status',
-    routes: '/',
+    routes: 'https://blog.quxpay.com/status',
   },
 ];
 

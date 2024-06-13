@@ -4,6 +4,7 @@ import ApiIntegrationForm from 'component/ApiIntegrationForm';
 import HeaderContainer from 'component/Header/HeaderContainer';
 import { FETCH_AUTHENTICATION } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
@@ -83,10 +84,11 @@ const BillerApiPage: FC = () => {
                   <Spinner color="primary" />
                 )}
               </Box>
-
-              <Text color="primary" cursor="pointer" mt="3rem">
-                Click here for API Documentation
-              </Text>
+              <Link href="https://blog.quxpay.com/wordpress">
+                <Text color="primary" cursor="pointer" mt="3rem">
+                  Click here for API Documentation
+                </Text>
+              </Link>
               <Text color="primary" cursor="pointer" mt="3rem" onClick={(): void => setStep(step + 1)}>
                 Submit Your API For Integration
               </Text>

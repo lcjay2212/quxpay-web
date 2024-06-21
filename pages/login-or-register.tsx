@@ -1,5 +1,6 @@
 import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
 import axios from 'axios';
+import storage from 'constants/storage';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -7,13 +8,15 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useRouteParams } from 'store/useRouteParams';
+import { useUser } from 'store/useUser';
 import { notify } from 'utils/notify';
 
 const LoginOrRegisterPage: FC = () => {
   const router = useRouter();
   const setParams = useRouteParams((e) => e.setParams);
+  const params = useRouteParams((e) => e.params);
   useEffect(() => setParams(router.query), [setParams, router]);
-
+  const setUser = useUser((e) => e.setUser);
   const { mutate } = useMutation(
     (variable) =>
       axios.post(`${STAGING_URL}/web/login/sso`, variable, {
@@ -24,7 +27,10 @@ const LoginOrRegisterPage: FC = () => {
     {
       onSuccess: ({ data }) => {
         if (data?.data?.token) {
-          void router.push('/dashboard');
+          localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+          localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+          setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+          void router.push('/checkout');
         }
       },
       onError: ({ response }) => {
@@ -35,10 +41,10 @@ const LoginOrRegisterPage: FC = () => {
   useEffect(() => {
     if (router.query.sso) {
       void mutate({
-        sso_key: router.query.sso,
+        sso_key: params.sso?.replace(/ /g, '+'),
       } as any);
     }
-  }, [mutate, router]);
+  }, [mutate, params, router]);
 
   return (
     <Grid placeContent="center" h="100vh" gap="2">

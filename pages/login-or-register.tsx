@@ -39,12 +39,13 @@ const LoginOrRegisterPage: FC = () => {
     }
   );
   useEffect(() => {
-    if (router.query.sso) {
+    if (params.sso) {
+      const sso_key = params.sso?.replace(/ /g, '+');
       void mutate({
-        sso_key: params.sso?.replace(/ /g, '+'),
+        sso_key,
       } as any);
     }
-  }, [mutate, params, router]);
+  }, [mutate, params]);
 
   return (
     <Grid placeContent="center" h="100vh" gap="2">

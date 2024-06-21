@@ -11,7 +11,7 @@ const footerLink = [
     routes: 'https://blog.quxpay.com/legal',
   },
   {
-    label: 'Licenses',
+    label: 'Blog',
     routes: 'https://blog.quxpay.com/licenses',
   },
   {

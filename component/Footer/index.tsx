@@ -11,7 +11,7 @@ const footerLink = [
     routes: '/',
   },
   {
-    label: 'Licenses',
+    label: 'Blog',
     routes: '/',
   },
   {

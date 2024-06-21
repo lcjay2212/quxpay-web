@@ -29,6 +29,20 @@ const BillerApiPage: FC = () => {
     }
   );
 
+  const { mutate: downloadPlugin } = useMutation(
+    () =>
+      axios.get(`${STAGING_URL}/web/quxpay`, {
+        headers: {
+          Version: 2,
+        },
+      }),
+    {
+      onSuccess: ({ data }) => {
+        window.open(data?.data?.obfuscate_version);
+      },
+    }
+  );
+
   return (
     <HeaderContainer label="Biller API" route="/dashboard">
       <Box px="2.5rem">
@@ -91,6 +105,14 @@ const BillerApiPage: FC = () => {
               </Link>
               <Text color="primary" cursor="pointer" mt="3rem" onClick={(): void => setStep(step + 1)}>
                 Submit Your API For Integration
+              </Text>
+
+              <Text color="primary" cursor="pointer" mt="3rem">
+                View the Wordpress WooCommerce Plugin Documentation
+              </Text>
+
+              <Text color="primary" cursor="pointer" mt="3rem" onClick={(): void => downloadPlugin()}>
+                Click here to Download the Wordpress WooCommerce Plugin
               </Text>
             </Box>
 

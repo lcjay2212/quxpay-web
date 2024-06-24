@@ -35,7 +35,7 @@ export const Content: FC<
           <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="extrabold" fontFamily="Coda, sans-serif">
             {label}
           </Heading>
-          <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem">
+          <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem" fontFamily="'Verdana', sans-serif">
             {content}
           </Text>
           {showBtn && (

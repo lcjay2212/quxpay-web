@@ -1,6 +1,6 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
+import { Poppins } from '@next/font/google';
 import { AppProps } from 'next/app';
-import { Poppins } from 'next/font/google';
 import { FC, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
@@ -25,16 +25,11 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
-        <Box
-          bg="black"
-          height="auto"
-          width="100vw"
-          overflowX="hidden"
-          suppressHydrationWarning
-          className={poppins.className}
-        >
-          <Component {...pageProps} />
-        </Box>
+        <main className={poppins.className}>
+          <Box bg="black" height="auto" width="100vw" overflowX="hidden" suppressHydrationWarning>
+            <Component {...pageProps} />
+          </Box>
+        </main>
         {typeof window !== 'undefined' && window.location.host === 'localhost:3000' && (
           <ReactQueryDevtools position="bottom-right" />
         )}

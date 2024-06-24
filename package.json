@@ -31,6 +31,7 @@
     "@chakra-ui/react": "2.4.9",
     "@emotion/react": "11.10.5",
     "@emotion/styled": "11.10.5",
+    "@next/font": "^14.2.4",
     "@sentry/nextjs": "7.81.1",
     "axios": "1.4.0",
     "chakra-ui-autocomplete": "1.4.5",

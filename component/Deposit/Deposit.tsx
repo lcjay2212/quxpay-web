@@ -15,6 +15,7 @@ import {
 import axios from 'axios';
 import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
 import BankAccount from 'component/BankAccount/BankAccount';
+import CashInCrypto from 'component/CashInCrypto/CashInCrypto';
 import { FormContainer } from 'component/FormInput';
 import { Label } from 'component/PaidPosInfoById';
 import { TextField } from 'component/TextField';
@@ -22,7 +23,7 @@ import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIconTwo, DepositSuccessful, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
+import { AddBankIconTwo, CryptoIcon, DepositSuccessful, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -42,6 +43,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   const [successTrigger, setSuccessTrigger] = useState(false);
   const setPaymentId = useAccountPaymentId((e) => e.setPaymentId);
   const [step, setStep] = useState(1);
+  const [selectedBankDetails, setSelectedBankDetails] = useState<{ bank_name: string; account_name: string }>();
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
@@ -53,11 +55,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
       }),
     {
       onSuccess: () => {
-        if (label === 'Redeem') {
-          setSuccessTrigger(true);
-        } else {
-          setSuccessTrigger(true);
-        }
+        setSuccessTrigger(true);
       },
       onError: ({ response }) => {
         notify(`${response.data?.errors?.account_number}`, { status: 'error' });
@@ -117,7 +115,11 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                           control={control}
                           name="payment_profile_id"
                           rules={{
-                            required: radioValue !== `${data?.payments?.length + 1}` ? 'Payment is required' : false,
+                            required:
+                              radioValue !== `${data?.payments?.length + 1}` &&
+                              radioValue !== `${data?.payments?.length + 2}`
+                                ? 'Payment is required'
+                                : false,
                           }}
                           render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
                             return (
@@ -145,6 +147,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                       onChange={(): void => {
                                         onChange(item.payment_profile_id);
                                         setPaymentId(item.payment_profile_id);
+                                        setSelectedBankDetails(item);
                                       }}
                                     />
                                   </Flex>
@@ -169,6 +172,19 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                               <Radio value={`${data?.payments?.length + 1}`} colorScheme="teal" />
                             </Flex>
                             {radioValue !== `${data?.payments?.length + 1}` ? <></> : <AddBankAccount />}
+                            <Divider mt="1rem" />
+
+                            <Flex my="1.5rem" justifyContent="space-between">
+                              <Flex alignItems="center">
+                                <Image src={CryptoIcon} height={50} width={60} alt="Add Bank Icon" />
+                                <Text ml="1rem" color="white" fontSize="1.25rem">
+                                  Cash In Crypto
+                                </Text>
+                              </Flex>
+
+                              <Radio value={`${data?.payments?.length + 2}`} colorScheme="teal" />
+                            </Flex>
+                            {radioValue !== `${data?.payments?.length + 2}` ? <></> : <CashInCrypto />}
                           </>
                         )}
                       </RadioGroup>
@@ -178,6 +194,18 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   )}
                   {step === 2 && (
                     <Box color="white" m="2rem">
+                      {radioValue === `${data?.payments?.length + 2}` ? (
+                        <Box mb="2rem" textAlign="start">
+                          <Text noOfLines={1}>Received ${amount?.toFixed(2)} in tokens</Text>
+                          <Text>From: rDsbeomae4FXwgQTJp9Rs64Q g9vDiTCdBv.</Text>
+                        </Box>
+                      ) : (
+                        <Box mb="2rem" textAlign="start">
+                          <Text noOfLines={1}>From: {selectedBankDetails?.bank_name}</Text>
+                          <Text>Name: {selectedBankDetails?.account_name}</Text>
+                        </Box>
+                      )}
+
                       <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
                       <Label
                         label="Token Fee"
@@ -197,6 +225,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                         }
                         loading={loading}
                       />
+
+                      {radioValue === `${data?.payments?.length + 2}` && (
+                        <Text my="1.5rem" color="gray" textAlign="start" fontSize="18px">
+                          Please go back to the purchase screen to generate a new wallet address if you wish to send
+                          more.
+                        </Text>
+                      )}
 
                       <Controller
                         control={control}
@@ -226,7 +261,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       h="3.25rem"
                       isLoading={isLoading}
                     >
-                      {step === 1 ? label : 'Continue'}
+                      {step === 1 ? label : `Confirm ${label}`}
                     </Button>
 
                     {step === 2 && (

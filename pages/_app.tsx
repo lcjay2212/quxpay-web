@@ -1,6 +1,6 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
-import { Poppins } from '@next/font/google';
 import { AppProps } from 'next/app';
+import { Poppins } from 'next/font/google';
 import { FC, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';

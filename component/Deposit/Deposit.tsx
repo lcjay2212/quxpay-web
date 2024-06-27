@@ -41,21 +41,21 @@ import { notify } from 'utils/notify';
 
 export const calculateThreePercent = (amount: number): number => amount * 0.03;
 export const calculateFivePercent = (amount: number): number => amount * 0.05;
+
 const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
 
   const method = useForm();
   const { control, handleSubmit, watch } = method;
-  const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
   const setPaymentId = useAccountPaymentId((e) => e.setPaymentId);
   const [step, setStep] = useState(1);
   const [selectedBankDetails, setSelectedBankDetails] = useState<{ bank_name: string; account_name: string }>();
-
+  const [type, setType] = useState<'BANK' | 'CREDIT' | 'CRYPTO' | undefined>(undefined);
   const { mutate, isLoading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/${radioValue !== `${data?.payments?.length + 1}` ? url : url2}`, variable, {
+      axios.post(`${STAGING_URL}/${!type ? url : url2}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -118,17 +118,12 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                         )}
                       />
 
-                      <RadioGroup onChange={setRadioValue} value={radioValue}>
+                      <RadioGroup>
                         <Controller
                           control={control}
                           name="payment_profile_id"
                           rules={{
-                            required:
-                              radioValue !== `${data?.payments?.length + 1}` &&
-                              radioValue !== `${data?.payments?.length + 2}` &&
-                              radioValue !== `${data?.payments?.length + 3}`
-                                ? 'Payment is required'
-                                : false,
+                            required: !type ? 'Payment is required' : false,
                           }}
                           render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
                             return (
@@ -157,6 +152,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                         onChange(item.payment_profile_id);
                                         setPaymentId(item.payment_profile_id);
                                         setSelectedBankDetails(item);
+                                        setType(undefined);
                                       }}
                                     />
                                   </Flex>
@@ -178,9 +174,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                 </Text>
                               </Flex>
 
-                              <Radio value={`${data?.payments?.length + 1}`} colorScheme="teal" />
+                              <Radio
+                                value={`${data?.payments?.length + 1}`}
+                                onChange={(): void => setType('BANK')}
+                                colorScheme="teal"
+                              />
                             </Flex>
-                            {radioValue !== `${data?.payments?.length + 1}` ? <></> : <AddBankAccount />}
+                            {type === 'BANK' && <AddBankAccount />}
                             <Divider mt="1rem" />
 
                             <Flex my="1.5rem" justifyContent="space-between">
@@ -191,9 +191,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                 </Text>
                               </Flex>
 
-                              <Radio value={`${data?.payments?.length + 2}`} colorScheme="teal" />
+                              <Radio
+                                value={`${data?.payments?.length + 2}`}
+                                onChange={(): void => setType('CREDIT')}
+                                colorScheme="teal"
+                              />
                             </Flex>
-                            {radioValue !== `${data?.payments?.length + 2}` ? <></> : <AddCreditCardForm />}
+                            {type === 'CREDIT' && <AddCreditCardForm />}
                             <Divider mt="1rem" />
 
                             <Flex my="1.5rem" justifyContent="space-between">
@@ -204,9 +208,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                 </Text>
                               </Flex>
 
-                              <Radio value={`${data?.payments?.length + 3}`} colorScheme="teal" />
+                              <Radio
+                                value={`${data?.payments?.length + 3}`}
+                                onChange={(): void => setType('CRYPTO')}
+                                colorScheme="teal"
+                              />
                             </Flex>
-                            {radioValue !== `${data?.payments?.length + 3}` ? <></> : <CashInCrypto />}
+                            {type === 'CRYPTO' && <CashInCrypto />}
                           </>
                         )}
                       </RadioGroup>
@@ -216,7 +224,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   )}
                   {step === 2 && (
                     <Box color="white" m="2rem">
-                      {radioValue === `${data?.payments?.length + 2}` ? (
+                      {type === 'CRYPTO' ? (
                         <Box mb="2rem" textAlign="start">
                           <Text noOfLines={1}>Received ${amount?.toFixed(2)} in tokens</Text>
                           <Text>From: rDsbeomae4FXwgQTJp9Rs64Q g9vDiTCdBv.</Text>
@@ -248,7 +256,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                         loading={loading}
                       />
 
-                      {radioValue === `${data?.payments?.length + 2}` && (
+                      {type === 'CRYPTO' && (
                         <Text my="1.5rem" color="gray" textAlign="start" fontSize="18px">
                           Please go back to the purchase screen to generate a new wallet address if you wish to send
                           more.

@@ -53,6 +53,7 @@ const CreatePoForm: FC = () => {
   const [qrUrl, setQrUrl] = useState();
   const [searchProduct, setSearchProduct] = useState('');
   const price = useProductModal((e) => e.price);
+  const amount = (price || 0) * (productValue?.[0].quantity || 0);
 
   const { mutate, isLoading } = useMutation(
     (variable) =>
@@ -238,17 +239,17 @@ const CreatePoForm: FC = () => {
               </Box>
 
               <Box my="1rem">
-                <Label label="Token Amount:" image={QuxTokenIcon} amount={price || 0.0} loading={loading} />
+                <Label label="Token Amount:" image={QuxTokenIcon} amount={amount} loading={loading} />
                 <Label
                   label="Token Fee:"
                   image={QuxTokenIcon}
-                  amount={calculateThreePercent(price || 0)}
+                  amount={calculateThreePercent(amount || 0)}
                   loading={loading}
                 />
                 <Label
                   label="Total Token amount:"
                   image={QuxTokenIcon}
-                  amount={calculateThreePercent(price || 0) + (price || 0) || 0.0}
+                  amount={calculateThreePercent(amount) + amount || 0.0}
                   loading={loading}
                 />
               </Box>

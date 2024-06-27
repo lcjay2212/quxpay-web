@@ -16,7 +16,7 @@ const poppins = Poppins({
   subsets: ['latin'],
 });
 
-const INACTIVITY_TIMEOUT = 10 * 60 * 1000;
+const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const queryClient = new QueryClient();
@@ -51,7 +51,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
   useEffect(() => {
     if (user) {
       const handleActivity = (): void => resetInactivityTimer();
-      const events = ['mousedown', 'mousemove', 'wheel', 'keydown', 'touchstart', 'scroll'];
+      const events = ['mousemove', 'keydown', 'scroll', 'click'];
       events.forEach((event) => window.addEventListener(event, handleActivity, { passive: true }));
       resetInactivityTimer(); // Start the initial timer
 

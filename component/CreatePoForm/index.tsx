@@ -107,17 +107,11 @@ const CreatePoForm: FC = () => {
             <ChakraImage src={qrUrl} alt="Qr Code" w="230px" h="100%" p="1.5rem" />
 
             <Box my="1rem" color="black">
-              <Label label="Token Amount:" image={QuxTokenIcon} amount={price || 0.0} loading={loading} />
-              <Label
-                label="Token Fee:"
-                image={QuxTokenIcon}
-                amount={calculateThreePercent(price || 0)}
-                loading={loading}
-              />
+              <Label label="Token Amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
               <Label
                 label="Total Token amount:"
                 image={QuxTokenIcon}
-                amount={calculateThreePercent(price || 0) + (price || 0) || 0.0}
+                amount={calculateThreePercent(amount) + amount || 0.0}
                 loading={loading}
               />
             </Box>
@@ -240,12 +234,6 @@ const CreatePoForm: FC = () => {
 
               <Box my="1rem">
                 <Label label="Token Amount:" image={QuxTokenIcon} amount={amount} loading={loading} />
-                <Label
-                  label="Token Fee:"
-                  image={QuxTokenIcon}
-                  amount={calculateThreePercent(amount || 0)}
-                  loading={loading}
-                />
                 <Label
                   label="Total Token amount:"
                   image={QuxTokenIcon}

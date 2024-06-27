@@ -14,6 +14,7 @@ import {
 } from '@chakra-ui/react';
 import axios from 'axios';
 import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
+import AddCreditCardForm from 'component/AddCreditCardForm/AddCreditCardForm';
 import BankAccount from 'component/BankAccount/BankAccount';
 import CashInCrypto from 'component/CashInCrypto/CashInCrypto';
 import { FormContainer } from 'component/FormInput';
@@ -23,7 +24,14 @@ import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIconTwo, CryptoIcon, DepositSuccessful, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
+import {
+  AddBankIconTwo,
+  AddCreditCardIcon,
+  CryptoIcon,
+  DepositSuccessful,
+  QuxTokenIcon,
+  WithdrawSuccessful,
+} from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -117,7 +125,8 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                           rules={{
                             required:
                               radioValue !== `${data?.payments?.length + 1}` &&
-                              radioValue !== `${data?.payments?.length + 2}`
+                              radioValue !== `${data?.payments?.length + 2}` &&
+                              radioValue !== `${data?.payments?.length + 3}`
                                 ? 'Payment is required'
                                 : false,
                           }}
@@ -176,15 +185,28 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
                             <Flex my="1.5rem" justifyContent="space-between">
                               <Flex alignItems="center">
+                                <Image src={AddCreditCardIcon} height={50} width={60} alt="Add Bank Icon" />
+                                <Text ml="1rem" color="white" fontSize="1.25rem">
+                                  Add New Credit Card
+                                </Text>
+                              </Flex>
+
+                              <Radio value={`${data?.payments?.length + 2}`} colorScheme="teal" />
+                            </Flex>
+                            {radioValue !== `${data?.payments?.length + 2}` ? <></> : <AddCreditCardForm />}
+                            <Divider mt="1rem" />
+
+                            <Flex my="1.5rem" justifyContent="space-between">
+                              <Flex alignItems="center">
                                 <Image src={CryptoIcon} height={50} width={60} alt="Add Bank Icon" />
                                 <Text ml="1rem" color="white" fontSize="1.25rem">
                                   Cash In Crypto
                                 </Text>
                               </Flex>
 
-                              <Radio value={`${data?.payments?.length + 2}`} colorScheme="teal" />
+                              <Radio value={`${data?.payments?.length + 3}`} colorScheme="teal" />
                             </Flex>
-                            {radioValue !== `${data?.payments?.length + 2}` ? <></> : <CashInCrypto />}
+                            {radioValue !== `${data?.payments?.length + 3}` ? <></> : <CashInCrypto />}
                           </>
                         )}
                       </RadioGroup>

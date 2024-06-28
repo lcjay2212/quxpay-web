@@ -1,10 +1,10 @@
-import { Box, Button, chakra, Flex, Grid, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import storage from 'constants/storage';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogo } from 'public/assets';
+import { QuxpayAndQuxLogo } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useRouteParams } from 'store/useRouteParams';
@@ -49,13 +49,9 @@ const LoginOrRegisterPage: FC = () => {
 
   return (
     <Grid placeContent="center" h="100vh" gap="2">
-      <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+      <Box display="flex" justifyContent="center" mb={{ base: '20rem', md: '10rem' }}>
+        <Image src={QuxpayAndQuxLogo} height={50} width={300} alt="Qux Logo" />
       </Box>
-
-      <Text color="primary" fontSize="3xl" textAlign="center" mb={{ base: '20rem', md: '10rem' }}>
-        W<chakra.span color="white">allet</chakra.span>{' '}
-      </Text>
 
       <Button variant="primary" borderRadius="xl" w={350} h={50} onClick={(): void => void router.push('/login')}>
         Login

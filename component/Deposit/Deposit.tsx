@@ -111,7 +111,6 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                 onChange(+e.target.value);
                               }}
                               onBlur={onBlur}
-                              min={20}
                               max={label === 'Redeem' ? 100 : 9999}
                             />
                           </FormContainer>

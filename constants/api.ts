@@ -26,6 +26,8 @@ export const FETCH_WALLET_BALANCE = async (): Promise<any> => {
 };
 export const FETCH_TRANSACTION_HISTORY = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/wallet/transactions`, localStorage.QUX_PAY_USER_TOKEN);
+export const FETCH_CRYPTO_TRANSACTION_HISTORY = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/crypto/transactions`, localStorage.QUX_PAY_USER_TOKEN);
 export const FETCH_NOTIFICATION_HISTORY = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/notifications`, localStorage.QUX_PAY_USER_TOKEN);
 export const FETCH_BANK_AND_CREDIT_CARD = async (): Promise<any> =>

@@ -150,6 +150,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                               }}
                               onBlur={onBlur}
                               max={label === 'Redeem' ? 100 : 9999}
+                              formNoValidate
                             />
                           </FormContainer>
                         )}
@@ -215,60 +216,62 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
                         <Divider mt="1rem" />
 
-                        <Controller
-                          control={control}
-                          name="currency"
-                          rules={{
-                            required: !type ? 'Payment is required' : false,
-                          }}
-                          render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
-                            return (
-                              <>
-                                {label === 'Redeem' && (
-                                  <Text color="white" textAlign="start" fontWeight="bold" fontSize="2rem" my="1rem">
-                                    To Crypto
-                                  </Text>
-                                )}
-                                <FormControl isInvalid={!!error?.message}>
-                                  {data?.crypto?.length ? (
-                                    data?.crypto?.map((item, index) => (
-                                      <Flex justifyContent="space-between" key={index}>
-                                        <Box mt="1rem">
-                                          <CryptoWallet
-                                            address={item.address ?? ''}
-                                            name={item.name ?? ''}
-                                            type={item.currency ?? ''}
-                                            loading={loading}
-                                          />
-                                          {error?.message && (
-                                            <SlideFade in={true} offsetY="-1rem">
-                                              <FormErrorMessage fontSize="0.9rem" color="error">
-                                                {error.message}
-                                              </FormErrorMessage>
-                                            </SlideFade>
-                                          )}
-                                        </Box>
-                                        <Radio
-                                          value={index}
-                                          colorScheme="teal"
-                                          onChange={(): void => {
-                                            onChange(item.currency);
-                                            setSelectedCrypto(item);
-                                            setType('CRYPTO');
-                                          }}
-                                        />
-                                      </Flex>
-                                    ))
-                                  ) : (
-                                    <Text textAlign="start">No Crypto Record</Text>
-                                  )}
-                                </FormControl>
-                              </>
-                            );
-                          }}
-                        />
+                        {label === 'Redeem' && (
+                          <>
+                            <Controller
+                              control={control}
+                              name="currency"
+                              rules={{
+                                required: type === 'CRYPTO' ? 'Payment is required' : false,
+                              }}
+                              render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
+                                return (
+                                  <>
+                                    <Text color="white" textAlign="start" fontWeight="bold" fontSize="2rem" my="1rem">
+                                      To Crypto
+                                    </Text>
+                                    <FormControl isInvalid={!!error?.message}>
+                                      {data?.crypto?.length ? (
+                                        data?.crypto?.map((item, index) => (
+                                          <Flex justifyContent="space-between" key={index}>
+                                            <Box mt="1rem">
+                                              <CryptoWallet
+                                                address={item.address ?? ''}
+                                                name={item.name ?? ''}
+                                                type={item.currency ?? ''}
+                                                loading={loading}
+                                              />
+                                              {error?.message && (
+                                                <SlideFade in={true} offsetY="-1rem">
+                                                  <FormErrorMessage fontSize="0.9rem" color="error">
+                                                    {error.message}
+                                                  </FormErrorMessage>
+                                                </SlideFade>
+                                              )}
+                                            </Box>
+                                            <Radio
+                                              value={index}
+                                              colorScheme="teal"
+                                              onChange={(): void => {
+                                                onChange(item.currency);
+                                                setSelectedCrypto(item);
+                                                setType('CRYPTO');
+                                              }}
+                                            />
+                                          </Flex>
+                                        ))
+                                      ) : (
+                                        <Text textAlign="start">No Crypto Record</Text>
+                                      )}
+                                    </FormControl>
+                                  </>
+                                );
+                              }}
+                            />
 
-                        <Divider mt="1rem" />
+                            <Divider mt="1rem" />
+                          </>
+                        )}
 
                         {label === 'Redeem' && (
                           <>
@@ -287,10 +290,10 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                               />
                             </Flex>
                             {type === 'ADD_CRYPTO' && <AddCrytoWallet />}
+
+                            <Divider mt="1rem" />
                           </>
                         )}
-
-                        <Divider mt="1rem" />
 
                         {label === 'Purchase' && (
                           <>

@@ -113,6 +113,7 @@ const SendQuxTokenWrapper: FC = () => {
                     }}
                     onBlur={onBlur}
                     min={20}
+                    formNoValidate
                   />
                 </FormContainer>
               )}

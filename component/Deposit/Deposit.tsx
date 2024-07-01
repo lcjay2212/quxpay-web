@@ -250,7 +250,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                               )}
                                             </Box>
                                             <Radio
-                                              value={index}
+                                              value={`${item.currency}`}
                                               colorScheme="teal"
                                               onChange={(): void => {
                                                 onChange(item.currency);
@@ -472,7 +472,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
         <Flex justifyContent="center" alignItems="center" flexDir="column">
           <Box mt="14rem">
             <Image
-              src={label === 'Redeem' ? WithdrawSuccessful : DepositSuccessful}
+              src={
+                label === 'Redeem'
+                  ? type === 'CRYPTO' || type === 'ADD_CRYPTO'
+                    ? CryptoIcon
+                    : WithdrawSuccessful
+                  : DepositSuccessful
+              }
               width={100}
               height={100}
               placeholder="empty"
@@ -497,7 +503,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
           <Text color="white" fontSize="20px">
             {label === 'Redeem' ? (
               <>
-                Redeeming Tokens
+                Redeeming Tokens <br /> to Crypto Wallet
                 <br /> Successfully Initiated
               </>
             ) : (
@@ -512,7 +518,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
             h="3.25rem"
             onClick={(): void => void router.push('/dashboard')}
           >
-            Back Home
+            Complete - Back to Home
           </Button>
         </Flex>
       )}

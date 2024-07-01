@@ -97,3 +97,6 @@ export const FETCH_WP_PO_DETAILS = async ({ queryKey }: QueryFunctionContext): P
 
 export const FETCH_AUTHENTICATION = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/authentication`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_BANK_CREDIT_CARD_CRYPTO = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/wallet/bank-and-credit`, localStorage.QUX_PAY_USER_TOKEN);

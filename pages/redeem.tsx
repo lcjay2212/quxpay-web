@@ -5,7 +5,7 @@ import { getServerSideProps } from 'utils/getServerSideProps';
 
 const RedeemPage: FC = () => (
   <HeaderContainer label="Redeem" route="/dashboard">
-    <Deposit label="Redeem" url="web/wallet/withdraw" />
+    <Deposit label="Redeem" url="web/wallet/withdraw" url2="web/crypto/refund" />
   </HeaderContainer>
 );
 

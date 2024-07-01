@@ -17,8 +17,8 @@ const CryptoWallet: FC<{ name?: string; address: string; type: string; loading: 
         </Box>
         <Box fontSize="lg">
           <Text noOfLines={1}>
-            <span>{name?.slice(0, 15)}</span>&nbsp;
-            {address}
+            <span>{name}</span>&nbsp;
+            {address.slice(0, 12)}...
           </Text>
           <Text>Name: {type}</Text>
         </Box>

@@ -91,6 +91,9 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
         },
       }),
     {
+      onSuccess: () => {
+        setStep((e) => e + 1);
+      },
       onError: () => {
         notify(`Failed to create Crypto Wallet`, { status: 'error' });
       },
@@ -99,17 +102,17 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
   const amount = watch('amount');
 
-  const onDeposit = (val): void => {
+  const onSubmit = (val): void => {
     if (step === 1) {
-      setStep((e) => e + 1);
-
       if (type === 'ADD_CRYPTO') {
         addCrypto({
           address: val.address,
           name: val.name,
           currency: val.currency,
         } as any);
+        return;
       }
+      setStep((e) => e + 1);
       return;
     }
 
@@ -127,7 +130,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
         <>
           {!loading ? (
             <FormProvider {...method}>
-              <form onSubmit={handleSubmit(onDeposit)}>
+              <form onSubmit={handleSubmit(onSubmit)}>
                 <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
                   {step === 1 && (
                     <Box display="flex" flexDir="column">

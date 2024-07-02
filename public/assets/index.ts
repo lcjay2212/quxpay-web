@@ -15,6 +15,7 @@ import BankIcon from './icons/bank.svg';
 import BillsIcon from './icons/bills.svg';
 import CalendarIcon from './icons/calendar-icon.svg';
 import CashIn from './icons/cash_in.webp';
+import CheckCircleIcon from './icons/check-circle.svg';
 import CircleAddIcon from './icons/circle-add-icon.svg';
 import ClipboardIcon from './icons/clipboard-icon.svg';
 import CryptoIcon from './icons/crypto-icon.svg';
@@ -41,5 +42,5 @@ import WithdrawSuccessful from './icons/withdraw_successful.webp';
 import DownloadImg from './images/download.webp';
 import PhoneImage from './images/phone.webp';
 
-export { QuxpayAndQuxLogo, ClipboardIcon, CryptoIcon, AddBankIconTwo, AddBankIcon, AddCreditCardIcon, AddFriendIcon, BankIcon, BillsIcon, CalendarIcon, CashIn, CircleAddIcon, DepositSuccessful, DownloadImg, FailedIcon, HandsIcon, InsightIcon, PhoneImage, ProcessingIcon, ProfileIcon, QuxLogo, QuxPayGreenIcon, QuxPayLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxTokenBigIcon, QuxTokenIcon, QuxWalletIcon, SendQuxCash, ShieldIcon, SuccessCircleIcon, SuccessIcon, TokenHistoryGreenIcon, TokenHistoryIcon, UnpaidHistoryIcon, UploadIcon, UploadIcon2, WithdrawSuccessful };
+export { CheckCircleIcon, QuxpayAndQuxLogo, ClipboardIcon, CryptoIcon, AddBankIconTwo, AddBankIcon, AddCreditCardIcon, AddFriendIcon, BankIcon, BillsIcon, CalendarIcon, CashIn, CircleAddIcon, DepositSuccessful, DownloadImg, FailedIcon, HandsIcon, InsightIcon, PhoneImage, ProcessingIcon, ProfileIcon, QuxLogo, QuxPayGreenIcon, QuxPayLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxTokenBigIcon, QuxTokenIcon, QuxWalletIcon, SendQuxCash, ShieldIcon, SuccessCircleIcon, SuccessIcon, TokenHistoryGreenIcon, TokenHistoryIcon, UnpaidHistoryIcon, UploadIcon, UploadIcon2, WithdrawSuccessful };
 

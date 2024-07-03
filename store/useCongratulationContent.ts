@@ -9,7 +9,7 @@ type Props = {
   setAmount: (amount: number) => void;
 };
 export const useCongratulationContent = create<Props>((set) => ({
-  visible: true,
+  visible: false,
   setVisible: (visible: boolean): void =>
     set(() => ({
       visible,

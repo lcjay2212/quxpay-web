@@ -9,7 +9,7 @@ const DepositPage: FC = () => {
   const visible = useCongratulationContent((e) => e.visible);
   return (
     <>
-      {!visible ? (
+      {visible ? (
         <CongratulationContent label="Purchase" />
       ) : (
         <HeaderContainer label="Purchase" route="/dashboard" hasMenu>

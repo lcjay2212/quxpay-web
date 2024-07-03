@@ -1,13 +1,18 @@
-import { Box, Flex, Text } from '@chakra-ui/react';
+import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import { CSSObject } from '@emotion/react';
+import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
 import { ValueLabelProps } from 'component/RegistrationForm/FinalStep';
-import { CRYPTO } from 'mocks/crypto';
+import { FETCH_CRYPTO_CURRENCY_LIST } from 'constants/api';
+import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { ClipboardIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useMutation, useQuery } from 'react-query';
 import Select, { SingleValue } from 'react-select';
+import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
+import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
 export const reactSelectStyles = {
@@ -53,39 +58,45 @@ export const reactSelectStyles = {
 
 const CashInCrypto: FC = () => {
   const { control, watch } = useFormContext();
-  // const [searchText, setSearchText] = useState('America');
 
-  // const debounceText = useDebounce(searchText, 1000);
+  const { data } = useQuery('productList', FETCH_CRYPTO_CURRENCY_LIST, errorHandler);
+  const [cryptoPaymentData, setCryptoPaymentData] = useCryptoPaymentData((e) => [
+    e.cryptoPaymentData,
+    e.setCryptoPaymentData,
+  ]);
 
-  const tempData = CRYPTO.map((item) => {
+  const tempData = data?.map((item) => {
     return { label: item.currency, value: item.buy_rate, fee: item.buy_network_processing_fee };
   });
 
-  const tempPaymentData = {
-    amount: 20,
-    qux_charge: 0.6,
-    total_amount: 20.6,
-    amount_exchange: '0.00034201',
-    network_processing_fee: '0.00001589',
-    rate: '60230.3954',
-    payment_id: '78656217-7199-4b6a-b657-7c281896ecea',
-    address: 'btc-ba96a2b8113747aa800fdb609674376f',
-    qr_img:
-      'https://api.forumpay.com/pay/qr/?d=https%3A%2F%2Fsandbox.dashboard.forumpay.com%2Fpay%2FsandboxWallet.transfer%3Fcurrency%3DBTC%26address%3Dbtc-ba96a2b8113747aa800fdb609674376f%26amount%3D0.0003579',
-    currency: 'BTC',
-    pos_id: 'QUXPAY-PURCHASE_10',
-    fast_transaction_fee: '0.00023915',
-  };
-
   const copyToClipboard = async (): Promise<void> => {
     try {
-      await navigator.clipboard.writeText(tempPaymentData.address);
+      await navigator.clipboard.writeText(cryptoPaymentData?.payment_id || '');
       // setMessage('Text copied to clipboard!');
       notify('Text copied to clipboard!', { status: 'info' });
     } catch (err) {
       notify('Failed to copy text', { status: 'info' });
     }
   };
+
+  const { mutate, isLoading } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/crypto/payment`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          'QuxPay-Web': 1,
+          Version: 2,
+        },
+      }),
+    {
+      onSuccess: ({ data }) => {
+        setCryptoPaymentData(data?.data);
+      },
+      onError: ({ response }) => {
+        notify(`${response?.data?.message}`, { status: 'error' });
+      },
+    }
+  );
 
   return (
     <>
@@ -104,6 +115,10 @@ const CashInCrypto: FC = () => {
                 options={tempData}
                 onChange={(e: SingleValue<ValueLabelProps>): void => {
                   onChange(e?.label);
+                  mutate({
+                    currency: e?.label,
+                    amount: watch('amount'),
+                  } as any);
                 }}
                 // onInputChange={(e: string): void => setSearchText(e)}
                 isClearable={true}
@@ -113,27 +128,34 @@ const CashInCrypto: FC = () => {
         }}
       />
 
-      {watch('currency') && (
+      {cryptoPaymentData && (
         <Box mb="2rem">
-          <Box color="white">
-            <Text fontSize="24px">Current Exchange Value</Text>
-            <Text fontSize="24px">$67,624.54</Text>
-          </Box>
-          <Box textAlign="start" mt="2rem">
-            <Text fontSize="18px" color="white">
-              Send .065475 Bitcoin To This <br /> Temporary Wallet
-            </Text>
-          </Box>
-          <Flex gap={4} alignItems="center" mt="0.5rem">
-            <Text textAlign="start">{tempPaymentData.address}</Text>
-            <Box cursor="pointer" onClick={copyToClipboard}>
-              <Image src={ClipboardIcon} height={30} width={32} alt="Clipboard" />
-            </Box>
-          </Flex>
-
-          <Flex justifyContent="center" mt="2rem">
-            <Image src={`${tempPaymentData.qr_img}`} height={250} width={250} alt="QR Code" />
-          </Flex>
+          {!isLoading ? (
+            <>
+              <Box color="white">
+                <Text fontSize="24px">Current Exchange Value</Text>
+                <Text fontSize="24px">${Number(cryptoPaymentData.rate).toFixed(2)}</Text>
+              </Box>
+              <Box textAlign="start" mt="2rem">
+                <Text fontSize="18px" color="white">
+                  Send {cryptoPaymentData.amount_exchange} {cryptoPaymentData.currency} To This <br /> Temporary Wallet
+                </Text>
+              </Box>
+              <Flex gap={4} alignItems="center" mt="0.5rem">
+                <Text textAlign="start">{cryptoPaymentData.address}</Text>
+                <Box cursor="pointer" onClick={copyToClipboard}>
+                  <Image src={ClipboardIcon} height={30} width={32} alt="Clipboard" />
+                </Box>
+              </Flex>
+              <Flex justifyContent="center" mt="2rem">
+                <Image src={`${cryptoPaymentData.qr_img}`} height={250} width={250} alt="QR Code" />
+              </Flex>
+            </>
+          ) : (
+            <Flex justifyContent="center">
+              <Spinner color="primary" />
+            </Flex>
+          )}
         </Box>
       )}
     </>

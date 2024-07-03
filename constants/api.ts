@@ -100,3 +100,6 @@ export const FETCH_AUTHENTICATION = async (): Promise<any> =>
 
 export const FETCH_BANK_CREDIT_CARD_CRYPTO = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/wallet/bank-and-credit`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_CRYPTO_CURRENCY_LIST = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/crypto/currency`, localStorage.QUX_PAY_USER_TOKEN);

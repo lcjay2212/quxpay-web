@@ -8,6 +8,12 @@ module.exports = {
         port: '',
         pathname: '/pay/qr/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'sandbox.api.forumpay.com',
+        port: '',
+        pathname: '/pay/qr/**',
+      },
     ],
   },
 };

@@ -33,6 +33,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { useCongratulationContent } from 'store/useCongratulationContent';
+import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
@@ -42,6 +43,7 @@ export const calculateFivePercent = (amount: number): number => amount * 0.05;
 const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankCreditCardCrypto', FETCH_BANK_CREDIT_CARD_CRYPTO, errorHandler);
+  const [type, setType] = useState<'BANK' | 'CREDIT' | 'CRYPTO' | 'ADD_CRYPTO' | undefined>(undefined);
   const method = useForm();
   const { control, handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
@@ -57,9 +59,10 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     name?: string;
   }>();
 
+  const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
+
   const amount = watch('amount');
 
-  const [type, setType] = useState<'BANK' | 'CREDIT' | 'CRYPTO' | 'ADD_CRYPTO' | undefined>(undefined);
   const { setAmount, setCongratsType } = useCongratulationContent((e) => ({
     setAmount: e.setAmount,
     setCongratsType: e.setType,
@@ -102,6 +105,26 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     }
   );
 
+  const { mutate: completeCryptoPayment, isLoading: paymentLoading } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/crypto/complete-transaction`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
+    {
+      onSuccess: () => {
+        setVisible(true);
+        setAmount(amount);
+        setCongratsType(type);
+      },
+      onError: () => {
+        notify(`Failed to create Crypto Wallet`, { status: 'error' });
+      },
+    }
+  );
+
   const onSubmit = (val): void => {
     if (step === 1) {
       if (type === 'ADD_CRYPTO') {
@@ -113,7 +136,21 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     }
 
     if (step === 2) {
-      mutate({ ...val, ...(type === 'ADD_CRYPTO' || type === 'CRYPTO' ? { amount } : { payment_method: 'ach_bank' }) });
+      if (label === 'Purchase') {
+        if (type === 'CRYPTO') {
+          completeCryptoPayment({
+            payment_id: cryptoPaymentData?.payment_id,
+            pos_id: cryptoPaymentData?.pos_id,
+            currency: cryptoPaymentData?.currency,
+            address: cryptoPaymentData?.address,
+            type: 'purchase',
+          } as any);
+        } else {
+          mutate({ ...val, payment_method: 'ach_bank' });
+        }
+      } else if (label === 'Redeem') {
+        mutate({ ...val, ...(type === 'ADD_CRYPTO' || type === 'CRYPTO' ? { amount } : {}) });
+      }
     }
   };
   return (
@@ -351,7 +388,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   {label === 'Purchase' && type === 'CRYPTO' && (
                     <Box mb="2rem" textAlign="start">
                       <Text noOfLines={1}>Received ${amount?.toFixed(2)} in tokens</Text>
-                      <Text>From: rDsbeomae4FXwgQTJp9Rs64Q g9vDiTCdBv.</Text>
+                      <Text>From: {cryptoPaymentData?.address}</Text>
                     </Box>
                   )}
 
@@ -426,7 +463,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   borderRadius="1rem"
                   w="400px"
                   h="3.25rem"
-                  isLoading={isLoading && addCryptoLoading}
+                  isLoading={isLoading && addCryptoLoading && paymentLoading}
                 >
                   {step === 1 ? label : `Confirm ${label}`}
                 </Button>

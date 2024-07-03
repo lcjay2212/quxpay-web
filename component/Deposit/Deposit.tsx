@@ -117,7 +117,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     }
   };
   return (
-    <Box textAlign="center" overflow="hidden" px="1rem">
+    <Box textAlign="center" overflow="hidden" px="1rem" mb="2rem">
       {!loading ? (
         <FormProvider {...method}>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -243,7 +243,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                           )}
                                         </Box>
                                         <Radio
-                                          value={`${item.currency}`}
+                                          value={`${item.address}`}
                                           colorScheme="teal"
                                           onChange={(): void => {
                                             onChange(item.currency);

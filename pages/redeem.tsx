@@ -9,7 +9,7 @@ const RedeemPage: FC = () => {
   const visible = useCongratulationContent((e) => e.visible);
   return (
     <>
-      {!!visible ? (
+      {!visible ? (
         <CongratulationContent label="Redeem" />
       ) : (
         <HeaderContainer label="Redeem" route="/dashboard">

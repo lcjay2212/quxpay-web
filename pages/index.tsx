@@ -108,6 +108,7 @@ const Home: FC = () => {
                     border="2px solid #D11CB6"
                     width={350}
                     p="0.5rem"
+                    gap={2}
                   >
                     <Image
                       src="/assets/images/qrcode.webp"

@@ -27,7 +27,7 @@ import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIconTwo, AddCreditCardIcon, CryptoIcon, QuxTokenIcon } from 'public/assets';
+import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon, QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
@@ -270,7 +270,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       <>
                         <Flex my="1.5rem" justifyContent="space-between">
                           <Flex alignItems="center">
-                            <Image src={CryptoIcon} height={50} width={60} alt="Add Bank Icon" />
+                            <Image src={AddCryptoIcon} height={50} width={60} alt="Add Bank Icon" />
                             <Text ml="1rem" color="white" fontSize="1.25rem">
                               Add New Crypto Wallet
                             </Text>
@@ -326,7 +326,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
                         <Flex my="1.5rem" justifyContent="space-between">
                           <Flex alignItems="center">
-                            <Image src={CryptoIcon} height={50} width={60} alt="Add Bank Icon" />
+                            <Image src={AddCryptoIcon} height={50} width={60} alt="Add Bank Icon" />
                             <Text ml="1rem" color="white" fontSize="1.25rem">
                               Cash In Crypto
                             </Text>

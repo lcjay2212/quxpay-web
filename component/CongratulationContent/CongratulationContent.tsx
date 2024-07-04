@@ -12,6 +12,7 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
   const setVisible = useCongratulationContent((e) => e.setVisible);
   const amount = useCongratulationContent((e) => e.amount);
   const router = useRouter();
+
   return (
     <>
       {label === 'Purchase' && (
@@ -20,65 +21,89 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
             <source src="./assets/video/success.mp4" type="video/mp4" />
           </video>
           <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>
-            <Box
-              pb={{ base: '4rem', md: '5rem' }}
-              display="flex"
-              flexDir="column"
-              alignItems="center"
-              justifyContent="center"
-            >
-              <Box mt="14rem">
-                <Image src={CheckCircleIcon} width={70} height={70} placeholder="empty" alt="Redeem" />
-              </Box>
-              <Heading as="h1" fontWeight="bold" fontSize="24px" color="primary" mt="3rem" mb="1rem">
-                CONGRATUALATIONS
-              </Heading>
-              <Box color="white" textAlign="center">
-                <Flex justifyContent="center" mb="1rem" alignItems="center">
-                  <span>
-                    <Image src={QuxTokenIcon} width={40} height={40} alt="Qux Token" />
-                  </span>
-                  <chakra.span fontSize="2rem" mt="0.3rem">
-                    {amount?.toFixed(2)}
-                  </chakra.span>
-                </Flex>
-                {type === 'BANK' && (
-                  <>
-                    <Text mb="1rem">
-                      Your transaction has been <br />
-                      Initiated successfully
-                    </Text>
+            <Box display="flex" flexDir="column" justifyContent="space-between" h="100vh" py="2rem">
+              <Flex flexDir="column" alignItems="center" mt="7rem">
+                <Box>
+                  <Image src={CheckCircleIcon} width={70} height={70} placeholder="empty" alt="Redeem" />
+                </Box>
+                <Heading as="h1" fontWeight="bold" fontSize="24px" color="primary" mt="3rem" mb="1rem">
+                  CONGRATUALATIONS
+                </Heading>
+                <Box color="white" textAlign="center">
+                  <Flex justifyContent="center" mb="1rem" alignItems="center">
+                    <span>
+                      <Image src={QuxTokenIcon} width={40} height={40} alt="Qux Token" />
+                    </span>
+                    <chakra.span fontSize="2rem" mt="0.3rem">
+                      {amount?.toFixed(2)}
+                    </chakra.span>
+                  </Flex>
+                  {(type === 'BANK' || type === undefined) && (
+                    <>
+                      <Text mb="1rem">
+                        Your transaction has been <br />
+                        Initiated successfully
+                      </Text>
 
+                      <Text>
+                        Please remember that
+                        <br />
+                        bank transactions take
+                        <br />
+                        up to 3 days to process.
+                      </Text>
+                    </>
+                  )}
+                  {type === 'CRYPTO' && (
                     <Text>
-                      Please remember that
-                      <br />
-                      bank transactions take
-                      <br />
-                      up to 3 days to process.
+                      Your transaction has been <br />
+                      Completed successfully
                     </Text>
-                  </>
-                )}
-                {type === 'CRYPTO' && (
-                  <Text>
-                    Your transaction has been <br />
-                    Completed successfully
-                  </Text>
-                )}
-              </Box>
+                  )}
 
-              <Button
-                variant="primary"
-                borderRadius="1rem"
-                mt="16rem"
-                w={350}
-                h="3.25rem"
-                onClick={(): void => {
-                  void router.push('/dashboard');
-                  setVisible(false);
-                }}
-              >
-                Complete - Back to Home
-              </Button>
+                  {type === 'CREDIT' && (
+                    <>
+                      <Text>
+                        Your transaction has been <br />
+                        Completed successfully
+                      </Text>
+                      <Text my="2rem">
+                        Please remember that
+                        <br />
+                        credit card transactions
+                        <br />
+                        are instant but sometimes
+                        <br />
+                        have product limitations.
+                      </Text>
+                      <Text>
+                        This card's limitations are:
+                        <br />
+                        No cannabis
+                        <br />
+                        No weapons
+                        <br />
+                        No adult content
+                      </Text>
+                    </>
+                  )}
+                </Box>
+              </Flex>
+
+              <Flex flex="end" alignItems="center" justifyContent="center">
+                <Button
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  onClick={(): void => {
+                    void router.push('/dashboard');
+                    setVisible(false);
+                  }}
+                >
+                  Complete - Back to Home
+                </Button>
+              </Flex>
             </Box>
           </Container>
         </Grid>
@@ -106,8 +131,8 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                 <br /> Successfully Initiated
               </Text>
             )}
-            {type === 'BANK' && (
-              <Text color="white" fontSize="20px">
+            {(type === 'BANK' || type === undefined) && (
+              <Text color="white" fontSize="20px" mt="1rem">
                 Redeeming Tokens <br /> to Bank Nickname
                 <br /> Successfully Initiated
               </Text>
@@ -118,7 +143,10 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
               mt="16rem"
               w={350}
               h="3.25rem"
-              onClick={(): void => void router.push('/dashboard')}
+              onClick={(): void => {
+                void router.push('/dashboard');
+                setVisible(false);
+              }}
             >
               Complete - Back to Home
             </Button>

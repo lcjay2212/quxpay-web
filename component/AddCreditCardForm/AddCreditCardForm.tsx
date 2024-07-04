@@ -1,4 +1,4 @@
-import { Flex } from '@chakra-ui/react';
+import { Flex, Text } from '@chakra-ui/react';
 import { CSSObject } from '@emotion/react';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
@@ -65,7 +65,7 @@ const AddCreditCardForm: FC = () => {
       <Flex gap={4}>
         <Controller
           control={control}
-          name="expiry_date"
+          name="expiration_date"
           rules={{ required: 'Expiry date is required' }}
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer label="Expiry Date" errorMessage={error?.message ?? ''}>
@@ -75,7 +75,7 @@ const AddCreditCardForm: FC = () => {
         />
         <Controller
           control={control}
-          name="security_code"
+          name="card_code"
           rules={{ required: 'Security Code is required' }}
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer label="Security Code" errorMessage={error?.message ?? ''}>
@@ -85,20 +85,35 @@ const AddCreditCardForm: FC = () => {
         />
       </Flex>
 
-      <Controller
-        control={control}
-        name="card_name"
-        rules={{ required: 'Name on Card is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="Name on Card" errorMessage={error?.message ?? ''}>
-            <TextField value={value ?? ''} placeholder="Enter Name on Card" onChange={onChange} onBlur={onBlur} />
-          </FormContainer>
-        )}
-      />
+      <Text textAlign="start" color="white" ml="1rem" mb="0.5rem">
+        Name of Card
+      </Text>
+      <Flex gap={4}>
+        <Controller
+          control={control}
+          name="firstname"
+          rules={{ required: 'Fristname on Card is required' }}
+          render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+            <FormContainer errorMessage={error?.message ?? ''}>
+              <TextField value={value ?? ''} placeholder="Enter Firstname" onChange={onChange} onBlur={onBlur} />
+            </FormContainer>
+          )}
+        />
+        <Controller
+          control={control}
+          name="lastname"
+          rules={{ required: 'Lastname is required' }}
+          render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+            <FormContainer errorMessage={error?.message ?? ''}>
+              <TextField value={value ?? ''} placeholder="Enter Lastname" onChange={onChange} onBlur={onBlur} />
+            </FormContainer>
+          )}
+        />
+      </Flex>
 
       <Controller
         control={control}
-        name="billing_address"
+        name="address"
         rules={{ required: 'Billing Address is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Billing Address" errorMessage={error?.message ?? ''}>
@@ -114,7 +129,7 @@ const AddCreditCardForm: FC = () => {
 
       <Controller
         control={control}
-        name="address_2"
+        name="address2"
         render={({ field: { onChange, value, onBlur } }): ReactElement => (
           <FormContainer label="Address 2">
             <TextField

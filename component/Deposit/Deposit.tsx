@@ -69,7 +69,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   }));
   const { mutate, isLoading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/${!type ? url : url2}`, variable, {
+      axios.post(`${STAGING_URL}/${!type ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -82,7 +82,10 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
         setCongratsType(type);
       },
       onError: ({ response }) => {
-        notify(`${response.data?.errors?.account_number}`, { status: 'error' });
+        const errorMsg = response?.data?.errors?.account_number;
+        const creditErrorMsg = response?.data?.data?.message || `Failed to Purchase using credit card`;
+
+        notify(type === 'CREDIT' ? creditErrorMsg : errorMsg, { status: 'error' });
       },
     }
   );
@@ -129,14 +132,24 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     if (step === 1) {
       if (type === 'ADD_CRYPTO') {
         addCrypto({ address: val.address, name: val.name, currency: val.currency } as any);
-      } else {
-        setStep((e) => e + 1);
+        return;
       }
+
+      setStep((e) => e + 1);
       return;
     }
 
     if (step === 2) {
       if (label === 'Purchase') {
+        if (type === 'CREDIT') {
+          mutate({
+            ...val,
+            card_holder_name: `${val.firstname} ${val.lastname}`,
+            address2: val.address2 || '',
+          } as any);
+          return;
+        }
+
         if (type === 'CRYPTO') {
           completeCryptoPayment({
             payment_id: cryptoPaymentData?.payment_id,
@@ -463,7 +476,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   borderRadius="1rem"
                   w="400px"
                   h="3.25rem"
-                  isLoading={isLoading && addCryptoLoading && paymentLoading}
+                  isLoading={isLoading || addCryptoLoading || paymentLoading}
                 >
                   {step === 1 ? label : `Confirm ${label}`}
                 </Button>

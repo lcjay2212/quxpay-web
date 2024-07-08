@@ -1,8 +1,11 @@
+import { Box, Flex, Text } from '@chakra-ui/react';
 import { CSSObject } from '@emotion/react';
 import { FormContainer } from 'component/FormInput';
 import { ValueLabelProps } from 'component/RegistrationForm/FinalStep';
 import { TextField } from 'component/TextField';
 import { CRYPTO } from 'mocks/crypto';
+import Image from 'next/image';
+import { PasteIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
@@ -87,12 +90,23 @@ const AddCrytoWallet: FC = () => {
         rules={{ required: 'Address date is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter Cryptocurrency Address"
-              onChange={onChange}
-              onBlur={onBlur}
-            />
+            <Flex justifyContent="space-between" gap={4}>
+              <Box w={'100%'}>
+                <TextField
+                  value={value ?? ''}
+                  placeholder="Enter Cryptocurrency Address"
+                  onChange={onChange}
+                  onBlur={onBlur}
+                />
+              </Box>
+
+              <Box>
+                <Image src={PasteIcon} height={40} width={40} alt="Paste Icon" />
+                <Text fontSize="12px" mt="0.25rem">
+                  Paste
+                </Text>
+              </Box>
+            </Flex>
           </FormContainer>
         )}
       />

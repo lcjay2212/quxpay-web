@@ -3,7 +3,7 @@ import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
-import { QuxWalletIcon } from 'public/assets';
+import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
@@ -33,13 +33,13 @@ const CryptoTransactionHistory: FC = () => {
             <Box>
               {data?.slice(0, 3).map((item) => (
                 <ItemListDisplay
-                  label={`Qux User ${startCase(item.type)}`}
+                  label={`${item.currency} ${item.pos_id}`}
                   date={item.created_at}
                   amount={+item.amount}
                   key={item.id}
                   complete={item.confirmed}
-                  image={QuxWalletIcon}
-                  hasComplete
+                  image={CryptoIcon}
+                  type={startCase(item.type)}
                 />
               ))}
             </Box>

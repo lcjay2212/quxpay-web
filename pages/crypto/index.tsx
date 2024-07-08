@@ -2,6 +2,7 @@ import { Box, Spinner } from '@chakra-ui/react';
 import HeaderContainer from 'component/Header/HeaderContainer';
 import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
+import { startCase } from 'lodash';
 import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
@@ -10,6 +11,7 @@ import { getServerSideProps } from 'utils/getServerSideProps';
 
 const CryptoHistory: FC = () => {
   const { data, isLoading } = useQuery('crytpoTransactionHistory', FETCH_CRYPTO_TRANSACTION_HISTORY, errorHandler);
+
   return (
     <HeaderContainer label="Crypto" route="/dashboard">
       <Box my="1rem" px="1rem">
@@ -22,12 +24,12 @@ const CryptoHistory: FC = () => {
             {data?.length ? (
               data?.map((item) => (
                 <ItemListDisplay
-                  label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
+                  label={`${item.currency} ${item.pos_id} `}
                   date={item.created}
                   amount={+item.amount}
                   key={item.id}
                   image={CryptoIcon}
-                  type="Recieved"
+                  type={startCase(item.type)}
                 />
               ))
             ) : (

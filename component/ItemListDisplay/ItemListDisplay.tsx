@@ -5,8 +5,8 @@ import { QuxPayGreenIcon } from 'public/assets';
 import { FC } from 'react';
 
 const ItemListDisplay: FC<{
-  label: string;
-  date: string;
+  label?: string;
+  date?: string;
   amount: number;
   complete?: boolean;
   image: StaticImageData;

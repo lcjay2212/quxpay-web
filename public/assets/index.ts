@@ -23,6 +23,7 @@ import CryptoIcon from './icons/crypto-icon.webp';
 import DepositSuccessful from './icons/deposit-success.webp';
 import FailedIcon from './icons/failed-icon.webp';
 import InsightIcon from './icons/insight-icon.webp';
+import PasteIcon from './icons/paste-icon.webp';
 import ProcessingIcon from './icons/processing-icon.webp';
 import QuxPayGreenIcon from './icons/qux-pay-icon-green.webp';
 import QuxTokenBigIcon from './icons/qux-token-big-icon.webp';
@@ -44,5 +45,49 @@ import DownloadImg from './images/download.webp';
 import PhoneImage from './images/phone.webp';
 import QrCodeImage from './images/qrcode.webp';
 
-export { QrCodeImage, BankIcon2, CryptoIcon, CheckCircleIcon, QuxpayAndQuxLogo, ClipboardIcon, AddCryptoIcon, AddBankIconTwo, AddBankIcon, AddCreditCardIcon, AddFriendIcon, BankIcon, BillsIcon, CalendarIcon, CashIn, CircleAddIcon, DepositSuccessful, DownloadImg, FailedIcon, HandsIcon, InsightIcon, PhoneImage, ProcessingIcon, ProfileIcon, QuxLogo, QuxPayGreenIcon, QuxPayLogo, QuxPayLogoPng, QuxPayLogoTwo, QuxTokenBigIcon, QuxTokenIcon, QuxWalletIcon, SendQuxCash, ShieldIcon, SuccessCircleIcon, SuccessIcon, TokenHistoryGreenIcon, TokenHistoryIcon, UnpaidHistoryIcon, UploadIcon, UploadIcon2, WithdrawSuccessful };
+export {
+    PasteIcon,
+    QrCodeImage,
+    BankIcon2,
+    CryptoIcon,
+    CheckCircleIcon,
+    QuxpayAndQuxLogo,
+    ClipboardIcon,
+    AddCryptoIcon,
+    AddBankIconTwo,
+    AddBankIcon,
+    AddCreditCardIcon,
+    AddFriendIcon,
+    BankIcon,
+    BillsIcon,
+    CalendarIcon,
+    CashIn,
+    CircleAddIcon,
+    DepositSuccessful,
+    DownloadImg,
+    FailedIcon,
+    HandsIcon,
+    InsightIcon,
+    PhoneImage,
+    ProcessingIcon,
+    ProfileIcon,
+    QuxLogo,
+    QuxPayGreenIcon,
+    QuxPayLogo,
+    QuxPayLogoPng,
+    QuxPayLogoTwo,
+    QuxTokenBigIcon,
+    QuxTokenIcon,
+    QuxWalletIcon,
+    SendQuxCash,
+    ShieldIcon,
+    SuccessCircleIcon,
+    SuccessIcon,
+    TokenHistoryGreenIcon,
+    TokenHistoryIcon,
+    UnpaidHistoryIcon,
+    UploadIcon,
+    UploadIcon2,
+    WithdrawSuccessful
+};
 

@@ -141,10 +141,13 @@ const CashInCrypto: FC = () => {
                   Send {cryptoPaymentData.amount_exchange} {cryptoPaymentData.currency} To This <br /> Temporary Wallet
                 </Text>
               </Box>
-              <Flex gap={4} alignItems="center" mt="0.5rem">
+              <Flex gap={4} alignItems="center" justifyContent="space-between" mt="0.5rem">
                 <Text textAlign="start">{cryptoPaymentData.address}</Text>
                 <Box cursor="pointer" onClick={copyToClipboard}>
                   <Image src={ClipboardIcon} height={30} width={32} alt="Clipboard" />
+                  <Text fontSize="12px" mt="0.25rem">
+                    Copy
+                  </Text>
                 </Box>
               </Flex>
               <Flex justifyContent="center" mt="2rem">

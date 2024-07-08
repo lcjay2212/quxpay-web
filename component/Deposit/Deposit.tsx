@@ -153,6 +153,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
             ...val,
             card_holder_name: `${val.firstname} ${val.lastname}`,
             address2: val.address2 || '',
+            expiration_date: val.expiration_date.replace('/', ''),
           } as any);
           return;
         }

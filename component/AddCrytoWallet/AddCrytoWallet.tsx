@@ -71,12 +71,10 @@ const AddCrytoWallet: FC = () => {
                 onBlur={onBlur}
                 styles={reactSelectStyles}
                 placeholder="Select Crypto Type"
-                // isLoading={isLoading}
                 options={tempData}
                 onChange={(e: SingleValue<ValueLabelProps>): void => {
                   onChange(e?.label);
                 }}
-                // onInputChange={(e: string): void => setSearchText(e)}
                 isClearable={true}
               />
             </FormContainer>

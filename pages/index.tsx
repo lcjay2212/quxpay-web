@@ -4,7 +4,7 @@ import { SEO } from 'component/SEO';
 import TopBarHeader from 'component/TopBarHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PhoneImage } from 'public/assets';
+import { PhoneImage, QrCodeImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
@@ -111,10 +111,10 @@ const Home: FC = () => {
                     gap={2}
                   >
                     <Image
-                      src="/assets/images/qrcode.webp"
-                      height={100}
-                      width={100}
-                      alt="Phone Image"
+                      src={QrCodeImage}
+                      height={85}
+                      width={85}
+                      alt="QR Code Image"
                       style={{ objectFit: 'contain' }}
                       placeholder="empty"
                     />

@@ -495,7 +495,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                       ? 'Initiate Bank Redeem'
                       : 'Confirm Crypto Redeem'
                     : type === 'ADD_CRYPTO'
-                    ? 'Complete Return to Home'
+                    ? 'Complete - Return to Home'
                     : `Confirm ${label}`}
                 </Button>
 

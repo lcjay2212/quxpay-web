@@ -43,7 +43,7 @@ export const calculateFivePercent = (amount: number): number => amount * 0.05;
 const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankCreditCardCrypto', FETCH_BANK_CREDIT_CARD_CRYPTO, errorHandler);
-  const [type, setType] = useState<'BANK' | 'CREDIT' | 'CRYPTO' | 'ADD_CRYPTO' | undefined>(undefined);
+  const [type, setType] = useState<'BANK' | 'CREDIT' | 'CRYPTO' | 'ADD_CRYPTO' | 'ADD_BANK' | undefined>(undefined);
   const method = useForm();
   const { control, handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
@@ -67,14 +67,19 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     setAmount: e.setAmount,
     setCongratsType: e.setType,
   }));
+
   const { mutate, isLoading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/${!type ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'}`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
+      axios.post(
+        `${STAGING_URL}/${type === 'BANK' ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'}`,
+        variable,
+        {
+          headers: {
+            Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+            Version: 2,
+          },
+        }
+      ),
     {
       onSuccess: () => {
         setVisible(true);
@@ -82,10 +87,12 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
         setCongratsType(type);
       },
       onError: ({ response }) => {
-        const errorMsg = response?.data?.errors?.account_number;
-        const creditErrorMsg = response?.data?.data?.message || `Failed to Purchase using credit card`;
+        const { errors, data } = response?.data || {};
+        const errorMsg = errors?.account_number;
+        const creditErrorMsg = data?.message || 'Failed to Purchase using credit card';
+        const cryptoErrorMsg = data?.errors?.address || data?.message;
 
-        notify(type === 'CREDIT' ? creditErrorMsg : errorMsg, { status: 'error' });
+        notify(type === 'CREDIT' ? creditErrorMsg : type === 'CRYPTO' ? cryptoErrorMsg : errorMsg, { status: 'error' });
       },
     }
   );
@@ -162,7 +169,10 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
           mutate({ ...val, payment_method: 'ach_bank' });
         }
       } else if (label === 'Redeem') {
-        mutate({ ...val, ...(type === 'ADD_CRYPTO' || type === 'CRYPTO' ? { amount } : {}) });
+        mutate({
+          ...val,
+          ...(type === 'ADD_CRYPTO' || type === 'CRYPTO' ? { amount, address: selectedCrypto?.address } : {}),
+        });
       }
     }
   };
@@ -242,7 +252,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                           onChange(item.customerPaymentProfileId);
                                           setPaymentId(item.customerPaymentProfileId);
                                           setSelectedBankDetails(item);
-                                          setType(undefined);
+                                          setType('BANK');
                                         }}
                                       />
                                     </Flex>
@@ -350,7 +360,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
 
                           <Radio
                             value={`${data?.bank?.length + 1}`}
-                            onChange={(): void => setType('BANK')}
+                            onChange={(): void => setType('ADD_BANK')}
                             colorScheme="teal"
                           />
                         </Flex>
@@ -405,24 +415,22 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                     </Box>
                   )}
 
-                  {type === 'BANK' && (
+                  {label === 'Redeem' && (
                     <Box mb="2rem" textAlign="start">
-                      <Text noOfLines={1}>From: {selectedBankDetails?.payment.bankAccount.bank_name}</Text>
-                      <Text>Name: {selectedBankDetails?.payment.bankAccount.nameOnAccount}</Text>
-                    </Box>
-                  )}
-
-                  {label === 'Redeem' && type === 'ADD_CRYPTO' && (
-                    <Box mb="2rem" textAlign="start">
-                      <Text noOfLines={1}>Sending ${(amount + calculateFivePercent(amount)).toFixed(2)} in tokens</Text>
-                      <Text>To: </Text>
-                    </Box>
-                  )}
-
-                  {label === 'Redeem' && type === 'CRYPTO' && (
-                    <Box mb="2rem" textAlign="start">
-                      <Text noOfLines={1}>Sending ${(amount + calculateFivePercent(amount)).toFixed(2)} in tokens</Text>
-                      <Text>To: {selectedCrypto?.address}</Text>
+                      {type === 'BANK' && (
+                        <>
+                          <Text noOfLines={1}>From: {selectedBankDetails?.payment.bankAccount.bank_name}</Text>
+                          <Text>Name: {selectedBankDetails?.payment.bankAccount.nameOnAccount}</Text>
+                        </>
+                      )}
+                      {(type === 'ADD_CRYPTO' || type === 'CRYPTO') && (
+                        <>
+                          <Text noOfLines={1}>
+                            Sending ${(amount + calculateFivePercent(amount)).toFixed(2)} in tokens
+                          </Text>
+                          <Text>To: {type === 'CRYPTO' && selectedCrypto?.address}</Text>
+                        </>
+                      )}
                     </Box>
                   )}
 
@@ -478,7 +486,17 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   h="3.25rem"
                   isLoading={isLoading || addCryptoLoading || paymentLoading}
                 >
-                  {step === 1 ? label : `Confirm ${label}`}
+                  {step === 1
+                    ? label === 'Purchase' && type === 'CRYPTO'
+                      ? 'Tokens Received!'
+                      : label
+                    : label === 'Redeem'
+                    ? type === 'BANK'
+                      ? 'Initiate Bank Redeem'
+                      : 'Confirm Crypto Redeem'
+                    : type === 'ADD_CRYPTO'
+                    ? 'Complete Return to Home'
+                    : `Confirm ${label}`}
                 </Button>
 
                 {step === 2 && (

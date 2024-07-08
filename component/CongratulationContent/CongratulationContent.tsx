@@ -131,7 +131,7 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                 <br /> Successfully Initiated
               </Text>
             )}
-            {(type === 'BANK' || type === undefined) && (
+            {(type === 'BANK' || type === 'ADD_BANK') && (
               <Text color="white" fontSize="20px" mt="1rem">
                 Redeeming Tokens <br /> to Bank Nickname
                 <br /> Successfully Initiated

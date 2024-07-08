@@ -106,7 +106,7 @@ const CashInCrypto: FC = () => {
         rules={{ required: 'Bank Name is required' }}
         render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
           return (
-            <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
+            <FormContainer errorMessage={error?.message ?? ''}>
               <Select
                 onBlur={onBlur}
                 styles={reactSelectStyles}

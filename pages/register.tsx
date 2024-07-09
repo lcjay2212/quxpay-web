@@ -1,5 +1,6 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import CaptchaModal from 'component/CaptchaModal/CaptchaModal';
 import PendingAccountModal from 'component/PendingAccountModal';
 import CorporationStep from 'component/RegistrationForm/CorporationStep';
 import FinalStep from 'component/RegistrationForm/FinalStep';
@@ -233,6 +234,7 @@ const Register: FC = () => {
       </Box>
 
       <PendingAccountModal />
+      <CaptchaModal />
     </>
   );
 };

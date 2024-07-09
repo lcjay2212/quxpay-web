@@ -4,11 +4,12 @@ import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { useUser } from 'store/useUser';
 import { clearStorage } from 'utils/clearStorage';
 import { notify } from 'utils/notify';
+import { queryClient } from 'utils/queryClient';
 import { theme } from 'utils/theme';
 
 const poppins = Poppins({
@@ -19,7 +20,6 @@ const poppins = Poppins({
 const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
 
 const App: FC<AppProps> = ({ Component, pageProps }) => {
-  const queryClient = new QueryClient();
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
   useEffect(() => {
     if (!user && typeof window !== 'undefined' && localStorage.QUX_PAY_USER_DETAILS) {

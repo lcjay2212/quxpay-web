@@ -14,6 +14,12 @@ module.exports = {
         port: '',
         pathname: '/pay/qr/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'p2.api.quxtech.tv',
+        port: '',
+        pathname: '/puzzle_images/**',
+      },
     ],
   },
 };

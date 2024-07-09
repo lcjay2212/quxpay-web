@@ -92,7 +92,10 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
         const creditErrorMsg = data?.message || 'Failed to Purchase using credit card';
         const cryptoErrorMsg = data?.errors?.address || data?.message;
 
-        notify(type === 'CREDIT' ? creditErrorMsg : type === 'CRYPTO' ? cryptoErrorMsg : errorMsg, { status: 'error' });
+        notify(
+          type === 'CREDIT' ? creditErrorMsg : type === 'CRYPTO' || type === 'ADD_CRYPTO' ? cryptoErrorMsg : errorMsg,
+          { status: 'error' }
+        );
       },
     }
   );
@@ -172,7 +175,9 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
       } else if (label === 'Redeem') {
         mutate({
           ...val,
-          ...(type === 'ADD_CRYPTO' || type === 'CRYPTO' ? { amount, address: selectedCrypto?.address } : {}),
+          ...(type === 'ADD_CRYPTO' || type === 'CRYPTO'
+            ? { amount, address: selectedCrypto?.address || val.address }
+            : {}),
         });
       }
     }
@@ -247,7 +252,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                         )}
                                       </Box>
                                       <Radio
-                                        value={`${index + 1}`}
+                                        value={`${item.customerPaymentProfileId}`}
                                         colorScheme="teal"
                                         onChange={(): void => {
                                           onChange(item.customerPaymentProfileId);
@@ -304,7 +309,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                           )}
                                         </Box>
                                         <Radio
-                                          value={`${item.address}`}
+                                          value={`${item.address}-${index}`}
                                           colorScheme="teal"
                                           onChange={(): void => {
                                             onChange(item.currency);
@@ -337,11 +342,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                             </Text>
                           </Flex>
 
-                          <Radio
-                            value={`${data?.payments?.length + 1}`}
-                            onChange={(): void => setType('ADD_CRYPTO')}
-                            colorScheme="teal"
-                          />
+                          <Radio value="ADD_CRYPTO" onChange={(): void => setType('ADD_CRYPTO')} colorScheme="teal" />
                         </Flex>
                         {type === 'ADD_CRYPTO' && <AddCrytoWallet />}
 
@@ -359,13 +360,9 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                             </Text>
                           </Flex>
 
-                          <Radio
-                            value={`${data?.bank?.length + 1}`}
-                            onChange={(): void => setType('ADD_BANK')}
-                            colorScheme="teal"
-                          />
+                          <Radio value="ADD_BANK" onChange={(): void => setType('ADD_BANK')} colorScheme="teal" />
                         </Flex>
-                        {type === 'BANK' && <AddBankAccount />}
+                        {type === 'ADD_BANK' && <AddBankAccount />}
                         <Divider mt="1rem" />
 
                         <Flex my="1.5rem" justifyContent="space-between">
@@ -376,11 +373,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                             </Text>
                           </Flex>
 
-                          <Radio
-                            value={`${data?.bank?.length + 2}`}
-                            onChange={(): void => setType('CREDIT')}
-                            colorScheme="teal"
-                          />
+                          <Radio value="CREDIT" onChange={(): void => setType('CREDIT')} colorScheme="teal" />
                         </Flex>
                         {type === 'CREDIT' && <AddCreditCardForm />}
                         <Divider mt="1rem" />
@@ -393,11 +386,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                             </Text>
                           </Flex>
 
-                          <Radio
-                            value={`${data?.bank?.length + 3}`}
-                            onChange={(): void => setType('CRYPTO')}
-                            colorScheme="teal"
-                          />
+                          <Radio value="CRYPTO" onChange={(): void => setType('CRYPTO')} colorScheme="teal" />
                         </Flex>
                         {type === 'CRYPTO' && <CashInCrypto />}
                       </>

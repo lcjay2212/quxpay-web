@@ -219,7 +219,7 @@ const Home: FC = () => {
 
       <Box
         h={{ base: '60vh', md: '100vh' }}
-        bgImage="url('/assets/images/BG-5.webp')"
+        bgImage="url('/assets/images/BG-5-v2.webp')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize={{ base: 'cover', md: 'contain' }}

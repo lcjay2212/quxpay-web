@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { QuxPayLogoPng } from 'public/assets';
+import { GooglePlayImage, QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 import { openInNewTab } from 'utils/openNewTab';
 
@@ -63,13 +63,7 @@ const Footer: FC = () => {
             ))}
           </Box>
           <Box color="white">
-            <Image
-              src="/assets/images/google-play.webp"
-              alt="Google Play and App Store"
-              width={300}
-              height={100}
-              placeholder="empty"
-            />
+            <Image src={GooglePlayImage} alt="Google Play and App Store" width={300} height={100} placeholder="empty" />
             <Text
               fontSize={{ base: '20px', md: '29px' }}
               fontWeight="bold"

@@ -45,7 +45,12 @@ import DownloadImg from './images/download.webp';
 import PhoneImage from './images/phone.webp';
 import QrCodeImage from './images/qrcode.webp';
 
+//Images
+
+import GooglePlayImage from './images/google-play-2.webp';
+
 export {
+    GooglePlayImage,
     PasteIcon,
     QrCodeImage,
     BankIcon2,

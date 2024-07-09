@@ -28,7 +28,6 @@ const CaptchaModal: FC = () => {
     {
       onSuccess: ({ data }) => {
         notify(data?.status?.message);
-        void queryClient.invalidateQueries('captcha');
         setVisible(false);
       },
       onError: ({ response }) => {

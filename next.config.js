@@ -20,6 +20,12 @@ module.exports = {
         port: '',
         pathname: '/puzzle_images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'cdn.quxtech.tv',
+        port: '',
+        pathname: '/staging-quxtech/**',
+      },
     ],
   },
 };

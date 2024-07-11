@@ -425,22 +425,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   )}
 
                   <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
-                  <Label
+                  {/* <Label
                     label="Token Fee"
                     image={QuxTokenIcon}
                     amount={(label === 'Redeem' ? calculateFivePercent(amount) : calculateThreePercent(amount)) || 0.0}
                     loading={loading}
-                  />
-                  <Label
-                    label="Total Purchase amount:"
-                    image={QuxTokenIcon}
-                    amount={
-                      (label === 'Redeem'
-                        ? amount + calculateFivePercent(amount)
-                        : amount + calculateThreePercent(amount)) || 0.0
-                    }
-                    loading={loading}
-                  />
+                  /> */}
+                  <Label label="Total Purchase amount:" image={QuxTokenIcon} amount={amount} loading={loading} />
 
                   {label === 'Purchase' && type === 'CRYPTO' && (
                     <Text my="1.5rem" color="gray" textAlign="start" fontSize="18px">

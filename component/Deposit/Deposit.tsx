@@ -19,12 +19,14 @@ import AddCreditCardForm from 'component/AddCreditCardForm/AddCreditCardForm';
 import AddCrytoWallet from 'component/AddCrytoWallet/AddCrytoWallet';
 import BankAccount from 'component/BankAccount/BankAccount';
 import CashInCrypto from 'component/CashInCrypto/CashInCrypto';
+import CreditCard from 'component/CreditCard/CreditCard';
 import CryptoWallet from 'component/CryptoWallet/CryptoWallet';
 import { FormContainer } from 'component/FormInput';
 import { Label } from 'component/PaidPosInfoById';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
+import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon, QuxTokenIcon } from 'public/assets';
@@ -43,7 +45,9 @@ export const calculateFivePercent = (amount: number): number => amount * 0.05;
 const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankCreditCardCrypto', FETCH_BANK_CREDIT_CARD_CRYPTO, errorHandler);
-  const [type, setType] = useState<'BANK' | 'CREDIT' | 'CRYPTO' | 'ADD_CRYPTO' | 'ADD_BANK' | undefined>(undefined);
+  const [type, setType] = useState<
+    'BANK' | 'CREDIT' | 'EXISTING_CREDITCARD' | 'CRYPTO' | 'ADD_CRYPTO' | 'ADD_BANK' | undefined
+  >(undefined);
   const method = useForm();
   const { control, handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
@@ -71,7 +75,13 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   const { mutate, isLoading } = useMutation(
     (variable) =>
       axios.post(
-        `${STAGING_URL}/${type === 'BANK' ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'}`,
+        `${STAGING_URL}/${
+          type === 'BANK' || type === 'EXISTING_CREDITCARD'
+            ? url
+            : type !== 'CREDIT'
+            ? url2
+            : 'web/wallet/add-credit-card'
+        }`,
         variable,
         {
           headers: {
@@ -266,6 +276,37 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                 })
                               ) : (
                                 <Text>No Bank Record</Text>
+                              )}
+
+                              {!isEmpty(data?.credit_card) ? (
+                                <Flex justifyContent="space-between" key={data?.credit_card?.customerPaymentProfileId}>
+                                  <Box mt="1rem">
+                                    <CreditCard
+                                      accountNumber={data?.credit_card?.payment?.creditCard?.cardNumber ?? ''}
+                                      cardType={data?.credit_card?.payment?.creditCard?.cardType ?? ''}
+                                      loading={loading}
+                                    />
+                                    {error?.message && (
+                                      <SlideFade in={true} offsetY="-1rem">
+                                        <FormErrorMessage fontSize="0.9rem" color="error">
+                                          {error.message}
+                                        </FormErrorMessage>
+                                      </SlideFade>
+                                    )}
+                                  </Box>
+                                  <Radio
+                                    value={`${data?.credit_card?.customerPaymentProfileId}`}
+                                    colorScheme="teal"
+                                    onChange={(): void => {
+                                      onChange(data?.credit_card?.customerPaymentProfileId);
+                                      setPaymentId(data?.credit_card?.customerPaymentProfileId);
+                                      setSelectedBankDetails(data?.credit_card);
+                                      setType('EXISTING_CREDITCARD');
+                                    }}
+                                  />
+                                </Flex>
+                              ) : (
+                                ''
                               )}
                             </FormControl>
                           </>

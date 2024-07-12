@@ -26,6 +26,8 @@ export const FETCH_WALLET_BALANCE = async (): Promise<any> => {
 };
 export const FETCH_TRANSACTION_HISTORY = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/wallet/transactions`, localStorage.QUX_PAY_USER_TOKEN);
+export const FETCH_CRYPTO_TRANSACTION_HISTORY = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/crypto/transactions`, localStorage.QUX_PAY_USER_TOKEN);
 export const FETCH_NOTIFICATION_HISTORY = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/notifications`, localStorage.QUX_PAY_USER_TOKEN);
 export const FETCH_BANK_AND_CREDIT_CARD = async (): Promise<any> =>
@@ -95,3 +97,11 @@ export const FETCH_WP_PO_DETAILS = async ({ queryKey }: QueryFunctionContext): P
 
 export const FETCH_AUTHENTICATION = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/authentication`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_BANK_CREDIT_CARD_CRYPTO = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/wallet/bank-and-credit`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_CRYPTO_CURRENCY_LIST = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/crypto/currency`, localStorage.QUX_PAY_USER_TOKEN);
+
+export const FETCH_CAPTCHA = async (): Promise<any> => await getData<any>(STAGING_URL, `web/captcha`);

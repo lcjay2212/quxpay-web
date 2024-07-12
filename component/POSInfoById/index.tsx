@@ -77,9 +77,13 @@ const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => 
               PO {data?.id}
             </Text>
 
-            <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount} loading={loading} />
-            <Label label="Token Fee:" image={QuxTokenIcon} amount={data?.token_fee.toFixed(2)} loading={loading} />
-            <Label label="Total Token amount:" image={QuxTokenIcon} amount={data?.total_amount} loading={loading} />
+            <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount ?? 0} loading={loading} />
+            <Label
+              label="Total Token amount:"
+              image={QuxTokenIcon}
+              amount={data?.total_amount ?? 0}
+              loading={loading}
+            />
           </Box>
 
           <Flex alignItems="center" flexDir="column" gap="1rem" my="2rem">

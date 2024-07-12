@@ -112,7 +112,7 @@ const SendQuxTokenWrapper: FC = () => {
                       setAmount(+e.target.value);
                     }}
                     onBlur={onBlur}
-                    min={20}
+                    formNoValidate
                   />
                 </FormContainer>
               )}

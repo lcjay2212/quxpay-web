@@ -5,8 +5,8 @@ type Props = {
   setVisible: (visible: boolean) => void;
   productValue?:
     | {
-        sku: string;
-        quantity: number;
+        sku?: string;
+        quantity?: number;
       }[]
     | null;
   setProductValue: (

@@ -4,7 +4,7 @@ import { SEO } from 'component/SEO';
 import TopBarHeader from 'component/TopBarHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PhoneImage } from 'public/assets';
+import { PhoneImage, QrCodeImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';
 
@@ -35,7 +35,7 @@ export const Content: FC<
           <Heading fontSize={{ base: '2.5rem', md: '60px' }} fontWeight="extrabold" fontFamily="Coda, sans-serif">
             {label}
           </Heading>
-          <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem">
+          <Text fontSize={{ base: '1.25rem', lg: '30px' }} my="1.5rem" fontFamily="'Verdana', sans-serif">
             {content}
           </Text>
           {showBtn && (
@@ -108,12 +108,13 @@ const Home: FC = () => {
                     border="2px solid #D11CB6"
                     width={350}
                     p="0.5rem"
+                    gap={2}
                   >
                     <Image
-                      src="/assets/images/qrcode.webp"
-                      height={100}
-                      width={100}
-                      alt="Phone Image"
+                      src={QrCodeImage}
+                      height={85}
+                      width={85}
+                      alt="QR Code Image"
                       style={{ objectFit: 'contain' }}
                       placeholder="empty"
                     />
@@ -218,7 +219,7 @@ const Home: FC = () => {
 
       <Box
         h={{ base: '60vh', md: '100vh' }}
-        bgImage="url('/assets/images/BG-5.webp')"
+        bgImage="url('/assets/images/BG-5-v2.webp')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize={{ base: 'cover', md: 'contain' }}

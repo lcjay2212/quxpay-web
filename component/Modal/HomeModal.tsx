@@ -38,7 +38,7 @@ const STATIC_DATA = [
     routes: '/transfers',
   },
   {
-    image: '/assets/images/5.png',
+    image: '/assets/images/5-v2.webp',
     label: 'The Future of Payments. Today.',
     routes: '/',
   },

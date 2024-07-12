@@ -16,7 +16,6 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { calculateThreePercent } from 'component/Deposit';
 import { Label } from 'component/PaidPosInfoById';
 import ProductModal from 'component/ProductModal';
 import { TextField } from 'component/TextField';
@@ -53,8 +52,9 @@ const CreatePoForm: FC = () => {
   const [qrUrl, setQrUrl] = useState();
   const [searchProduct, setSearchProduct] = useState('');
   const price = useProductModal((e) => e.price);
+  const amount = (price || 0) * (productValue?.[0].quantity || 0);
 
-  const { mutate, isLoading } = useMutation(
+  const { mutateAsync, isLoading } = useMutation(
     (variable) =>
       axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {
         headers: {
@@ -84,7 +84,7 @@ const CreatePoForm: FC = () => {
     }
 
     if (step === 2) {
-      mutate({
+      void mutateAsync({
         product_po: true,
         filed_to: selectedFriend,
         filed_to_using_email: emailValue || associateEmail,
@@ -106,19 +106,8 @@ const CreatePoForm: FC = () => {
             <ChakraImage src={qrUrl} alt="Qr Code" w="230px" h="100%" p="1.5rem" />
 
             <Box my="1rem" color="black">
-              <Label label="Token Amount:" image={QuxTokenIcon} amount={price || 0.0} loading={loading} />
-              <Label
-                label="Token Fee:"
-                image={QuxTokenIcon}
-                amount={calculateThreePercent(price || 0)}
-                loading={loading}
-              />
-              <Label
-                label="Total Token amount:"
-                image={QuxTokenIcon}
-                amount={calculateThreePercent(price || 0) + (price || 0) || 0.0}
-                loading={loading}
-              />
+              <Label label="Token Amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
+              <Label label="Total Token amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
             </Box>
           </Flex>
           <Button
@@ -238,19 +227,8 @@ const CreatePoForm: FC = () => {
               </Box>
 
               <Box my="1rem">
-                <Label label="Token Amount:" image={QuxTokenIcon} amount={price || 0.0} loading={loading} />
-                <Label
-                  label="Token Fee:"
-                  image={QuxTokenIcon}
-                  amount={calculateThreePercent(price || 0)}
-                  loading={loading}
-                />
-                <Label
-                  label="Total Token amount:"
-                  image={QuxTokenIcon}
-                  amount={calculateThreePercent(price || 0) + (price || 0) || 0.0}
-                  loading={loading}
-                />
+                <Label label="Token Amount:" image={QuxTokenIcon} amount={amount} loading={loading} />
+                <Label label="Total Token amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
               </Box>
             </>
           )}
@@ -353,7 +331,7 @@ const CreatePoForm: FC = () => {
                 w={350}
                 h="3.25rem"
                 onClick={(): void =>
-                  mutate({
+                  void mutateAsync({
                     product_po: true,
                     sku: productValue,
                     // eslint-disable-next-line @typescript-eslint/no-explicit-any

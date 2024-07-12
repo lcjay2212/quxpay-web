@@ -70,7 +70,7 @@ export const PAYMENTS_MADE_PERFECT_MOCKS: Props[] = [
     reverse: true,
   },
   {
-    title: 'Zero Fees. Ever.',
+    title: 'Zero P2P Fees. Ever.',
     context: `Forget fees eating into transfers. 
     QuxPay is absolutely free for P2P payments. 
     Keep more in your wallet.`,

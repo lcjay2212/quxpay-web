@@ -16,6 +16,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
+import CryptoTransactionHistory from 'component/CryptoTransactionHistory/CryptoTransactionHistory';
 import UploadLoadingModal from 'component/Modal/UploadLoadingModal';
 import VerifyModal from 'component/Modal/VerifyModal';
 import NotificationHistory from 'component/NotificationHistory/NotificationHistory';
@@ -69,7 +70,7 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 );
 
 const Dashboard: FC = () => {
-  const { user } = useUser();
+  const [user, setUser] = useUser((e) => [e.user, e.setUser]);
   // const setPrivatekey = usePrivatekey((state) => state.setPrivatekey);
 
   // useEffect(() => {
@@ -166,6 +167,7 @@ const Dashboard: FC = () => {
     if (json.success) {
       clearStorage();
       notify('Successfully Logout');
+      setUser(null);
       void router.push('/');
     } else {
       // TODO: handler
@@ -206,7 +208,7 @@ const Dashboard: FC = () => {
   }, [uploadLoading, setVisible]);
 
   return (
-    <Container color="white" mb="3rem" overflow="hidden">
+    <Container color="white" mb="3rem" overflow="hidden" fontFamily="'Poppins', sans-serif">
       <Flex justifyContent="space-between" alignItems="center">
         <Flex justifyContent="start" py="1rem">
           <Box display="flex" justifyContent="center" height="50px" mr="8px">
@@ -303,8 +305,9 @@ const Dashboard: FC = () => {
       <NotificationHistory />
       <TransactionHistory />
       <OpenPosHistory />
-      {user?.corporate && <PoFromPluginHistory />}
       <TokenHistory />
+      {user?.corporate && <PoFromPluginHistory />}
+      <CryptoTransactionHistory />
       <UploadLoadingModal />
       <VerifyModal />
     </Container>

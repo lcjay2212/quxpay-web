@@ -409,8 +409,8 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                     <Box mb="2rem" textAlign="start">
                       {type === 'BANK' && (
                         <>
-                          <Text noOfLines={1}>From: {selectedBankDetails?.payment.bankAccount.bank_name}</Text>
-                          <Text>Name: {selectedBankDetails?.payment.bankAccount.nameOnAccount}</Text>
+                          <Text noOfLines={1}>Sending To: {selectedBankDetails?.payment.bankAccount.bank_name}</Text>
+                          <Text>Account Name: {selectedBankDetails?.payment.bankAccount.nameOnAccount}</Text>
                         </>
                       )}
                       {(type === 'ADD_CRYPTO' || type === 'CRYPTO') && (
@@ -425,13 +425,18 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                   )}
 
                   <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
-                  {/* <Label
+                  <Label
                     label="Token Fee"
                     image={QuxTokenIcon}
                     amount={(label === 'Redeem' ? calculateFivePercent(amount) : calculateThreePercent(amount)) || 0.0}
                     loading={loading}
-                  /> */}
-                  <Label label="Total Purchase amount:" image={QuxTokenIcon} amount={amount} loading={loading} />
+                  />
+                  <Label
+                    label="Total Purchase amount:"
+                    image={QuxTokenIcon}
+                    amount={calculateFivePercent(amount) + amount}
+                    loading={loading}
+                  />
 
                   {label === 'Purchase' && type === 'CRYPTO' && (
                     <Text my="1.5rem" color="gray" textAlign="start" fontSize="18px">

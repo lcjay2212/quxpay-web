@@ -1,6 +1,4 @@
-import { Box, BoxProps, Flex, FormControl, FormErrorMessage, FormLabel, SlideFade, Text } from '@chakra-ui/react';
-import Image from 'next/image';
-import { QuxTokenIcon } from 'public/assets';
+import { Box, BoxProps, Flex, FormControl, FormErrorMessage, FormLabel, SlideFade } from '@chakra-ui/react';
 import { FC } from 'react';
 type FormProps = {
   label?: string;
@@ -31,17 +29,16 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
             })}
             ml="1rem"
           >
-            {label === 'max' ? (
-              <Flex>
-                <Text>Maximum Amount Available</Text>
-                <Box ml={2} display="flex" justifyContent="center" alignItems="center">
-                  <Image src={QuxTokenIcon} height={20} width={20} alt="Qux Logo" placeholder="empty" />
-                </Box>
-                <Text>100</Text>
-              </Flex>
-            ) : (
-              label
-            )}
+            {label === 'max'
+              ? ''
+              : // <Flex>
+                //   <Text>Maximum Amount Available</Text>
+                //   <Box ml={2} display="flex" justifyContent="center" alignItems="center">
+                //     <Image src={QuxTokenIcon} height={20} width={20} alt="Qux Logo" placeholder="empty" />
+                //   </Box>
+                //   <Text>100</Text>
+                // </Flex>
+                label}
           </FormLabel>
         </Flex>
       )}

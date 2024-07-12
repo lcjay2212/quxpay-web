@@ -12,7 +12,15 @@ import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
 import { useSetScheduleModal } from 'store/useSetScheduleModal';
 import SetScheduleModal from './SetScheduleModal';
 
-const ScheduleBiller: FC<{ id?: number }> = () => {
+const ScheduleBiller: FC<{
+  id?: number;
+  startDate?: any;
+  setStartDate?: any;
+  endDate?: any;
+  setEndDate?: any;
+  filter?: any;
+  setFilter?: any;
+}> = ({ startDate, setStartDate, endDate, setEndDate, filter, setFilter }) => {
   const { billerData } = useSchedulePayBillModal((state) => ({
     billerData: state.billerData,
   }));
@@ -125,7 +133,14 @@ const ScheduleBiller: FC<{ id?: number }> = () => {
         <ChevronRightIcon w={30} h={30} />
       </Flex>
 
-      <SetScheduleModal />
+      <SetScheduleModal
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        filter={filter}
+        setFilter={setFilter}
+      />
     </Box>
   );
 };

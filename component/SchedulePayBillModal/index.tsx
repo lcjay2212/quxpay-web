@@ -3,8 +3,9 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
@@ -23,10 +24,18 @@ const SchedulePayBillModal: FC = () => {
 
   const router = useRouter();
 
+  const [startDate, setStartDate] = useState(new Date());
+  const [endDate, setEndDate] = useState(new Date());
+  const [filter, setFilter] = useState('repeat');
+
   useEffect(() => {
     setValue('account_name', billerData?.account_name);
     setValue('account_number', billerData?.account_number);
-    setValue('biller_id', billerData?.id);
+    setValue('biller_id', billerData?.biller_id);
+    setValue('biller_type_id', billerData?.biller_type_id);
+    setValue('id', billerData?.id);
+    setValue('frequency', billerData?.frequency);
+    setValue('amount', billerData?.amount);
   }, [setValue, billerData]);
 
   const { mutate, isLoading: loading } = useMutation(
@@ -53,7 +62,13 @@ const SchedulePayBillModal: FC = () => {
     mutate({
       account_name: val?.account_name || billerData?.account_name,
       account_number: val?.account_number || billerData?.account_number,
-      biller_id: billerData?.id,
+      biller_id: billerData?.biller_id,
+      biller_type_id: billerData?.biller_type_id,
+      start_date: dayjs(startDate).format('YYYY-MM-DD'),
+      end_date: dayjs(endDate).format('YYYY-MM-DD'),
+      scheduled_type: filter,
+      amount: val?.amount || billerData?.amount,
+      frequency: val?.frequency || billerData?.frequency,
     } as any);
   };
 
@@ -90,7 +105,14 @@ const SchedulePayBillModal: FC = () => {
                     </Flex>
                   </Flex>
                   <Box textAlign="center">
-                    <ScheduleBiller />
+                    <ScheduleBiller
+                      startDate={startDate}
+                      setStartDate={setStartDate}
+                      endDate={endDate}
+                      setEndDate={setEndDate}
+                      filter={filter}
+                      setFilter={setFilter}
+                    />
                   </Box>
                 </Box>
                 <Box textAlign="center">

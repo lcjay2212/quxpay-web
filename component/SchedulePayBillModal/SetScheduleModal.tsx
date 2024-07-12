@@ -4,15 +4,26 @@ import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement } from 'react';
 import DatePicker from 'react-datepicker';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useSetScheduleModal } from 'store/useSetScheduleModal';
-const SetScheduleModal: FC = () => {
+const SetScheduleModal: FC<{
+  startDate?: any;
+  setStartDate?: any;
+  endDate?: any;
+  setEndDate?: any;
+  filter?: any;
+  setFilter?: any;
+}> = ({ startDate, setStartDate, endDate, setEndDate, filter, setFilter }) => {
   const { control } = useFormContext();
   const [visible, setVisible] = useSetScheduleModal((state) => [state.visible, state.setVisible]);
 
-  const [filter, setFilter] = useState('repeat');
+  const repeatDatePicker = (dates): void => {
+    const [start, end] = dates;
+    setStartDate(start);
+    setEndDate(end);
+  };
 
   const FREQUENCY = [
     { value: 'weekly', label: 'Weekly' },
@@ -82,26 +93,35 @@ const SetScheduleModal: FC = () => {
                   <Controller
                     control={control}
                     name="start_date"
-                    rules={{ required: 'Start Date is required' }}
-                    render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                      <FormContainer errorMessage={error?.message ?? ''} label="Choose Start Date">
+                    rules={{ required: 'Date is required' }}
+                    render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => (
+                      <FormContainer errorMessage={error?.message ?? ''} label="Choose Date">
                         <TextField
-                          value={value}
-                          placeholder="Select start date"
+                          value={dayjs(startDate).format('YYYY-MM-DD') + ' to ' + dayjs(endDate).format('YYYY-MM-DD')}
+                          placeholder="Select date"
                           onChange={onChange}
                           onBlur={onBlur}
                           customRightElement={
                             <Box>
                               <DatePicker
+                                // customInput={<CalendarIcon w={25} h={25} mt="0.5rem" mr="1rem" color="primary" />}
+                                // selected={value ? dayjs(value).date() : value}
+                                // dropdownMode="select"
+                                // popperPlacement="top-end"
+                                // popperProps={{ strategy: 'fixed' }}
+                                // onChange={(a: Date): void => {
+                                //   onChange(dayjs(a).format('YYYY-MM-DD'));
+                                // }}
+                                // showYearDropdown
                                 customInput={<CalendarIcon w={25} h={25} mt="0.5rem" mr="1rem" color="primary" />}
-                                selected={value ? dayjs(value).date() : value}
+                                popperProps={{ strategy: 'fixed' }}
                                 dropdownMode="select"
                                 popperPlacement="top-end"
-                                popperProps={{ strategy: 'fixed' }}
-                                onChange={(a: Date): void => {
-                                  onChange(dayjs(a).format('YYYY-MM-DD'));
-                                }}
-                                showYearDropdown
+                                selected={startDate}
+                                onChange={repeatDatePicker}
+                                startDate={startDate}
+                                endDate={endDate}
+                                selectsRange
                               />
                             </Box>
                           }
@@ -109,7 +129,7 @@ const SetScheduleModal: FC = () => {
                       </FormContainer>
                     )}
                   />
-                  <Controller
+                  {/* <Controller
                     control={control}
                     name="end_date"
                     rules={{ required: 'End Date is required' }}
@@ -138,7 +158,7 @@ const SetScheduleModal: FC = () => {
                         />
                       </FormContainer>
                     )}
-                  />
+                  /> */}
                   <Controller
                     control={control}
                     name="frequency"

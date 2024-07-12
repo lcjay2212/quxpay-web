@@ -17,6 +17,8 @@ type Props = {
     frequency?: string;
     payment_date?: string;
     biller_name?: string;
+    biller_id?: number;
+    biller_type_id?: number;
   };
   setBillerData: (billerData?: {
     id?: number;
@@ -28,6 +30,8 @@ type Props = {
     frequency?: string;
     payment_date?: string;
     biller_name?: string;
+    biller_id?: number;
+    biller_type_id?: number;
   }) => void;
 };
 export const useSchedulePayBillModal = create<Props>((set) => ({

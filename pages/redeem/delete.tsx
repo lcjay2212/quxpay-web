@@ -39,7 +39,7 @@ const DeleteAccount: FC = () => {
   );
 
   return (
-    <HeaderContainer label="Purchase" route="/dashboard">
+    <HeaderContainer label="Redeem" route="/dashboard">
       <Box px="1rem" mb="1.5rem">
         <Text color="white" fontSize="2rem" mt="2rem">
           My Account

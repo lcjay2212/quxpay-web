@@ -10,7 +10,7 @@ const CreditCard: FC<{ accountNumber: string; cardType: string; loading: boolean
 }) => (
   <>
     {!loading ? (
-      <Flex gap={8} justifyContent="center" alignItems="center" color="white">
+      <Flex gap={4} justifyContent="center" alignItems="center" color="white">
         <Image src={AddCreditCardIcon} height={50} width={50} placeholder="empty" alt="Qux Wallet" />
         <Box fontSize="lg" textAlign="start">
           <Text>{cardType}</Text>

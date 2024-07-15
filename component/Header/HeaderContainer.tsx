@@ -72,6 +72,22 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
                   <MenuItem onClick={(): void => void router.push('/send-qux-token/delete')}>Delete Friends</MenuItem>
                 </>
               )}
+              {label === 'Redeem' && (
+                <>
+                  <MenuItem
+                    onClick={(): void => {
+                      if (!paymentId) {
+                        notify('Please select Bank Account', { status: 'warning' });
+                      } else {
+                        void router.push('/redeem/edit');
+                      }
+                    }}
+                  >
+                    Edit Account
+                  </MenuItem>
+                  <MenuItem onClick={(): void => void router.push('/redeem/delete')}>Delete Account</MenuItem>
+                </>
+              )}
             </MenuList>
           </Menu>
         )}

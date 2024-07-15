@@ -6,9 +6,10 @@ import { TextField } from 'component/TextField';
 import { CRYPTO } from 'mocks/crypto';
 import Image from 'next/image';
 import { PasteIcon } from 'public/assets';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
+import { notify } from 'utils/notify';
 
 export const reactSelectStyles = {
   menu: (provided: CSSObject): CSSObject => ({
@@ -53,7 +54,7 @@ export const reactSelectStyles = {
 
 const AddCrytoWallet: FC = () => {
   const { control } = useFormContext();
-
+  const [pasteValue, setPasteValue] = useState('');
   const tempData = CRYPTO.map((item) => {
     return { label: item.currency, value: item.buy_rate, fee: item.buy_network_processing_fee };
   });
@@ -91,16 +92,32 @@ const AddCrytoWallet: FC = () => {
             <Flex justifyContent="space-between" gap={4}>
               <Box w={'100%'}>
                 <TextField
-                  value={value ?? ''}
+                  value={value || pasteValue || ''}
                   placeholder="Enter Cryptocurrency Address"
-                  onChange={onChange}
+                  onChange={(e): void => {
+                    onChange(e.target.value || pasteValue);
+                    setPasteValue(e.target.value);
+                  }}
                   onBlur={onBlur}
                 />
               </Box>
 
               <Box>
                 <Image src={PasteIcon} height={40} width={40} alt="Paste Icon" />
-                <Text fontSize="12px" mt="0.25rem">
+                <Text
+                  fontSize="12px"
+                  mt="0.25rem"
+                  onClick={(): void =>
+                    void navigator.clipboard
+                      .readText()
+                      .then((text) => {
+                        setPasteValue(text);
+                      })
+                      .catch(() => {
+                        notify('Failed to read clipboard contents: ', { status: 'error' });
+                      })
+                  }
+                >
                   Paste
                 </Text>
               </Box>

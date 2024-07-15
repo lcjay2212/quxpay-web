@@ -19,6 +19,7 @@ import CashIn from './icons/cash_in.webp';
 import CheckCircleIcon from './icons/check-circle.webp';
 import CircleAddIcon from './icons/circle-add-icon.webp';
 import ClipboardIcon from './icons/clipboard-icon.webp';
+import CreditCardIcon from './icons/credit-card-icon.webp';
 import CryptoIcon from './icons/crypto-icon.webp';
 import DepositSuccessful from './icons/deposit-success.webp';
 import FailedIcon from './icons/failed-icon.webp';
@@ -50,6 +51,7 @@ import QrCodeImage from './images/qrcode.webp';
 import GooglePlayImage from './images/google-play-2.webp';
 
 export {
+    CreditCardIcon,
     GooglePlayImage,
     PasteIcon,
     QrCodeImage,

@@ -278,7 +278,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                 <Text>No Bank Record</Text>
                               )}
 
-                              {!isEmpty(data?.credit_card) ? (
+                              {!isEmpty(data?.credit_card) && (
                                 <Flex justifyContent="space-between" key={data?.credit_card?.customerPaymentProfileId}>
                                   <Box mt="1rem">
                                     <CreditCard
@@ -305,8 +305,6 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                     }}
                                   />
                                 </Flex>
-                              ) : (
-                                ''
                               )}
                             </FormControl>
                           </>

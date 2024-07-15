@@ -121,9 +121,12 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                 alt="Redeem"
               />
             </Box>
-            <Text color="white" fontSize="2rem">
-              $ {amount?.toFixed(2)}
-            </Text>
+            <Flex color="white" fontSize="2rem" justifyContent="center" alignItems="center">
+              <chakra.span mb="0.25rem">
+                <Image src={QuxTokenIcon} width={40} height={40} alt="Token" />
+              </chakra.span>
+              {amount?.toFixed(2)}
+            </Flex>
 
             {(type === 'CRYPTO' || type === 'ADD_CRYPTO') && (
               <Text color="white" fontSize="20px">

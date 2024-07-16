@@ -41,8 +41,8 @@ const EditBankForm: FC = () => {
         notify(`Successfully Update`);
         void router.push('/purchase');
       },
-      onError: () => {
-        notify(`ERROR`, { status: 'error' });
+      onError: ({ response }) => {
+        notify(response?.data.status.message, { status: 'error' });
       },
     }
   );

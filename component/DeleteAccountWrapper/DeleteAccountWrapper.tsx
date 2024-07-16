@@ -3,28 +3,27 @@ import { Box, Button, Divider, Flex, Radio, RadioGroup, Text } from '@chakra-ui/
 import axios from 'axios';
 import BankAccount from 'component/BankAccount/BankAccount';
 import HeaderContainer from 'component/Header/HeaderContainer';
-import { FETCH_BANK_AND_CREDIT_CARD } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
-import errorHandler from 'utils/errorHandler';
 import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
 const DeleteAccountWrapper: FC = () => {
   const router = useRouter();
-  const { data, isLoading: loading } = useQuery('bankAndCreditCard', FETCH_BANK_AND_CREDIT_CARD, errorHandler);
+  const queryClient = useQueryClient();
+  const bankCreditAndCryptoData = queryClient.getQueryData('bankCreditCardCrypto');
   const [radioValue, setRadioValue] = useState('');
   const [paymentData, setPaymentData] = useAccountPaymentId(({ paymentData, setPaymentData }) => [
     paymentData,
     setPaymentData,
   ]);
-
   const { mutate, isLoading } = useMutation(
     (variable) =>
-      axios.post(`${STAGING_URL}/web/bankaccount/remove`, variable, {
+      axios.delete(`${STAGING_URL}/web/wallet/remove-card`, {
+        data: variable,
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -35,8 +34,8 @@ const DeleteAccountWrapper: FC = () => {
         notify(`Successfully Remove`);
         void router.push('/purchase');
       },
-      onError: () => {
-        notify(`ERROR`, { status: 'error' });
+      onError: ({ response }) => {
+        notify(response.data.status.message, { status: 'error' });
       },
     }
   );
@@ -49,28 +48,36 @@ const DeleteAccountWrapper: FC = () => {
         </Text>
 
         <RadioGroup onChange={setRadioValue} value={radioValue}>
-          {data?.payments?.map((item, index) => (
+          {bankCreditAndCryptoData ? (
             <>
-              <Flex justifyContent="space-between" key={index}>
-                <Box mt="1rem">
-                  <BankAccount
-                    bankName={item?.bank_name}
-                    name={item?.account_name}
-                    accountNumber={item?.account_number}
-                    loading={loading}
-                  />
-                </Box>
-                <Radio
-                  value={`${index + 1}`}
-                  colorScheme="teal"
-                  onChange={(): void => {
-                    setPaymentData({ paymentId: item.payment_profile_id });
-                  }}
-                />
-              </Flex>
-              <Divider mt="1rem" />
+              {bankCreditAndCryptoData['bank'].map((item, index) => {
+                const { accountNumber, nameOnAccount, bank_name } = item?.payment?.bankAccount;
+                return (
+                  <>
+                    <Flex justifyContent="space-between" key={index}>
+                      <Box mt="1rem">
+                        <BankAccount
+                          bankName={bank_name ?? ''}
+                          name={nameOnAccount ?? ''}
+                          accountNumber={accountNumber ?? ''}
+                        />
+                      </Box>
+                      <Radio
+                        value={`${index + 1}`}
+                        colorScheme="teal"
+                        onChange={(): void => {
+                          setPaymentData({ paymentId: item.customerPaymentProfileId, paymentType: item.payment_type });
+                        }}
+                      />
+                    </Flex>
+                    <Divider mt="1rem" />
+                  </>
+                );
+              })}
             </>
-          ))}
+          ) : (
+            <Text>No Record</Text>
+          )}
         </RadioGroup>
 
         <Box textAlign="center">
@@ -82,11 +89,12 @@ const DeleteAccountWrapper: FC = () => {
             w={350}
             h="3.25rem"
             isLoading={isLoading}
-            onClick={(): void =>
+            onClick={(): void => {
               mutate({
                 payment_profile_id: paymentData?.paymentId,
-              } as any)
-            }
+                payment_type: paymentData?.paymentType,
+              } as any);
+            }}
           >
             Delete Selected Account
           </Button>
@@ -97,7 +105,9 @@ const DeleteAccountWrapper: FC = () => {
             w={350}
             h="3.25rem"
             _active={{ bg: 'white' }}
-            onClick={(): void => void router.push('/purchase')}
+            onClick={(): void => {
+              void router.push('/purchase');
+            }}
           >
             Cancel
           </Button>

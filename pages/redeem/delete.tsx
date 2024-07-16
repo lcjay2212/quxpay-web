@@ -2,7 +2,7 @@ import DeleteAccountWrapper from 'component/DeleteAccountWrapper/DeleteAccountWr
 import { FC } from 'react';
 import { getServerSideProps } from 'utils/getServerSideProps';
 
-const RedeemDeletePage: FC = () => <DeleteAccountWrapper />;
+const RedeemDeletePage: FC = () => <DeleteAccountWrapper label="Redeem" />;
 
 export { getServerSideProps };
 

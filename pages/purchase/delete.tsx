@@ -2,7 +2,7 @@ import DeleteAccountWrapper from 'component/DeleteAccountWrapper/DeleteAccountWr
 import { FC } from 'react';
 import { getServerSideProps } from 'utils/getServerSideProps';
 
-const PurchaseDeletePage: FC = () => <DeleteAccountWrapper />;
+const PurchaseDeletePage: FC = () => <DeleteAccountWrapper label="Purchase" />;
 
 export { getServerSideProps };
 

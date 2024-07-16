@@ -15,7 +15,7 @@ import { blockInvalidChar } from 'utils/blockInvalidChar';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
-const EditBankForm: FC = () => {
+const EditBankForm: FC<{ label: string }> = ({ label }) => {
   const paymentData = useAccountPaymentId((e) => e.paymentData);
   const router = useRouter();
   const { data, isLoading: loading } = useQuery(
@@ -60,7 +60,7 @@ const EditBankForm: FC = () => {
   };
 
   return (
-    <HeaderContainer label="Purchase" route="/dashboard">
+    <HeaderContainer label={label} route="/dashboard">
       <Box px="1rem">
         <Text color="white" fontSize="2rem" mt="2rem">
           Edit My Account

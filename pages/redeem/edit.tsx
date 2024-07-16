@@ -3,7 +3,7 @@ import EditBankForm from 'component/EditBankForm/EditBankForm';
 import { FC } from 'react';
 import { getServerSideProps } from 'utils/getServerSideProps';
 
-const EditRedeemPage: FC = () => <EditBankForm />;
+const EditRedeemPage: FC = () => <EditBankForm label="Redeem" />;
 
 export { getServerSideProps };
 

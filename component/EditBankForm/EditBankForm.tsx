@@ -55,7 +55,7 @@ const EditBankForm: FC = () => {
     formData.append('routing_number', val.routing_number || data?.account.routing_number);
     formData.append('account_number', val.account_number || data?.account.account_number);
     formData.append('bank_name', val.bank_name || data?.account.bank_name);
-    formData.append('type', 'ach');
+    formData.append('payment_type', data?.account?.payment_type || paymentData?.paymentType);
     mutate(formData as any);
   };
 

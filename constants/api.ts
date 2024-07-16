@@ -37,7 +37,11 @@ export const FETCH_FRIEND_LIST = async (): Promise<any> =>
 export const FETCH_BANK_LIST = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(STAGING_URL, `web/banks/list?search=${queryKey[1]}`, localStorage.QUX_PAY_USER_TOKEN);
 export const SHOW_BANK_ACCOUNT_DETAILS = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
-  await getData<any>(STAGING_URL, `web/bankaccount/show/${queryKey[1]}`, localStorage.QUX_PAY_USER_TOKEN);
+  await getData<any>(
+    STAGING_URL,
+    `web/wallet/show?payment_profile_id=${queryKey[1]}&payment_type=${queryKey[2]}`,
+    localStorage.QUX_PAY_USER_TOKEN
+  );
 
 export const FETCH_POS_HISTORY = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/pos`, localStorage.QUX_PAY_USER_TOKEN);

@@ -17,7 +17,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
   hasMenu,
 }) => {
   const router = useRouter();
-  const paymentId = useAccountPaymentId((e) => e.paymentId);
+  const paymentData = useAccountPaymentId((e) => e.paymentData);
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
   const setPendingAccountModalVisible = usePendingAccountModal((e) => e.setVisible);
@@ -55,7 +55,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
                 <>
                   <MenuItem
                     onClick={(): void => {
-                      if (!paymentId) {
+                      if (!paymentData?.paymentId) {
                         notify('Please select Bank Account', { status: 'warning' });
                       } else {
                         void router.push('/purchase/edit');
@@ -76,7 +76,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
                 <>
                   <MenuItem
                     onClick={(): void => {
-                      if (!paymentId) {
+                      if (!paymentData?.paymentId) {
                         notify('Please select Bank Account', { status: 'warning' });
                       } else {
                         void router.push('/redeem/edit');

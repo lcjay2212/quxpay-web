@@ -48,10 +48,11 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   const [type, setType] = useState<
     'BANK' | 'CREDIT' | 'EXISTING_CREDITCARD' | 'CRYPTO' | 'ADD_CRYPTO' | 'ADD_BANK' | undefined
   >(undefined);
+
   const method = useForm();
   const { control, handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
-  const setPaymentId = useAccountPaymentId((e) => e.setPaymentId);
+  const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const [step, setStep] = useState(1);
   const [selectedBankDetails, setSelectedBankDetails] = useState<{
     payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
@@ -266,7 +267,10 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                         colorScheme="teal"
                                         onChange={(): void => {
                                           onChange(item.customerPaymentProfileId);
-                                          setPaymentId(item.customerPaymentProfileId);
+                                          setPaymentData({
+                                            paymentId: item.customerPaymentProfileId,
+                                            paymentType: item.payment_type,
+                                          });
                                           setSelectedBankDetails(item);
                                           setType('BANK');
                                         }}
@@ -299,7 +303,10 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
                                     colorScheme="teal"
                                     onChange={(): void => {
                                       onChange(data?.credit_card?.customerPaymentProfileId);
-                                      setPaymentId(data?.credit_card?.customerPaymentProfileId);
+                                      setPaymentData({
+                                        paymentId: data?.credit_card?.customerPaymentProfileId,
+                                        paymentType: data.credit_card?.payment_type,
+                                      });
                                       setSelectedBankDetails(data?.credit_card);
                                       setType('EXISTING_CREDITCARD');
                                     }}

@@ -17,10 +17,10 @@ import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
 const EditDepositPage: FC = () => {
-  const paymentId = useAccountPaymentId((e) => e.paymentId);
+  const paymentData = useAccountPaymentId((e) => e.paymentData);
   const router = useRouter();
   const { data, isLoading: loading } = useQuery(
-    ['bankAndCreditCard', paymentId],
+    ['bankAndCreditCard', paymentData?.paymentId, paymentData?.paymentType],
     SHOW_BANK_ACCOUNT_DETAILS,
     errorHandler
   );
@@ -51,7 +51,7 @@ const EditDepositPage: FC = () => {
   // eslint-disable-next-line no-console
   const onEdit = (val): void => {
     const formData = new FormData();
-    formData.append('payment_profile_id', paymentId);
+    formData.append('payment_profile_id', paymentData?.paymentId || '');
     formData.append('account_name', val.account_name || data?.account.account_name);
     formData.append('routing_number', val.routing_number || data?.account.routing_number);
     formData.append('account_number', val.account_number || data?.account.account_number);

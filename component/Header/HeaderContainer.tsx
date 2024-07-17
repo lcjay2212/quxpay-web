@@ -18,6 +18,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
 }) => {
   const router = useRouter();
   const paymentData = useAccountPaymentId((e) => e.paymentData);
+  const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
   const setPendingAccountModalVisible = usePendingAccountModal((e) => e.setVisible);
@@ -33,6 +34,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
               setProductValue(null);
               setVisible(false);
               setPendingAccountModalVisible(false);
+              setPaymentData(null);
               void router.push(route);
             }}
           />

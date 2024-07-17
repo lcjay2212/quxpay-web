@@ -16,7 +16,7 @@ import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
 const EditBankForm: FC<{ label: string }> = ({ label }) => {
-  const paymentData = useAccountPaymentId((e) => e.paymentData);
+  const [paymentData, setPaymentData] = useAccountPaymentId((e) => [e.paymentData, e.setPaymentData]);
   const router = useRouter();
   const { data, isLoading: loading } = useQuery(
     ['bankAndCreditCard', paymentData?.paymentId, paymentData?.paymentType],
@@ -207,7 +207,10 @@ const EditBankForm: FC<{ label: string }> = ({ label }) => {
             w={350}
             h="3.25rem"
             _active={{ bg: 'white' }}
-            onClick={(): void => void router.push('/purchase')}
+            onClick={(): void => {
+              setPaymentData(null);
+              void router.push('/purchase');
+            }}
           >
             Cancel
           </Button>

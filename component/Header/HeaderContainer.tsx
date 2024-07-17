@@ -17,7 +17,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
   hasMenu,
 }) => {
   const router = useRouter();
-  const paymentId = useAccountPaymentId((e) => e.paymentId);
+  const paymentData = useAccountPaymentId((e) => e.paymentData);
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
   const setPendingAccountModalVisible = usePendingAccountModal((e) => e.setVisible);
@@ -55,7 +55,7 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
                 <>
                   <MenuItem
                     onClick={(): void => {
-                      if (!paymentId) {
+                      if (!paymentData?.paymentId) {
                         notify('Please select Bank Account', { status: 'warning' });
                       } else {
                         void router.push('/purchase/edit');
@@ -70,6 +70,22 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
               {label === 'Send QUX ®Tokens' && (
                 <>
                   <MenuItem onClick={(): void => void router.push('/send-qux-token/delete')}>Delete Friends</MenuItem>
+                </>
+              )}
+              {label === 'Redeem' && (
+                <>
+                  <MenuItem
+                    onClick={(): void => {
+                      if (!paymentData?.paymentId) {
+                        notify('Please select Bank Account', { status: 'warning' });
+                      } else {
+                        void router.push('/redeem/edit');
+                      }
+                    }}
+                  >
+                    Edit Account
+                  </MenuItem>
+                  <MenuItem onClick={(): void => void router.push('/redeem/delete')}>Delete Account</MenuItem>
                 </>
               )}
             </MenuList>

@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { BankIcon2 } from 'public/assets';
 import { FC } from 'react';
 
-const BankAccount: FC<{ name?: string; accountNumber: string; bankName: string; loading: boolean }> = ({
+const BankAccount: FC<{ name?: string; accountNumber?: string; bankName?: string; loading?: boolean }> = ({
   name,
   accountNumber,
   loading,
@@ -11,12 +11,10 @@ const BankAccount: FC<{ name?: string; accountNumber: string; bankName: string; 
 }) => (
   <>
     {!loading ? (
-      <Flex gap={8} height="60px" textAlign="start" color="white">
-        <Box height={80}>
-          <Image src={BankIcon2} height={50} width={50} placeholder="empty" alt="Qux Wallet" />
-        </Box>
+      <Flex gap={4} height="60px" textAlign="start" color="white">
+        <Image src={BankIcon2} height={50} width={50} placeholder="empty" alt="Qux Wallet" />
         <Box fontSize="lg">
-          <Text>
+          <Text noOfLines={1}>
             <span>{bankName}</span>&nbsp;
             {accountNumber}
           </Text>

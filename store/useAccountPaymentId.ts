@@ -1,13 +1,16 @@
 import { create } from 'zustand';
 
 type Props = {
-  paymentId: string;
-  setPaymentId: (payment: string) => void;
+  paymentData?: {
+    paymentId?: string;
+    paymentType?: string;
+  } | null;
+  setPaymentData: (paymentData: { paymentId?: string; paymentType?: string }) => void;
 };
 export const useAccountPaymentId = create<Props>((set) => ({
-  paymentId: '',
-  setPaymentId: (paymentId: string): void =>
+  paymentData: null,
+  setPaymentData: (paymentData): void =>
     set(() => ({
-      paymentId,
+      paymentData,
     })),
 }));

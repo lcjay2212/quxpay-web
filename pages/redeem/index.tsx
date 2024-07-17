@@ -12,7 +12,7 @@ const RedeemPage: FC = () => {
       {visible ? (
         <CongratulationContent label="Redeem" />
       ) : (
-        <HeaderContainer label="Redeem" route="/dashboard">
+        <HeaderContainer label="Redeem" route="/dashboard" hasMenu>
           <Deposit label="Redeem" url="web/wallet/withdraw" url2="web/crypto/refund" />
         </HeaderContainer>
       )}

@@ -27,7 +27,7 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                   <Image src={CheckCircleIcon} width={70} height={70} placeholder="empty" alt="Redeem" />
                 </Box>
                 <Heading as="h1" fontWeight="bold" fontSize="24px" color="primary" mt="3rem" mb="1rem">
-                  CONGRATUALATIONS
+                  CONGRATULATIONS
                 </Heading>
                 <Box color="white" textAlign="center">
                   <Flex justifyContent="center" mb="1rem" alignItems="center">

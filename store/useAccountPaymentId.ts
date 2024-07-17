@@ -5,7 +5,7 @@ type Props = {
     paymentId?: string;
     paymentType?: string;
   } | null;
-  setPaymentData: (paymentData: { paymentId?: string; paymentType?: string }) => void;
+  setPaymentData: (paymentData: { paymentId?: string; paymentType?: string } | null) => void;
 };
 export const useAccountPaymentId = create<Props>((set) => ({
   paymentData: null,

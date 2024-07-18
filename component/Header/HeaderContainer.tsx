@@ -10,7 +10,7 @@ import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { useProductModal } from 'store/useProductModal';
 import { notify } from 'utils/notify';
 
-const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
+export const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
   label,
   route,
   children,
@@ -104,5 +104,3 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
     </Box>
   );
 };
-
-export default HeaderContainer;

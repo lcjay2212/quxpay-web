@@ -3,7 +3,7 @@ import { Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Select, Tex
 import { TextField } from 'component/TextField';
 import { FC, useState } from 'react';
 import { useProductModal } from 'store/useProductModal';
-const ProductModal: FC<{ data?: any }> = ({ data }) => {
+export const ProductModal: FC<{ data?: any }> = ({ data }) => {
   const [visible, setVisible] = useProductModal((e) => [e.visible, e.setVisible]);
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setPrice = useProductModal((e) => e.setPrice);
@@ -78,5 +78,3 @@ const ProductModal: FC<{ data?: any }> = ({ data }) => {
     </Modal>
   );
 };
-
-export default ProductModal;

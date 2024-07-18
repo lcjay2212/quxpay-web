@@ -15,7 +15,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
 
-const TransactionHistoryFilterModal: FC<{
+export const TransactionHistoryFilterModal: FC<{
   title: string;
   data: any;
   setValue: (val: string) => void;
@@ -64,5 +64,3 @@ const TransactionHistoryFilterModal: FC<{
     </Modal>
   );
 };
-
-export default TransactionHistoryFilterModal;

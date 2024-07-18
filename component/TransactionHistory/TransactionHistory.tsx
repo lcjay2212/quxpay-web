@@ -1,5 +1,5 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { ItemListDisplay } from 'component/ItemListDisplay';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
@@ -9,7 +9,7 @@ import { useQuery } from 'react-query';
 // import { usePrivatekey } from 'store/usePrivatekey';
 import errorHandler from 'utils/errorHandler';
 
-const TransactionHistory: FC = () => {
+export const TransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler);
   const router = useRouter();
   // const privatekey = usePrivatekey((state) => state.privatekey);
@@ -64,5 +64,3 @@ const TransactionHistory: FC = () => {
     </Box>
   );
 };
-
-export default TransactionHistory;

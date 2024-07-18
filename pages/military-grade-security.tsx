@@ -1,6 +1,6 @@
 import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
-import PageWrapper from 'component/PageWrapper';
-import TopBarHeader from 'component/TopBarHeader';
+import { PageWrapper } from 'component/PageWrapper';
+import { TopBarHeader } from 'component/TopBarHeader';
 import { MILITARY_GRADE_SECURITY_MOCK } from 'mocks/pages';
 import { Content } from 'pages';
 import { FC } from 'react';

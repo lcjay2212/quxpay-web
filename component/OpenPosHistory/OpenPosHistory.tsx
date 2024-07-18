@@ -1,12 +1,12 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { ItemListDisplay } from 'component/ItemListDisplay';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
 import usePosHistory from 'store/usePosHistory';
 import { useUser } from 'store/useUser';
 
-const OpenPosHistory: FC = () => {
+export const OpenPosHistory: FC = () => {
   const { unpaidData, isLoading } = usePosHistory();
   const { user } = useUser();
   const router = useRouter();
@@ -58,5 +58,3 @@ const OpenPosHistory: FC = () => {
     </Box>
   );
 };
-
-export default OpenPosHistory;

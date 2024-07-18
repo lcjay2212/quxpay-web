@@ -4,7 +4,7 @@ import Image, { StaticImageData } from 'next/image';
 import { QuxPayGreenIcon } from 'public/assets';
 import { FC } from 'react';
 
-const ItemListDisplay: FC<{
+export const ItemListDisplay: FC<{
   label?: string;
   date?: string;
   amount: number;
@@ -35,5 +35,3 @@ const ItemListDisplay: FC<{
     </Flex>
   );
 };
-
-export default ItemListDisplay;

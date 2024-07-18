@@ -1,6 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Input, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
+import { SetScheduleModal } from 'component/Modal';
 import { TextField } from 'component/TextField';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
@@ -10,9 +11,8 @@ import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
 import { useSetScheduleModal } from 'store/useSetScheduleModal';
-import SetScheduleModal from './SetScheduleModal';
 
-const ScheduleBiller: FC<{
+export const ScheduleBiller: FC<{
   id?: number;
   startDate?: any;
   setStartDate?: any;
@@ -144,5 +144,3 @@ const ScheduleBiller: FC<{
     </Box>
   );
 };
-
-export default ScheduleBiller;

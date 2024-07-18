@@ -16,8 +16,8 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { Label } from 'component/PaidPosInfoById';
-import ProductModal from 'component/ProductModal';
+import { Label } from 'component/LabelWrapper';
+import { ProductModal } from 'component/Modal';
 import { TextField } from 'component/TextField';
 import { FETCH_FRIEND_LIST, FETCH_PRODUCT_LIST, FETCH_RECENT_PRODUCT_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
@@ -30,7 +30,7 @@ import { useProductModal } from 'store/useProductModal';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
-const CreatePoForm: FC = () => {
+export const CreatePoForm: FC = () => {
   const router = useRouter();
   const setVisible = useProductModal((e) => e.setVisible);
   const { data } = useQuery('productList', FETCH_PRODUCT_LIST, errorHandler);
@@ -400,5 +400,3 @@ const CreatePoForm: FC = () => {
     </>
   );
 };
-
-export default CreatePoForm;

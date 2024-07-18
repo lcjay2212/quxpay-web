@@ -6,11 +6,7 @@ import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
 
-export type ValueLabelProps = {
-  value: string | number;
-  label: string | number;
-};
-const CorporationStep: FC = () => {
+export const CorporationStep: FC = () => {
   const { control } = useFormContext();
 
   return (
@@ -192,5 +188,3 @@ const CorporationStep: FC = () => {
     </>
   );
 };
-
-export default CorporationStep;

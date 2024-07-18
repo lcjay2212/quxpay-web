@@ -22,7 +22,7 @@ type TempDataType = {
   biller_id: number;
 };
 
-const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
+export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
   const [visible, setVisible] = useSuccessPayBillsModal((state) => [state.visible, state.setVisible]);
 
   const { mutate: savePayment, isLoading: savePaymentLoading } = useMutation(
@@ -117,5 +117,3 @@ const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
     </Modal>
   );
 };
-
-export default SuccessPayBillModal;

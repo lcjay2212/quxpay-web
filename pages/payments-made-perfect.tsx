@@ -1,6 +1,6 @@
 import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
-import PageWrapper from 'component/PageWrapper';
-import TopBarHeader from 'component/TopBarHeader';
+import { PageWrapper } from 'component/PageWrapper';
+import { TopBarHeader } from 'component/TopBarHeader';
 import { PAYMENTS_MADE_PERFECT_MOCKS } from 'mocks/pages';
 import Image from 'next/image';
 import { Content } from 'pages';

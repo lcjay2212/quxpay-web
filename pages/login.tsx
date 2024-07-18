@@ -1,7 +1,7 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { FormContainer } from 'component/FormInput';
-import PendingAccountModal from 'component/PendingAccountModal';
+import { PendingAccountModal } from 'component/Modal';
 import { TextField } from 'component/TextField';
 import { post } from 'constants/api';
 import storage from 'constants/storage';

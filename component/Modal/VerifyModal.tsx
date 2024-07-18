@@ -13,7 +13,7 @@ import { useVerifyModal } from 'store/useVerifyModal';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
 import { notify } from 'utils/notify';
 
-const VerifyModal: FC = () => {
+export const VerifyModal: FC = () => {
   const { user } = useUser();
   const [visible, setVisible] = useVerifyModal(({ visible, setVisible }) => [visible, setVisible]);
   const method = useForm();
@@ -243,5 +243,3 @@ const VerifyModal: FC = () => {
     </Modal>
   );
 };
-
-export default VerifyModal;

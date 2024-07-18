@@ -1,5 +1,5 @@
-import HeaderContainer from 'component/Header/HeaderContainer';
-import PayBillsPageWrapper from 'component/PayBillsPageWrapper';
+import { HeaderContainer } from 'component/Header';
+import { PayBillsPageWrapper } from 'component/PayBillsPageWrapper';
 import { FC } from 'react';
 
 const PayBillsPage: FC = () => (

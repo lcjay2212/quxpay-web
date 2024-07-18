@@ -1,6 +1,6 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { HeaderContainer } from 'component/Header';
+import { ItemListDisplay } from 'component/ItemListDisplay';
 import { startCase } from 'lodash';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';

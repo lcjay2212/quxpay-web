@@ -11,8 +11,8 @@ import {
   ListItem,
   UnorderedList,
 } from '@chakra-ui/react';
-import PageWrapper from 'component/PageWrapper';
-import TopBarHeader from 'component/TopBarHeader';
+import { PageWrapper } from 'component/PageWrapper';
+import { TopBarHeader } from 'component/TopBarHeader';
 import { FAQS_STATIC_DATA } from 'mocks/faqs';
 import { FC } from 'react';
 import { useHomePageModal } from 'store/useHomePageModal';

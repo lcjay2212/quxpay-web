@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, chakra, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { HeaderContainer } from 'component/Header';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CheckCircleIcon, CryptoIcon, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
 import { useCongratulationContent } from 'store/useCongratulationContent';
 
-const CongratulationContent: FC<{ label: string }> = ({ label }) => {
+export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
   const type = useCongratulationContent((e) => e.type);
   const setVisible = useCongratulationContent((e) => e.setVisible);
   const amount = useCongratulationContent((e) => e.amount);
@@ -159,5 +159,3 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
     </>
   );
 };
-
-export default CongratulationContent;

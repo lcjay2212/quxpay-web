@@ -1,7 +1,7 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import SchedulePayBillModal from 'component/SchedulePayBillModal';
+import { HeaderContainer } from 'component/Header';
+import { SchedulePayBillModal } from 'component/Modal';
 import { TextField } from 'component/TextField';
 import { FETCH_BILLER_BY_CATEGORY_ID } from 'constants/api';
 import Image from 'next/image';

@@ -1,7 +1,7 @@
 import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpoint } from '@chakra-ui/react';
-import Footer from 'component/Footer';
+import { Footer } from 'component/Footer';
 import { SEO } from 'component/SEO';
-import TopBarHeader from 'component/TopBarHeader';
+import { TopBarHeader } from 'component/TopBarHeader';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PhoneImage, QrCodeImage } from 'public/assets';

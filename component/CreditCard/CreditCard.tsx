@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { CreditCardIcon } from 'public/assets';
 import { FC } from 'react';
 
-const CreditCard: FC<{ accountNumber: string; cardType: string; loading: boolean }> = ({
+export const CreditCard: FC<{ accountNumber: string; cardType: string; loading: boolean }> = ({
   accountNumber,
   loading,
   cardType,
@@ -24,5 +24,3 @@ const CreditCard: FC<{ accountNumber: string; cardType: string; loading: boolean
     )}
   </>
 );
-
-export default CreditCard;

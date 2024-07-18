@@ -1,6 +1,6 @@
 import { Box, Flex, Grid, Spinner } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { HeaderContainer } from 'component/Header';
+import { ItemListDisplay } from 'component/ItemListDisplay';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
@@ -9,7 +9,7 @@ import usePosHistory from 'store/usePosHistory';
 import { useUser } from 'store/useUser';
 import { getServerSideProps } from 'utils/getServerSideProps';
 
-const OpenPosHistory: FC = () => {
+const OpenPosHistoryPage: FC = () => {
   const { received, created, isLoading } = usePosHistory();
   const { user } = useUser();
   const router = useRouter();
@@ -92,4 +92,4 @@ const OpenPosHistory: FC = () => {
 
 export { getServerSideProps };
 
-export default OpenPosHistory;
+export default OpenPosHistoryPage;

@@ -1,5 +1,5 @@
 import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { HeaderContainer } from 'component/Header';
 import { FETCH_INSIGHTS } from 'constants/api';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';

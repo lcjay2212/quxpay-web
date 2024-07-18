@@ -43,7 +43,7 @@ const STATIC_DATA = [
     routes: '/',
   },
 ];
-const HomeModal: FC = () => {
+export const HomeModal: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
@@ -123,5 +123,3 @@ const HomeModal: FC = () => {
     </Modal>
   );
 };
-
-export default HomeModal;

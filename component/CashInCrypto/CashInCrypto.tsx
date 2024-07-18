@@ -1,8 +1,6 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import { CSSObject } from '@emotion/react';
 import axios from 'axios';
 import { FormContainer } from 'component/FormInput';
-import { ValueLabelProps } from 'component/RegistrationForm/FinalStep';
 import { FETCH_CRYPTO_CURRENCY_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
@@ -12,51 +10,12 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import Select, { SingleValue } from 'react-select';
 import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
+import { ValueLabelProps } from 'typings';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
+import { reactSelectStyles } from 'utils/reactSelectStyles';
 
-export const reactSelectStyles = {
-  menu: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    marginTop: 5,
-  }),
-  control: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    border: 'none',
-    boxShadow: 'none',
-    borderRadius: '16px',
-    color: 'white',
-  }),
-  indicatorsContainer: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    display: 'none',
-    color: 'white',
-  }),
-  valueContainer: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    padding: 13,
-    fontSize: '1rem',
-    border: '1px solid #4D4D6B',
-    borderRadius: '16px',
-    background: '#10101F',
-    textAlign: 'start',
-    color: 'white',
-    ':active': {
-      background: '#000000',
-      borderColor: '#06A499',
-    },
-  }),
-  singleValue: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    color: 'white',
-  }),
-  input: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    color: 'white',
-  }),
-};
-
-const CashInCrypto: FC = () => {
+export const CashInCrypto: FC = () => {
   const { control, watch } = useFormContext();
 
   const { data } = useQuery('productList', FETCH_CRYPTO_CURRENCY_LIST, errorHandler);
@@ -164,5 +123,3 @@ const CashInCrypto: FC = () => {
     </>
   );
 };
-
-export default CashInCrypto;

@@ -2,7 +2,7 @@ import { Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from
 import { FC } from 'react';
 import { useQuxPayFeeModal } from 'store/useQuxPayFeeModal';
 
-const QuxTokenFeeModal: FC = () => {
+export const QuxTokenFeeModal: FC = () => {
   const [visible, setVisible] = useQuxPayFeeModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size="sm" isCentered>
@@ -47,5 +47,3 @@ const QuxTokenFeeModal: FC = () => {
     </Modal>
   );
 };
-
-export default QuxTokenFeeModal;

@@ -1,5 +1,4 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { reactSelectStyles } from 'component/AddBankAccount';
 import { FormContainer } from 'component/FormInput';
 import { TextField } from 'component/TextField';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
@@ -10,13 +9,11 @@ import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
 import { useBankLists } from 'store/useBankLists';
 import { useDebounce } from 'store/useDebounce';
+import { ValueLabelProps } from 'typings';
 import { blockInvalidChar } from 'utils/blockInvalidChar';
+import { reactSelectStyles } from 'utils/reactSelectStyles';
 
-export type ValueLabelProps = {
-  value: string | number;
-  label: string | number;
-};
-const FinalStep: FC = () => {
+export const FinalStep: FC = () => {
   const { control } = useFormContext();
   const [searchText, setSearchText] = useState('America');
 
@@ -186,5 +183,3 @@ const FinalStep: FC = () => {
     </>
   );
 };
-
-export default FinalStep;

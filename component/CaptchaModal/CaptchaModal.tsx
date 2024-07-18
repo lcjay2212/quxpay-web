@@ -9,7 +9,7 @@ import { useCaptchaModal } from 'store/useCaptchaModal';
 import { notify } from 'utils/notify';
 import { queryClient } from 'utils/queryClient';
 
-const CaptchaModal: FC = () => {
+export const CaptchaModal: FC = () => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
 
   const { data, isLoading } = useQuery('captcha', FETCH_CAPTCHA, {
@@ -103,5 +103,3 @@ const CaptchaModal: FC = () => {
     </Modal>
   );
 };
-
-export default CaptchaModal;

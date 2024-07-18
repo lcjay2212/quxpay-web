@@ -1,9 +1,9 @@
 import { CalendarIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { HeaderContainer } from 'component/Header';
+import { ItemListDisplay } from 'component/ItemListDisplay';
+import { TransactionHistoryFilterModal } from 'component/Modal';
 import { TextField } from 'component/TextField';
-import TransactionHistoryFilterModal from 'component/TransactionHistoryFilterModal';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';

@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Divider, Flex, Radio, RadioGroup, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import BankAccount from 'component/BankAccount/BankAccount';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { BankAccount } from 'component/BankAccount';
+import { HeaderContainer } from 'component/Header';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';

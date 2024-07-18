@@ -8,7 +8,8 @@ import { FC, ReactElement } from 'react';
 import DatePicker from 'react-datepicker';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useSetScheduleModal } from 'store/useSetScheduleModal';
-const SetScheduleModal: FC<{
+
+export const SetScheduleModal: FC<{
   startDate?: any;
   setStartDate?: any;
   endDate?: any;
@@ -244,5 +245,3 @@ const SetScheduleModal: FC<{
     </Modal>
   );
 };
-
-export default SetScheduleModal;

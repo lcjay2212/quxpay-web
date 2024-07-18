@@ -25,7 +25,7 @@ import { useMutation, useQuery } from 'react-query';
 import errorHandler from 'utils/errorHandler';
 import { notify } from 'utils/notify';
 
-const SendQuxTokenWrapper: FC = () => {
+export const SendQuxTokenWrapper: FC = () => {
   const router = useRouter();
   const method = useForm();
 
@@ -285,4 +285,3 @@ const SendQuxTokenWrapper: FC = () => {
     </Box>
   );
 };
-export default SendQuxTokenWrapper;

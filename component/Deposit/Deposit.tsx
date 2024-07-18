@@ -14,15 +14,15 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
-import AddCreditCardForm from 'component/AddCreditCardForm/AddCreditCardForm';
-import AddCrytoWallet from 'component/AddCrytoWallet/AddCrytoWallet';
-import BankAccount from 'component/BankAccount/BankAccount';
-import CashInCrypto from 'component/CashInCrypto/CashInCrypto';
-import CreditCard from 'component/CreditCard/CreditCard';
-import CryptoWallet from 'component/CryptoWallet/CryptoWallet';
+import { AddBankAccount } from 'component/AddBankAccount/AddBankAccount';
+import { AddCreditCardForm } from 'component/AddCreditCardForm/AddCreditCardForm';
+import { AddCrytoWallet } from 'component/AddCrytoWallet/AddCrytoWallet';
+import { BankAccount } from 'component/BankAccount';
+import { CashInCrypto } from 'component/CashInCrypto';
+import { CreditCard } from 'component/CreditCard';
+import { CryptoWallet } from 'component/CryptoWallet';
 import { FormContainer } from 'component/FormInput';
-import { Label } from 'component/PaidPosInfoById';
+import { Label } from 'component/LabelWrapper';
 import { TextField } from 'component/TextField';
 import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { STAGING_URL } from 'constants/url';

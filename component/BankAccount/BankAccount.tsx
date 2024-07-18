@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { BankIcon2 } from 'public/assets';
 import { FC } from 'react';
 
-const BankAccount: FC<{ name?: string; accountNumber?: string; bankName?: string; loading?: boolean }> = ({
+export const BankAccount: FC<{ name?: string; accountNumber?: string; bankName?: string; loading?: boolean }> = ({
   name,
   accountNumber,
   loading,
@@ -28,5 +28,3 @@ const BankAccount: FC<{ name?: string; accountNumber?: string; bankName?: string
     )}
   </>
 );
-
-export default BankAccount;

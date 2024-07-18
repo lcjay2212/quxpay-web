@@ -1,8 +1,6 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Input, Text } from '@chakra-ui/react';
-import { FormContainer } from 'component/FormInput';
-import { SetScheduleModal } from 'component/Modal';
-import { TextField } from 'component/TextField';
+import { FormContainer, SetScheduleModal, TextField } from 'component';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
 import Image from 'next/image';

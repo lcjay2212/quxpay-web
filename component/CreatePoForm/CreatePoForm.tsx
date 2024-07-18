@@ -16,9 +16,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { Label } from 'component/LabelWrapper';
-import { ProductModal } from 'component/Modal';
-import { TextField } from 'component/TextField';
+import { Label, ProductModal, TextField } from 'component';
 import { FETCH_FRIEND_LIST, FETCH_PRODUCT_LIST, FETCH_RECENT_PRODUCT_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';

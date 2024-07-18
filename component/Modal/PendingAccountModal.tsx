@@ -1,5 +1,5 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
-import { HeaderContainer } from 'component/Header';
+import { HeaderContainer } from 'component';
 import { FC } from 'react';
 import { usePendingAccountModal } from 'store';
 

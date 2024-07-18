@@ -2,7 +2,7 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import { ScheduleBiller } from 'component/ScheduleBiller';
+import { ScheduleBiller } from 'component';
 import { STAGING_URL } from 'constants/url';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';

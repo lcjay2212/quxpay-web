@@ -1,7 +1,6 @@
 import { CalendarIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Select, Text } from '@chakra-ui/react';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';

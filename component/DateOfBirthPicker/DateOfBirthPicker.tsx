@@ -1,6 +1,6 @@
 import { CalendarIcon } from '@chakra-ui/icons';
 import { Box, InputProps } from '@chakra-ui/react';
-import { TextField } from 'component/TextField';
+import { TextField } from 'component';
 import { DATE_FORMAT } from 'constants/dateFormat';
 import dayjs from 'dayjs';
 import React, { forwardRef, MouseEventHandler, ReactElement, useState } from 'react';

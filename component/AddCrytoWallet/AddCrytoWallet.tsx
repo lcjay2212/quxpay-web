@@ -1,6 +1,5 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { CRYPTO } from 'mocks/crypto';
 import Image from 'next/image';
 import { PasteIcon } from 'public/assets';

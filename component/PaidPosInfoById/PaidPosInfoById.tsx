@@ -1,5 +1,5 @@
 import { Box, Button, Divider, Flex, Image as ChakraImage, Text } from '@chakra-ui/react';
-import { Label } from 'component/LabelWrapper';
+import { Label } from 'component';
 import { useRouter } from 'next/router';
 import { QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';

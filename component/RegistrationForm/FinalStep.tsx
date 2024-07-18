@@ -1,6 +1,5 @@
 import { Flex, Text } from '@chakra-ui/react';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
 import { AddBankIconTwo } from 'public/assets';

@@ -1,5 +1,5 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import { ItemListDisplay } from 'component/ItemListDisplay';
+import { ItemListDisplay } from 'component';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';

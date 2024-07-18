@@ -1,6 +1,5 @@
 import { Box, BoxProps, Container, Flex, Heading, Text } from '@chakra-ui/react';
-import { Footer } from 'component/Footer';
-import { SEO } from 'component/SEO';
+import { Footer, SEO } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';

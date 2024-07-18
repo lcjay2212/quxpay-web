@@ -1,9 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Input, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import { BankAccount } from 'component/BankAccount';
-import { FormContainer } from 'component/FormInput';
-import { HeaderContainer } from 'component/Header';
+import { BankAccount, FormContainer, HeaderContainer } from 'component';
 import { SHOW_BANK_ACCOUNT_DETAILS } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';

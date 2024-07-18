@@ -1,5 +1,5 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import { ItemListDisplay } from 'component/ItemListDisplay';
+import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';

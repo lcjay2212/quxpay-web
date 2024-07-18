@@ -12,8 +12,7 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { FETCH_FRIEND_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';

@@ -1,7 +1,6 @@
 import { CalendarIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
-import { PayBillsModal } from 'component/Modal';
-import { TextField } from 'component/TextField';
+import { PayBillsModal, TextField } from 'component';
 import { FETCH_BILLER, FETCH_BILLING_CATEGORIES } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';

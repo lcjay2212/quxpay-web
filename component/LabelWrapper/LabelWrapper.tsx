@@ -1,5 +1,5 @@
 import { Flex, Spinner, Text } from '@chakra-ui/react';
-import { QuxTokenFeeModal } from 'component/Modal';
+import { QuxTokenFeeModal } from 'component';
 import Image from 'next/image';
 import { FC } from 'react';
 import { useQuxPayFeeModal } from 'store';

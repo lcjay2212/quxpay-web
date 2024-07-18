@@ -1,5 +1,5 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import { NotificationListDisplay } from 'component/NotificationListDisplay';
+import { NotificationListDisplay } from 'component';
 import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { useRouter } from 'next/router';
 import { FC } from 'react';

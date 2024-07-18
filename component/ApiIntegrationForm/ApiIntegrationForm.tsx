@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Text, Textarea } from '@chakra-ui/react';
 import axios from 'axios';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Select, Text } from '@chakra-ui/react';
-import { TextField } from 'component/TextField';
+import { TextField } from 'component';
 import { FC, useState } from 'react';
 import { useProductModal } from 'store';
 export const ProductModal: FC<{ data?: any }> = ({ data }) => {

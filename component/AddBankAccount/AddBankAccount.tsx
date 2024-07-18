@@ -1,5 +1,4 @@
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';

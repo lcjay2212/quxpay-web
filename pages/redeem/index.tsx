@@ -1,5 +1,4 @@
 import { CongratulationContent, Deposit, HeaderContainer } from 'component';
-import {} from 'component/CongratulationContent';
 import { FC } from 'react';
 import { useCongratulationContent } from 'store';
 import { getServerSideProps } from 'utils';

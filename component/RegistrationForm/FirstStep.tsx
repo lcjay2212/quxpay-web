@@ -1,6 +1,5 @@
 import { Checkbox } from '@chakra-ui/react';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 export const FirstStep: FC = () => {

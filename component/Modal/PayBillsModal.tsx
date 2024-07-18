@@ -12,7 +12,7 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { FormContainer } from 'component/FormInput';
+import { FormContainer } from 'component';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { QuxTokenIcon } from 'public/assets';

@@ -1,7 +1,7 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import { HeaderContainer } from 'component/Header';
 import { FC } from 'react';
-import { usePendingAccountModal } from 'store/usePendingAccountModal';
+import { usePendingAccountModal } from 'store';
 
 export const PendingAccountModal: FC = () => {
   const [visible, setVisible] = usePendingAccountModal(({ visible, setVisible }) => [visible, setVisible]);

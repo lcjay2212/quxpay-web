@@ -14,7 +14,7 @@ import {
 import { PageWrapper, TopBarHeader } from 'component';
 import { FAQS_STATIC_DATA } from 'mocks/faqs';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);

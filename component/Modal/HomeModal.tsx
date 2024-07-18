@@ -14,7 +14,7 @@ import {
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const STATIC_DATA = [
   {

@@ -8,8 +8,7 @@ import Image from 'next/image';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useRouteParams } from 'store/useRouteParams';
-import { useUser } from 'store/useUser';
+import { useRouteParams, useUser } from 'store';
 import { notify } from 'utils';
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,

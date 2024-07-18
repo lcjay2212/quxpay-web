@@ -9,8 +9,7 @@ import Image from 'next/image';
 import { BillsIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
-import { useSetScheduleModal } from 'store/useSetScheduleModal';
+import { useSchedulePayBillModal, useSetScheduleModal } from 'store';
 
 export const ScheduleBiller: FC<{
   id?: number;

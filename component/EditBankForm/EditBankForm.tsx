@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
-import { useAccountPaymentId } from 'store/useAccountPaymentId';
+import { useAccountPaymentId } from 'store';
 import { blockInvalidChar, errorHandler, notify } from 'utils';
 
 export const EditBankForm: FC<{ label: string }> = ({ label }) => {

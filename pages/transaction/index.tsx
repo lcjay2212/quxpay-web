@@ -9,8 +9,8 @@ import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
 import { useQuery } from 'react-query';
-// import { usePrivatekey } from 'store/usePrivatekey';
-import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
+// import { usePrivatekey } from 'store';
+import { useTransactionHistoryFilterModal } from 'store';
 const TransactionHistoryPage: FC = () => {
   const [search, setSearch] = useState('');
   const {

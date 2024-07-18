@@ -33,9 +33,7 @@ import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon, QuxTokenIcon } from '
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
-import { useAccountPaymentId } from 'store/useAccountPaymentId';
-import { useCongratulationContent } from 'store/useCongratulationContent';
-import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
+import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData } from 'store';
 import { errorHandler, notify } from 'utils';
 
 export const calculateThreePercent = (amount: number): number => amount * 0.03;

@@ -9,7 +9,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
+import { useSchedulePayBillModal } from 'store';
 import { notify } from 'utils';
 
 export const SchedulePayBillModal: FC = () => {

@@ -9,7 +9,7 @@ import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
 import Select, { SingleValue } from 'react-select';
-import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
+import { useCryptoPaymentData } from 'store';
 import { ValueLabelProps } from 'typings';
 import { errorHandler, notify, reactSelectStyles } from 'utils';
 

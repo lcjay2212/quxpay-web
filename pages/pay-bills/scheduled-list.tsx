@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
+import { useSchedulePayBillModal } from 'store';
 import { errorHandler } from 'utils';
 
 const ScheduledList: FC = () => {

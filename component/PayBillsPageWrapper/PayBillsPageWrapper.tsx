@@ -8,10 +8,7 @@ import { useRouter } from 'next/router';
 import { BillsIcon, CircleAddIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useQuery } from 'react-query';
-import { useDebounce } from 'store/useDebounce';
-import { useHeaderName } from 'store/useHeaderName';
-import { usePayBillsModal } from 'store/usePayBillsModal';
-import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
+import { useDebounce, useHeaderName, usePayBillsModal, useSchedulePayBillModal } from 'store';
 import { errorHandler } from 'utils';
 
 export const PayBillsPageWrapper: FC = () => {

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-// import { usePrivatekey } from 'store/usePrivatekey';
+// import { usePrivatekey } from 'store';
 import { errorHandler } from 'utils';
 
 export const TransactionHistory: FC = () => {

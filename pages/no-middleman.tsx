@@ -4,7 +4,7 @@ import { NO_MIDDLEMAN_MOCKS } from 'mocks/pages';
 import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const NoMiddlemanPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { useUser } from 'store/useUser';
+import { useUser } from 'store';
 import { clearStorage, notify, queryClient, theme } from 'utils';
 
 const poppins = Poppins({

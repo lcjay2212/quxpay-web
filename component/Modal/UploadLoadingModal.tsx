@@ -1,6 +1,6 @@
 import { Flex, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Text } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
+import { useUploadLoadingModal } from 'store';
 
 export const UploadLoadingModal: FC = () => {
   const [visible, setVisible] = useUploadLoadingModal(({ visible, setVisible }) => [visible, setVisible]);

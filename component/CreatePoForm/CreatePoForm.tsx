@@ -26,7 +26,7 @@ import { useRouter } from 'next/router';
 import { AddFriendIcon, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useProductModal } from 'store/useProductModal';
+import { useProductModal } from 'store';
 import { errorHandler, notify } from 'utils';
 
 export const CreatePoForm: FC = () => {

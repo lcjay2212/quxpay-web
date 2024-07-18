@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
 import { useMutation } from 'react-query';
-import { useSuccessPayBillsModal } from 'store/useSuccessPayBillsModal';
+import { useSuccessPayBillsModal } from 'store';
 import { notify } from 'utils';
 
 type TempDataType = {

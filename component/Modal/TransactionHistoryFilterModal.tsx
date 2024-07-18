@@ -13,7 +13,7 @@ import {
 } from '@chakra-ui/react';
 import Image from 'next/image';
 import { FC } from 'react';
-import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
+import { useTransactionHistoryFilterModal } from 'store';
 
 export const TransactionHistoryFilterModal: FC<{
   title: string;

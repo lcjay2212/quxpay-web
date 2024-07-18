@@ -42,11 +42,7 @@ import {
 } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useBalance } from 'store/useBalance';
-import usePosHistory from 'store/usePosHistory';
-import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
-import { useUser } from 'store/useUser';
-import { useVerifyModal } from 'store/useVerifyModal';
+import { useBalance, usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
 import { clearStorage, getServerSideProps, notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (

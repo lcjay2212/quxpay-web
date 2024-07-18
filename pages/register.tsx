@@ -8,7 +8,7 @@ import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { usePendingAccountModal } from 'store/usePendingAccountModal';
+import { usePendingAccountModal } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {

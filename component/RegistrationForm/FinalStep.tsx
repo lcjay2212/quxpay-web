@@ -7,8 +7,7 @@ import { AddBankIconTwo } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
-import { useBankLists } from 'store/useBankLists';
-import { useDebounce } from 'store/useDebounce';
+import { useBankLists, useDebounce } from 'store';
 import { ValueLabelProps } from 'typings';
 import { blockInvalidChar, reactSelectStyles } from 'utils';
 

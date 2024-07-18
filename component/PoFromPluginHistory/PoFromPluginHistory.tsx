@@ -3,7 +3,7 @@ import { ItemListDisplay } from 'component/ItemListDisplay';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import usePosHistory from 'store/usePosHistory';
+import { usePosHistory } from 'store';
 
 export const PoFromPluginHistory: FC = () => {
   const { pluginData, isLoading } = usePosHistory();

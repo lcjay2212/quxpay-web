@@ -7,7 +7,7 @@ import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useAccountPaymentId } from 'store/useAccountPaymentId';
+import { useAccountPaymentId } from 'store';
 import { getServerSideProps, notify } from 'utils';
 
 export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {

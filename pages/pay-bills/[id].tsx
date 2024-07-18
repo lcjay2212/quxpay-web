@@ -7,8 +7,7 @@ import { useRouter } from 'next/router';
 import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import { useHeaderName } from 'store/useHeaderName';
-import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
+import { useHeaderName, useSchedulePayBillModal } from 'store';
 import { errorHandler } from 'utils';
 
 const PayBillsByCategory: FC = () => {

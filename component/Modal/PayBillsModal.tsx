@@ -19,9 +19,7 @@ import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useBalance } from 'store/useBalance';
-import { usePayBillsModal } from 'store/usePayBillsModal';
-import { useSuccessPayBillsModal } from 'store/useSuccessPayBillsModal';
+import { useBalance, usePayBillsModal, useSuccessPayBillsModal } from 'store';
 import { notify } from 'utils';
 import { SuccessPayBillModal } from './SuccessPayBillModal';
 

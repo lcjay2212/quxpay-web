@@ -3,7 +3,7 @@ import { PageWrapper, TopBarHeader } from 'component';
 import { MILITARY_GRADE_SECURITY_MOCK } from 'mocks/pages';
 import { Content } from 'pages';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);

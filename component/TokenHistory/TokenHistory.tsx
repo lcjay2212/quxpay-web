@@ -3,7 +3,7 @@ import { ItemListDisplay } from 'component/ItemListDisplay';
 import { useRouter } from 'next/router';
 import { TokenHistoryGreenIcon, TokenHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import usePosHistory from 'store/usePosHistory';
+import { usePosHistory } from 'store';
 
 export const TokenHistory: FC = () => {
   const { paidData, isLoading } = usePosHistory();

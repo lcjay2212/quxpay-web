@@ -1,6 +1,6 @@
 import { Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import { FC } from 'react';
-import { useQuxPayFeeModal } from 'store/useQuxPayFeeModal';
+import { useQuxPayFeeModal } from 'store';
 
 export const QuxTokenFeeModal: FC = () => {
   const [visible, setVisible] = useQuxPayFeeModal(({ visible, setVisible }) => [visible, setVisible]);

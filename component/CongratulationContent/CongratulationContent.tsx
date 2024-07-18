@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CheckCircleIcon, CryptoIcon, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
-import { useCongratulationContent } from 'store/useCongratulationContent';
+import { useCongratulationContent } from 'store';
 
 export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
   const type = useCongratulationContent((e) => e.type);

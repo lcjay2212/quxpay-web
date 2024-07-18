@@ -4,8 +4,7 @@ import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import usePosHistory from 'store/usePosHistory';
-import { useUser } from 'store/useUser';
+import { usePosHistory, useUser } from 'store';
 import { getServerSideProps } from 'utils';
 
 const OpenPosHistoryPage: FC = () => {

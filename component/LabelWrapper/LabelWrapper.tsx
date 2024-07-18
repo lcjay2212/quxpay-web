@@ -2,7 +2,7 @@ import { Flex, Spinner, Text } from '@chakra-ui/react';
 import { QuxTokenFeeModal } from 'component/Modal';
 import Image from 'next/image';
 import { FC } from 'react';
-import { useQuxPayFeeModal } from 'store/useQuxPayFeeModal';
+import { useQuxPayFeeModal } from 'store';
 
 export const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,

@@ -8,8 +8,7 @@ import { BankIcon, UploadIcon2 } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useUser } from 'store/useUser';
-import { useVerifyModal } from 'store/useVerifyModal';
+import { useUser, useVerifyModal } from 'store';
 import { blockInvalidChar, notify } from 'utils';
 
 export const VerifyModal: FC = () => {

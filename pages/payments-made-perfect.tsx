@@ -4,7 +4,7 @@ import { PAYMENTS_MADE_PERFECT_MOCKS } from 'mocks/pages';
 import Image from 'next/image';
 import { Content } from 'pages';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const PaymentsMadePerfectPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);

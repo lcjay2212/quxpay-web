@@ -10,9 +10,7 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { usePendingAccountModal } from 'store/usePendingAccountModal';
-import { useRouteParams } from 'store/useRouteParams';
-import { useUser } from 'store/useUser';
+import { usePendingAccountModal, useRouteParams, useUser } from 'store';
 import { notify } from 'utils';
 
 const Login: FC = () => {

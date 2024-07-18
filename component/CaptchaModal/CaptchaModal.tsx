@@ -5,7 +5,7 @@ import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useCaptchaModal } from 'store/useCaptchaModal';
+import { useCaptchaModal } from 'store';
 import { notify, queryClient } from 'utils';
 
 export const CaptchaModal: FC = () => {

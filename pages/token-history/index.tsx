@@ -3,8 +3,7 @@ import { HeaderContainer, ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import usePosHistory from 'store/usePosHistory';
-import { useUser } from 'store/useUser';
+import { usePosHistory, useUser } from 'store';
 
 const PaidPosHistory: FC = () => {
   const { paidData, isLoading } = usePosHistory();

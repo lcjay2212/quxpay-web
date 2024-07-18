@@ -1,4 +1,4 @@
-import DeleteAccountWrapper from 'component/DeleteAccountWrapper/DeleteAccountWrapper';
+import { DeleteAccountWrapper } from 'component';
 import { FC } from 'react';
 import { getServerSideProps } from 'utils/getServerSideProps';
 

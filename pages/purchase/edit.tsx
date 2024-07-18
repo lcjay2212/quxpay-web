@@ -1,4 +1,4 @@
-import { EditBankForm } from 'component/EditBankForm';
+import { EditBankForm } from 'component';
 import { FC } from 'react';
 import { getServerSideProps } from 'utils/getServerSideProps';
 

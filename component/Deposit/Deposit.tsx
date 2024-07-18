@@ -42,7 +42,7 @@ import { notify } from 'utils/notify';
 export const calculateThreePercent = (amount: number): number => amount * 0.03;
 export const calculateFivePercent = (amount: number): number => amount * 0.05;
 
-const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
+export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankCreditCardCrypto', FETCH_BANK_CREDIT_CARD_CRYPTO, errorHandler);
   const [type, setType] = useState<
@@ -558,4 +558,3 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     </Box>
   );
 };
-export default Deposit;

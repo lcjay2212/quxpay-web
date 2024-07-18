@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import { HeaderContainer } from 'component/Header';
+import { HeaderContainer } from 'component';
 import { FETCH_WP_PO_DETAILS } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';

@@ -1,6 +1,5 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import { HeaderContainer } from 'component/Header';
-import { ItemListDisplay } from 'component/ItemListDisplay';
+import { HeaderContainer, ItemListDisplay } from 'component';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { CryptoIcon } from 'public/assets';

@@ -16,13 +16,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { CryptoTransactionHistory } from 'component/CryptoTransactionHistory';
-import { UploadLoadingModal, VerifyModal } from 'component/Modal';
-import { NotificationHistory } from 'component/NotificationHistory';
-import { OpenPosHistory } from 'component/OpenPosHistory';
-import { PoFromPluginHistory } from 'component/PoFromPluginHistory';
-import { TokenHistory } from 'component/TokenHistory';
-import { TransactionHistory } from 'component/TransactionHistory';
+import {
+  CryptoTransactionHistory,
+  NotificationHistory,
+  OpenPosHistory,
+  PoFromPluginHistory,
+  TokenHistory,
+  TransactionHistory,
+  UploadLoadingModal,
+  VerifyModal,
+} from 'component';
 import { API_SESSION_URL, isLocalHost, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';

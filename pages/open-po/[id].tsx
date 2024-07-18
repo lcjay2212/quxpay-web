@@ -1,5 +1,5 @@
+import { PosInfoById } from 'component';
 import { HeaderContainer } from 'component/Header';
-import { PosInfoById } from 'component/PosInfoById';
 import { FETCH_POS_HISTORY_BY_ID } from 'constants/api';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';

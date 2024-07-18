@@ -1,6 +1,5 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import { HeaderContainer } from 'component/Header';
-import { NotificationListDisplay } from 'component/NotificationListDisplay';
+import { HeaderContainer, NotificationListDisplay } from 'component';
 import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { FC } from 'react';
 import { useQuery } from 'react-query';

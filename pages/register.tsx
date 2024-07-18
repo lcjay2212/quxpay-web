@@ -1,8 +1,6 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
-import { CaptchaModal } from 'component/CaptchaModal';
-import { PendingAccountModal } from 'component/Modal';
-import { CorporationStep, FinalStep, FirstStep, SecondStep } from 'component/RegistrationForm';
+import { CaptchaModal, CorporationStep, FinalStep, FirstStep, PendingAccountModal, SecondStep } from 'component';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';

@@ -11,7 +11,7 @@ import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { getServerSideProps } from 'utils/getServerSideProps';
 import { notify } from 'utils/notify';
 
-const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
+export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const bankCreditAndCryptoData = queryClient.getQueryData('bankCreditCardCrypto');
@@ -118,5 +118,3 @@ const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
 };
 
 export { getServerSideProps };
-
-export default DeleteAccountWrapper;

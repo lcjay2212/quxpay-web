@@ -1,5 +1,4 @@
-import { HeaderContainer } from 'component/Header';
-import { SendQuxTokenWrapper } from 'component/SendQuxTokenWrapper';
+import { HeaderContainer, SendQuxTokenWrapper } from 'component';
 import { FC } from 'react';
 import { getServerSideProps } from 'utils/getServerSideProps';
 

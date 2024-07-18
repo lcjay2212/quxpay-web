@@ -45,7 +45,7 @@ const TransactionHistory: FC = () => {
                 // const decryptedData = privateKey.decrypt(amount, 'utf8');
                 return (
                   <ItemListDisplay
-                    label={`Qux User ${startCase(item.type)}`}
+                    label={`QUX® User ${startCase(item.type)}`}
                     date={item.created_at}
                     amount={+item.amount}
                     key={item.id}

@@ -30,7 +30,7 @@ export const TRANSACTION_FILTER = [
   },
   {
     value: 'send_tokens',
-    label: 'Send Qux Tokens',
+    label: 'Send QUX® Tokens',
   },
   {
     value: 'token_history',

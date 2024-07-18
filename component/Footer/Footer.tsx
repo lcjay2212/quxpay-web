@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { GooglePlayImage, QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
-import { openInNewTab } from 'utils/openNewTab';
+import { openInNewTab } from 'utils';
 
 const footerLink = [
   {

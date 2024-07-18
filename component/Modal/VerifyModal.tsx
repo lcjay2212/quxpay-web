@@ -10,8 +10,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useUser } from 'store/useUser';
 import { useVerifyModal } from 'store/useVerifyModal';
-import { blockInvalidChar } from 'utils/blockInvalidChar';
-import { notify } from 'utils/notify';
+import { blockInvalidChar, notify } from 'utils';
 
 export const VerifyModal: FC = () => {
   const { user } = useUser();

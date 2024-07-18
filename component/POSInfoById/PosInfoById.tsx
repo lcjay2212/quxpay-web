@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,

@@ -4,7 +4,7 @@ import { TextField } from 'component/TextField';
 import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { blockInvalidChar } from 'utils/blockInvalidChar';
+import { blockInvalidChar } from 'utils';
 
 export const CorporationStep: FC = () => {
   const { control } = useFormContext();

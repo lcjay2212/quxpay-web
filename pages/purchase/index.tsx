@@ -2,7 +2,7 @@ import { Deposit, HeaderContainer } from 'component';
 import { CongratulationContent } from 'component/CongratulationContent';
 import { FC } from 'react';
 import { useCongratulationContent } from 'store/useCongratulationContent';
-import { getServerSideProps } from 'utils/getServerSideProps';
+import { getServerSideProps } from 'utils';
 
 const DepositPage: FC = () => {
   const visible = useCongratulationContent((e) => e.visible);

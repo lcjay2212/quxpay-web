@@ -7,7 +7,7 @@ import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 // import { usePrivatekey } from 'store/usePrivatekey';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 export const TransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler);

@@ -22,7 +22,7 @@ import { useMutation } from 'react-query';
 import { useBalance } from 'store/useBalance';
 import { usePayBillsModal } from 'store/usePayBillsModal';
 import { useSuccessPayBillsModal } from 'store/useSuccessPayBillsModal';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 import { SuccessPayBillModal } from './SuccessPayBillModal';
 
 export const PayBillsModal: FC = () => {

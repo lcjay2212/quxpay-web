@@ -13,7 +13,7 @@ import { useMutation } from 'react-query';
 import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { useRouteParams } from 'store/useRouteParams';
 import { useUser } from 'store/useUser';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 const Login: FC = () => {
   const method = useForm();

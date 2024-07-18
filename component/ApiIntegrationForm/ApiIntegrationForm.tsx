@@ -7,7 +7,7 @@ import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 export const ApiIntegrationForm: FC = () => {
   const router = useRouter();

@@ -8,7 +8,7 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 const ForgotPassword: FC = () => {
   const method = useForm();

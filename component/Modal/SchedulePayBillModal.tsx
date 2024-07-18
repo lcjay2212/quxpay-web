@@ -10,7 +10,7 @@ import { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 export const SchedulePayBillModal: FC = () => {
   const [visible, setVisible] = useSchedulePayBillModal((state) => [state.visible, state.setVisible]);

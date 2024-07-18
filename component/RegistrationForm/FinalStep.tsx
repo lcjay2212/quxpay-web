@@ -10,8 +10,7 @@ import Select, { SingleValue } from 'react-select';
 import { useBankLists } from 'store/useBankLists';
 import { useDebounce } from 'store/useDebounce';
 import { ValueLabelProps } from 'typings';
-import { blockInvalidChar } from 'utils/blockInvalidChar';
-import { reactSelectStyles } from 'utils/reactSelectStyles';
+import { blockInvalidChar, reactSelectStyles } from 'utils';
 
 export const FinalStep: FC = () => {
   const { control } = useFormContext();

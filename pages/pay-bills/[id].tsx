@@ -9,7 +9,7 @@ import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useHeaderName } from 'store/useHeaderName';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 const PayBillsByCategory: FC = () => {
   const router = useRouter();

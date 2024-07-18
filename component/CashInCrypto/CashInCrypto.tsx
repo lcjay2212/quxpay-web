@@ -11,9 +11,7 @@ import { useMutation, useQuery } from 'react-query';
 import Select, { SingleValue } from 'react-select';
 import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
 import { ValueLabelProps } from 'typings';
-import errorHandler from 'utils/errorHandler';
-import { notify } from 'utils/notify';
-import { reactSelectStyles } from 'utils/reactSelectStyles';
+import { errorHandler, notify, reactSelectStyles } from 'utils';
 
 export const CashInCrypto: FC = () => {
   const { control, watch } = useFormContext();

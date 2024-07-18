@@ -22,8 +22,7 @@ import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
-import { notify } from 'utils/notify';
+import { errorHandler, notify } from 'utils';
 
 export const SendQuxTokenWrapper: FC = () => {
   const router = useRouter();

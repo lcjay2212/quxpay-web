@@ -8,7 +8,7 @@ import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { useHomePageModal } from 'store/useHomePageModal';
 import { usePendingAccountModal } from 'store/usePendingAccountModal';
 import { useProductModal } from 'store/useProductModal';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 export const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
   label,

@@ -6,7 +6,7 @@ import { useRouter } from 'next/router';
 import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 export const CryptoTransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('crytpoTransactionHistory', FETCH_CRYPTO_TRANSACTION_HISTORY, errorHandler);

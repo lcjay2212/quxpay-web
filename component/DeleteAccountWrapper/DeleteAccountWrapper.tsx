@@ -8,8 +8,7 @@ import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
-import { getServerSideProps } from 'utils/getServerSideProps';
-import { notify } from 'utils/notify';
+import { getServerSideProps, notify } from 'utils';
 
 export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();

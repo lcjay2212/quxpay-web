@@ -4,7 +4,7 @@ import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 export const NotificationHistory: FC = () => {
   const router = useRouter();

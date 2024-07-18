@@ -6,8 +6,7 @@ import Image from 'next/image';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useCaptchaModal } from 'store/useCaptchaModal';
-import { notify } from 'utils/notify';
-import { queryClient } from 'utils/queryClient';
+import { notify, queryClient } from 'utils';
 
 export const CaptchaModal: FC = () => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);

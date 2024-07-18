@@ -8,8 +8,7 @@ import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
 import { ValueLabelProps } from 'typings';
-import { notify } from 'utils/notify';
-import { reactSelectStyles } from 'utils/reactSelectStyles';
+import { notify, reactSelectStyles } from 'utils';
 
 export const AddCrytoWallet: FC = () => {
   const { control } = useFormContext();

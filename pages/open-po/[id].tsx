@@ -4,8 +4,7 @@ import { FETCH_POS_HISTORY_BY_ID } from 'constants/api';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
-import { getServerSideProps } from 'utils/getServerSideProps';
+import { errorHandler, getServerSideProps } from 'utils';
 
 const PosHistoryById: FC = () => {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { FETCH_BANK_LIST } from 'constants/api';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 export const useBankLists = (
   searchText: string

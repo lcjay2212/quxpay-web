@@ -47,9 +47,7 @@ import usePosHistory from 'store/usePosHistory';
 import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
 import { useUser } from 'store/useUser';
 import { useVerifyModal } from 'store/useVerifyModal';
-import { clearStorage } from 'utils/clearStorage';
-import { getServerSideProps } from 'utils/getServerSideProps';
-import { notify } from 'utils/notify';
+import { clearStorage, getServerSideProps, notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
   <Box w={{ base: 150, md: 250 }}>

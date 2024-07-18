@@ -9,7 +9,7 @@ import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { usePendingAccountModal } from 'store/usePendingAccountModal';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 const Register: FC = () => {
   const method = useForm();

@@ -6,7 +6,7 @@ import { UnpaidHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import usePosHistory from 'store/usePosHistory';
 import { useUser } from 'store/useUser';
-import { getServerSideProps } from 'utils/getServerSideProps';
+import { getServerSideProps } from 'utils';
 
 const OpenPosHistoryPage: FC = () => {
   const { received, created, isLoading } = usePosHistory();

@@ -9,7 +9,7 @@ import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
 import { useRouteParams } from 'store/useRouteParams';
 import { useUser } from 'store/useUser';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 const LoginOrRegisterPage: FC = () => {
   const router = useRouter();

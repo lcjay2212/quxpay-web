@@ -7,7 +7,7 @@ import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 const ScheduledList: FC = () => {
   const { data, isLoading } = useQuery('scheduledList', FETCH_SCHEDULED_PAYMENT_LISTS, errorHandler);

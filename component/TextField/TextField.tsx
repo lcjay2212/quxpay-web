@@ -12,7 +12,7 @@ import {
 import { DATE_FORMAT } from 'constants/dateFormat';
 import dayjs from 'dayjs';
 import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 export const TextField: FC<
   InputProps & {

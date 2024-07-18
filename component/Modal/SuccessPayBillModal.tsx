@@ -7,7 +7,7 @@ import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
 import { useMutation } from 'react-query';
 import { useSuccessPayBillsModal } from 'store/useSuccessPayBillsModal';
-import { notify } from 'utils/notify';
+import { notify } from 'utils';
 
 type TempDataType = {
   account_number?: number;

@@ -36,8 +36,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useAccountPaymentId } from 'store/useAccountPaymentId';
 import { useCongratulationContent } from 'store/useCongratulationContent';
 import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
-import errorHandler from 'utils/errorHandler';
-import { notify } from 'utils/notify';
+import { errorHandler, notify } from 'utils';
 
 export const calculateThreePercent = (amount: number): number => amount * 0.03;
 export const calculateFivePercent = (amount: number): number => amount * 0.05;

@@ -27,8 +27,7 @@ import { AddFriendIcon, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
 import { useProductModal } from 'store/useProductModal';
-import errorHandler from 'utils/errorHandler';
-import { notify } from 'utils/notify';
+import { errorHandler, notify } from 'utils';
 
 export const CreatePoForm: FC = () => {
   const router = useRouter();

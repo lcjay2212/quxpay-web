@@ -12,7 +12,7 @@ import { useDebounce } from 'store/useDebounce';
 import { useHeaderName } from 'store/useHeaderName';
 import { usePayBillsModal } from 'store/usePayBillsModal';
 import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 export const PayBillsPageWrapper: FC = () => {
   const { data, isLoading } = useQuery('billingCategories', FETCH_BILLING_CATEGORIES, errorHandler);

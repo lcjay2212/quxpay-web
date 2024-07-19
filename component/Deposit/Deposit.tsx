@@ -51,7 +51,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const method = useForm();
   const { control, handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
-  const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
+  const [paymentData, setPaymentData] = useAccountPaymentId((e) => [e.paymentData, e.setPaymentData]);
   const [step, setStep] = useState(1);
   const [selectedBankDetails, setSelectedBankDetails] = useState<{
     payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
@@ -180,7 +180,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             type: 'purchase',
           } as any);
         } else {
-          mutate({ ...val, payment_method: 'ach_bank' });
+          mutate({ ...val, payment_method: paymentData?.paymentType });
         }
       } else if (label === 'Redeem') {
         mutate({

@@ -60,7 +60,7 @@ export const CashInCrypto: FC = () => {
       <Controller
         control={control}
         name="currency"
-        rules={{ required: 'Bank Name is required' }}
+        rules={{ required: 'Crypto Type is required' }}
         render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
           return (
             <FormContainer errorMessage={error?.message ?? ''}>
@@ -77,6 +77,7 @@ export const CashInCrypto: FC = () => {
                     amount: watch('amount'),
                   } as any);
                 }}
+                menuPlacement="top"
                 // onInputChange={(e: string): void => setSearchText(e)}
                 isClearable={true}
               />

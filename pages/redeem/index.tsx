@@ -1,9 +1,7 @@
-import CongratulationContent from 'component/CongratulationContent/CongratulationContent';
-import Deposit from 'component/Deposit/Deposit';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { CongratulationContent, Deposit, HeaderContainer } from 'component';
 import { FC } from 'react';
-import { useCongratulationContent } from 'store/useCongratulationContent';
-import { getServerSideProps } from 'utils/getServerSideProps';
+import { useCongratulationContent } from 'store';
+import { getServerSideProps } from 'utils';
 
 const RedeemPage: FC = () => {
   const visible = useCongratulationContent((e) => e.visible);

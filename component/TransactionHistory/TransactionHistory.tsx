@@ -1,15 +1,15 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { ItemListDisplay } from 'component';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-// import { usePrivatekey } from 'store/usePrivatekey';
-import errorHandler from 'utils/errorHandler';
+// import { usePrivatekey } from 'store';
+import { errorHandler } from 'utils';
 
-const TransactionHistory: FC = () => {
+export const TransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler);
   const router = useRouter();
   // const privatekey = usePrivatekey((state) => state.privatekey);
@@ -45,7 +45,7 @@ const TransactionHistory: FC = () => {
                 // const decryptedData = privateKey.decrypt(amount, 'utf8');
                 return (
                   <ItemListDisplay
-                    label={`Qux User ${startCase(item.type)}`}
+                    label={`QUX® User ${startCase(item.type)}`}
                     date={item.created_at}
                     amount={+item.amount}
                     key={item.id}
@@ -64,5 +64,3 @@ const TransactionHistory: FC = () => {
     </Box>
   );
 };
-
-export default TransactionHistory;

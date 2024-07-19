@@ -1,10 +1,9 @@
-import HeaderContainer from 'component/Header/HeaderContainer';
-import PaidPosInfoById from 'component/PaidPosInfoById';
+import { HeaderContainer, PaidPosInfoById } from 'component';
 import { FETCH_POS_HISTORY_BY_ID } from 'constants/api';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 const PaidPosById: FC = () => {
   const router = useRouter();

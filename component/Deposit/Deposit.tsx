@@ -14,16 +14,18 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import AddBankAccount from 'component/AddBankAccount/AddBankAccount';
-import AddCreditCardForm from 'component/AddCreditCardForm/AddCreditCardForm';
-import AddCrytoWallet from 'component/AddCrytoWallet/AddCrytoWallet';
-import BankAccount from 'component/BankAccount/BankAccount';
-import CashInCrypto from 'component/CashInCrypto/CashInCrypto';
-import CreditCard from 'component/CreditCard/CreditCard';
-import CryptoWallet from 'component/CryptoWallet/CryptoWallet';
-import { FormContainer } from 'component/FormInput';
-import { Label } from 'component/PaidPosInfoById';
-import { TextField } from 'component/TextField';
+import {
+  AddBankAccount,
+  AddCreditCardForm,
+  AddCrytoWallet,
+  BankAccount,
+  CashInCrypto,
+  CreditCard,
+  CryptoWallet,
+  FormContainer,
+  Label,
+  TextField,
+} from 'component';
 import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { isEmpty } from 'lodash';
@@ -33,16 +35,13 @@ import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon, QuxTokenIcon } from '
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
-import { useAccountPaymentId } from 'store/useAccountPaymentId';
-import { useCongratulationContent } from 'store/useCongratulationContent';
-import { useCryptoPaymentData } from 'store/useCryptoPaymentData';
-import errorHandler from 'utils/errorHandler';
-import { notify } from 'utils/notify';
+import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData } from 'store';
+import { errorHandler, notify } from 'utils';
 
 export const calculateThreePercent = (amount: number): number => amount * 0.03;
 export const calculateFivePercent = (amount: number): number => amount * 0.05;
 
-const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
+export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
   const { data, isLoading: loading } = useQuery('bankCreditCardCrypto', FETCH_BANK_CREDIT_CARD_CRYPTO, errorHandler);
   const [type, setType] = useState<
@@ -52,7 +51,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
   const method = useForm();
   const { control, handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
-  const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
+  const [paymentData, setPaymentData] = useAccountPaymentId((e) => [e.paymentData, e.setPaymentData]);
   const [step, setStep] = useState(1);
   const [selectedBankDetails, setSelectedBankDetails] = useState<{
     payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
@@ -181,7 +180,7 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
             type: 'purchase',
           } as any);
         } else {
-          mutate({ ...val, payment_method: 'ach_bank' });
+          mutate({ ...val, payment_method: paymentData?.paymentType });
         }
       } else if (label === 'Redeem') {
         mutate({
@@ -558,4 +557,3 @@ const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url
     </Box>
   );
 };
-export default Deposit;

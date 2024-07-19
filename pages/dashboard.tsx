@@ -16,14 +16,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import CryptoTransactionHistory from 'component/CryptoTransactionHistory/CryptoTransactionHistory';
-import UploadLoadingModal from 'component/Modal/UploadLoadingModal';
-import VerifyModal from 'component/Modal/VerifyModal';
-import NotificationHistory from 'component/NotificationHistory/NotificationHistory';
-import OpenPosHistory from 'component/OpenPosHistory/OpenPosHistory';
-import PoFromPluginHistory from 'component/PoFromPluginHistory/PoFromPluginHistory';
-import TokenHistory from 'component/TokenHistory/TokenHistory';
-import TransactionHistory from 'component/TransactionHistory/TransactionHistory';
+import {
+  CryptoTransactionHistory,
+  NotificationHistory,
+  OpenPosHistory,
+  PoFromPluginHistory,
+  TokenHistory,
+  TransactionHistory,
+  UploadLoadingModal,
+  VerifyModal,
+} from 'component';
 import { API_SESSION_URL, isLocalHost, STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -40,14 +42,8 @@ import {
 } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useBalance } from 'store/useBalance';
-import usePosHistory from 'store/usePosHistory';
-import { useUploadLoadingModal } from 'store/useUploadLoadingModal';
-import { useUser } from 'store/useUser';
-import { useVerifyModal } from 'store/useVerifyModal';
-import { clearStorage } from 'utils/clearStorage';
-import { getServerSideProps } from 'utils/getServerSideProps';
-import { notify } from 'utils/notify';
+import { useBalance, usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
+import { clearStorage, getServerSideProps, notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
   <Box w={{ base: 150, md: 250 }}>

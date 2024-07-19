@@ -4,13 +4,10 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxLogo, UnpaidHistoryIcon, UploadIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
-import { useAccountPaymentId } from 'store/useAccountPaymentId';
-import { useHomePageModal } from 'store/useHomePageModal';
-import { usePendingAccountModal } from 'store/usePendingAccountModal';
-import { useProductModal } from 'store/useProductModal';
-import { notify } from 'utils/notify';
+import { useAccountPaymentId, useHomePageModal, usePendingAccountModal, useProductModal } from 'store';
+import { notify } from 'utils';
 
-const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
+export const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
   label,
   route,
   children,
@@ -104,5 +101,3 @@ const HeaderContainer: FC<{ label?: string; route: string; children?: ReactEleme
     </Box>
   );
 };
-
-export default HeaderContainer;

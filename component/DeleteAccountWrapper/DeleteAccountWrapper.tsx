@@ -1,17 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Divider, Flex, Radio, RadioGroup, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import BankAccount from 'component/BankAccount/BankAccount';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { BankAccount, HeaderContainer } from 'component';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useMutation, useQueryClient } from 'react-query';
-import { useAccountPaymentId } from 'store/useAccountPaymentId';
-import { getServerSideProps } from 'utils/getServerSideProps';
-import { notify } from 'utils/notify';
+import { useAccountPaymentId } from 'store';
+import { getServerSideProps, notify } from 'utils';
 
-const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
+export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const bankCreditAndCryptoData = queryClient.getQueryData('bankCreditCardCrypto');
@@ -118,5 +116,3 @@ const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
 };
 
 export { getServerSideProps };
-
-export default DeleteAccountWrapper;

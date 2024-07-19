@@ -1,6 +1,6 @@
 import { FETCH_WALLET_BALANCE } from 'constants/api';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 export const useBalance = (): {
   balance: number;

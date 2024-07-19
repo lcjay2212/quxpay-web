@@ -2,17 +2,17 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import axios from 'axios';
+import { ScheduleBiller } from 'component';
 import { STAGING_URL } from 'constants/url';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
-import { notify } from 'utils/notify';
-import ScheduleBiller from './ScheduleBiller';
+import { useSchedulePayBillModal } from 'store';
+import { notify } from 'utils';
 
-const SchedulePayBillModal: FC = () => {
+export const SchedulePayBillModal: FC = () => {
   const [visible, setVisible] = useSchedulePayBillModal((state) => [state.visible, state.setVisible]);
   const { billerData } = useSchedulePayBillModal((state) => ({
     billerData: state.billerData,
@@ -128,5 +128,3 @@ const SchedulePayBillModal: FC = () => {
     </Modal>
   );
 };
-
-export default SchedulePayBillModal;

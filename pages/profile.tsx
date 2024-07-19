@@ -5,9 +5,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC } from 'react';
-import { useUser } from 'store/useUser';
-import { clearStorage } from 'utils/clearStorage';
-import { notify } from 'utils/notify';
+import { useUser } from 'store';
+import { clearStorage, notify } from 'utils';
 
 const ProfilePage: FC = () => {
   const { user } = useUser();

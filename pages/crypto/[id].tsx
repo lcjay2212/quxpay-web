@@ -1,11 +1,10 @@
-import HeaderContainer from 'component/Header/HeaderContainer';
-import PosInfoById from 'component/POSInfoById';
+import { HeaderContainer } from 'component';
+import PosInfoById from 'component/PosInfoById/PosInfoById';
 import { FETCH_POS_HISTORY_BY_ID } from 'constants/api';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
-import { getServerSideProps } from 'utils/getServerSideProps';
+import { errorHandler, getServerSideProps } from 'utils';
 
 const CryptoHistoryById: FC = () => {
   const router = useRouter();

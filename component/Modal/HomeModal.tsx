@@ -14,7 +14,7 @@ import {
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const STATIC_DATA = [
   {
@@ -43,7 +43,7 @@ const STATIC_DATA = [
     routes: '/',
   },
 ];
-const HomeModal: FC = () => {
+export const HomeModal: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
@@ -123,5 +123,3 @@ const HomeModal: FC = () => {
     </Modal>
   );
 };
-
-export default HomeModal;

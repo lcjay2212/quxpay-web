@@ -1,11 +1,6 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
-import CaptchaModal from 'component/CaptchaModal/CaptchaModal';
-import PendingAccountModal from 'component/PendingAccountModal';
-import CorporationStep from 'component/RegistrationForm/CorporationStep';
-import FinalStep from 'component/RegistrationForm/FinalStep';
-import FirstStep from 'component/RegistrationForm/FirstStep';
-import SecondStep from 'component/RegistrationForm/SecondStep';
+import { CaptchaModal, CorporationStep, FinalStep, FirstStep, PendingAccountModal, SecondStep } from 'component';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
@@ -13,8 +8,8 @@ import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { usePendingAccountModal } from 'store/usePendingAccountModal';
-import { notify } from 'utils/notify';
+import { usePendingAccountModal } from 'store';
+import { notify } from 'utils';
 
 const Register: FC = () => {
   const method = useForm();

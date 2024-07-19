@@ -1,12 +1,10 @@
 import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpoint } from '@chakra-ui/react';
-import Footer from 'component/Footer';
-import { SEO } from 'component/SEO';
-import TopBarHeader from 'component/TopBarHeader';
+import { Footer, SEO, TopBarHeader } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { PhoneImage, QrCodeImage } from 'public/assets';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 export const Content: FC<
   BoxProps & {
@@ -141,7 +139,7 @@ const Home: FC = () => {
       >
         <Content
           label="Military-Grade Security"
-          content="QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
+          content="QUXPay™ utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
                 stays private."
           onClick={(): void => void router.push('/military-grade-security')}
         />
@@ -156,7 +154,7 @@ const Home: FC = () => {
       >
         <Content
           label="NO MIDDLEMAN. NO NONSENSE."
-          content="Unlike others, QuxPay has no hidden fees and will never sell your data for profit. What you see is what
+          content="Unlike others, QUXPay™ has no hidden fees and will never sell your data for profit. What you see is what
           you get."
           alignItems="start"
           onClick={(): void => void router.push('/no-middleman')}
@@ -198,7 +196,7 @@ const Home: FC = () => {
       >
         <Content
           label=" Transfers in a Flash"
-          content="Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
+          content="Amount transferred through QUXPay™ reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
           onClick={(): void => void router.push('/transfers')}
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
@@ -212,7 +210,7 @@ const Home: FC = () => {
           <br /> Today.
         </Text>
         <Text fontSize={{ base: '1.25rem', md: '30px' }} mt="2rem">
-          QuxPay combines must-have transfer features with next-gen tech insights.
+          QUXPay™ combines must-have transfer features with next-gen tech insights.
           <br /> Monitor where your payments go.
         </Text>
       </Container>

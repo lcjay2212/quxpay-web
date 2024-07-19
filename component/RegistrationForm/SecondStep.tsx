@@ -1,9 +1,8 @@
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-const SecondStep: FC = () => {
+export const SecondStep: FC = () => {
   const { control } = useFormContext();
   return (
     <>
@@ -148,5 +147,3 @@ const SecondStep: FC = () => {
     </>
   );
 };
-
-export default SecondStep;

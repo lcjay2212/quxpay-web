@@ -12,8 +12,7 @@ import {
   Textarea,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { FETCH_FRIEND_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
@@ -22,10 +21,9 @@ import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
-import { notify } from 'utils/notify';
+import { errorHandler, notify } from 'utils';
 
-const SendQuxTokenWrapper: FC = () => {
+export const SendQuxTokenWrapper: FC = () => {
   const router = useRouter();
   const method = useForm();
 
@@ -285,4 +283,3 @@ const SendQuxTokenWrapper: FC = () => {
     </Box>
   );
 };
-export default SendQuxTokenWrapper;

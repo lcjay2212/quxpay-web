@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, chakra, Container, Flex, Grid, Heading, Text } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { HeaderContainer } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CheckCircleIcon, CryptoIcon, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
-import { useCongratulationContent } from 'store/useCongratulationContent';
+import { useCongratulationContent } from 'store';
 
-const CongratulationContent: FC<{ label: string }> = ({ label }) => {
+export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
   const type = useCongratulationContent((e) => e.type);
   const setVisible = useCongratulationContent((e) => e.setVisible);
   const amount = useCongratulationContent((e) => e.amount);
@@ -61,32 +61,33 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                     </Text>
                   )}
 
-                  {type === 'CREDIT' && (
-                    <>
-                      <Text>
-                        Your transaction has been <br />
-                        Completed successfully
-                      </Text>
-                      <Text my="2rem">
-                        Please remember that
-                        <br />
-                        credit card transactions
-                        <br />
-                        are instant but sometimes
-                        <br />
-                        have product limitations.
-                      </Text>
-                      <Text>
-                        This card's limitations are:
-                        <br />
-                        No cannabis
-                        <br />
-                        No weapons
-                        <br />
-                        No adult content
-                      </Text>
-                    </>
-                  )}
+                  {type === 'CREDIT' ||
+                    (type === 'EXISTING_CREDITCARD' && (
+                      <>
+                        <Text>
+                          Your transaction has been <br />
+                          Completed successfully
+                        </Text>
+                        <Text my="2rem">
+                          Please remember that
+                          <br />
+                          credit card transactions
+                          <br />
+                          are instant but sometimes
+                          <br />
+                          have product limitations.
+                        </Text>
+                        <Text>
+                          This card's limitations are:
+                          <br />
+                          No cannabis
+                          <br />
+                          No weapons
+                          <br />
+                          No adult content
+                        </Text>
+                      </>
+                    ))}
                 </Box>
               </Flex>
 
@@ -159,5 +160,3 @@ const CongratulationContent: FC<{ label: string }> = ({ label }) => {
     </>
   );
 };
-
-export default CongratulationContent;

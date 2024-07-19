@@ -6,8 +6,8 @@ import Image from 'next/image';
 import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
 import { useMutation } from 'react-query';
-import { useSuccessPayBillsModal } from 'store/useSuccessPayBillsModal';
-import { notify } from 'utils/notify';
+import { useSuccessPayBillsModal } from 'store';
+import { notify } from 'utils';
 
 type TempDataType = {
   account_number?: number;
@@ -22,7 +22,7 @@ type TempDataType = {
   biller_id: number;
 };
 
-const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
+export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
   const [visible, setVisible] = useSuccessPayBillsModal((state) => [state.visible, state.setVisible]);
 
   const { mutate: savePayment, isLoading: savePaymentLoading } = useMutation(
@@ -117,5 +117,3 @@ const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
     </Modal>
   );
 };
-
-export default SuccessPayBillModal;

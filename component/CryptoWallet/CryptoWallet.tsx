@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 
-const CryptoWallet: FC<{ name?: string; address: string; type: string; loading: boolean }> = ({
+export const CryptoWallet: FC<{ name?: string; address: string; type: string; loading: boolean }> = ({
   name,
   address,
   loading,
@@ -30,5 +30,3 @@ const CryptoWallet: FC<{ name?: string; address: string; type: string; loading: 
     )}
   </>
 );
-
-export default CryptoWallet;

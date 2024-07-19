@@ -11,11 +11,10 @@ import {
   ListItem,
   UnorderedList,
 } from '@chakra-ui/react';
-import PageWrapper from 'component/PageWrapper';
-import TopBarHeader from 'component/TopBarHeader';
+import { PageWrapper, TopBarHeader } from 'component';
 import { FAQS_STATIC_DATA } from 'mocks/faqs';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);

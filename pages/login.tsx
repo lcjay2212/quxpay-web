@@ -1,8 +1,6 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
-import { FormContainer } from 'component/FormInput';
-import PendingAccountModal from 'component/PendingAccountModal';
-import { TextField } from 'component/TextField';
+import { FormContainer, PendingAccountModal, TextField } from 'component';
 import { post } from 'constants/api';
 import storage from 'constants/storage';
 import { API_SESSION_URL } from 'constants/url';
@@ -12,10 +10,8 @@ import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { usePendingAccountModal } from 'store/usePendingAccountModal';
-import { useRouteParams } from 'store/useRouteParams';
-import { useUser } from 'store/useUser';
-import { notify } from 'utils/notify';
+import { usePendingAccountModal, useRouteParams, useUser } from 'store';
+import { notify } from 'utils';
 
 const Login: FC = () => {
   const method = useForm();

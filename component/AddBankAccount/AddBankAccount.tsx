@@ -1,56 +1,12 @@
-import { CSSObject } from '@emotion/react';
-import { FormContainer } from 'component/FormInput';
-import { ValueLabelProps } from 'component/RegistrationForm/FinalStep';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
-import { useBankLists } from 'store/useBankLists';
-import { useDebounce } from 'store/useDebounce';
-import { blockInvalidChar } from 'utils/blockInvalidChar';
+import { useBankLists, useDebounce } from 'store';
+import { ValueLabelProps } from 'typings';
+import { blockInvalidChar, reactSelectStyles } from 'utils';
 
-export const reactSelectStyles = {
-  menu: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    marginTop: 5,
-  }),
-  control: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    border: 'none',
-    boxShadow: 'none',
-    borderRadius: '16px',
-    color: 'white',
-  }),
-  indicatorsContainer: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    display: 'none',
-    color: 'white',
-  }),
-  valueContainer: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    padding: 13,
-    fontSize: '1rem',
-    border: '1px solid #4D4D6B',
-    borderRadius: '16px',
-    background: '#10101F',
-    textAlign: 'start',
-    color: 'white',
-    ':active': {
-      background: '#000000',
-      borderColor: '#06A499',
-    },
-  }),
-  singleValue: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    color: 'white',
-  }),
-  input: (provided: CSSObject): CSSObject => ({
-    ...provided,
-    color: 'white',
-  }),
-};
-
-const AddBankAccount: FC = () => {
+export const AddBankAccount: FC = () => {
   const { control } = useFormContext();
   const [searchText, setSearchText] = useState('America');
 
@@ -141,5 +97,3 @@ const AddBankAccount: FC = () => {
     </>
   );
 };
-
-export default AddBankAccount;

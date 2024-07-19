@@ -1,12 +1,12 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import NotificationListDisplay from 'component/NotificationListDisplay/NotificationListDisplay';
+import { NotificationListDisplay } from 'component';
 import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
-const NotificationHistory: FC = () => {
+export const NotificationHistory: FC = () => {
   const router = useRouter();
   const { data, isLoading } = useQuery('notificationHistory', FETCH_NOTIFICATION_HISTORY, errorHandler);
 
@@ -52,5 +52,3 @@ const NotificationHistory: FC = () => {
     </Box>
   );
 };
-
-export default NotificationHistory;

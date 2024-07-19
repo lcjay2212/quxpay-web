@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Select, Text } from '@chakra-ui/react';
-import { TextField } from 'component/TextField';
+import { TextField } from 'component';
 import { FC, useState } from 'react';
-import { useProductModal } from 'store/useProductModal';
-const ProductModal: FC<{ data?: any }> = ({ data }) => {
+import { useProductModal } from 'store';
+export const ProductModal: FC<{ data?: any }> = ({ data }) => {
   const [visible, setVisible] = useProductModal((e) => [e.visible, e.setVisible]);
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setPrice = useProductModal((e) => e.setPrice);
@@ -78,5 +78,3 @@ const ProductModal: FC<{ data?: any }> = ({ data }) => {
     </Modal>
   );
 };
-
-export default ProductModal;

@@ -1,19 +1,16 @@
 import { Box, Button, chakra, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import { FormContainer } from 'component/FormInput';
-import { TextField } from 'component/TextField';
+import { FormContainer, TextField } from 'component';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { BankIcon, UploadIcon2 } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useUser } from 'store/useUser';
-import { useVerifyModal } from 'store/useVerifyModal';
-import { blockInvalidChar } from 'utils/blockInvalidChar';
-import { notify } from 'utils/notify';
+import { useUser, useVerifyModal } from 'store';
+import { blockInvalidChar, notify } from 'utils';
 
-const VerifyModal: FC = () => {
+export const VerifyModal: FC = () => {
   const { user } = useUser();
   const [visible, setVisible] = useVerifyModal(({ visible, setVisible }) => [visible, setVisible]);
   const method = useForm();
@@ -243,5 +240,3 @@ const VerifyModal: FC = () => {
     </Modal>
   );
 };
-
-export default VerifyModal;

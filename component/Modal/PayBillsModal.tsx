@@ -12,20 +12,18 @@ import {
   Text,
 } from '@chakra-ui/react';
 import axios from 'axios';
-import { FormContainer } from 'component/FormInput';
-import SuccessPayBillModal from 'component/SuccessPayBillModal';
+import { FormContainer } from 'component';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { useBalance } from 'store/useBalance';
-import { usePayBillsModal } from 'store/usePayBillsModal';
-import { useSuccessPayBillsModal } from 'store/useSuccessPayBillsModal';
-import { notify } from 'utils/notify';
+import { useBalance, usePayBillsModal, useSuccessPayBillsModal } from 'store';
+import { notify } from 'utils';
+import { SuccessPayBillModal } from './SuccessPayBillModal';
 
-const PayBillsModal: FC = () => {
+export const PayBillsModal: FC = () => {
   const [visible, setVisible] = usePayBillsModal((state) => [state.visible, state.setVisible]);
   const { setTrigger } = useSuccessPayBillsModal((e) => ({
     setTrigger: e.setVisible,
@@ -209,5 +207,3 @@ const PayBillsModal: FC = () => {
     </>
   );
 };
-
-export default PayBillsModal;

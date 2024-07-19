@@ -7,9 +7,8 @@ import { useRouter } from 'next/router';
 import { QuxpayAndQuxLogo } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useMutation } from 'react-query';
-import { useRouteParams } from 'store/useRouteParams';
-import { useUser } from 'store/useUser';
-import { notify } from 'utils/notify';
+import { useRouteParams, useUser } from 'store';
+import { notify } from 'utils';
 
 const LoginOrRegisterPage: FC = () => {
   const router = useRouter();

@@ -1,14 +1,14 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { ItemListDisplay } from 'component';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
-const CryptoTransactionHistory: FC = () => {
+export const CryptoTransactionHistory: FC = () => {
   const { data, isLoading } = useQuery('crytpoTransactionHistory', FETCH_CRYPTO_TRANSACTION_HISTORY, errorHandler);
   const router = useRouter();
 
@@ -51,5 +51,3 @@ const CryptoTransactionHistory: FC = () => {
     </Box>
   );
 };
-
-export default CryptoTransactionHistory;

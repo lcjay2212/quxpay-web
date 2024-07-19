@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { HeaderContainer } from 'component';
 import { FETCH_WP_PO_DETAILS } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useRouteParams } from 'store/useRouteParams';
-import { useUser } from 'store/useUser';
-import { notify } from 'utils/notify';
+import { useRouteParams, useUser } from 'store';
+import { notify } from 'utils';
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,
   image,

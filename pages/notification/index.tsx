@@ -1,10 +1,9 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import NotificationListDisplay from 'component/NotificationListDisplay/NotificationListDisplay';
+import { HeaderContainer, NotificationListDisplay } from 'component';
 import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import errorHandler from 'utils/errorHandler';
+import { errorHandler } from 'utils';
 
 const NotificationList: FC = () => {
   const { data, isLoading } = useQuery('notificationHistory', FETCH_NOTIFICATION_HISTORY, errorHandler);

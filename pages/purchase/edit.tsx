@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import EditBankForm from 'component/EditBankForm/EditBankForm';
+import { EditBankForm } from 'component';
 import { FC } from 'react';
-import { getServerSideProps } from 'utils/getServerSideProps';
+import { getServerSideProps } from 'utils';
 
 const EditDepositPage: FC = () => <EditBankForm label="Purchase" />;
 

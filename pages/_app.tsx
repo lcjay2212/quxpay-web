@@ -6,11 +6,8 @@ import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { QueryClientProvider } from 'react-query';
 import { ReactQueryDevtools } from 'react-query/devtools';
-import { useUser } from 'store/useUser';
-import { clearStorage } from 'utils/clearStorage';
-import { notify } from 'utils/notify';
-import { queryClient } from 'utils/queryClient';
-import { theme } from 'utils/theme';
+import { useUser } from 'store';
+import { clearStorage, notify, queryClient, theme } from 'utils';
 
 const poppins = Poppins({
   weight: ['400', '700'],

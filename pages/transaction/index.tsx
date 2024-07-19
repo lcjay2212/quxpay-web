@@ -1,9 +1,6 @@
 import { CalendarIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
-import { TextField } from 'component/TextField';
-import TransactionHistoryFilterModal from 'component/TransactionHistoryFilterModal';
+import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
@@ -12,8 +9,8 @@ import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
 import { useQuery } from 'react-query';
-// import { usePrivatekey } from 'store/usePrivatekey';
-import { useTransactionHistoryFilterModal } from 'store/useTransactionHistoryFilterModal';
+// import { usePrivatekey } from 'store';
+import { useTransactionHistoryFilterModal } from 'store';
 const TransactionHistoryPage: FC = () => {
   const [search, setSearch] = useState('');
   const {

@@ -1,17 +1,14 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import SchedulePayBillModal from 'component/SchedulePayBillModal';
-import { TextField } from 'component/TextField';
+import { HeaderContainer, SchedulePayBillModal, TextField } from 'component';
 import { FETCH_BILLER_BY_CATEGORY_ID } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useQuery } from 'react-query';
-import { useHeaderName } from 'store/useHeaderName';
-import { useSchedulePayBillModal } from 'store/useSchedulePayBillModal';
-import errorHandler from 'utils/errorHandler';
+import { useHeaderName, useSchedulePayBillModal } from 'store';
+import { errorHandler } from 'utils';
 
 const PayBillsByCategory: FC = () => {
   const router = useRouter();

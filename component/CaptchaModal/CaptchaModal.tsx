@@ -5,11 +5,10 @@ import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { FC, useState } from 'react';
 import { useMutation, useQuery } from 'react-query';
-import { useCaptchaModal } from 'store/useCaptchaModal';
-import { notify } from 'utils/notify';
-import { queryClient } from 'utils/queryClient';
+import { useCaptchaModal } from 'store';
+import { notify, queryClient } from 'utils';
 
-const CaptchaModal: FC = () => {
+export const CaptchaModal: FC = () => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
 
   const { data, isLoading } = useQuery('captcha', FETCH_CAPTCHA, {
@@ -103,5 +102,3 @@ const CaptchaModal: FC = () => {
     </Modal>
   );
 };
-
-export default CaptchaModal;

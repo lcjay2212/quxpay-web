@@ -1,10 +1,9 @@
 import { Box, Spinner } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { HeaderContainer, ItemListDisplay } from 'component';
 import { startCase } from 'lodash';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
-import usePosHistory from 'store/usePosHistory';
+import { usePosHistory } from 'store';
 const PluginPoHistoryPage: FC = () => {
   const { pluginData, isLoading } = usePosHistory();
 

@@ -1,11 +1,11 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
-import ItemListDisplay from 'component/ItemListDisplay/ItemListDisplay';
+import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { TokenHistoryGreenIcon, TokenHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import usePosHistory from 'store/usePosHistory';
+import { usePosHistory } from 'store';
 
-const TokenHistory: FC = () => {
+export const TokenHistory: FC = () => {
   const { paidData, isLoading } = usePosHistory();
   const router = useRouter();
   return (
@@ -59,5 +59,3 @@ const TokenHistory: FC = () => {
     </Box>
   );
 };
-
-export default TokenHistory;

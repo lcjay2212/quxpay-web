@@ -1,10 +1,9 @@
 import { Box, Container, Flex, Grid, Text } from '@chakra-ui/react';
-import PageWrapper from 'component/PageWrapper';
-import TopBarHeader from 'component/TopBarHeader';
+import { PageWrapper, TopBarHeader } from 'component';
 import { MILITARY_GRADE_SECURITY_MOCK } from 'mocks/pages';
 import { Content } from 'pages';
 import { FC } from 'react';
-import { useHomePageModal } from 'store/useHomePageModal';
+import { useHomePageModal } from 'store';
 
 const MilitaryGradeSecurityPage: FC = () => {
   const visible = useHomePageModal(({ visible }) => visible);
@@ -26,7 +25,7 @@ const MilitaryGradeSecurityPage: FC = () => {
           <Box w={{ base: '360px', md: 'auto' }} m={{ base: 'auto' }}>
             <Content
               label="Military-Grade Security"
-              content="QuxPay utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
+              content="QUXPay™ utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
                 stays private."
               showBtn={false}
             />

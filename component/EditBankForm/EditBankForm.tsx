@@ -1,21 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Input, Text } from '@chakra-ui/react';
 import axios from 'axios';
-import BankAccount from 'component/BankAccount/BankAccount';
-import { FormContainer } from 'component/FormInput';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { BankAccount, FormContainer, HeaderContainer } from 'component';
 import { SHOW_BANK_ACCOUNT_DETAILS } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation, useQuery } from 'react-query';
-import { useAccountPaymentId } from 'store/useAccountPaymentId';
-import { blockInvalidChar } from 'utils/blockInvalidChar';
-import errorHandler from 'utils/errorHandler';
-import { notify } from 'utils/notify';
+import { useAccountPaymentId } from 'store';
+import { blockInvalidChar, errorHandler, notify } from 'utils';
 
-const EditBankForm: FC<{ label: string }> = ({ label }) => {
+export const EditBankForm: FC<{ label: string }> = ({ label }) => {
   const [paymentData, setPaymentData] = useAccountPaymentId((e) => [e.paymentData, e.setPaymentData]);
   const router = useRouter();
   const { data, isLoading: loading } = useQuery(
@@ -219,5 +215,3 @@ const EditBankForm: FC<{ label: string }> = ({ label }) => {
     </HeaderContainer>
   );
 };
-
-export default EditBankForm;

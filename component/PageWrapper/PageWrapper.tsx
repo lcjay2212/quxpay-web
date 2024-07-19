@@ -1,6 +1,5 @@
 import { Box, BoxProps, Container, Flex, Heading, Text } from '@chakra-ui/react';
-import Footer from 'component/Footer';
-import { SEO } from 'component/SEO';
+import { Footer, SEO } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
@@ -17,7 +16,7 @@ interface Props {
   }[];
 }
 
-const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children }) => {
+export const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children }) => {
   const { pathname } = useRouter();
   return (
     <Box bg="#3D075F">
@@ -86,5 +85,3 @@ const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children }) => {
     </Box>
   );
 };
-
-export default PageWrapper;

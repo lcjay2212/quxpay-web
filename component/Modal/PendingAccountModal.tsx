@@ -1,9 +1,9 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { HeaderContainer } from 'component';
 import { FC } from 'react';
-import { usePendingAccountModal } from 'store/usePendingAccountModal';
+import { usePendingAccountModal } from 'store';
 
-const PendingAccountModal: FC = () => {
+export const PendingAccountModal: FC = () => {
   const [visible, setVisible] = usePendingAccountModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size={{ base: 'full', md: '3xl' }} isCentered>
@@ -28,5 +28,3 @@ const PendingAccountModal: FC = () => {
     </Modal>
   );
 };
-
-export default PendingAccountModal;

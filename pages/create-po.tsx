@@ -1,5 +1,4 @@
-import CreatePoForm from 'component/CreatePoForm';
-import HeaderContainer from 'component/Header/HeaderContainer';
+import { CreatePoForm, HeaderContainer } from 'component';
 import { FC } from 'react';
 
 const CreatePo: FC = () => {

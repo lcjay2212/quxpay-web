@@ -3,7 +3,7 @@ import { BellIcon } from '@chakra-ui/icons';
 import { Badge, Box, Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 
-const NotificationListDisplay: FC<{
+export const NotificationListDisplay: FC<{
   title: string;
   message: string;
   date: string;
@@ -43,5 +43,3 @@ const NotificationListDisplay: FC<{
     </Flex>
   );
 };
-
-export default NotificationListDisplay;

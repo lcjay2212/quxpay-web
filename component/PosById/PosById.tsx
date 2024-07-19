@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
@@ -25,7 +26,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
   </Flex>
 );
 
-const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
+export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
   const router = useRouter();
   const [trigger, setTrigger] = useState(false);
 
@@ -155,5 +156,3 @@ const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => 
     </>
   );
 };
-
-export default PosInfoById;

@@ -1,5 +1,4 @@
-import { HeaderContainer } from 'component';
-import PosInfoById from 'component/PosInfoById/PosInfoById';
+import { HeaderContainer, PosById } from 'component';
 import { FETCH_POS_HISTORY_BY_ID } from 'constants/api';
 import { useRouter } from 'next/dist/client/router';
 import { FC } from 'react';
@@ -11,7 +10,7 @@ const PosHistoryById: FC = () => {
   const { data, isLoading } = useQuery(['posHistoryById', router.query.id], FETCH_POS_HISTORY_BY_ID, errorHandler);
   return (
     <HeaderContainer label="Open PO" route="/dashboard">
-      <PosInfoById data={data} loading={isLoading} />
+      <PosById data={data} loading={isLoading} />
     </HeaderContainer>
   );
 };

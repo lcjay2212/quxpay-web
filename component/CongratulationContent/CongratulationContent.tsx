@@ -61,32 +61,33 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                     </Text>
                   )}
 
-                  {type === 'CREDIT' && (
-                    <>
-                      <Text>
-                        Your transaction has been <br />
-                        Completed successfully
-                      </Text>
-                      <Text my="2rem">
-                        Please remember that
-                        <br />
-                        credit card transactions
-                        <br />
-                        are instant but sometimes
-                        <br />
-                        have product limitations.
-                      </Text>
-                      <Text>
-                        This card's limitations are:
-                        <br />
-                        No cannabis
-                        <br />
-                        No weapons
-                        <br />
-                        No adult content
-                      </Text>
-                    </>
-                  )}
+                  {type === 'CREDIT' ||
+                    (type === 'EXISTING_CREDITCARD' && (
+                      <>
+                        <Text>
+                          Your transaction has been <br />
+                          Completed successfully
+                        </Text>
+                        <Text my="2rem">
+                          Please remember that
+                          <br />
+                          credit card transactions
+                          <br />
+                          are instant but sometimes
+                          <br />
+                          have product limitations.
+                        </Text>
+                        <Text>
+                          This card's limitations are:
+                          <br />
+                          No cannabis
+                          <br />
+                          No weapons
+                          <br />
+                          No adult content
+                        </Text>
+                      </>
+                    ))}
                 </Box>
               </Flex>
 

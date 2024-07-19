@@ -9,6 +9,23 @@ import { FC, useState } from 'react';
 import { useMutation } from 'react-query';
 import { notify } from 'utils';
 
+const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
+  label,
+  image,
+  amount,
+  loading,
+}) => (
+  <Flex fontSize="18px" justifyContent="space-between" alignItems="center" mt="0.5rem">
+    <Text w="auto">{label}</Text>&nbsp;
+    <Flex>
+      <span>
+        <Image src={image} width={24} height={20} alt="Qux Token" />
+      </span>
+      {!loading ? <> {amount}</> : <Spinner />}
+    </Flex>
+  </Flex>
+);
+
 export const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
   const router = useRouter();
   const [trigger, setTrigger] = useState(false);
@@ -61,24 +78,13 @@ export const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading
               PO {data?.id}
             </Text>
 
-            <Flex fontSize="18px" justifyContent="space-between" alignItems="center" mt="0.5rem">
-              <Text w="auto">Token Amount:</Text>&nbsp;
-              <Flex>
-                <span>
-                  <Image src={QuxTokenIcon} width={24} height={20} alt="Qux Token" />
-                </span>
-                {!loading ? <> {data?.amount ?? 0}</> : <Spinner />}
-              </Flex>
-            </Flex>
-            <Flex fontSize="18px" justifyContent="space-between" alignItems="center" mt="0.5rem">
-              <Text w="auto">Total Token amount:</Text>&nbsp;
-              <Flex>
-                <span>
-                  <Image src={QuxTokenIcon} width={24} height={20} alt="Qux Token" />
-                </span>
-                {!loading ? <> {data?.total_amount ?? 0}</> : <Spinner />}
-              </Flex>
-            </Flex>
+            <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount ?? 0} loading={loading} />
+            <Label
+              label="Total Token amount:"
+              image={QuxTokenIcon}
+              amount={data?.total_amount ?? 0}
+              loading={loading}
+            />
           </Box>
 
           <Flex alignItems="center" flexDir="column" gap="1rem" my="2rem">

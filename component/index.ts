@@ -27,6 +27,7 @@ export * from './PageWrapper';
 export * from './PaidPosInfoById';
 export * from './PayBillsPageWrapper';
 export * from './PoFromPluginHistory';
+export * from './PosById';
 export * from './PosInfoById';
 export * from './RegistrationForm';
 export * from './ScheduleBiller';

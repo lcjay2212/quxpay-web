@@ -25,7 +25,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
   </Flex>
 );
 
-export const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
+const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
   const router = useRouter();
   const [trigger, setTrigger] = useState(false);
 
@@ -155,3 +155,5 @@ export const PosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading
     </>
   );
 };
+
+export default PosInfoById;

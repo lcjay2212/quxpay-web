@@ -21,7 +21,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
             <source src="./assets/video/success.mp4" type="video/mp4" />
           </video>
           <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>
-            <Box display="flex" flexDir="column" justifyContent="space-between" h="100vh" py="2rem">
+            <Box display="flex" flexDir="column" justifyContent="space-between" py="2rem">
               <Flex flexDir="column" alignItems="center" mt="7rem">
                 <Box>
                   <Image src={CheckCircleIcon} width={70} height={70} placeholder="empty" alt="Redeem" />
@@ -91,7 +91,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                 </Box>
               </Flex>
 
-              <Flex flex="end" alignItems="center" justifyContent="center">
+              <Flex flex="end" alignItems="center" justifyContent="center" mt="2rem">
                 <Button
                   variant="primary"
                   borderRadius="1rem"

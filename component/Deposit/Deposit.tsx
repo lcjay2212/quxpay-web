@@ -521,7 +521,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                 >
                   {step === 1
                     ? label === 'Purchase' && type === 'CRYPTO'
-                      ? 'Tokens Received!'
+                      ? 'Send your Crypto and Continue'
                       : label
                     : label === 'Redeem'
                     ? type === 'BANK'

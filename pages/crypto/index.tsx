@@ -20,12 +20,12 @@ const CryptoHistory: FC = () => {
         ) : (
           <>
             {data?.length ? (
-              data?.map((item) => (
+              data?.map((item, index) => (
                 <ItemListDisplay
                   label={`${item.currency} ${item.pos_id} `}
                   date={item.created}
                   amount={+item.amount}
-                  key={item.id}
+                  key={index}
                   image={CryptoIcon}
                   type={startCase(item.type)}
                 />

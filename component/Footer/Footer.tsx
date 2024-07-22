@@ -86,7 +86,7 @@ export const Footer: FC = () => {
           py={{ base: 0, md: '2rem' }}
         >
           <Text>
-            QUX Technologies, Inc™ maintains a “Know Your Customer” (KYC) standard designed to protect financial
+            QUX®️ Technologies, Inc maintains a “Know Your Customer” (KYC) standard designed to protect financial
             institutions against fraud, corruption, money laundering and terrorist financing. QUX Technologies, Inc™’s
             KYC policy involves several steps to 1) establish customer identity; 2) understand the nature of user’s
             activities and qualify that sources of funds are legitimate; and 3) assess money laundering risks associated
@@ -100,7 +100,7 @@ export const Footer: FC = () => {
             consult with your legal advisors to evaluate all information provided.
           </Text>
           <Text>
-            QUX Technologies, Inc™ maintains compliance with Anti-Money Laundering laws (AML) and U.S. Department of
+            QUX®️ Technologies, Inc maintains compliance with Anti-Money Laundering laws (AML) and U.S. Department of
             Treasury's Financial Crimes Enforcement Network (FinCEN) through internal audits of all QUX® Token purchases
             and redemptions. All users of QUX® Tokens who redeem over $600 per year shall receive a 1099-K or 1099-Misc
             form at the end of the year.
@@ -112,10 +112,10 @@ export const Footer: FC = () => {
           <Text>
             In order to use QUX® Tokens, one must register and create an account through QUXPay™ or the QUX® General
             Dashboard. QUX® Tokens can only be purchased or redeemed through a registered user’s bank account(s).
-            QUXPay™ and QUX® Stores can only be used to purchase or redeem QUX® Tokens through QUX Technologies, Inc™.
+            QUXPay™ and QUX® Stores can only be used to purchase or redeem QUX® Tokens through QUX®️ Technologies, Inc.
           </Text>
           <Text>
-            QUX Technologies, Inc™ limits the purchase of QUX® Tokens of any user to 2,000 in any one day. QUX® Tokens,
+            QUX®️ Technologies, Inc limits the purchase of QUX® Tokens of any user to 2,000 in any one day. QUX® Tokens,
             QUXPay™ and QUX® Store policies and procedures limited QUX® Token redemptions to 10,000 or less from any one
             user in any one day.
           </Text>

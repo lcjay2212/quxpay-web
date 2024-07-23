@@ -59,22 +59,20 @@ export const AddCrytoWallet: FC = () => {
                 />
               </Box>
 
-              <Box>
+              <Box
+                onClick={(): void =>
+                  void navigator.clipboard
+                    .readText()
+                    .then((text) => {
+                      setPasteValue(text);
+                    })
+                    .catch(() => {
+                      notify('Failed to read clipboard contents: ', { status: 'error' });
+                    })
+                }
+              >
                 <Image src={PasteIcon} height={40} width={40} alt="Paste Icon" />
-                <Text
-                  fontSize="12px"
-                  mt="0.25rem"
-                  onClick={(): void =>
-                    void navigator.clipboard
-                      .readText()
-                      .then((text) => {
-                        setPasteValue(text);
-                      })
-                      .catch(() => {
-                        notify('Failed to read clipboard contents: ', { status: 'error' });
-                      })
-                  }
-                >
+                <Text fontSize="12px" mt="0.25rem">
                   Paste
                 </Text>
               </Box>

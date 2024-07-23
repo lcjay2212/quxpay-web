@@ -50,7 +50,9 @@ export const CashInCrypto: FC = () => {
         setCryptoPaymentData(data?.data);
       },
       onError: ({ response }) => {
-        notify(`${response?.data?.message || response?.data?.data.errors.amount}`, { status: 'error' });
+        notify(`${response?.data?.message || response?.data?.data.message || response?.data?.data.errors.amount}`, {
+          status: 'error',
+        });
       },
     }
   );

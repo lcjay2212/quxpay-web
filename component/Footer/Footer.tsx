@@ -87,8 +87,8 @@ export const Footer: FC = () => {
         >
           <Text>
             QUX®️ Technologies, Inc maintains a “Know Your Customer” (KYC) standard designed to protect financial
-            institutions against fraud, corruption, money laundering and terrorist financing. QUX Technologies, Inc™’s
-            KYC policy involves several steps to 1) establish customer identity; 2) understand the nature of user’s
+            institutions against fraud, corruption, money laundering and terrorist financing. QUX® Technologies, Inc's
+            KYC policy involves several steps to 1) establish customer identity; 2) understand the nature of user's
             activities and qualify that sources of funds are legitimate; and 3) assess money laundering risks associated
             with users.
           </Text>

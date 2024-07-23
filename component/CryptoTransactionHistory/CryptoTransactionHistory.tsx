@@ -31,12 +31,12 @@ export const CryptoTransactionHistory: FC = () => {
         <>
           {data?.length ? (
             <Box>
-              {data?.slice(0, 3).map((item) => (
+              {data?.slice(0, 3).map((item, index) => (
                 <ItemListDisplay
                   label={`${item.currency} ${item.pos_id}`}
                   date={item.created_at}
                   amount={+item.amount}
-                  key={item.id}
+                  key={index}
                   complete={item.confirmed}
                   image={CryptoIcon}
                   type={startCase(item.type)}

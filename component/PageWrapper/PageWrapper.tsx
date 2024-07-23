@@ -66,8 +66,8 @@ export const PageWrapper: FC<Props & BoxProps> = ({ title, staticData, children 
               The Future of Payments. Today.
             </Heading>
             <Text fontSize={{ base: '1.15rem', md: '24px' }} my="1.5rem">
-              Amount transferred through QuxPay reaches its destination almost instantly. As quick as sending a text. No
-              more waiting around like crypto.
+              Amount transferred through QUXPay™ reaches its destination almost instantly. As quick as sending a text.
+              No more waiting around like crypto.
             </Text>
           </Box>
 

@@ -106,10 +106,40 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     }
   );
 
+  const { mutate: checkCryptoTransaction, isLoading: checkLoading } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/crypto/check-transaction`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
+    {
+      onSuccess: () => {
+        setStep((e) => e + 1);
+      },
+      onError: ({ response }) => {
+        notify(response?.data?.data?.message, { status: 'warning' });
+      },
+    }
+  );
+
   const onSubmit = (val): void => {
     if (step === 1) {
       if (type === 'ADD_CRYPTO') {
         addCrypto({ address: val.address, name: val.name, currency: val.currency } as any);
+
+        return;
+      }
+
+      if (type === 'CRYPTO') {
+        checkCryptoTransaction({
+          payment_id: cryptoPaymentData?.payment_id,
+          pos_id: cryptoPaymentData?.pos_id,
+          currency: cryptoPaymentData?.currency,
+          address: cryptoPaymentData?.address,
+          type: 'purchase',
+        } as any);
         return;
       }
 
@@ -150,6 +180,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       }
     }
   };
+
   return (
     <Box textAlign="center" overflow="hidden" px="1rem" mb="2rem">
       <FormProvider {...method}>
@@ -165,7 +196,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                 borderRadius="1rem"
                 w="400px"
                 h="3.25rem"
-                isLoading={isLoading || addCryptoLoading || paymentLoading}
+                isLoading={isLoading || addCryptoLoading || paymentLoading || checkLoading}
               >
                 {step === 1
                   ? label === 'Purchase' && type === 'CRYPTO'

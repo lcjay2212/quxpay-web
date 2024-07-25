@@ -1,68 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {
-  Box,
-  Button,
-  Divider,
-  Flex,
-  FormControl,
-  FormErrorMessage,
-  Radio,
-  RadioGroup,
-  SlideFade,
-  Spinner,
-  Text,
-  Textarea,
-} from '@chakra-ui/react';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import axios from 'axios';
-import {
-  AddBankAccount,
-  AddCreditCardForm,
-  AddCrytoWallet,
-  BankAccount,
-  CashInCrypto,
-  CreditCard,
-  CryptoWallet,
-  FormContainer,
-  Label,
-  TextField,
-} from 'component';
-import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
-import { isEmpty } from 'lodash';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon, QuxTokenIcon } from 'public/assets';
-import { FC, ReactElement, useState } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation, useQuery } from 'react-query';
-import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData } from 'store';
-import { errorHandler, notify } from 'utils';
-
-export const calculateThreePercent = (amount: number): number => amount * 0.03;
-export const calculateFivePercent = (amount: number): number => amount * 0.05;
+import { FC, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, useType } from 'store';
+import { useSelectedCrypto } from 'store/useSelectedCrypto';
+import { notify } from 'utils';
+import { DepositStepOne } from './DepositStepOne';
+import { DepositStepTwo } from './DepositStepTwo';
 
 export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
-  const { data, isLoading: loading } = useQuery('bankCreditCardCrypto', FETCH_BANK_CREDIT_CARD_CRYPTO, errorHandler);
-  const [type, setType] = useState<
-    'BANK' | 'CREDIT' | 'EXISTING_CREDITCARD' | 'CRYPTO' | 'ADD_CRYPTO' | 'ADD_BANK' | undefined
-  >(undefined);
-
+  const type = useType((e) => e.type);
   const method = useForm();
-  const { control, handleSubmit, watch } = method;
+  const { handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
-  const [paymentData, setPaymentData] = useAccountPaymentId((e) => [e.paymentData, e.setPaymentData]);
+  const paymentData = useAccountPaymentId((e) => e.paymentData);
   const [step, setStep] = useState(1);
-  const [selectedBankDetails, setSelectedBankDetails] = useState<{
-    payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
-  }>();
-  const [selectedCrypto, setSelectedCrypto] = useState<{
-    address?: string;
-    currency?: string;
-    id?: number;
-    name?: string;
-  }>();
-
+  const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
 
   const amount = watch('amount');
@@ -194,366 +152,51 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   };
   return (
     <Box textAlign="center" overflow="hidden" px="1rem" mb="2rem">
-      {!loading ? (
-        <FormProvider {...method}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
-              {step === 1 && (
-                <Box display="flex" flexDir="column">
-                  <Controller
-                    control={control}
-                    name="amount"
-                    rules={{ required: 'Amount is required' }}
-                    render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                      <FormContainer
-                        label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
-                        errorMessage={error?.message ?? ''}
-                        place="end"
-                      >
-                        <TextField
-                          type="number"
-                          value={value || ''}
-                          placeholder="Enter Amount"
-                          onChange={(e): void => {
-                            onChange(+e.target.value);
-                          }}
-                          onBlur={onBlur}
-                          max={label === 'Redeem' ? 100 : 9999}
-                          formNoValidate
-                        />
-                      </FormContainer>
-                    )}
-                  />
+      <FormProvider {...method}>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
+            {step === 1 && <DepositStepOne label={label} />}
+            {step === 2 && <DepositStepTwo label={label} />}
 
-                  <RadioGroup>
-                    <Controller
-                      control={control}
-                      name="payment_profile_id"
-                      rules={{
-                        required: !type ? 'Payment is required' : false,
-                      }}
-                      render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
-                        return (
-                          <>
-                            {label === 'Redeem' && (
-                              <Text color="white" textAlign="start" fontWeight="bold" fontSize="2rem">
-                                To My Bank
-                              </Text>
-                            )}
-                            <FormControl isInvalid={!!error?.message}>
-                              {data?.bank?.length ? (
-                                data?.bank?.map((item, index) => {
-                                  const { accountNumber, nameOnAccount, bank_name } = item?.payment?.bankAccount;
-                                  return (
-                                    <Flex justifyContent="space-between" key={index}>
-                                      <Box mt="1rem">
-                                        <BankAccount
-                                          bankName={bank_name ?? ''}
-                                          name={nameOnAccount ?? ''}
-                                          accountNumber={accountNumber ?? ''}
-                                          loading={loading}
-                                        />
-                                        {error?.message && (
-                                          <SlideFade in={true} offsetY="-1rem">
-                                            <FormErrorMessage fontSize="0.9rem" color="error">
-                                              {error.message}
-                                            </FormErrorMessage>
-                                          </SlideFade>
-                                        )}
-                                      </Box>
-                                      <Radio
-                                        value={`${item.customerPaymentProfileId}`}
-                                        colorScheme="teal"
-                                        onChange={(): void => {
-                                          onChange(item.customerPaymentProfileId);
-                                          setPaymentData({
-                                            paymentId: item.customerPaymentProfileId,
-                                            paymentType: item.payment_type,
-                                          });
-                                          setSelectedBankDetails(item);
-                                          setType('BANK');
-                                        }}
-                                      />
-                                    </Flex>
-                                  );
-                                })
-                              ) : (
-                                <Text>No Bank Record</Text>
-                              )}
+            <Box mt="2rem">
+              <Button
+                type="submit"
+                variant="primary"
+                borderRadius="1rem"
+                w="400px"
+                h="3.25rem"
+                isLoading={isLoading || addCryptoLoading || paymentLoading}
+              >
+                {step === 1
+                  ? label === 'Purchase' && type === 'CRYPTO'
+                    ? 'Send your Crypto and Continue'
+                    : label
+                  : label === 'Redeem'
+                  ? type === 'BANK'
+                    ? 'Initiate Bank Redeem'
+                    : 'Confirm Crypto Redeem'
+                  : type === 'ADD_CRYPTO'
+                  ? 'Complete - Return to Home'
+                  : `Confirm ${label}`}
+              </Button>
 
-                              {!isEmpty(data?.credit_card) && (
-                                <Flex justifyContent="space-between" key={data?.credit_card?.customerPaymentProfileId}>
-                                  <Box mt="1rem">
-                                    <CreditCard
-                                      accountNumber={data?.credit_card?.payment?.creditCard?.cardNumber ?? ''}
-                                      cardType={data?.credit_card?.payment?.creditCard?.cardType ?? ''}
-                                      loading={loading}
-                                    />
-                                    {error?.message && (
-                                      <SlideFade in={true} offsetY="-1rem">
-                                        <FormErrorMessage fontSize="0.9rem" color="error">
-                                          {error.message}
-                                        </FormErrorMessage>
-                                      </SlideFade>
-                                    )}
-                                  </Box>
-                                  <Radio
-                                    value={`${data?.credit_card?.customerPaymentProfileId}`}
-                                    colorScheme="teal"
-                                    onChange={(): void => {
-                                      onChange(data?.credit_card?.customerPaymentProfileId);
-                                      setPaymentData({
-                                        paymentId: data?.credit_card?.customerPaymentProfileId,
-                                        paymentType: data.credit_card?.payment_type,
-                                      });
-                                      setSelectedBankDetails(data?.credit_card);
-                                      setType('EXISTING_CREDITCARD');
-                                    }}
-                                  />
-                                </Flex>
-                              )}
-                            </FormControl>
-                          </>
-                        );
-                      }}
-                    />
-
-                    <Divider mt="1rem" />
-
-                    {label === 'Redeem' && (
-                      <>
-                        <Controller
-                          control={control}
-                          name="currency"
-                          rules={{
-                            required: type === 'CRYPTO' ? 'Payment is required' : false,
-                          }}
-                          render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
-                            return (
-                              <>
-                                <Text color="white" textAlign="start" fontWeight="bold" fontSize="2rem" my="1rem">
-                                  To Crypto
-                                </Text>
-                                <FormControl isInvalid={!!error?.message}>
-                                  {data?.crypto?.length ? (
-                                    data?.crypto?.map((item, index) => (
-                                      <Flex justifyContent="space-between" key={index}>
-                                        <Box mt="1rem">
-                                          <CryptoWallet
-                                            address={item.address ?? ''}
-                                            name={item.name ?? ''}
-                                            type={item.currency ?? ''}
-                                            loading={loading}
-                                          />
-                                          {error?.message && (
-                                            <SlideFade in={true} offsetY="-1rem">
-                                              <FormErrorMessage fontSize="0.9rem" color="error">
-                                                {error.message}
-                                              </FormErrorMessage>
-                                            </SlideFade>
-                                          )}
-                                        </Box>
-                                        <Radio
-                                          value={`${item.address}-${index}`}
-                                          colorScheme="teal"
-                                          onChange={(): void => {
-                                            onChange(item.currency);
-                                            setSelectedCrypto(item);
-                                            setType('CRYPTO');
-                                          }}
-                                        />
-                                      </Flex>
-                                    ))
-                                  ) : (
-                                    <Text textAlign="start">No Crypto Record</Text>
-                                  )}
-                                </FormControl>
-                              </>
-                            );
-                          }}
-                        />
-
-                        <Divider mt="1rem" />
-                      </>
-                    )}
-
-                    {label === 'Redeem' && (
-                      <>
-                        <Flex my="1.5rem" justifyContent="space-between">
-                          <Flex alignItems="center">
-                            <Image src={AddCryptoIcon} height={50} width={60} alt="Add Bank Icon" />
-                            <Text ml="1rem" color="white" fontSize="1.25rem">
-                              Add New Crypto Wallet
-                            </Text>
-                          </Flex>
-
-                          <Radio value="ADD_CRYPTO" onChange={(): void => setType('ADD_CRYPTO')} colorScheme="teal" />
-                        </Flex>
-                        {type === 'ADD_CRYPTO' && <AddCrytoWallet />}
-
-                        <Divider mt="1rem" />
-                      </>
-                    )}
-
-                    {label === 'Purchase' && (
-                      <>
-                        <Flex my="1.5rem" justifyContent="space-between">
-                          <Flex alignItems="center">
-                            <Image src={AddBankIconTwo} height={50} width={60} alt="Add Bank Icon" />
-                            <Text ml="1rem" color="white" fontSize="1.25rem">
-                              Add New Bank Account
-                            </Text>
-                          </Flex>
-
-                          <Radio value="ADD_BANK" onChange={(): void => setType('ADD_BANK')} colorScheme="teal" />
-                        </Flex>
-                        {type === 'ADD_BANK' && <AddBankAccount />}
-                        <Divider mt="1rem" />
-
-                        <Flex my="1.5rem" justifyContent="space-between">
-                          <Flex alignItems="center">
-                            <Image src={AddCreditCardIcon} height={50} width={60} alt="Add Bank Icon" />
-                            <Text ml="1rem" color="white" fontSize="1.25rem">
-                              Add New Credit Card
-                            </Text>
-                          </Flex>
-
-                          <Radio value="CREDIT" onChange={(): void => setType('CREDIT')} colorScheme="teal" />
-                        </Flex>
-                        {type === 'CREDIT' && <AddCreditCardForm />}
-                        <Divider mt="1rem" />
-
-                        <Flex my="1.5rem" justifyContent="space-between">
-                          <Flex alignItems="center">
-                            <Image src={AddCryptoIcon} height={50} width={60} alt="Add Bank Icon" />
-                            <Text ml="1rem" color="white" fontSize="1.25rem">
-                              Cash In Crypto
-                            </Text>
-                          </Flex>
-
-                          <Radio value="CRYPTO" onChange={(): void => setType('CRYPTO')} colorScheme="teal" />
-                        </Flex>
-                        {type === 'CRYPTO' && <CashInCrypto />}
-                      </>
-                    )}
-                  </RadioGroup>
-
-                  <Divider />
-                </Box>
-              )}
               {step === 2 && (
-                <Box color="white" m="2rem">
-                  {label === 'Purchase' && type === 'CRYPTO' && (
-                    <Box mb="2rem" textAlign="start">
-                      <Text noOfLines={1}>Received ${amount?.toFixed(2)} in tokens</Text>
-                      <Text>From: {cryptoPaymentData?.address}</Text>
-                    </Box>
-                  )}
-
-                  {label === 'Redeem' && (
-                    <Box mb="2rem" textAlign="start">
-                      {type === 'BANK' && (
-                        <>
-                          <Text noOfLines={1}>Sending To: {selectedBankDetails?.payment.bankAccount.bank_name}</Text>
-                          <Text>Account Name: {selectedBankDetails?.payment.bankAccount.nameOnAccount}</Text>
-                        </>
-                      )}
-                      {(type === 'ADD_CRYPTO' || type === 'CRYPTO') && (
-                        <>
-                          <Text noOfLines={1}>Sending ${amount} in tokens</Text>
-                          <Text>To: {type === 'CRYPTO' && selectedCrypto?.address}</Text>
-                        </>
-                      )}
-                    </Box>
-                  )}
-
-                  <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
-                  <Label
-                    label="Token Fee"
-                    image={QuxTokenIcon}
-                    amount={(label === 'Redeem' ? calculateFivePercent(amount) : calculateThreePercent(amount)) || 0.0}
-                    loading={loading}
-                  />
-                  <Label
-                    label="Total Purchase amount:"
-                    image={QuxTokenIcon}
-                    amount={
-                      (label === 'Redeem'
-                        ? amount + calculateFivePercent(amount)
-                        : amount + calculateThreePercent(amount)) || 0.0
-                    }
-                    loading={loading}
-                  />
-
-                  {label === 'Purchase' && type === 'CRYPTO' && (
-                    <Text my="1.5rem" color="gray" textAlign="start" fontSize="18px">
-                      Please go back to the purchase screen to generate a new wallet address if you wish to send more.
-                    </Text>
-                  )}
-
-                  <Controller
-                    control={control}
-                    name="description"
-                    render={({ field: { onChange, value, onBlur } }): ReactElement => (
-                      <Box mt="1rem">
-                        <FormContainer label="Comment">
-                          <Textarea
-                            value={value || ''}
-                            placeholder="Comment (Optional)"
-                            onChange={onChange}
-                            onBlur={onBlur}
-                          />
-                        </FormContainer>
-                      </Box>
-                    )}
-                  />
-                </Box>
-              )}
-
-              <Box mt="2rem">
                 <Button
-                  type="submit"
-                  variant="primary"
+                  variant="secondary"
                   borderRadius="1rem"
                   w="400px"
                   h="3.25rem"
-                  isLoading={isLoading || addCryptoLoading || paymentLoading}
+                  isLoading={isLoading}
+                  mt="1rem"
+                  onClick={(): void => void router.push('dashboard')}
                 >
-                  {step === 1
-                    ? label === 'Purchase' && type === 'CRYPTO'
-                      ? 'Send your Crypto and Continue'
-                      : label
-                    : label === 'Redeem'
-                    ? type === 'BANK'
-                      ? 'Initiate Bank Redeem'
-                      : 'Confirm Crypto Redeem'
-                    : type === 'ADD_CRYPTO'
-                    ? 'Complete - Return to Home'
-                    : `Confirm ${label}`}
+                  Cancel
                 </Button>
-
-                {step === 2 && (
-                  <Button
-                    variant="secondary"
-                    borderRadius="1rem"
-                    w="400px"
-                    h="3.25rem"
-                    isLoading={isLoading}
-                    mt="1rem"
-                    onClick={(): void => void router.push('dashboard')}
-                  >
-                    Cancel
-                  </Button>
-                )}
-              </Box>
-            </Flex>
-          </form>
-        </FormProvider>
-      ) : (
-        <Box height="500px" display="flex" justifyContent="center" alignItems="center">
-          <Spinner size="xl" />
-        </Box>
-      )}
+              )}
+            </Box>
+          </Flex>
+        </form>
+      </FormProvider>
     </Box>
   );
 };

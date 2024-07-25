@@ -20,9 +20,9 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
           <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
             <source src="./assets/video/success.mp4" type="video/mp4" />
           </video>
-          <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>
-            <Box display="flex" flexDir="column" justifyContent="space-between" py="2rem">
-              <Flex flexDir="column" alignItems="center" mt="7rem">
+          <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0} my="3rem">
+            <Box display="flex" flexDir="column" justifyContent="space-between">
+              <Flex flexDir="column" alignItems="center">
                 <Box>
                   <Image src={CheckCircleIcon} width={70} height={70} placeholder="empty" alt="Redeem" />
                 </Box>

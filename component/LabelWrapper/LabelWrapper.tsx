@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { FC } from 'react';
 import { useQuxPayFeeModal } from 'store';
 
-export const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
+export const Label: FC<{ label: string; image: any; amount: number; loading?: boolean }> = ({
   label,
   image,
   amount,

@@ -21,7 +21,7 @@ const ForgotPassword: FC = () => {
       void router.push('/login');
     },
     onError: ({ response }) => {
-      notify(`${response?.data?.messages}`, { status: 'error' });
+      notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
     },
   });
 
@@ -44,7 +44,7 @@ const ForgotPassword: FC = () => {
           onClick={(): void => void router.push('/login')}
         />
         <Text color="primary" fontSize="4xl">
-          L<span style={{ color: 'white' }}>ogin</span>
+          F<span style={{ color: 'white' }}>ogot Password</span>
         </Text>
       </Flex>
 
@@ -53,6 +53,7 @@ const ForgotPassword: FC = () => {
           <Controller
             control={control}
             name="email"
+            rules={{ required: 'Email is required' }}
             render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
               <FormContainer label="Email" errorMessage={error?.message ?? ''}>
                 <TextField

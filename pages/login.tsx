@@ -44,8 +44,8 @@ const Login: FC = () => {
       void router.push('/dashboard');
     },
     onError: ({ response }) => {
-      if (response?.data?.messages === 'These credentials do not match our records.') {
-        notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
+      if (response?.data?.data?.message === 'These credentials do not match our records.') {
+        notify(`${response?.data?.data?.messages || response?.data?.data?.message}`, { status: 'error' });
         return;
       }
 

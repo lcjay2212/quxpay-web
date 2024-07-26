@@ -23,7 +23,9 @@ import CreditCardIcon from './icons/credit-card-icon.webp';
 import CryptoIcon from './icons/crypto-icon.webp';
 import DepositSuccessful from './icons/deposit-success.webp';
 import FailedIcon from './icons/failed-icon.webp';
+import HelpIcon from './icons/help-icon.webp';
 import InsightIcon from './icons/insight-icon.webp';
+import LinkAccountIcon from './icons/link-account-icon.webp';
 import PasteIcon from './icons/paste-icon.webp';
 import ProcessingIcon from './icons/processing-icon.webp';
 import QuxPayGreenIcon from './icons/qux-pay-icon-green.webp';
@@ -51,6 +53,8 @@ import QrCodeImage from './images/qrcode.webp';
 import GooglePlayImage from './images/google-play-2.webp';
 
 export {
+    LinkAccountIcon,
+    HelpIcon,
     CreditCardIcon,
     GooglePlayImage,
     PasteIcon,

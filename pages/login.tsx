@@ -53,6 +53,8 @@ const Login: FC = () => {
         setVisible(true);
         return;
       }
+
+      notify('These credentials do not match our records.', { status: 'error' });
     },
   });
 

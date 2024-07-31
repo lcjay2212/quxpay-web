@@ -62,7 +62,6 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                     onChange(+e.target.value);
                   }}
                   onBlur={onBlur}
-                  max={label === 'Redeem' ? 100 : 9999}
                   formNoValidate
                 />
               </FormContainer>

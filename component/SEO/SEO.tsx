@@ -40,6 +40,7 @@ export const SEO: FC<SEOProps> = ({ page, title, description, image, customDescr
       <meta property="twitter:description" content={customDescription || metaDescription} />
       <meta property="twitter:image" content={metaImage} />
       {shouldNotIndex && <meta name="robots" content="noindex" />}
+      <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
     </Head>
   );
 };

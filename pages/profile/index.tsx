@@ -1,6 +1,6 @@
 import { ArrowBackIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Divider, Flex, Text } from '@chakra-ui/react';
-import { API_SESSION_URL } from 'constants/url';
+import { API_SESSION_URL, isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { HelpIcon, LinkAccountIcon, QuxPayLogo, SettingsIcon } from 'public/assets';
@@ -75,26 +75,28 @@ const ProfilePage: FC = () => {
 
           <Divider my="1.5rem" />
 
-          <Box bg="blue.100" py="0.5rem" px="1.5rem" borderRadius="xl">
-            {mockData.map((item) => (
-              <Flex
-                justifyContent="space-between"
-                alignItems="center"
-                my="1.5rem"
-                key={item.label}
-                cursor="pointer"
-                onClick={(): void => {
-                  void router.push(item.route);
-                }}
-              >
-                <Flex alignItems="center" gap={4}>
-                  <Image src={item.icon} height={35} width={35} alt={item.label} />
-                  <Text fontWeight="semibold">{item.label}</Text>
+          {isLocalHost() && (
+            <Box bg="blue.100" py="0.5rem" px="1.5rem" borderRadius="xl">
+              {mockData.map((item) => (
+                <Flex
+                  justifyContent="space-between"
+                  alignItems="center"
+                  my="1.5rem"
+                  key={item.label}
+                  cursor="pointer"
+                  onClick={(): void => {
+                    void router.push(item.route);
+                  }}
+                >
+                  <Flex alignItems="center" gap={4}>
+                    <Image src={item.icon} height={35} width={35} alt={item.label} />
+                    <Text fontWeight="semibold">{item.label}</Text>
+                  </Flex>
+                  <ChevronRightIcon w={8} h={8} />
                 </Flex>
-                <ChevronRightIcon w={8} h={8} />
-              </Flex>
-            ))}
-          </Box>
+              ))}
+            </Box>
+          )}
         </Box>
 
         <Flex flexDir="column" gap={3}>

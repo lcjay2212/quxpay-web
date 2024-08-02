@@ -154,7 +154,7 @@ const Dashboard: FC = () => {
       alt: 'Crypto Price',
       route: '/crypto/prices',
       label: 'Crypto Price',
-      show: user?.corporate,
+      show: isLocalHost() ? true : false,
     },
   ];
 

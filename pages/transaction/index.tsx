@@ -2,6 +2,7 @@ import { CalendarIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
 import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
+import { isLocalHost } from 'constants/url';
 import { startCase } from 'lodash';
 import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
 import { QuxWalletIcon } from 'public/assets';
@@ -33,60 +34,62 @@ const TransactionHistoryPage: FC = () => {
   return (
     <HeaderContainer label="Transactions" route="/dashboard">
       <>
-        <Box mx="1rem" mt="1rem">
-          <TextField
-            isSearch
-            type="email"
-            value={search}
-            onChange={(e): void => setSearch(e.target.value)}
-            placeholder="Search"
-          />
+        {isLocalHost() && (
+          <Box mx="1rem" mt="1rem">
+            <TextField
+              isSearch
+              type="email"
+              value={search}
+              onChange={(e): void => setSearch(e.target.value)}
+              placeholder="Search"
+            />
 
-          <Flex mt="1rem" gap={3} justifyContent="center">
-            <Button
-              leftIcon={<CalendarIcon />}
-              bg="blue.100"
-              size="sm"
-              color="white"
-              _hover={{ bg: 'blue.100' }}
-              borderRadius="xl"
-              onClick={(): void => {
-                setId('date');
-                setVisible(!visible);
-              }}
-            >
-              Date
-            </Button>
-            <Button
-              leftIcon={<BsBank2 />}
-              bg="blue.100"
-              size="sm"
-              color="white"
-              _hover={{ bg: 'blue.100' }}
-              borderRadius="xl"
-              onClick={(): void => {
-                setId('transaction');
-                setVisible(!visible);
-              }}
-            >
-              Transaction
-            </Button>
-            <Button
-              leftIcon={<FaEllipsisH />}
-              bg="blue.100"
-              size="sm"
-              color="white"
-              _hover={{ bg: 'blue.100' }}
-              borderRadius="xl"
-              onClick={(): void => {
-                setId('status');
-                setVisible(!visible);
-              }}
-            >
-              Status
-            </Button>
-          </Flex>
-        </Box>
+            <Flex mt="1rem" gap={3} justifyContent="center">
+              <Button
+                leftIcon={<CalendarIcon />}
+                bg="blue.100"
+                size="sm"
+                color="white"
+                _hover={{ bg: 'blue.100' }}
+                borderRadius="xl"
+                onClick={(): void => {
+                  setId('date');
+                  setVisible(!visible);
+                }}
+              >
+                Date
+              </Button>
+              <Button
+                leftIcon={<BsBank2 />}
+                bg="blue.100"
+                size="sm"
+                color="white"
+                _hover={{ bg: 'blue.100' }}
+                borderRadius="xl"
+                onClick={(): void => {
+                  setId('transaction');
+                  setVisible(!visible);
+                }}
+              >
+                Transaction
+              </Button>
+              <Button
+                leftIcon={<FaEllipsisH />}
+                bg="blue.100"
+                size="sm"
+                color="white"
+                _hover={{ bg: 'blue.100' }}
+                borderRadius="xl"
+                onClick={(): void => {
+                  setId('status');
+                  setVisible(!visible);
+                }}
+              >
+                Status
+              </Button>
+            </Flex>
+          </Box>
+        )}
         <Box bg="blue.100" mt="1rem" py="1.5rem" minH="100vh" h="auto" borderTopRadius="32px" color="white">
           {isLoading ? (
             <Box textAlign="center" py="2rem">

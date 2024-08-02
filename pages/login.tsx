@@ -36,25 +36,19 @@ const Login: FC = () => {
         throw new Error('Something went wrong');
       }
 
-      if (params?.t) {
-        void router.push('/checkout');
-        return;
-      }
-
-      void router.push('/dashboard');
+      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
+      void router.push(redirectUrl);
     },
     onError: ({ response }) => {
-      if (response?.data?.data?.message === 'These credentials do not match our records.') {
-        notify(`${response?.data?.data?.messages || response?.data?.data?.message}`, { status: 'error' });
-        return;
-      }
+      const message = response?.data?.data?.message;
 
-      if (response?.data?.data?.message === 'Account pending.') {
+      if (message === 'These credentials do not match our records.') {
+        notify(response?.data?.data?.messages || message, { status: 'error' });
+      } else if (message === 'Account pending.') {
         setVisible(true);
-        return;
+      } else {
+        notify('These credentials do not match our records.', { status: 'error' });
       }
-
-      notify('These credentials do not match our records.', { status: 'error' });
     },
   });
 

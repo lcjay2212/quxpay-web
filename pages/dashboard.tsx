@@ -32,6 +32,7 @@ import { useRouter } from 'next/router';
 import {
   BillsIcon,
   CashIn,
+  CryptoPriceIcon,
   InsightIcon,
   ProfileIcon,
   QuxPayLogo,
@@ -146,6 +147,13 @@ const Dashboard: FC = () => {
       alt: 'Biller API',
       route: '/biller-api',
       label: 'Biller API',
+      show: true,
+    },
+    {
+      image: CryptoPriceIcon,
+      alt: 'Crypto Price',
+      route: '/crypto/prices',
+      label: 'Crypto Price',
       show: user?.corporate,
     },
   ];

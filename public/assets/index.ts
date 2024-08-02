@@ -13,6 +13,7 @@ import AddCreditCardIcon from './icons/add_credit_card_icon.webp';
 import HandsIcon from './icons/awesome-hands.webp';
 import BankIcon2 from './icons/bank-icon.webp';
 import BankIcon from './icons/bank.webp';
+import BellNotificationIcon from './icons/bell.webp';
 import BillsIcon from './icons/bills.webp';
 import CalendarIcon from './icons/calendar-icon.webp';
 import CashIn from './icons/cash_in.webp';
@@ -21,6 +22,7 @@ import CircleAddIcon from './icons/circle-add-icon.webp';
 import ClipboardIcon from './icons/clipboard-icon.webp';
 import CreditCardIcon from './icons/credit-card-icon.webp';
 import CryptoIcon from './icons/crypto-icon.webp';
+import CryptoPriceIcon from './icons/crypto-price-icon.webp';
 import DepositSuccessful from './icons/deposit-success.webp';
 import FailedIcon from './icons/failed-icon.webp';
 import HelpIcon from './icons/help-icon.webp';
@@ -34,6 +36,7 @@ import QuxTokenIcon from './icons/qux-token.webp';
 import QuxpayAndQuxLogo from './icons/quxpay-and-qux-logo.png';
 import QuxWalletIcon from './icons/qux_wallet.webp';
 import SendQuxCash from './icons/send_qux_cash.webp';
+import SettingsIcon from './icons/settings.webp';
 import ShieldIcon from './icons/shield.webp';
 import SuccessIcon from './icons/succesful-icon.webp';
 import SuccessCircleIcon from './icons/success-circle-icon.webp';
@@ -53,6 +56,9 @@ import QrCodeImage from './images/qrcode.webp';
 import GooglePlayImage from './images/google-play-2.webp';
 
 export {
+    SettingsIcon,
+    BellNotificationIcon,
+    CryptoPriceIcon,
     LinkAccountIcon,
     HelpIcon,
     CreditCardIcon,

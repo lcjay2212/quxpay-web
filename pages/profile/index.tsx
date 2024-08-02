@@ -3,7 +3,7 @@ import { Box, Button, Container, Divider, Flex, Text } from '@chakra-ui/react';
 import { API_SESSION_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { HelpIcon, LinkAccountIcon, QuxPayLogo } from 'public/assets';
+import { HelpIcon, LinkAccountIcon, QuxPayLogo, SettingsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useUser } from 'store';
 import { clearStorage, notify } from 'utils';
@@ -20,6 +20,11 @@ const ProfilePage: FC = () => {
       icon: HelpIcon,
       label: 'Help',
       route: '',
+    },
+    {
+      icon: SettingsIcon,
+      label: 'Settings',
+      route: '/profile/settings',
     },
   ];
   const router = useRouter();
@@ -72,7 +77,16 @@ const ProfilePage: FC = () => {
 
           <Box bg="blue.100" py="0.5rem" px="1.5rem" borderRadius="xl">
             {mockData.map((item) => (
-              <Flex justifyContent="space-between" alignItems="center" my="0.75rem" key={item.label}>
+              <Flex
+                justifyContent="space-between"
+                alignItems="center"
+                my="1.5rem"
+                key={item.label}
+                cursor="pointer"
+                onClick={(): void => {
+                  void router.push(item.route);
+                }}
+              >
                 <Flex alignItems="center" gap={4}>
                   <Image src={item.icon} height={35} width={35} alt={item.label} />
                   <Text fontWeight="semibold">{item.label}</Text>

@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Text, Textarea } from '@chakra-ui/react';
+import { Box, Spinner, Text, Textarea } from '@chakra-ui/react';
+import axios from 'axios';
 import { FormContainer, Label } from 'component';
+import { STAGING_URL } from 'constants/url';
 import { QuxTokenIcon } from 'public/assets';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { useMutation } from 'react-query';
 import { useCryptoPaymentData, useSelectedBankDetails, useType } from 'store';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
-import { calculateFivePercent, calculateThreePercent } from 'utils/calculatePercent';
 
 export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
   const type = useType((e) => e.type);
@@ -16,6 +18,33 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
   const amount = watch('amount');
+  const [computationData, setComputationData] = useState<{
+    amount: number;
+    qux_charge: number;
+    total_amount: number;
+  }>();
+
+  const { mutate, isLoading } = useMutation(
+    (variable) =>
+      axios.post(`${STAGING_URL}/web/wallet/computation`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
+    {
+      onSuccess: ({ data }) => {
+        setComputationData(data?.data);
+      },
+      onError: () => {
+        // notify(`Failed to send request`, { status: 'error' });
+      },
+    }
+  );
+
+  useEffect(() => {
+    mutate({ type: label === 'Redeem' ? 'withdraw' : 'purchase', amount } as any);
+  }, [amount, label, mutate]);
 
   return (
     <Box color="white" m="2rem">
@@ -43,19 +72,17 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
         </Box>
       )}
 
-      <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={amount || 0.0} />
-      <Label
-        label="Token Fee"
-        image={QuxTokenIcon}
-        amount={(label === 'Redeem' ? calculateFivePercent(amount) : calculateThreePercent(amount)) || 0.0}
-      />
-      <Label
-        label="Total Purchase amount:"
-        image={QuxTokenIcon}
-        amount={
-          (label === 'Redeem' ? amount + calculateFivePercent(amount) : amount + calculateThreePercent(amount)) || 0.0
-        }
-      />
+      {!isLoading ? (
+        <>
+          <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={computationData?.amount || 0.0} />
+          <Label label="Token Fee" image={QuxTokenIcon} amount={computationData?.qux_charge || 0.0} />
+          <Label label="Total Purchase amount:" image={QuxTokenIcon} amount={computationData?.total_amount || 0.0} />
+        </>
+      ) : (
+        <Box justifyContent="center">
+          <Spinner color="primary" />
+        </Box>
+      )}
 
       {label === 'Purchase' && type === 'CRYPTO' && (
         <Text my="1.5rem" color="gray" textAlign="start" fontSize="18px">

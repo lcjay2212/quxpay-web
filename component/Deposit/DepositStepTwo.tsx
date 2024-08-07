@@ -74,9 +74,13 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
 
       {!isLoading ? (
         <>
-          <Label label={`${label} Amount:`} image={QuxTokenIcon} amount={computationData?.amount || 0.0} />
+          <Label label={`${label} Amount`} image={QuxTokenIcon} amount={computationData?.amount || 0.0} />
           <Label label="Token Fee" image={QuxTokenIcon} amount={computationData?.qux_charge || 0.0} />
-          <Label label="Total Purchase amount:" image={QuxTokenIcon} amount={computationData?.total_amount || 0.0} />
+          <Label
+            label={label === 'Redeem' ? 'Total to Redeem' : 'Total Purchase amount:'}
+            image={QuxTokenIcon}
+            amount={computationData?.total_amount || 0.0}
+          />
         </>
       ) : (
         <Box justifyContent="center">

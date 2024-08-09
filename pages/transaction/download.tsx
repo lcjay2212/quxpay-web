@@ -20,8 +20,9 @@ const TransactionDownloadPage: FC = () => {
   const [id, setId] = useState('');
 
   const { mutate, isLoading } = useMutation(
-    () =>
+    (variable) =>
       axios.get(`${STAGING_URL}/web/wallet/download-transactions`, {
+        params: variable,
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -36,7 +37,7 @@ const TransactionDownloadPage: FC = () => {
         document.body.removeChild(link);
       },
       onError: () => {
-        notify(`Failed to export file`, { status: 'error' });
+        notify('Failed to export file', { status: 'error' });
       },
     }
   );

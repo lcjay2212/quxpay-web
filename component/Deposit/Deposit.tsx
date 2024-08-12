@@ -56,7 +56,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       },
       onError: ({ response }) => {
         const { errors, data } = response?.data || {};
-        const errorMsg = errors?.account_number;
+        const errorMsg = errors?.account_number || errors?.balance || errors?.amount;
         const creditErrorMsg = data?.message || 'Failed to Purchase using credit card';
         const cryptoErrorMsg = data?.errors?.address || data?.message;
 

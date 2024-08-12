@@ -91,7 +91,7 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
           </Menu>
         )}
         {label === 'Transactions' && (
-          <Box mt="0.5rem">
+          <Box mt="0.5rem" cursor="pointer" onClick={(): void => void router.push('/transaction/download')}>
             <Image src={UploadIcon} height={25} width={25} alt="Upload icon" />
           </Box>
         )}

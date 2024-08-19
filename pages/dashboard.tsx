@@ -147,7 +147,7 @@ const Dashboard: FC = () => {
       alt: 'Biller API',
       route: '/biller-api',
       label: 'Biller API',
-      show: true,
+      show: user?.corporate,
     },
     {
       image: CryptoPriceIcon,

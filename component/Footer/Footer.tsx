@@ -15,7 +15,7 @@ const footerLink = [
     routes: 'https://qux.tv/return-policy',
   },
   {
-    label: 'Policy',
+    label: 'Privacy Policy',
     routes: 'https://qux.tv/privacy-policy',
   },
   {

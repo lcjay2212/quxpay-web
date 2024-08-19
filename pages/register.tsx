@@ -77,7 +77,7 @@ const Register: FC = () => {
         formData.append('lastname', val.lastname);
         formData.append('billing_address', val.billing_address);
         formData.append('phone_number', val.phone_number);
-        formData.append('date_of_birth', birthdate);
+        formData.append('dob', birthdate);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         mutate(formData as any);
       } else {

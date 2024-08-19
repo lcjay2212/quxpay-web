@@ -17,11 +17,16 @@ export const FinalStep: FC = () => {
   const debounceText = useDebounce(searchText, 1000);
   const routingNumber = useDebounce(watch('routing_number'), 1000);
 
-  const { data, isLoading } = useBankLists(debounceText, routingNumber);
+  const { data: bankList, isLoading } = useBankLists(debounceText, routingNumber);
+  const { data: fullBankList } = useBankLists(debounceText);
 
-  const tempData = data?.map((item) => {
-    return { label: item.name, value: item.name };
-  });
+  const selectedList = bankList?.length ? bankList : fullBankList;
+
+  const finalData = selectedList?.map((item) => ({
+    label: item.name,
+    value: item.name,
+  }));
+
   const listOfMonths = MONTHS.map((item) => item);
 
   const listOfDays = DAYS.map((item) => {
@@ -77,7 +82,7 @@ export const FinalStep: FC = () => {
       <Controller
         control={control}
         name="routing_number"
-        rules={{ required: 'Address is required' }}
+        rules={{ required: 'Bank Routing Number is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Bank Routing Number" errorMessage={error?.message ?? ''}>
             <TextField
@@ -104,7 +109,7 @@ export const FinalStep: FC = () => {
                 styles={reactSelectStyles}
                 placeholder="Select Bank Name"
                 isLoading={isLoading}
-                options={tempData}
+                options={finalData}
                 onChange={(e: SingleValue<ValueLabelProps>): void => {
                   onChange(e?.value);
                 }}

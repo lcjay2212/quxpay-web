@@ -13,11 +13,15 @@ export const AddBankAccount: FC = () => {
   const debounceText = useDebounce(searchText, 1000);
 
   const routingNumber = useDebounce(watch('routing_number'), 1000);
+  const { data: bankList, isLoading } = useBankLists(debounceText, routingNumber);
+  const { data: fullBankList } = useBankLists(debounceText);
 
-  const { data, isLoading } = useBankLists(debounceText, routingNumber);
-  const tempData = data?.map((item) => {
-    return { label: item.name, value: item.name };
-  });
+  const selectedList = bankList?.length ? bankList : fullBankList;
+
+  const finalData = selectedList?.map((item) => ({
+    label: item.name,
+    value: item.name,
+  }));
 
   return (
     <>
@@ -85,7 +89,7 @@ export const AddBankAccount: FC = () => {
                 styles={reactSelectStyles}
                 placeholder="Select Bank Name"
                 isLoading={isLoading}
-                options={tempData}
+                options={finalData}
                 onChange={(e: SingleValue<ValueLabelProps>): void => {
                   onChange(e?.value);
                 }}

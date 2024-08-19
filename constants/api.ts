@@ -37,7 +37,7 @@ export const FETCH_FRIEND_LIST = async (): Promise<any> =>
 export const FETCH_BANK_LIST = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await getData<any>(
     STAGING_URL,
-    `web/banks/list?search=${queryKey[1]}&routing_number=${queryKey[2]}`,
+    `web/banks/list?search=${queryKey[1]}${!queryKey[2] ? '' : `&routing_number=${queryKey[2]}`}`,
     localStorage.QUX_PAY_USER_TOKEN
   );
 export const SHOW_BANK_ACCOUNT_DETAILS = async ({ queryKey }: QueryFunctionContext): Promise<any> =>

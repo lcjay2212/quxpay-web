@@ -25,7 +25,13 @@ const Register: FC = () => {
       void router.push('/login');
     },
     onError: ({ response }) => {
-      notify(`${response?.data?.message}`, { status: 'error' });
+      let message = '';
+
+      Object.keys(response?.data?.errors).forEach((errorKey) => {
+        message += response?.data?.errors[errorKey];
+      });
+
+      notify(`${message}`, { status: 'error' });
     },
   });
 
@@ -37,7 +43,13 @@ const Register: FC = () => {
         notify(`Corporation registration success!`);
       },
       onError: ({ response }) => {
-        notify(`${response?.data?.message}`, { status: 'error' });
+        let message = '';
+
+        Object.keys(response?.data?.errors).forEach((errorKey) => {
+          message += response?.data?.errors[errorKey];
+        });
+
+        notify(`${message}`, { status: 'error' });
       },
     }
   );
@@ -77,7 +89,7 @@ const Register: FC = () => {
         formData.append('lastname', val.lastname);
         formData.append('billing_address', val.billing_address);
         formData.append('phone_number', val.phone_number);
-        formData.append('date_of_birth', birthdate);
+        formData.append('dob', birthdate);
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         mutate(formData as any);
       } else {

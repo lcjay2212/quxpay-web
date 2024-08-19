@@ -19,7 +19,7 @@ const Register: FC = () => {
   const [selected, setSelected] = useState('');
   const setVisible = usePendingAccountModal((e) => e.setVisible);
 
-  const { mutate, isLoading } = useMutation((variable) => post('register', variable), {
+  const { mutate, isLoading } = useMutation((variable) => post('web/register', variable), {
     onSuccess: () => {
       notify(`User registration success!`);
       void router.push('/login');

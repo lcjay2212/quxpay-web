@@ -1,13 +1,12 @@
 import { Box, Spinner } from '@chakra-ui/react';
 import { HeaderContainer, ItemListDisplay } from 'component';
-import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
 import { usePosHistory } from 'store';
 
 const TokenHistoryPage: FC = () => {
   const { paidData, isLoading } = usePosHistory();
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <HeaderContainer label="Token History" route="/dashboard">
@@ -29,7 +28,7 @@ const TokenHistoryPage: FC = () => {
                     key={item.id}
                     complete={item.confirmed}
                     image={UnpaidHistoryIcon}
-                    onClick={(): void => void router.push(`/open-po/${item.id}`)}
+                    // onClick={(): void => void router.push(`/open-po/${item.id}`)}
                   />
                 ))}
               </Box>

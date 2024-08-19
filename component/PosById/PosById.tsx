@@ -43,8 +43,8 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
       onSuccess: () => {
         setTrigger(!trigger);
       },
-      onError: () => {
-        notify(`Failed to Pay PO`, { status: 'error' });
+      onError: ({ response }) => {
+        notify(response?.data?.data?.error || `Failed to Pay PO`, { status: 'error' });
       },
     }
   );

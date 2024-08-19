@@ -47,11 +47,9 @@ export const SecondStep: FC = () => {
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Billing Address" errorMessage={error?.message ?? ''}>
             <TextField
-              value={value ?? ''}
+              value={value || ''}
               placeholder="Enter Address e.g. 123 Street Ave."
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
+              onChange={onChange}
               onBlur={onBlur}
             />
           </FormContainer>
@@ -66,9 +64,7 @@ export const SecondStep: FC = () => {
             <TextField
               value={value ?? ''}
               placeholder="Enter Address e.g. Suite, Apt"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
+              onChange={onChange}
               onBlur={onBlur}
             />
           </FormContainer>
@@ -81,14 +77,7 @@ export const SecondStep: FC = () => {
         rules={{ required: 'City is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="City" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter City"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
-              onBlur={onBlur}
-            />
+            <TextField value={value ?? ''} placeholder="Enter City" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}
       />
@@ -99,14 +88,7 @@ export const SecondStep: FC = () => {
         rules={{ required: 'State is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="State" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter State"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
-              onBlur={onBlur}
-            />
+            <TextField value={value ?? ''} placeholder="Enter State" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}
       />

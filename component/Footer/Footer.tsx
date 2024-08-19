@@ -8,32 +8,32 @@ import { openInNewTab } from 'utils';
 const footerLink = [
   {
     label: 'Legal',
-    routes: 'https://blog.quxpay.com/legal',
+    routes: 'https://qux.tv/terms-and-condition',
   },
   {
     label: 'Blog',
-    routes: 'https://blog.quxpay.com/licenses',
+    routes: 'hhttps://blog.quxpay.com/',
   },
-  {
-    label: 'Security',
-    routes: 'https://blog.quxpay.com/security',
-  },
-  {
-    label: 'Press',
-    routes: 'https://blog.quxpay.com/press',
-  },
-  {
-    label: 'Help',
-    routes: 'https://blog.quxpay.com/help',
-  },
+  // {
+  //   label: 'Security',
+  //   routes: 'https://blog.quxpay.com/security',
+  // },
+  // {
+  //   label: 'Press',
+  //   routes: 'https://blog.quxpay.com/press',
+  // },
+  // {
+  //   label: 'Help',
+  //   routes: 'https://blog.quxpay.com/help',
+  // },
   {
     label: 'FAQs',
     routes: '/faqs',
   },
-  {
-    label: 'Status',
-    routes: 'https://blog.quxpay.com/status',
-  },
+  // {
+  //   label: 'Status',
+  //   routes: 'https://blog.quxpay.com/status',
+  // },
 ];
 
 export const Footer: FC = () => {
@@ -42,8 +42,14 @@ export const Footer: FC = () => {
     <Box bg="#171742">
       <Container maxW="1080px" color="white">
         <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
-          <Box>
+          <Box fontSize={{ base: '0.75rem', md: '20px' }}>
             <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
+            <Text>QUXPay™</Text>
+            <Text>175 S Third Street</Text>
+            <Text>Suite 210</Text>
+            <Text>Columbus, OH 43215</Text>
+            <Text>info@quxtech.tv</Text>
+            <Text>(877)-700-0789</Text>
           </Box>
           <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (
@@ -64,16 +70,11 @@ export const Footer: FC = () => {
           </Box>
           <Box color="white">
             <Image src={GooglePlayImage} alt="Google Play and App Store" width={300} height={100} placeholder="empty" />
-            <Text
-              fontSize={{ base: '20px', md: '29px' }}
-              fontWeight="bold"
-              mb="0.5rem"
-              my={{ base: '1rem', md: '2rem' }}
-            >
-              Contact Us
+            <Text fontSize={{ base: '20px', md: '29px' }} fontWeight="bold" mt={{ base: '1rem', md: '2rem' }}>
+              Business Hours
             </Text>
             <Text fontSize={{ base: '0.75rem', md: '20px' }}>
-              (877)-700-0789 <br /> 9am - 7pm EST,
+              9am - 7pm EST,
               <br /> Monday to Friday
             </Text>
           </Box>

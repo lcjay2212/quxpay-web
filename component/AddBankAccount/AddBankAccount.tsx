@@ -7,12 +7,14 @@ import { ValueLabelProps } from 'typings';
 import { blockInvalidChar, reactSelectStyles } from 'utils';
 
 export const AddBankAccount: FC = () => {
-  const { control } = useFormContext();
+  const { control, watch } = useFormContext();
   const [searchText, setSearchText] = useState('America');
 
   const debounceText = useDebounce(searchText, 1000);
 
-  const { data, isLoading } = useBankLists(debounceText);
+  const routingNumber = useDebounce(watch('routing_number'), 1000);
+
+  const { data, isLoading } = useBankLists(debounceText, routingNumber);
   const tempData = data?.map((item) => {
     return { label: item.name, value: item.name };
   });

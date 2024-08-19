@@ -1,10 +1,12 @@
 import { create } from 'zustand';
 
+type Payment = {
+  payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
+} | null;
+
 type Props = {
-  selectedBankDetails?: {
-    payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
-  } | null;
-  setSelectedBankDetails: (type: { payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } } }) => void;
+  selectedBankDetails?: Payment;
+  setSelectedBankDetails: (type: Payment) => void;
 };
 export const useSelectedBankDetails = create<Props>((set) => ({
   selectedBankDetails: null,

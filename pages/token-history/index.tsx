@@ -3,15 +3,14 @@ import { HeaderContainer, ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import { usePosHistory, useUser } from 'store';
+import { usePosHistory } from 'store';
 
-const PaidPosHistory: FC = () => {
+const TokenHistoryPage: FC = () => {
   const { paidData, isLoading } = usePosHistory();
-  const { user } = useUser();
   const router = useRouter();
 
   return (
-    <HeaderContainer label={!user?.corporate ? 'Unpaid POs' : 'Open POs'} route="/dashboard">
+    <HeaderContainer label="Token History" route="/dashboard">
       <Box my="1rem" px="1rem">
         {isLoading ? (
           <Box textAlign="center" py="2rem">
@@ -44,4 +43,4 @@ const PaidPosHistory: FC = () => {
   );
 };
 
-export default PaidPosHistory;
+export default TokenHistoryPage;

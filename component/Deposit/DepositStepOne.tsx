@@ -40,6 +40,7 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setSelectedBankDetails = useSelectedBankDetails((e) => e.setSelectedBankDetails);
   const setSelectedCrypto = useSelectedCrypto((e) => e.setSelectedCrypto);
+
   return (
     <>
       {!loading ? (
@@ -47,7 +48,9 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
           <Controller
             control={control}
             name="amount"
-            rules={{ required: 'Amount is required' }}
+            rules={{
+              required: 'Amount is required',
+            }}
             render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
               <FormContainer
                 label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
@@ -62,6 +65,7 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                     onChange(+e.target.value);
                   }}
                   onBlur={onBlur}
+                  min={label === 'Purchase' ? 20 : 0}
                   formNoValidate
                 />
               </FormContainer>

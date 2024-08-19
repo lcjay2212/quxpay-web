@@ -11,8 +11,16 @@ const footerLink = [
     routes: 'https://qux.tv/terms-and-condition',
   },
   {
+    label: 'Refunds',
+    routes: 'https://qux.tv/return-policy',
+  },
+  {
+    label: 'Policy',
+    routes: 'https://qux.tv/privacy-policy',
+  },
+  {
     label: 'Blog',
-    routes: 'hhttps://blog.quxpay.com/',
+    routes: 'https://blog.quxpay.com/',
   },
   // {
   //   label: 'Security',

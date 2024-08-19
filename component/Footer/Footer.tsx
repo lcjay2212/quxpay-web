@@ -121,7 +121,7 @@ export const Footer: FC = () => {
           </Text>
           <Text>
             QUX Technologies™, QUX® Tokens and QUXPay™ have a{' '}
-            <u onClick={(): void => openInNewTab('quxtech.tv/privacy-policy')} style={{ cursor: 'pointer' }}>
+            <u onClick={(): void => openInNewTab('https://qux.tv/privacy-policy')} style={{ cursor: 'pointer' }}>
               Privacy Policy
             </u>{' '}
             that the collection and use of information that is collected as data will not be distributed to third

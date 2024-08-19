@@ -77,7 +77,7 @@ export const FinalStep: FC = () => {
       <Controller
         control={control}
         name="routing_number"
-        rules={{ required: 'Address is required' }}
+        rules={{ required: 'Bank Routing Number is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Bank Routing Number" errorMessage={error?.message ?? ''}>
             <TextField

@@ -49,45 +49,6 @@ export const Footer: FC = () => {
   return (
     <Box bg="#171742">
       <Container maxW="1080px" color="white">
-        <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
-          <Box fontSize={{ base: '0.75rem', md: '20px' }}>
-            <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
-            <Text>QUXPay™</Text>
-            <Text>175 S Third Street</Text>
-            <Text>Suite 210</Text>
-            <Text>Columbus, OH 43215</Text>
-            <Text>info@quxtech.tv</Text>
-            <Text>(877)-700-0789</Text>
-          </Box>
-          <Box my={{ base: '1rem', md: '2rem' }}>
-            {footerLink.map((item) => (
-              <Link href={item.routes} key={item.label}>
-                <Text
-                  color="white"
-                  fontSize={{ base: '20px', md: '29px' }}
-                  fontWeight="bold"
-                  my="0.5rem"
-                  _hover={{
-                    color: 'primary',
-                  }}
-                >
-                  {item.label}
-                </Text>
-              </Link>
-            ))}
-          </Box>
-          <Box color="white">
-            <Image src={GooglePlayImage} alt="Google Play and App Store" width={300} height={100} placeholder="empty" />
-            <Text fontSize={{ base: '20px', md: '29px' }} fontWeight="bold" mt={{ base: '1rem', md: '2rem' }}>
-              Business Hours
-            </Text>
-            <Text fontSize={{ base: '0.75rem', md: '20px' }}>
-              9am - 7pm EST,
-              <br /> Monday to Friday
-            </Text>
-          </Box>
-        </Flex>
-
         <Flex
           fontSize={{ base: '1rem', md: '29px' }}
           flexDir="column"
@@ -158,6 +119,46 @@ export const Footer: FC = () => {
           </Text>
         </Container>
       </Box>
+      <Container maxW="1080px" color="white">
+        <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
+          <Box fontSize={{ base: '0.75rem', md: '20px' }}>
+            <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
+            <Text>QUXPay™</Text>
+            <Text>175 S Third Street</Text>
+            <Text>Suite 210</Text>
+            <Text>Columbus, OH 43215</Text>
+            <Text>info@quxtech.tv</Text>
+            <Text>(877)-700-0789</Text>
+          </Box>
+          <Box my={{ base: '1rem', md: '2rem' }}>
+            {footerLink.map((item) => (
+              <Link href={item.routes} key={item.label}>
+                <Text
+                  color="white"
+                  fontSize={{ base: '20px', md: '29px' }}
+                  fontWeight="bold"
+                  my="0.5rem"
+                  _hover={{
+                    color: 'primary',
+                  }}
+                >
+                  {item.label}
+                </Text>
+              </Link>
+            ))}
+          </Box>
+          <Box color="white">
+            <Image src={GooglePlayImage} alt="Google Play and App Store" width={300} height={100} placeholder="empty" />
+            <Text fontSize={{ base: '20px', md: '29px' }} fontWeight="bold" mt={{ base: '1rem', md: '2rem' }}>
+              Business Hours
+            </Text>
+            <Text fontSize={{ base: '0.75rem', md: '20px' }}>
+              9am - 7pm EST,
+              <br /> Monday to Friday
+            </Text>
+          </Box>
+        </Flex>
+      </Container>
       <Box
         bg="#D222A8"
         color="white"

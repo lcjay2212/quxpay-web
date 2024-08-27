@@ -2,6 +2,8 @@ import { Checkbox } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { checkMinMax } from 'utils/checkMinMax';
+import { hasMetCases } from 'utils/hasMetCases';
 export const FirstStep: FC = () => {
   const { control, getValues } = useFormContext();
 
@@ -29,7 +31,15 @@ export const FirstStep: FC = () => {
       <Controller
         control={control}
         name="password"
-        rules={{ required: 'Password is required' }}
+        rules={{
+          required: 'Password is required',
+          validate: {
+            checkMinMax: (e): string | boolean => checkMinMax(8, 20, e) || 'Password must be 8-20 characters long',
+            hasMetCase: (e): string | boolean =>
+              hasMetCases(e, 3) ||
+              'Password must contain symbols from at least three of the following four categories: lowercase letters, uppercase letters, numerical digits (0-9) and special characters (!,@,#,$,%,&,*,(,))',
+          },
+        }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Password" errorMessage={error?.message ?? ''}>
             <TextField

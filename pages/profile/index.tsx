@@ -104,7 +104,7 @@ const ProfilePage: FC = () => {
             Logout
           </Button>
 
-          <Button variant="delete">Delete Account</Button>
+          {isLocalHost() && <Button variant="delete">Delete Account</Button>}
         </Flex>
       </Flex>
     </Container>

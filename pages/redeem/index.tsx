@@ -5,6 +5,7 @@ import { getServerSideProps } from 'utils';
 
 const RedeemPage: FC = () => {
   const visible = useCongratulationContent((e) => e.visible);
+
   return (
     <>
       {visible ? (

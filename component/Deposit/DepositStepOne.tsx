@@ -40,7 +40,6 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setSelectedBankDetails = useSelectedBankDetails((e) => e.setSelectedBankDetails);
   const setSelectedCrypto = useSelectedCrypto((e) => e.setSelectedCrypto);
-
   return (
     <>
       {!loading ? (

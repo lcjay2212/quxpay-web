@@ -52,7 +52,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       onSuccess: () => {
         setVisible(true);
         setAmount(amount);
-        setCongratsType(type);
+        setCongratsType(type as any);
       },
       onError: ({ response }) => {
         const { errors, data } = response?.data || {};
@@ -98,7 +98,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       onSuccess: () => {
         setVisible(true);
         setAmount(amount);
-        setCongratsType(type);
+        setCongratsType(type as any);
       },
       onError: () => {
         notify(`Failed to create Crypto Wallet`, { status: 'error' });

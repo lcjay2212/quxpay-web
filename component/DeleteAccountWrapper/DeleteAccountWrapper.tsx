@@ -93,6 +93,7 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
                 payment_type: paymentData?.paymentType,
               } as any);
             }}
+            isDisabled={!paymentData}
           >
             Delete Selected Account
           </Button>

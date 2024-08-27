@@ -21,12 +21,12 @@ const MilitaryGradeSecurityPage: FC = () => {
   return (
     <PageWrapper title="faqs">
       <Grid
-        h={{ base: 'auto', md: '220vh' }}
         bgImage="url('/assets/images/faqs-background.webp')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize="cover"
         filter={visible ? 'blur(8px)' : ''}
+        pb={{ base: '1rem', md: '5rem' }}
       >
         <Container maxW="1080px">
           <TopBarHeader />

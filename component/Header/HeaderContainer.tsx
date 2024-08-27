@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxLogo, UnpaidHistoryIcon, UploadIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
-import { useAccountPaymentId, useHomePageModal, usePendingAccountModal, useProductModal } from 'store';
+import { useAccountPaymentId, useHomePageModal, usePendingAccountModal, useProductModal, useType } from 'store';
 import { notify } from 'utils';
 
 export const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
@@ -19,6 +19,8 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
   const setPendingAccountModalVisible = usePendingAccountModal((e) => e.setVisible);
+  const setType = useType((e) => e.setType);
+
   return (
     <Box maxW="720px" mx="auto">
       <Flex justifyContent="space-between" alignItems="center" mx="1rem">
@@ -32,6 +34,7 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
               setVisible(false);
               setPendingAccountModalVisible(false);
               setPaymentData(null);
+              setType(null);
               void router.push(route);
             }}
           />

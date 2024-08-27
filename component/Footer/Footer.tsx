@@ -53,7 +53,7 @@ export const Footer: FC = () => {
           fontSize={{ base: '1rem', md: '29px' }}
           flexDir="column"
           gap={{ base: 6, md: 12 }}
-          py={{ base: 0, md: '2rem' }}
+          py={{ base: '2rem', md: '5rem' }}
         >
           <Text>
             QUX®️ Technologies, Inc maintains a “Know Your Customer” (KYC) standard designed to protect financial

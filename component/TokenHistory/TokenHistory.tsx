@@ -35,18 +35,12 @@ export const TokenHistory: FC = () => {
             <Box>
               {paidData?.slice(0, 3)?.map((item) => (
                 <ItemListDisplay
-                  label={
-                    !item.paid_po_from
-                      ? `PO Paid to ${item.po_to}`
-                      : item.transaction_upload
-                      ? `PO Paid By ${item.po_from} (CSV Upload)`
-                      : `PO ${item.id} Paid By ${item.po_from}`
-                  }
+                  label={item.label}
                   date={item.created}
                   amount={+item.amount}
                   key={item.id}
                   complete={item.confirmed}
-                  image={!item.paid_po_from ? TokenHistoryIcon : TokenHistoryGreenIcon}
+                  image={item.type === 'Created' ? TokenHistoryIcon : TokenHistoryGreenIcon}
                   onClick={(): void => void router.push(`/token-history/${item.id}`)}
                 />
               ))}

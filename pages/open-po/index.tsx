@@ -43,44 +43,24 @@ const OpenPosHistoryPage: FC = () => {
                 </Grid>
               ))}
             </Flex>
-            {received?.length ? (
-              <Box color="white">
-                {filter === 'RECEIVED' ? (
-                  <>
-                    {received?.map((item) => (
-                      <ItemListDisplay
-                        // label={startCase(item.type)}
-                        label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
-                        date={item.created}
-                        amount={+item.amount}
-                        key={item.id}
-                        image={UnpaidHistoryIcon}
-                        type="Recieved"
-                        onClick={(): void => void router.push(`/open-po/${item.id}`)}
-                      />
-                    ))}
-                  </>
-                ) : (
-                  <>
-                    {created?.map((item) => (
-                      <ItemListDisplay
-                        // label={startCase(item.type)}
-                        label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
-                        date={item.created}
-                        amount={+item.amount}
-                        key={item.id}
-                        complete={item.confirmed}
-                        image={UnpaidHistoryIcon}
-                        type="Created"
-                        onClick={(): void => void router.push(`/open-po/${item.id}`)}
-                      />
-                    ))}
-                  </>
-                )}
-              </Box>
-            ) : (
-              <>No Record</>
-            )}
+            <Box color="white">
+              {(filter === 'RECEIVED' ? received : created).length ? (
+                (filter === 'RECEIVED' ? received : created).map((item) => (
+                  <ItemListDisplay
+                    label={item.label}
+                    date={item.created}
+                    amount={+item.amount}
+                    key={item.id}
+                    complete={item.confirmed}
+                    image={UnpaidHistoryIcon}
+                    type="Created"
+                    onClick={(): void => void router.push(`/open-po/${item.id}`)}
+                  />
+                ))
+              ) : (
+                <>No Record</>
+              )}
+            </Box>
           </>
         )}
       </Box>

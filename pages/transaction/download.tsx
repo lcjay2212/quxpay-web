@@ -43,7 +43,18 @@ const TransactionDownloadPage: FC = () => {
   );
 
   const onDownload = (val): void => {
-    mutate(val);
+    const endDate =
+      (val.date === 'last_7_days' && dayjs().subtract(7, 'day').format('YYYY-MM-DD')) ||
+      (val.date === 'last_30_days' && dayjs().subtract(30, 'day').format('YYYY-MM-DD')) ||
+      (val.date === 'last_3_months' && dayjs().subtract(3, 'months').format('YYYY-MM-DD')) ||
+      (val.date === 'last_6_months' && dayjs().subtract(6, 'months').format('YYYY-MM-DD'));
+
+    mutate({
+      date: val.date,
+      end_date: val.end_date || endDate,
+      from_date: val.from_date || dayjs().format('YYYY-MM-DD'),
+      transaction_type: val.transaction_type,
+    } as any);
   };
 
   return (
@@ -64,7 +75,6 @@ const TransactionDownloadPage: FC = () => {
                   <Controller
                     control={control}
                     name="date"
-                    rules={{ required: 'Date Range is required' }}
                     render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                       <FormContainer errorMessage={error?.message ?? ''} label="Select a date range">
                         <TextField
@@ -94,7 +104,6 @@ const TransactionDownloadPage: FC = () => {
                   <Controller
                     control={control}
                     name="from_date"
-                    rules={{ required: 'Date is required' }}
                     render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                       <FormContainer errorMessage={error?.message ?? ''} label="From">
                         <TextField
@@ -125,7 +134,6 @@ const TransactionDownloadPage: FC = () => {
                   <Controller
                     control={control}
                     name="end_date"
-                    rules={{ required: 'Date is required' }}
                     render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                       <FormContainer errorMessage={error?.message ?? ''} label="To">
                         <TextField

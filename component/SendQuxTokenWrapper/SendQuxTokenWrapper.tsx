@@ -99,7 +99,10 @@ export const SendQuxTokenWrapper: FC = () => {
               <Controller
                 control={control}
                 name="amount"
-                rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
+                rules={{
+                  required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false,
+                  validate: (value) => value >= 20 || 'Amount must be at least $20',
+                }}
                 render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                   <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                     <TextField

@@ -53,7 +53,7 @@ const OpenPosHistoryPage: FC = () => {
                     key={item.id}
                     complete={item.confirmed}
                     image={UnpaidHistoryIcon}
-                    type="Created"
+                    type={item.type}
                     onClick={(): void => void router.push(`/open-po/${item.id}`)}
                   />
                 ))

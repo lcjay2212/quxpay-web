@@ -38,14 +38,14 @@ export const OpenPosHistory: FC = () => {
               {unpaidData?.slice(0, 3).map((item) => (
                 <ItemListDisplay
                   // label={startCase(item.type)}
-                  label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
+                  label={item.label}
                   date={item.created}
                   amount={+item.amount}
                   key={item.id}
                   complete={item.confirmed}
                   image={UnpaidHistoryIcon}
                   onClick={(): void => void router.push(`/open-po/${item.id}`)}
-                  type={!item.paid_po_from ? 'Created' : 'Received'}
+                  type={item.type}
                 />
               ))}
             </Box>

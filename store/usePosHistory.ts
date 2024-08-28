@@ -18,6 +18,7 @@ export const usePosHistory = (): {
   const pluginData = data?.test_po_from_plugin;
   const received = data?.open?.received;
   const created = data?.open?.created;
+
   return {
     unpaidData,
     paidData,

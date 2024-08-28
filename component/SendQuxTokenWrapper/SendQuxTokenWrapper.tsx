@@ -93,165 +93,167 @@ export const SendQuxTokenWrapper: FC = () => {
   return (
     <Box textAlign="center" overflow="hidden" px="1rem">
       {!successTrigger ? (
-        <FormProvider {...method}>
-          <form onSubmit={handleSubmit(onDeposit)}>
-            <Controller
-              control={control}
-              name="amount"
-              rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
-              render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
-                  <TextField
-                    type="number"
-                    value={value ?? ''}
-                    placeholder="Enter Amount"
-                    onChange={(e): void => {
-                      onChange(+e.target.value);
-                      setAmount(+e.target.value);
-                    }}
-                    onBlur={onBlur}
-                    formNoValidate
-                  />
-                </FormContainer>
-              )}
-            />
-
-            <Controller
-              control={control}
-              name="comment"
-              render={({ field: { onChange, value, onBlur } }): ReactElement => (
-                <FormContainer>
-                  <Textarea
-                    bg={loading ? 'lightgray' : '#10101F'}
-                    border="1px solid #4D4D6B"
-                    borderRadius="16px"
-                    height="3.5rem"
-                    color="white"
-                    _placeholder={{
-                      color: 'gray',
-                    }}
-                    _focus={{
-                      border: `2px solid`,
-                      borderColor: 'primary',
-                      bg: 'black',
-                    }}
-                    placeholder="Add Comment (optional)"
-                    onChange={(e): void => {
-                      onChange(e.target.value);
-                      setComment(e.target.value);
-                    }}
-                    onBlur={onBlur}
-                    value={value}
-                    py="1rem"
-                    h="120px"
-                  />
-                </FormContainer>
-              )}
-            />
-
-            <Flex>
-              <Text color="white" fontSize="2.5rem">
-                My Friends
-              </Text>
-            </Flex>
-            <RadioGroup onChange={setRadioValue} value={radioValue}>
+        <Box mb="2rem">
+          <FormProvider {...method}>
+            <form onSubmit={handleSubmit(onDeposit)}>
               <Controller
                 control={control}
-                name="id"
-                render={({ field: { onChange } }): ReactElement => (
-                  <FormControl>
-                    {data?.length ? (
-                      <>
-                        {!loading ? (
-                          data.map((item, index) => {
-                            return (
-                              <>
-                                <Flex justifyContent="space-between" key={index}>
-                                  <Box mt="1rem">
-                                    <Flex justifyContent="flex-start">
-                                      <Avatar name={item.name} />
-                                      <Box w={200} textAlign="start" ml="1rem">
-                                        <Text>{item.name}</Text>
-                                        <Text>Username: {item.username ?? 'N/A'}</Text>
-                                      </Box>
-                                    </Flex>
-                                  </Box>
-                                  <Radio
-                                    value={`${index + 1}`}
-                                    colorScheme="teal"
-                                    onChange={(): void => {
-                                      onChange(item?.id);
-                                      setFriendId(item?.id);
-                                      setSetToDetail(item);
-                                    }}
-                                  />
-                                </Flex>
-                                <Divider mt="1rem" />
-                              </>
-                            );
-                          })
-                        ) : (
-                          <Spinner />
-                        )}
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </FormControl>
-                )}
-              />
-
-              <Flex my="1.5rem" justifyContent="space-between">
-                <Flex>
-                  <Box ml="1rem">
-                    <Image src={AddFriendIcon} alt="Add Bank Icon" />
-                  </Box>
-
-                  <Text ml="0.5rem" color="white" fontSize="1.25rem">
-                    Add New Friend
-                  </Text>
-                </Flex>
-
-                <Radio value={`${data?.length + 1}`} colorScheme="teal" />
-              </Flex>
-            </RadioGroup>
-
-            {radioValue !== `${data?.length + 1}` ? (
-              <></>
-            ) : (
-              <Controller
-                control={control}
-                name="email"
-                rules={{ required: 'Email is required' }}
+                name="amount"
+                rules={{ required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false }}
                 render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                  <FormContainer errorMessage={error?.message ?? ''}>
+                  <FormContainer label="Minimum Amount $20" errorMessage={error?.message ?? ''} place="end">
                     <TextField
-                      type="email"
+                      type="number"
                       value={value ?? ''}
-                      placeholder="Enter Email"
-                      onChange={onChange}
+                      placeholder="Enter Amount"
+                      onChange={(e): void => {
+                        onChange(+e.target.value);
+                        setAmount(+e.target.value);
+                      }}
                       onBlur={onBlur}
+                      formNoValidate
                     />
                   </FormContainer>
                 )}
               />
-            )}
 
-            <Divider mt="2rem" />
+              <Controller
+                control={control}
+                name="comment"
+                render={({ field: { onChange, value, onBlur } }): ReactElement => (
+                  <FormContainer>
+                    <Textarea
+                      bg={loading ? 'lightgray' : '#10101F'}
+                      border="1px solid #4D4D6B"
+                      borderRadius="16px"
+                      height="3.5rem"
+                      color="white"
+                      _placeholder={{
+                        color: 'gray',
+                      }}
+                      _focus={{
+                        border: `2px solid`,
+                        borderColor: 'primary',
+                        bg: 'black',
+                      }}
+                      placeholder="Add Comment (optional)"
+                      onChange={(e): void => {
+                        onChange(e.target.value);
+                        setComment(e.target.value);
+                      }}
+                      onBlur={onBlur}
+                      value={value}
+                      py="1rem"
+                      h="120px"
+                    />
+                  </FormContainer>
+                )}
+              />
 
-            <Button
-              type="submit"
-              variant="primary"
-              borderRadius="1rem"
-              mt={{ base: '1rem', md: '2rem' }}
-              w={350}
-              h="3.25rem"
-              isLoading={isLoading || sending}
-            >
-              {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
-            </Button>
-          </form>
-        </FormProvider>
+              <Flex>
+                <Text color="white" fontSize="2.5rem">
+                  My Friends
+                </Text>
+              </Flex>
+              <RadioGroup onChange={setRadioValue} value={radioValue}>
+                <Controller
+                  control={control}
+                  name="id"
+                  render={({ field: { onChange } }): ReactElement => (
+                    <FormControl>
+                      {data?.length ? (
+                        <>
+                          {!loading ? (
+                            data.map((item, index) => {
+                              return (
+                                <>
+                                  <Flex justifyContent="space-between" key={index}>
+                                    <Box mt="1rem">
+                                      <Flex justifyContent="flex-start">
+                                        <Avatar name={item.name} />
+                                        <Box w={200} textAlign="start" ml="1rem">
+                                          <Text>{item.name}</Text>
+                                          <Text>Username: {item.username ?? 'N/A'}</Text>
+                                        </Box>
+                                      </Flex>
+                                    </Box>
+                                    <Radio
+                                      value={`${index + 1}`}
+                                      colorScheme="teal"
+                                      onChange={(): void => {
+                                        onChange(item?.id);
+                                        setFriendId(item?.id);
+                                        setSetToDetail(item);
+                                      }}
+                                    />
+                                  </Flex>
+                                  <Divider mt="1rem" />
+                                </>
+                              );
+                            })
+                          ) : (
+                            <Spinner />
+                          )}
+                        </>
+                      ) : (
+                        <></>
+                      )}
+                    </FormControl>
+                  )}
+                />
+
+                <Flex my="1.5rem" justifyContent="space-between">
+                  <Flex>
+                    <Box ml="1rem">
+                      <Image src={AddFriendIcon} alt="Add Bank Icon" />
+                    </Box>
+
+                    <Text ml="0.5rem" color="white" fontSize="1.25rem">
+                      Add New Friend
+                    </Text>
+                  </Flex>
+
+                  <Radio value={`${data?.length + 1}`} colorScheme="teal" />
+                </Flex>
+              </RadioGroup>
+
+              {radioValue !== `${data?.length + 1}` ? (
+                <></>
+              ) : (
+                <Controller
+                  control={control}
+                  name="email"
+                  rules={{ required: 'Email is required' }}
+                  render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+                    <FormContainer errorMessage={error?.message ?? ''}>
+                      <TextField
+                        type="email"
+                        value={value ?? ''}
+                        placeholder="Enter Email"
+                        onChange={onChange}
+                        onBlur={onBlur}
+                      />
+                    </FormContainer>
+                  )}
+                />
+              )}
+
+              <Divider mt="2rem" />
+
+              <Button
+                type="submit"
+                variant="primary"
+                borderRadius="1rem"
+                mt={{ base: '1rem', md: '2rem' }}
+                w={350}
+                h="3.25rem"
+                isLoading={isLoading || sending}
+              >
+                {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
+              </Button>
+            </form>
+          </FormProvider>
+        </Box>
       ) : (
         <Flex justifyContent="center" alignItems="center" flexDir="column" color="white">
           <Box mt="14rem">

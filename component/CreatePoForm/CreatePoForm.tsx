@@ -41,7 +41,7 @@ export const CreatePoForm: FC = () => {
   const [radioValue, setRadioValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [associateEmail, setAssociateEmail] = useState('');
-  const [selectedFriend, setSelectedFriend] = useState();
+  const [selectedFriend, setSelectedFriend] = useState<number | null>();
   const [visible, setSuccessVisible] = useState(false);
   const productValue = useProductModal((e) => e.productValue);
   const setProductValue = useProductModal((e) => e.setProductValue);
@@ -349,7 +349,7 @@ export const CreatePoForm: FC = () => {
               h="3.25rem"
               onClick={onSubmit}
               disabled={true}
-              isDisabled={!productValue}
+              isDisabled={step === 1 ? !productValue : !selectedFriend}
               isLoading={isLoading}
             >
               Send To User
@@ -363,6 +363,7 @@ export const CreatePoForm: FC = () => {
               h="3.25rem"
               onClick={(): void => {
                 setProductValue(null);
+                setSelectedFriend(null);
                 void router.push('/dashboard');
               }}
             >

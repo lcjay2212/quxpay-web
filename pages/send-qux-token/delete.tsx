@@ -36,10 +36,10 @@ const DeleteFriend: FC = () => {
   );
 
   return (
-    <Box h="100vh" overflow="hidden">
+    <Box minH="100vh" mb="2rem">
       <HeaderContainer label="Send QUX ®Tokens" route="/dashboard">
         <Box px="1rem">
-          <Box maxH={600}>
+          <Box minH={600}>
             <Text color="white" fontSize="2rem" mt="2rem">
               My Friend
             </Text>

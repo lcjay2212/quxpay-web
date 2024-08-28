@@ -46,6 +46,7 @@ const footerLink = [
 
 export const Footer: FC = () => {
   const date = new Date();
+
   return (
     <Box bg="#171742">
       <Container maxW="1080px" color="white">
@@ -121,7 +122,7 @@ export const Footer: FC = () => {
       </Box>
       <Container maxW="1080px" color="white">
         <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
-          <Box fontSize={{ base: '0.75rem', md: '20px' }}>
+          <Box fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
             <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
             <Text>QUXPay™</Text>
             <Text>175 S Third Street</Text>
@@ -135,7 +136,7 @@ export const Footer: FC = () => {
               <Link href={item.routes} key={item.label}>
                 <Text
                   color="white"
-                  fontSize={{ base: '20px', md: '29px' }}
+                  fontSize={{ base: '20px', md: '16px', lg: '29px' }}
                   fontWeight="bold"
                   my="0.5rem"
                   _hover={{
@@ -149,10 +150,14 @@ export const Footer: FC = () => {
           </Box>
           <Box color="white">
             <Image src={GooglePlayImage} alt="Google Play and App Store" width={300} height={100} placeholder="empty" />
-            <Text fontSize={{ base: '20px', md: '29px' }} fontWeight="bold" mt={{ base: '1rem', md: '2rem' }}>
+            <Text
+              fontSize={{ base: '20px', md: '16px', lg: '29px' }}
+              fontWeight="bold"
+              mt={{ base: '1rem', md: '2rem' }}
+            >
               Business Hours
             </Text>
-            <Text fontSize={{ base: '0.75rem', md: '20px' }}>
+            <Text fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
               9am - 7pm EST,
               <br /> Monday to Friday
             </Text>

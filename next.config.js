@@ -1,3 +1,47 @@
+const securityHeaders = [
+  {
+    key: 'Content-Security-Policy',
+    value:
+      "default-src 'self'; script-src 'self' https://trusted-scripts.com; style-src 'self' https://trusted-styles.com",
+  },
+  {
+    key: 'Strict-Transport-Security',
+    value: 'max-age=31536000; includeSubDomains; preload',
+  },
+  {
+    key: 'X-Content-Type-Options',
+    value: 'nosniff',
+  },
+  {
+    key: 'X-Frame-Options',
+    value: 'DENY',
+  },
+  {
+    key: 'X-XSS-Protection',
+    value: '1; mode=block',
+  },
+  {
+    key: 'Referrer-Policy',
+    value: 'no-referrer',
+  },
+  {
+    key: 'Permissions-Policy',
+    value: 'geolocation=(self), microphone=()',
+  },
+  {
+    key: 'Cross-Origin-Opener-Policy',
+    value: 'same-origin',
+  },
+  {
+    key: 'Cross-Origin-Resource-Policy',
+    value: 'same-origin',
+  },
+  {
+    key: 'Expect-CT',
+    value: 'max-age=86400, enforce',
+  },
+];
+
 module.exports = {
   reactStrictMode: false,
   images: {
@@ -33,6 +77,15 @@ module.exports = {
         pathname: '/quxtech/**',
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        // Apply security headers to all routes
+        source: '/(.*)',
+        headers: securityHeaders,
+      },
+    ];
   },
 };
 

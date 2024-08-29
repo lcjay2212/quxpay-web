@@ -1,9 +1,9 @@
 const securityHeaders = [
-  {
-    key: 'Content-Security-Policy',
-    value:
-      "default-src 'self'; script-src 'self' https://trusted-scripts.com; style-src 'self' https://trusted-styles.com",
-  },
+  // {
+  //   key: 'Content-Security-Policy',
+  //   value:
+  //     "default-src 'self'; script-src 'self' https://trusted-scripts.com; style-src 'self' https://trusted-styles.com",
+  // },
   {
     key: 'Strict-Transport-Security',
     value: 'max-age=31536000; includeSubDomains; preload',

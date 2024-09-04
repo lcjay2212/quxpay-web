@@ -1,5 +1,6 @@
 import { CalendarIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { isLocalHost } from 'constants/url';
@@ -9,7 +10,6 @@ import { QuxWalletIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
-import { useQuery } from 'react-query';
 // import { usePrivatekey } from 'store';
 import { useTransactionHistoryFilterModal } from 'store';
 const TransactionHistoryPage: FC = () => {

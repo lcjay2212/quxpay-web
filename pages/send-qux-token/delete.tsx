@@ -1,39 +1,37 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Box, Button, Divider, Flex, Radio, RadioGroup, Spinner, Text } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer } from 'component';
 import { FETCH_FRIEND_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
-import { errorHandler, getServerSideProps, notify } from 'utils';
+import { getServerSideProps, notify } from 'utils';
 
 const DeleteFriend: FC = () => {
   const router = useRouter();
 
-  const { data, isLoading: loading } = useQuery('friendList', FETCH_FRIEND_LIST, errorHandler);
+  const { data, isLoading: loading } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
   const [radioValue, setRadioValue] = useState('');
   const [friendId, setFriendId] = useState('');
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/friends/remove`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        notify(`Successfully Delete`);
-        void router.push('/send-qux-token');
-      },
-      onError: () => {
-        notify(`ERROR`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      notify(`Successfully Delete`);
+      void router.push('/send-qux-token');
+    },
+    onError: () => {
+      notify(`ERROR`, { status: 'error' });
+    },
+  });
 
   return (
     <Box minH="100vh" mb="2rem">
@@ -89,7 +87,7 @@ const DeleteFriend: FC = () => {
               mt="2rem"
               w={350}
               h="3.25rem"
-              isLoading={isLoading}
+              isLoading={isPending}
               onClick={(): void =>
                 mutate({
                   friend_id: friendId,

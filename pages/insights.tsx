@@ -1,4 +1,5 @@
 import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer } from 'component';
 import { FETCH_INSIGHTS } from 'constants/api';
 import dayjs from 'dayjs';
@@ -7,7 +8,6 @@ import { MONTHS } from 'mocks/month';
 import Image from 'next/image';
 import { QuxTokenBigIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import { useQuery } from 'react-query';
 
 const TextBox: FC<{ value: number; label: string; isLoading: boolean }> = ({ value, label, isLoading }) => (
   <Flex

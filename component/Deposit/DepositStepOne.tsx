@@ -11,6 +11,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import {
   AddBankAccount,
   AddCreditCardForm,
@@ -28,14 +29,15 @@ import Image from 'next/image';
 import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useQuery } from 'react-query';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
-import { errorHandler } from 'utils';
 export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
   const method = useFormContext();
   const { control } = method;
-  const { data, isLoading: loading } = useQuery('bankCreditCardCrypto', FETCH_BANK_CREDIT_CARD_CRYPTO, errorHandler);
+  const { data, isLoading: loading } = useQuery({
+    queryKey: ['bankCreditCardCrypto'],
+    queryFn: FETCH_BANK_CREDIT_CARD_CRYPTO,
+  });
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setSelectedBankDetails = useSelectedBankDetails((e) => e.setSelectedBankDetails);

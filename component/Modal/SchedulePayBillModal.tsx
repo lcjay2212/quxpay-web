@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { ScheduleBiller } from 'component';
 import { STAGING_URL } from 'constants/url';
@@ -8,7 +9,6 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { useSchedulePayBillModal } from 'store';
 import { notify } from 'utils';
 
@@ -38,25 +38,23 @@ export const SchedulePayBillModal: FC = () => {
     setValue('amount', billerData?.amount);
   }, [setValue, billerData]);
 
-  const { mutate, isLoading: loading } = useMutation(
-    (variable) =>
+  const { mutate, isPending: loading } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/billing/scheduled-payment`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        notify(`Scheduled set successfully`);
-        void router.push('/dashboard');
-        reset();
-      },
-      onError: ({ response }) => {
-        notify(`${response?.data?.data?.errors?.scheduled_type}`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      notify(`Scheduled set successfully`);
+      void router.push('/dashboard');
+      reset();
+    },
+    onError: ({ response }: any) => {
+      notify(`${response?.data?.data?.errors?.scheduled_type}`, { status: 'error' });
+    },
+  });
 
   const onSubmit = (val): void => {
     mutate({

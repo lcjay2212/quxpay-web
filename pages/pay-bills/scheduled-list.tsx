@@ -1,16 +1,15 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, SchedulePayBillModal, TextField } from 'component';
 import { FETCH_SCHEDULED_PAYMENT_LISTS } from 'constants/api';
 import Image from 'next/image';
 import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
-import { useQuery } from 'react-query';
 import { useSchedulePayBillModal } from 'store';
-import { errorHandler } from 'utils';
 
 const ScheduledList: FC = () => {
-  const { data, isLoading } = useQuery('scheduledList', FETCH_SCHEDULED_PAYMENT_LISTS, errorHandler);
+  const { data, isLoading } = useQuery({ queryKey: ['scheduledList'], queryFn: FETCH_SCHEDULED_PAYMENT_LISTS });
 
   const { setVisible, setHeaderName, setBillerData } = useSchedulePayBillModal((state) => ({
     setVisible: state.setVisible,

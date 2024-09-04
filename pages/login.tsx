@@ -1,5 +1,6 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import { FormContainer, PendingAccountModal, TextField } from 'component';
 import { post } from 'constants/api';
 import storage from 'constants/storage';
@@ -9,7 +10,6 @@ import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { usePendingAccountModal, useRouteParams, useUser } from 'store';
 import { notify } from 'utils';
 
@@ -21,7 +21,8 @@ const Login: FC = () => {
   const setVisible = usePendingAccountModal((e) => e.setVisible);
   const params = useRouteParams((e) => e.params);
 
-  const { mutate, isLoading } = useMutation((variable) => post('web/login', variable), {
+  const login = useMutation({
+    mutationFn: (variable) => post('web/login', variable),
     onSuccess: async ({ data }) => {
       notify(`${data.status.message}`);
 
@@ -39,7 +40,8 @@ const Login: FC = () => {
       const redirectUrl = params?.t ? '/checkout' : '/dashboard';
       void router.push(redirectUrl);
     },
-    onError: ({ response }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
       const message = response?.data?.data?.message;
 
       if (message === 'These credentials do not match our records.') {
@@ -53,7 +55,7 @@ const Login: FC = () => {
   });
 
   const onSubmit = (val): void => {
-    mutate(val);
+    login.mutate(val);
   };
 
   return (
@@ -116,7 +118,7 @@ const Login: FC = () => {
             mt="1rem"
             w={350}
             h="3.25rem"
-            isLoading={isLoading}
+            isLoading={login.isPending}
           >
             Login
           </Button>

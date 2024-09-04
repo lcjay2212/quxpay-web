@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer } from 'component';
 import { FETCH_WP_PO_DETAILS } from 'constants/api';
@@ -7,7 +8,6 @@ import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
 import { useRouteParams, useUser } from 'store';
 import { notify } from 'utils';
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
@@ -29,14 +29,18 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 
 const CheckoutPage: FC = () => {
   const params = useRouteParams((e) => e.params);
-  const { data, isLoading } = useQuery(['wpPoDetails', params?.t], FETCH_WP_PO_DETAILS, {
-    onError: ({ response }) => {
-      notify(`${response?.data?.data?.message}`, { status: 'error' });
-      setTimeout(() => {
-        window.location.replace(`${response?.data?.data?.return_url}`);
-      }, 5000);
-    },
+  const { data, isLoading, isError, error } = useQuery({
+    queryKey: ['wpPoDetails', params?.t],
+    queryFn: FETCH_WP_PO_DETAILS,
   });
+
+  if (isError) {
+    notify(`${error.message}`, { status: 'error' });
+    // setTimeout(() => {
+    //   window.location.replace(`${error?.data?.data?.return_url}`);
+    // }, 5000);
+  }
+
   const totalPurchaseAndSubsAmount = data?.recurring_payment_amount + data?.single_purchase_amount;
   const [successPayment, setSuccessPayment] = useState(false);
 
@@ -44,25 +48,23 @@ const CheckoutPage: FC = () => {
 
   const {
     mutate,
-    isLoading: loading,
+    isPending: loading,
     data: paymentData,
-  } = useMutation(
-    (variable) =>
+  } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/wp/po-paid`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        setSuccessPayment(true);
-      },
-      onError: () => {
-        notify(`Failed to pay`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      setSuccessPayment(true);
+    },
+    onError: () => {
+      notify(`Failed to pay`, { status: 'error' });
+    },
+  });
 
   const tempData = paymentData?.data?.data;
 

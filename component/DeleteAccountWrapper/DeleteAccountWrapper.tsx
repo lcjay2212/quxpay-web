@@ -1,25 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Divider, Flex, Radio, RadioGroup, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { BankAccount, HeaderContainer } from 'component';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { useMutation, useQueryClient } from 'react-query';
 import { useAccountPaymentId } from 'store';
-import { getServerSideProps, notify } from 'utils';
+import { getServerSideProps, notify, queryClient } from 'utils';
 
 export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();
-  const queryClient = useQueryClient();
-  const bankCreditAndCryptoData = queryClient.getQueryData('bankCreditCardCrypto');
+  const bankCreditAndCryptoData = queryClient.getQueryData(['bankCreditCardCrypto']);
   const [radioValue, setRadioValue] = useState('');
   const [paymentData, setPaymentData] = useAccountPaymentId(({ paymentData, setPaymentData }) => [
     paymentData,
     setPaymentData,
   ]);
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate } = useMutation({
+    mutationFn: (variable) =>
       axios.delete(`${STAGING_URL}/web/wallet/remove-card`, {
         data: variable,
         headers: {
@@ -27,16 +26,14 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        notify(`Successfully Remove`);
-        void router.push('/purchase');
-      },
-      onError: ({ response }) => {
-        notify(response.data.status.message, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      notify(`Successfully Remove`);
+      void router.push('/purchase');
+    },
+    onError: ({ response }: any) => {
+      notify(response.data.status.message, { status: 'error' });
+    },
+  });
 
   return (
     <HeaderContainer label={label} route="/dashboard">
@@ -86,7 +83,7 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
             mt="2rem"
             w={350}
             h="3.25rem"
-            isLoading={isLoading}
+            // isLoading={isLoading}
             onClick={(): void => {
               mutate({
                 payment_profile_id: paymentData?.paymentId,

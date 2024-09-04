@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useQuery } from '@tanstack/react-query';
 import { FETCH_POS_HISTORY } from 'constants/api';
-import { useQuery } from 'react-query';
-import { errorHandler } from 'utils';
 
 export const usePosHistory = (): {
   unpaidData: any;
@@ -12,7 +11,7 @@ export const usePosHistory = (): {
   isLoading: boolean;
   refetch: () => void;
 } => {
-  const { data, isLoading, refetch } = useQuery('posHistory', FETCH_POS_HISTORY, errorHandler);
+  const { data, isLoading, refetch } = useQuery({ queryKey: ['posHistory'], queryFn: FETCH_POS_HISTORY });
   const unpaidData = data?.unpaid_or_open;
   const paidData = data?.paid;
   const pluginData = data?.test_po_from_plugin;

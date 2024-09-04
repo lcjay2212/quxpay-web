@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Input, Text } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { BankAccount, FormContainer, HeaderContainer } from 'component';
 import { SHOW_BANK_ACCOUNT_DETAILS } from 'constants/api';
@@ -7,41 +8,37 @@ import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation, useQuery } from 'react-query';
 import { useAccountPaymentId } from 'store';
-import { blockInvalidChar, errorHandler, notify } from 'utils';
+import { blockInvalidChar, notify } from 'utils';
 
 export const EditBankForm: FC<{ label: string }> = ({ label }) => {
   const [paymentData, setPaymentData] = useAccountPaymentId((e) => [e.paymentData, e.setPaymentData]);
   const router = useRouter();
-  const { data, isLoading: loading } = useQuery(
-    ['bankAndCreditCard', paymentData?.paymentId, paymentData?.paymentType],
-    SHOW_BANK_ACCOUNT_DETAILS,
-    errorHandler
-  );
+  const { data, isLoading: loading } = useQuery({
+    queryKey: ['bankAndCreditCard', paymentData?.paymentId, paymentData?.paymentType],
+    queryFn: SHOW_BANK_ACCOUNT_DETAILS,
+  });
 
   const { handleSubmit, register } = useForm({
     defaultValues: data?.account,
   });
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/wallet/update-bank`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        notify(`Successfully Update`);
-        void router.push('/purchase');
-      },
-      onError: ({ response }) => {
-        notify(response?.data.status.message, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      notify(`Successfully Update`);
+      void router.push('/purchase');
+    },
+    onError: ({ response }: any) => {
+      notify(response?.data.status.message, { status: 'error' });
+    },
+  });
 
   // eslint-disable-next-line no-console
   const onEdit = (val): void => {
@@ -192,7 +189,7 @@ export const EditBankForm: FC<{ label: string }> = ({ label }) => {
             w={350}
             h="3.25rem"
             onClick={handleSubmit(onEdit)}
-            isLoading={isLoading}
+            isLoading={isPending}
           >
             Save Account
           </Button>

@@ -1,6 +1,5 @@
+import { useQuery } from '@tanstack/react-query';
 import { FETCH_WALLET_BALANCE } from 'constants/api';
-import { useQuery } from 'react-query';
-import { errorHandler } from 'utils';
 
 export const useBalance = (): {
   balance: number;
@@ -12,7 +11,10 @@ export const useBalance = (): {
   isLoading: boolean;
   verificationStatus: string;
 } => {
-  const { data, isLoading } = useQuery('balance', FETCH_WALLET_BALANCE, errorHandler);
+  const { data, isLoading } = useQuery({
+    queryKey: ['balance'],
+    queryFn: FETCH_WALLET_BALANCE,
+  });
   return {
     balance: +data?.balance,
     deposit: +data?.deposit,

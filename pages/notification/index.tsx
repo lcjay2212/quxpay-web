@@ -1,12 +1,11 @@
 import { Box, Spinner } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, NotificationListDisplay } from 'component';
 import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { FC } from 'react';
-import { useQuery } from 'react-query';
-import { errorHandler } from 'utils';
 
 const NotificationList: FC = () => {
-  const { data, isLoading } = useQuery('notificationHistory', FETCH_NOTIFICATION_HISTORY, errorHandler);
+  const { data, isLoading } = useQuery({ queryKey: ['notificationHistory'], queryFn: FETCH_NOTIFICATION_HISTORY });
 
   return (
     <HeaderContainer label="Notification" route="/dashboard">

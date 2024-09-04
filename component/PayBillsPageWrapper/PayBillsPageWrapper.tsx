@@ -1,20 +1,22 @@
 import { CalendarIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Grid, Spinner, Text } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { PayBillsModal, TextField } from 'component';
 import { FETCH_BILLER, FETCH_BILLING_CATEGORIES } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BillsIcon, CircleAddIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import { useQuery } from 'react-query';
 import { useDebounce, useHeaderName, usePayBillsModal, useSchedulePayBillModal } from 'store';
-import { errorHandler } from 'utils';
 
 export const PayBillsPageWrapper: FC = () => {
-  const { data, isLoading } = useQuery('billingCategories', FETCH_BILLING_CATEGORIES, errorHandler);
+  const { data, isLoading } = useQuery({ queryKey: ['billingCategories'], queryFn: FETCH_BILLING_CATEGORIES });
   const [searchText, setSearchText] = useState<string>();
   const debounceText = useDebounce(searchText, 1000);
-  const { data: billerData, isLoading: loading } = useQuery(['biller', debounceText], FETCH_BILLER);
+  const { data: billerData, isLoading: loading } = useQuery({
+    queryKey: ['biller', debounceText],
+    queryFn: FETCH_BILLER,
+  });
   const router = useRouter();
   const setHeaderName = useHeaderName((state) => state.setHeaderName);
   const setVisible = useSchedulePayBillModal((state) => state.setVisible);

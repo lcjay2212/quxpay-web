@@ -1,5 +1,6 @@
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import { CaptchaModal, CorporationStep, FinalStep, FirstStep, PendingAccountModal, SecondStep } from 'component';
 import { post } from 'constants/api';
 import Image from 'next/image';
@@ -7,7 +8,6 @@ import { useRouter } from 'next/router';
 import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { usePendingAccountModal } from 'store';
 import { notify } from 'utils';
 
@@ -19,12 +19,14 @@ const Register: FC = () => {
   const [selected, setSelected] = useState('');
   const setVisible = usePendingAccountModal((e) => e.setVisible);
 
-  const { mutate, isLoading } = useMutation((variable) => post('web/register', variable), {
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) => post('web/register', variable),
     onSuccess: () => {
       notify(`User registration success!`);
       void router.push('/login');
     },
-    onError: ({ response }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
       let message = '';
 
       Object.keys(response?.data?.errors).forEach((errorKey) => {
@@ -35,24 +37,23 @@ const Register: FC = () => {
     },
   });
 
-  const { mutate: corporationMutate, isLoading: loading } = useMutation(
-    (variable) => post('web/purchaser-register', variable),
-    {
-      onSuccess: () => {
-        setVisible(true);
-        notify(`Corporation registration success!`);
-      },
-      onError: ({ response }) => {
-        let message = '';
+  const { mutate: corporationMutate, isPending: loading } = useMutation({
+    mutationFn: (variable) => post('web/purchaser-register', variable),
+    onSuccess: () => {
+      setVisible(true);
+      notify(`Corporation registration success!`);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      let message = '';
 
-        Object.keys(response?.data?.errors).forEach((errorKey) => {
-          message += response?.data?.errors[errorKey];
-        });
+      Object.keys(response?.data?.errors).forEach((errorKey) => {
+        message += response?.data?.errors[errorKey];
+      });
 
-        notify(`${message}`, { status: 'error' });
-      },
-    }
-  );
+      notify(`${message}`, { status: 'error' });
+    },
+  });
 
   const onSubmit = (val): void => {
     const formData = new FormData();
@@ -231,7 +232,7 @@ const Register: FC = () => {
                 mt="1rem"
                 w={350}
                 h="3.25rem"
-                isLoading={isLoading || loading}
+                isLoading={isPending || loading}
               >
                 {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
               </Button>

@@ -11,6 +11,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer } from 'component';
 import { STAGING_URL } from 'constants/url';
@@ -18,7 +19,6 @@ import Image from 'next/image';
 import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { useBalance, usePayBillsModal, useSuccessPayBillsModal } from 'store';
 import { notify } from 'utils';
 import { SuccessPayBillModal } from './SuccessPayBillModal';
@@ -38,27 +38,26 @@ export const PayBillsModal: FC = () => {
   const { handleSubmit, control, reset } = method;
   const { balance, isLoading } = useBalance();
 
-  const { mutate, isLoading: loading } = useMutation(
-    (variable) =>
+  const { mutate, isPending: loading } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        setTempDate(data?.data);
-        setVisible(false);
-        setTrigger(true);
-        setStep(1);
-        reset();
-      },
-      onError: ({ response }) => {
-        notify(`${response?.data?.data?.errors?.balance}`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      setTempDate(data?.data);
+      setVisible(false);
+      setTrigger(true);
+      setStep(1);
+      reset();
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      notify(`${response?.data?.data?.errors?.balance}`, { status: 'error' });
+    },
+  });
 
   const onSubmit = (val): void => {
     if (step === 1) {

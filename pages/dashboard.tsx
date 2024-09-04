@@ -15,6 +15,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import {
   CryptoTransactionHistory,
@@ -42,7 +43,6 @@ import {
   WithdrawSuccessful,
 } from 'public/assets';
 import { FC, useEffect } from 'react';
-import { useMutation } from 'react-query';
 import { useBalance, usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
 import { clearStorage, getServerSideProps, notify } from 'utils';
 
@@ -184,32 +184,30 @@ const Dashboard: FC = () => {
     }
   }, [setVerifyModalVisible, totalPurchase, verificationStatus]);
 
-  const { mutate, isLoading: uploadLoading } = useMutation(
-    (variable) =>
+  const { mutate, isSuccess } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/corporate/upload/transactions`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        notify('Upload success!');
-        setVisible(false);
-        refetch();
-      },
-      onError: ({ response }) => {
-        notify(`${response.data?.data.format}`, { status: 'error' });
-        setVisible(false);
-      },
-    }
-  );
+    onSuccess: () => {
+      notify('Upload success!');
+      setVisible(false);
+      refetch();
+    },
+    onError: ({ response }: any) => {
+      notify(`${response.data?.data.format}`, { status: 'error' });
+      setVisible(false);
+    },
+  });
 
   useEffect(() => {
-    if (uploadLoading) {
+    if (isSuccess) {
       setVisible(true);
     }
-  }, [uploadLoading, setVisible]);
+  }, [isSuccess, setVisible]);
 
   return (
     <Container color="white" mb="3rem" overflow="hidden" fontFamily="'Poppins', sans-serif">

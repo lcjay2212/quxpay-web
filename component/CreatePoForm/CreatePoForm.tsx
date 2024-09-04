@@ -15,6 +15,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Label, ProductModal, TextField } from 'component';
 import { FETCH_FRIEND_LIST, FETCH_PRODUCT_LIST, FETCH_RECENT_PRODUCT_LIST } from 'constants/api';
@@ -23,21 +24,19 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddFriendIcon, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
 import { useProductModal } from 'store';
-import { errorHandler, notify } from 'utils';
+import { notify } from 'utils';
 
 export const CreatePoForm: FC = () => {
   const router = useRouter();
   const setVisible = useProductModal((e) => e.setVisible);
-  const { data } = useQuery('productList', FETCH_PRODUCT_LIST, errorHandler);
+  const { data } = useQuery({ queryKey: ['productList'], queryFn: FETCH_PRODUCT_LIST });
   const [step, setStep] = useState(1);
-  const { data: recentProductData, isLoading: loading } = useQuery(
-    'recentProduct',
-    FETCH_RECENT_PRODUCT_LIST,
-    errorHandler
-  );
-  const { data: friendData } = useQuery('friendList', FETCH_FRIEND_LIST, errorHandler);
+  const { data: recentProductData, isLoading: loading } = useQuery({
+    queryKey: ['recentProduct'],
+    queryFn: FETCH_RECENT_PRODUCT_LIST,
+  });
+  const { data: friendData } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
   const [radioValue, setRadioValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [associateEmail, setAssociateEmail] = useState('');
@@ -51,28 +50,26 @@ export const CreatePoForm: FC = () => {
   const price = useProductModal((e) => e.price);
   const amount = (price || 0) * (productValue?.[0].quantity || 0);
 
-  const { mutateAsync, isLoading } = useMutation(
-    (variable) =>
+  const { mutateAsync, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        if (step === 1) {
-          setQrUrl(data?.data?.qr_code);
-          setTrigger(data?.status?.success);
-        } else {
-          setSuccessVisible(data?.status?.success);
-        }
-      },
-      onError: () => {
-        notify(`Failed to generate QR`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      if (step === 1) {
+        setQrUrl(data?.data?.qr_code);
+        setTrigger(data?.status?.success);
+      } else {
+        setSuccessVisible(data?.status?.success);
+      }
+    },
+    onError: () => {
+      notify(`Failed to generate QR`, { status: 'error' });
+    },
+  });
 
   const onSubmit = (): void => {
     if (step === 1) {
@@ -335,7 +332,7 @@ export const CreatePoForm: FC = () => {
                   } as any)
                 }
                 isDisabled={!productValue}
-                isLoading={isLoading}
+                isLoading={isPending}
               >
                 Create PO
               </Button>
@@ -350,7 +347,7 @@ export const CreatePoForm: FC = () => {
               onClick={onSubmit}
               disabled={true}
               isDisabled={step === 1 ? !productValue : !selectedFriend}
-              isLoading={isLoading}
+              isLoading={isPending}
             >
               Send To User
             </Button>

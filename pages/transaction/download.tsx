@@ -3,6 +3,7 @@ import { FC, ReactElement, useState } from 'react';
 // import { usePrivatekey } from 'store';
 import { CalendarIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import dayjs from 'dayjs';
@@ -10,7 +11,6 @@ import { capitalize } from 'lodash';
 import { DATE_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
 import DatePicker from 'react-datepicker';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { useTransactionHistoryFilterModal } from 'store';
 import { notify } from 'utils';
 
@@ -21,8 +21,8 @@ const TransactionDownloadPage: FC = () => {
   const setVisible = useTransactionHistoryFilterModal((state) => state.setVisible);
   const [id, setId] = useState('');
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.get(`${STAGING_URL}/web/wallet/download-transactions`, {
         params: variable,
         headers: {
@@ -30,19 +30,17 @@ const TransactionDownloadPage: FC = () => {
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        const link = document.createElement('a');
-        link.href = data.data.url;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      },
-      onError: () => {
-        notify('Failed to export file', { status: 'error' });
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      const link = document.createElement('a');
+      link.href = data.data.url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    },
+    onError: () => {
+      notify('Failed to export file', { status: 'error' });
+    },
+  });
 
   const onDownload = (val): void => {
     const calculateEndDate = (dateOption: DateOption): string | null => {
@@ -207,7 +205,7 @@ const TransactionDownloadPage: FC = () => {
                 </Box>
 
                 <Flex justifyContent="center">
-                  <Button isLoading={isLoading} type="submit" variant="primary" borderRadius="1rem" w={350} h="3.25rem">
+                  <Button isLoading={isPending} type="submit" variant="primary" borderRadius="1rem" w={350} h="3.25rem">
                     Download
                   </Button>
                 </Flex>

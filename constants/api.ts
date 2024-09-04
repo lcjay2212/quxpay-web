@@ -1,5 +1,5 @@
+import { QueryFunctionContext } from '@tanstack/react-query';
 import axios from 'axios';
-import { QueryFunctionContext } from 'react-query';
 import { STAGING_URL } from './url';
 
 export const post = async <T>(url: string, variable: void): Promise<T> =>

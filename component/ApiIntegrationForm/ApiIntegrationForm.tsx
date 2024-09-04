@@ -1,11 +1,11 @@
 import { Box, Button, Flex, Text, Textarea } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { notify } from 'utils';
 
 export const ApiIntegrationForm: FC = () => {
@@ -13,24 +13,22 @@ export const ApiIntegrationForm: FC = () => {
   const method = useForm();
   const { control, handleSubmit } = method;
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/biller/submit/api-info`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        void router.push('/dashboard');
-        notify(data?.status?.message);
-      },
-      onError: () => {
-        notify(`Failed to send request`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      void router.push('/dashboard');
+      notify(data?.status?.message);
+    },
+    onError: () => {
+      notify(`Failed to send request`, { status: 'error' });
+    },
+  });
 
   const onSubmit = (val): void => void mutate(val);
 
@@ -162,7 +160,7 @@ export const ApiIntegrationForm: FC = () => {
             />
 
             <Flex flexDir="column" gap={4} mt="1rem">
-              <Button variant="primary" borderRadius="1rem" h="3.25rem" type="submit" isLoading={isLoading}>
+              <Button variant="primary" borderRadius="1rem" h="3.25rem" type="submit" isLoading={isPending}>
                 Send Request
               </Button>
               <Button
@@ -170,7 +168,7 @@ export const ApiIntegrationForm: FC = () => {
                 borderRadius="1rem"
                 h="3.25rem"
                 onClick={(): void => void router.push('/dashboard')}
-                isLoading={isLoading}
+                isLoading={isPending}
               >
                 Cancel
               </Button>

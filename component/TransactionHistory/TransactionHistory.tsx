@@ -1,16 +1,18 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { ItemListDisplay } from 'component';
 import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
-import { useQuery } from 'react-query';
 // import { usePrivatekey } from 'store';
-import { errorHandler } from 'utils';
 
 export const TransactionHistory: FC = () => {
-  const { data, isLoading } = useQuery('transactionHistory', FETCH_TRANSACTION_HISTORY_PHASE_TWO, errorHandler);
+  const { data, isLoading } = useQuery({
+    queryKey: ['transactionHistory'],
+    queryFn: FETCH_TRANSACTION_HISTORY_PHASE_TWO,
+  });
   const router = useRouter();
   // const privatekey = usePrivatekey((state) => state.privatekey);
 

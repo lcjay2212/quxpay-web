@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import { useMutation } from 'react-query';
 import { notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
@@ -30,8 +30,8 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
   const router = useRouter();
   const [trigger, setTrigger] = useState(false);
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/pay/qr`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
@@ -39,34 +39,30 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        setTrigger(!trigger);
-      },
-      onError: ({ response }) => {
-        notify(response?.data?.data?.error || `Failed to Pay PO`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      setTrigger(!trigger);
+    },
+    onError: ({ response }: any) => {
+      notify(response?.data?.data?.error || `Failed to Pay PO`, { status: 'error' });
+    },
+  });
 
-  const { mutate: deleteMutate, isLoading: deleteLoading } = useMutation(
-    () =>
+  const { mutate: deleteMutate, isPending: deleteLoading } = useMutation({
+    mutationFn: () =>
       axios.delete(`${STAGING_URL}/web/pos/${data?.id}/delete`, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        notify(data.status.message);
-        void router.push('/dashboard');
-      },
-      onError: () => {
-        notify(`Failed to Delete PO`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      notify(data.status.message);
+      void router.push('/dashboard');
+    },
+    onError: () => {
+      notify(`Failed to Delete PO`, { status: 'error' });
+    },
+  });
 
   return (
     <>
@@ -95,7 +91,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
               w={350}
               h="3.25rem"
               onClick={(): void => mutate({ qr: data?.qr_id } as any)}
-              isLoading={isLoading}
+              isLoading={isPending}
             >
               Re-Send PO
             </Button>

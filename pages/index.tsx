@@ -1,14 +1,10 @@
-/* eslint-disable no-console */
 import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpoint } from '@chakra-ui/react';
 import { Footer, SEO, TopBarHeader } from 'component';
-import { ENCRYPTED_MAIN_KEY, PRIVATE_KEY_PEM } from 'mocks/mocks';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import * as forge from 'node-forge';
 import { PhoneImage, QrCodeImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store';
-import { aes256Decrypt } from 'utils/aes256Decrypt';
 
 export const Content: FC<
   BoxProps & {
@@ -55,30 +51,6 @@ const Home: FC = () => {
   const router = useRouter();
   const visible = useHomePageModal(({ visible }) => visible);
   const breakPoint = useBreakpoint();
-
-  const encryptedMessage = Buffer.from(ENCRYPTED_MAIN_KEY, 'base64');
-  // Convert private key to node-forge format
-  const privateKey = forge.pki.privateKeyFromPem(PRIVATE_KEY_PEM);
-  // Decrypt the AES key using RSA
-  const decryptedMessageBase64 = privateKey.decrypt(encryptedMessage, 'RSA-OAEP'); // Try RSA-OAEP padding
-  // Decode the Base64-encoded AES-encrypted message
-  const decodedMessage = forge.util.decode64(decryptedMessageBase64);
-  const key = 'ntrbrlRffxkkqTnmRgEeolL4Qob1b00A';
-  const iv = 'G4z5gxD3ITKgwQwiLeTHmA==';
-
-  const ivBase64 = forge.util.decode64(iv);
-  // Decrypt the AES-encrypted message
-  const finalMessage = aes256Decrypt(decodedMessage, key, ivBase64);
-
-  console.log('Final Message', finalMessage);
-  // const mainFileContent: string[] = JSON.parse(fileContent); // Assuming `fileContent` is the content of the file as a string
-  // let thirdProcess = '';
-
-  // mainFileContent.forEach((content: string) => {
-  //   const decodedContent = Buffer.from(content, 'base64');
-  //   const decryptedContent = privateKey.decrypt(decodedContent); // Assuming userPrivateKey has a decrypt method
-  //   thirdProcess += decryptedContent;
-  // });
 
   return (
     <Box bg="#3D075F">

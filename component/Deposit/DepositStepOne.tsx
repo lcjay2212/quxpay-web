@@ -65,7 +65,6 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                     onChange(+e.target.value);
                   }}
                   onBlur={onBlur}
-                  min={label === 'Purchase' ? 20 : 0}
                   formNoValidate
                 />
               </FormContainer>

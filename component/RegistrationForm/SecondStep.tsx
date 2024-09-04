@@ -1,5 +1,4 @@
 import { FormContainer, TextField } from 'component';
-import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 export const SecondStep: FC = () => {
@@ -12,14 +11,7 @@ export const SecondStep: FC = () => {
         rules={{ required: 'First name is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="First Name" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter First Name"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
-              onBlur={onBlur}
-            />
+            <TextField value={value ?? ''} placeholder="Enter First Name" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}
       />
@@ -30,12 +22,7 @@ export const SecondStep: FC = () => {
         rules={{ required: 'Last name is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Last Name" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter Last Name"
-              onChange={(e): void => onChange(startCase(e.target.value))}
-              onBlur={onBlur}
-            />
+            <TextField value={value ?? ''} placeholder="Enter Last Name" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}
       />

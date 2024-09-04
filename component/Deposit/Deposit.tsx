@@ -14,7 +14,7 @@ import { DepositStepTwo } from './DepositStepTwo';
 
 export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
-  const type = useType((e) => e.type);
+  const [type, setType] = useType((e) => [e.type, e.setType]);
   const method = useForm();
   const { handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
@@ -223,7 +223,10 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   h="3.25rem"
                   isLoading={isLoading}
                   mt="1rem"
-                  onClick={(): void => void router.push('dashboard')}
+                  onClick={(): void => {
+                    void router.push('dashboard');
+                    setType(null);
+                  }}
                 >
                   Cancel
                 </Button>

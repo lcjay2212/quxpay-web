@@ -106,6 +106,7 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
             _active={{ bg: 'white' }}
             onClick={(): void => {
               void router.push('/purchase');
+              setPaymentData(null);
             }}
           >
             Cancel

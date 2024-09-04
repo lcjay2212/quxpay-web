@@ -1,6 +1,5 @@
 import { Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
-import { startCase } from 'lodash';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { blockInvalidChar } from 'utils';
@@ -144,14 +143,7 @@ export const CorporationStep: FC = () => {
         rules={{ required: 'City is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="City" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter City"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
-              onBlur={onBlur}
-            />
+            <TextField value={value ?? ''} placeholder="Enter City" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}
       />
@@ -162,14 +154,7 @@ export const CorporationStep: FC = () => {
         rules={{ required: 'State is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="State" errorMessage={error?.message ?? ''}>
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter State"
-              onChange={(e): void => {
-                onChange(startCase(e.target.value));
-              }}
-              onBlur={onBlur}
-            />
+            <TextField value={value ?? ''} placeholder="Enter State" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}
       />

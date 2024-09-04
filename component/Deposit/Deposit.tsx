@@ -14,7 +14,7 @@ import { DepositStepTwo } from './DepositStepTwo';
 
 export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ label, url, url2 }) => {
   const router = useRouter();
-  const type = useType((e) => e.type);
+  const [type, setType] = useType((e) => [e.type, e.setType]);
   const method = useForm();
   const { handleSubmit, watch } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
@@ -56,7 +56,11 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       },
       onError: ({ response }) => {
         const { errors, data } = response?.data || {};
-        const errorMsg = errors?.account_number || errors?.balance || errors?.amount;
+        const errorMsg =
+          errors?.account_number ||
+          errors?.balance ||
+          (errors?.amount === 'Amount is invalid, the maximum redeem is 1500. Thank you!' &&
+            'The maximum amount to redeem should be 1500.');
         const creditErrorMsg = data?.message || 'Failed to Purchase using credit card';
         const cryptoErrorMsg = data?.errors?.address || data?.message;
 
@@ -219,7 +223,10 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   h="3.25rem"
                   isLoading={isLoading}
                   mt="1rem"
-                  onClick={(): void => void router.push('dashboard')}
+                  onClick={(): void => {
+                    void router.push('dashboard');
+                    setType(null);
+                  }}
                 >
                   Cancel
                 </Button>

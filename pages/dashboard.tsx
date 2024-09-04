@@ -15,7 +15,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import {
   CryptoTransactionHistory,
@@ -42,9 +42,10 @@ import {
   UploadIcon,
   WithdrawSuccessful,
 } from 'public/assets';
-import { FC, useEffect, useState } from 'react';
+import { FC, useEffect } from 'react';
 import { useBalance, usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
-import { clearStorage, getDecryptedData, getServerSideProps, notify } from 'utils';
+import { useSecurityMainFile } from 'store/useSecurityMainFile';
+import { clearStorage, getServerSideProps, notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
   <Box w={{ base: 150, md: 250 }}>
@@ -69,34 +70,12 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 const Dashboard: FC = () => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
 
-  const [test, setTest] = useState();
+  // eslint-disable-next-line no-console
+
+  const { data, dataLoading } = useSecurityMainFile('balance');
 
   // eslint-disable-next-line no-console
-  console.log(test);
-
-  const { isLoading: dataLoading } = useQuery({
-    queryKey: ['securityMainFile'],
-    queryFn: () =>
-      axios
-        .get(`${STAGING_URL}/web/encryption/main-file`, {
-          headers: {
-            Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-            Version: 2,
-          },
-        })
-        .then(async ({ data }) => {
-          if (data?.data) {
-            const { balance } = await getDecryptedData(data?.data);
-            setTest(balance);
-          }
-        }),
-    // onSuccess: async ({ data }) => {
-    // if (data?.data) {
-    //   const { balance } = await getDecryptedData(data?.data);
-    //   setTest(balance);
-    // }
-    // },
-  });
+  console.log(data);
 
   const temp = [
     {

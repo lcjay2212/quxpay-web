@@ -30,153 +30,111 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     setCongratsType: e.setType,
   }));
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
-      axios.post(
-        `${STAGING_URL}/${
-          type === 'BANK' || type === 'EXISTING_CREDITCARD'
-            ? url
-            : type !== 'CREDIT'
-            ? url2
-            : 'web/wallet/add-credit-card'
-        }`,
-        variable,
-        {
-          headers: {
-            Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-            Version: 2,
-          },
-        }
-      ),
-    {
-      onSuccess: () => {
-        setVisible(true);
-        setAmount(amount);
-        setCongratsType(type as any);
-      },
-      onError: ({ response }) => {
-        const { errors, data } = response?.data || {};
-        const errorMsg =
-          errors?.account_number ||
-          errors?.balance ||
-          (errors?.amount === 'Amount is invalid, the maximum redeem is 1500. Thank you!' &&
-            'The maximum amount to redeem should be 1500.');
-        const creditErrorMsg = data?.message || 'Failed to Purchase using credit card';
-        const cryptoErrorMsg = data?.errors?.address || data?.message;
+  const headers = {
+    Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+    Version: 2,
+  };
 
-        notify(
-          type === 'CREDIT' ? creditErrorMsg : type === 'CRYPTO' || type === 'ADD_CRYPTO' ? cryptoErrorMsg : errorMsg,
-          { status: 'error' }
-        );
-      },
-    }
+  const postRequest = async (url?: string, variable?: any): Promise<void> =>
+    await axios.post(url || '', variable, { headers });
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const handleSuccess = () => {
+    setVisible(true);
+    setAmount(amount);
+    setCongratsType(type as any);
+  };
+
+  const handleError = ({ response }): any => {
+    const { errors, data } = response?.data || {};
+    const errorMsg =
+      errors?.account_number ||
+      errors?.balance ||
+      (errors?.amount === 'Amount is invalid, the maximum redeem is 1500. Thank you!' &&
+        'The maximum amount to redeem should be 1500.');
+    const creditErrorMsg = data?.message || 'Failed to Purchase using credit card';
+    const cryptoErrorMsg = data?.errors?.address || data?.message;
+
+    notify(
+      type === 'CREDIT' ? creditErrorMsg : type === 'CRYPTO' || type === 'ADD_CRYPTO' ? cryptoErrorMsg : errorMsg,
+      { status: 'error' }
+    );
+  };
+
+  const useCustomMutation = (url?: string, onSuccess?: () => void, onError?: (error: any) => void): any =>
+    useMutation((variable) => postRequest(url, variable), {
+      onSuccess,
+      onError,
+    });
+
+  const { mutate, isLoading } = useCustomMutation(
+    `${STAGING_URL}/${
+      type === 'BANK' || type === 'EXISTING_CREDITCARD' ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'
+    }`,
+    handleSuccess,
+    handleError
   );
 
-  const { mutate: addCrypto, isLoading: addCryptoLoading } = useMutation(
-    (variable) =>
-      axios.post(`${STAGING_URL}/web/crypto/create-wallet`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
-    {
-      onSuccess: () => {
-        setStep((e) => e + 1);
-      },
-      onError: () => {
-        notify(`Failed to create Crypto Wallet`, { status: 'error' });
-      },
-    }
+  const { mutate: addCrypto, isLoading: addCryptoLoading } = useCustomMutation(
+    `${STAGING_URL}/web/crypto/create-wallet`,
+    () => setStep((e) => e + 1),
+    () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
-  const { mutate: completeCryptoPayment, isLoading: paymentLoading } = useMutation(
-    (variable) =>
-      axios.post(`${STAGING_URL}/web/crypto/complete-transaction`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
-    {
-      onSuccess: () => {
-        setVisible(true);
-        setAmount(amount);
-        setCongratsType(type as any);
-      },
-      onError: () => {
-        notify(`Failed to create Crypto Wallet`, { status: 'error' });
-      },
-    }
+  const { mutate: completeCryptoPayment, isLoading: paymentLoading } = useCustomMutation(
+    `${STAGING_URL}/web/crypto/complete-transaction`,
+    handleSuccess,
+    () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
-  const { mutate: checkCryptoTransaction, isLoading: checkLoading } = useMutation(
-    (variable) =>
-      axios.post(`${STAGING_URL}/web/crypto/check-transaction`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
-    {
-      onSuccess: () => {
-        setStep((e) => e + 1);
-      },
-      onError: ({ response }) => {
-        notify(response?.data?.data?.message, { status: 'warning' });
-      },
-    }
+  const { mutate: checkCryptoTransaction, isLoading: checkLoading } = useCustomMutation(
+    `${STAGING_URL}/web/crypto/check-transaction`,
+    () => setStep((e) => e + 1),
+    ({ response }) => notify(response?.data?.data?.message, { status: 'warning' })
   );
 
   const onSubmit = (val): void => {
     if (step === 1) {
       if (type === 'ADD_CRYPTO') {
-        addCrypto({ address: val.address, name: val.name, currency: val.currency } as any);
-
-        return;
-      }
-
-      if (type === 'CRYPTO') {
+        addCrypto({ address: val.address, name: val.name, currency: val.currency });
+      } else if (type === 'CRYPTO') {
         checkCryptoTransaction({
           payment_id: cryptoPaymentData?.payment_id,
           pos_id: cryptoPaymentData?.pos_id,
           currency: cryptoPaymentData?.currency,
           address: cryptoPaymentData?.address,
           type: 'purchase',
-        } as any);
-        return;
+        });
+      } else {
+        setStep((e) => e + 1);
       }
-
-      setStep((e) => e + 1);
       return;
     }
 
     if (step === 2) {
+      const commonData = { ...val };
       if (label === 'Purchase') {
         if (type === 'CREDIT') {
           mutate({
-            ...val,
+            ...commonData,
             card_holder_name: `${val.firstname} ${val.lastname}`,
             address2: val.address2 || '',
-            expiration_date: val.expiration_date.replace('/', ''),
-          } as any);
-          return;
-        }
-
-        if (type === 'CRYPTO') {
+            expiration_date: val.expiration_date?.replace('/', ''),
+          });
+        } else if (type === 'CRYPTO') {
           completeCryptoPayment({
             payment_id: cryptoPaymentData?.payment_id,
             pos_id: cryptoPaymentData?.pos_id,
             currency: cryptoPaymentData?.currency,
             address: cryptoPaymentData?.address,
             type: 'purchase',
-          } as any);
+          });
         } else {
-          mutate({ ...val, payment_method: paymentData?.paymentType });
+          mutate({ ...commonData, payment_method: paymentData?.paymentType });
         }
       } else if (label === 'Redeem') {
         mutate({
-          ...val,
+          ...commonData,
           ...(type === 'ADD_CRYPTO' || type === 'CRYPTO'
             ? { amount, address: selectedCrypto?.address || val.address }
             : {}),

@@ -1,11 +1,11 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { API_SESSION_URL } from 'constants/url';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
-import { QueryClientProvider } from 'react-query';
-import { ReactQueryDevtools } from 'react-query/devtools';
 import { useUser } from 'store';
 import { clearStorage, notify, queryClient, theme } from 'utils';
 
@@ -67,9 +67,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
             <Component {...pageProps} />
           </Box>
         </main>
-        {typeof window !== 'undefined' && window.location.host === 'localhost:3000' && (
-          <ReactQueryDevtools position="bottom-right" />
-        )}
+        {typeof window !== 'undefined' && window.location.host === 'localhost:3000' && <ReactQueryDevtools />}
       </ChakraProvider>
     </QueryClientProvider>
   );

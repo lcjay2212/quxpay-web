@@ -1,4 +1,5 @@
 import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ApiIntegrationForm, HeaderContainer } from 'component';
 import { FETCH_AUTHENTICATION } from 'constants/api';
@@ -6,41 +7,35 @@ import { STAGING_URL } from 'constants/url';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
 
 const BillerApiPage: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
-  const { data, refetch, isLoading } = useQuery('authentication', FETCH_AUTHENTICATION);
+  const { data, refetch, isLoading } = useQuery({ queryKey: ['authentication'], queryFn: FETCH_AUTHENTICATION });
 
-  const { mutate } = useMutation(
-    (variable) =>
+  const { mutate } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/authentication/create?url=${data?.url}`, variable, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('QUX_PAY_USER_TOKEN')}`,
         },
       }),
-    {
-      // eslint-disable-next-line no-shadow
-      onSuccess: () => {
-        void refetch();
-      },
-    }
-  );
+    onSuccess: () => {
+      void refetch();
+    },
+  });
 
-  const { mutate: downloadPlugin } = useMutation(
-    () =>
+  const { mutate: downloadPlugin } = useMutation({
+    mutationFn: () =>
       axios.get(`${STAGING_URL}/web/quxpay`, {
         headers: {
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        window.open(data?.data?.obfuscate_version);
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      window.open(data?.data?.obfuscate_version);
+    },
+  });
 
   return (
     <HeaderContainer label="Biller API" route="/dashboard">

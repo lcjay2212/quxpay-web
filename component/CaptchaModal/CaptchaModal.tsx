@@ -1,41 +1,42 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Text } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { FETCH_CAPTCHA } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { FC, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
 import { useCaptchaModal } from 'store';
 import { notify, queryClient } from 'utils';
 
 export const CaptchaModal: FC = () => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
 
-  const { data, isLoading } = useQuery('captcha', FETCH_CAPTCHA, {
+  const { data, isLoading } = useQuery({
+    queryKey: ['captcha'],
+    queryFn: FETCH_CAPTCHA,
     refetchOnWindowFocus: false,
   });
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
   const [rel, setRel] = useState({ x: 0, y: 0 });
-  const { mutate, isLoading: isVerifying } = useMutation(
-    (variable) =>
+  const { mutate, isPending: isVerifying } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/captcha/verify`, variable, {
         headers: {
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        notify(data?.status?.message);
-        setVisible(false);
-      },
-      onError: ({ response }) => {
-        const { data, status } = response.data;
-        notify(`${status.message}`, { status: 'error' });
-        queryClient.setQueryData('captcha', data);
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      notify(data?.status?.message);
+      setVisible(false);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      const { data, status } = response.data;
+      notify(`${status.message}`, { status: 'error' });
+      queryClient.setQueryData(['captcha'], data);
+    },
+  });
 
   const handleMouseDown = (e): void => {
     if (e.button !== 0) return;

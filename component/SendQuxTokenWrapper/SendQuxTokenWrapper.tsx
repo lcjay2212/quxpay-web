@@ -11,6 +11,7 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
 import { FETCH_FRIEND_LIST } from 'constants/api';
@@ -20,8 +21,7 @@ import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation, useQuery } from 'react-query';
-import { errorHandler, notify } from 'utils';
+import { notify } from 'utils';
 
 export const SendQuxTokenWrapper: FC = () => {
   const router = useRouter();
@@ -34,15 +34,15 @@ export const SendQuxTokenWrapper: FC = () => {
   const [friendId, setFriendId] = useState();
   const [comment, setComment] = useState('');
 
-  const { data, isLoading: loading, refetch } = useQuery('friendList', FETCH_FRIEND_LIST, errorHandler);
+  const { data, isLoading: loading, refetch } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
   const [sentToDetail, setSetToDetail] = useState<{
     name: string;
     username: string;
     email: string;
   }>(data?.[0] || {});
 
-  const { mutate: sendTokens, isLoading: sending } = useMutation(
-    (variable) =>
+  const { mutate: sendTokens, isPending: sending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(
         `${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token&comment=${comment}`,
         variable,
@@ -53,34 +53,32 @@ export const SendQuxTokenWrapper: FC = () => {
           },
         }
       ),
-    {
-      onSuccess: () => {
-        setSuccessTrigger(true);
-      },
-      onError: ({ response }) => {
-        notify(response?.data?.status?.message, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      setSuccessTrigger(true);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      notify(response?.data?.status?.message, { status: 'error' });
+    },
+  });
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/friends/add`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        void refetch();
-        setRadioValue('');
-      },
-      onError: ({ response }) => {
-        notify(response?.data?.status?.message, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      void refetch();
+      setRadioValue('');
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      notify(response?.data?.status?.message, { status: 'error' });
+    },
+  });
 
   const onDeposit = (val): void => {
     if (radioValue !== `${data?.length + 1}`) {
@@ -250,7 +248,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 mt={{ base: '1rem', md: '2rem' }}
                 w={350}
                 h="3.25rem"
-                isLoading={isLoading || sending}
+                isLoading={isPending || sending}
               >
                 {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
               </Button>

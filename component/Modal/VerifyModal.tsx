@@ -1,4 +1,5 @@
 import { Box, Button, chakra, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
 import { STAGING_URL } from 'constants/url';
@@ -6,7 +7,6 @@ import Image from 'next/image';
 import { BankIcon, UploadIcon2 } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { useUser, useVerifyModal } from 'store';
 import { blockInvalidChar, notify } from 'utils';
 
@@ -16,8 +16,8 @@ export const VerifyModal: FC = () => {
   const method = useForm();
   const { handleSubmit, control, reset } = method;
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isSuccess } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/verify/user`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
@@ -25,16 +25,15 @@ export const VerifyModal: FC = () => {
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        notify(`Success!`);
-        setVisible(false);
-      },
-      onError: ({ response }) => {
-        notify(`${response?.data?.message}`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      notify(`Success!`);
+      setVisible(false);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      notify(`${response?.data?.message}`, { status: 'error' });
+    },
+  });
 
   const onSubmit = (val): void => {
     const formData = new FormData();
@@ -228,7 +227,14 @@ export const VerifyModal: FC = () => {
                 )}
 
                 <Box textAlign="center" my="2rem">
-                  <Button type="submit" variant="primary" borderRadius="1rem" w="100%" h="3.5rem" isLoading={isLoading}>
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    borderRadius="1rem"
+                    w="100%"
+                    h="3.5rem"
+                    isLoading={!isSuccess}
+                  >
                     Continue
                   </Button>
                 </Box>

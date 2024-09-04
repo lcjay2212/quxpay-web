@@ -1,18 +1,20 @@
 import { ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, SchedulePayBillModal, TextField } from 'component';
 import { FETCH_BILLER_BY_CATEGORY_ID } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
-import { useQuery } from 'react-query';
 import { useHeaderName, useSchedulePayBillModal } from 'store';
-import { errorHandler } from 'utils';
 
 const PayBillsByCategory: FC = () => {
   const router = useRouter();
-  const { data, isLoading } = useQuery(['posHistoryById', router.query.id], FETCH_BILLER_BY_CATEGORY_ID, errorHandler);
+  const { data, isLoading } = useQuery({
+    queryKey: ['posHistoryById', router.query.id],
+    queryFn: FETCH_BILLER_BY_CATEGORY_ID,
+  });
   const headerName = useHeaderName((state) => state.headerName);
   const { setVisible, setHeaderName, setBillerData } = useSchedulePayBillModal((state) => ({
     setVisible: state.setVisible,

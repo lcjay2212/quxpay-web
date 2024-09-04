@@ -1,14 +1,17 @@
 import { Box, Spinner } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, ItemListDisplay } from 'component';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
-import { useQuery } from 'react-query';
-import { errorHandler, getServerSideProps } from 'utils';
+import { getServerSideProps } from 'utils';
 
 const CryptoHistory: FC = () => {
-  const { data, isLoading } = useQuery('crytpoTransactionHistory', FETCH_CRYPTO_TRANSACTION_HISTORY, errorHandler);
+  const { data, isLoading } = useQuery({
+    queryKey: ['crytpoTransactionHistory'],
+    queryFn: FETCH_CRYPTO_TRANSACTION_HISTORY,
+  });
 
   return (
     <HeaderContainer label="Crypto" route="/dashboard">

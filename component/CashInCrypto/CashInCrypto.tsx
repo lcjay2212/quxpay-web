@@ -1,4 +1,5 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer } from 'component';
 import { FETCH_CRYPTO_CURRENCY_LIST } from 'constants/api';
@@ -7,16 +8,15 @@ import Image from 'next/image';
 import { ClipboardIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useMutation, useQuery } from 'react-query';
 import Select, { SingleValue } from 'react-select';
 import { useCryptoPaymentData } from 'store';
 import { ValueLabelProps } from 'typings';
-import { errorHandler, notify, reactSelectStyles } from 'utils';
+import { notify, reactSelectStyles } from 'utils';
 
 export const CashInCrypto: FC = () => {
   const { control, watch } = useFormContext();
 
-  const { data } = useQuery('productList', FETCH_CRYPTO_CURRENCY_LIST, errorHandler);
+  const { data } = useQuery({ queryKey: ['productList'], queryFn: FETCH_CRYPTO_CURRENCY_LIST });
   const [cryptoPaymentData, setCryptoPaymentData] = useCryptoPaymentData((e) => [
     e.cryptoPaymentData,
     e.setCryptoPaymentData,
@@ -36,8 +36,8 @@ export const CashInCrypto: FC = () => {
     }
   };
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/crypto/payment`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
@@ -45,17 +45,16 @@ export const CashInCrypto: FC = () => {
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        setCryptoPaymentData(data?.data);
-      },
-      onError: ({ response }) => {
-        notify(`${response?.data?.message || response?.data?.data.message || response?.data?.data.errors.amount}`, {
-          status: 'error',
-        });
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      setCryptoPaymentData(data?.data);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      notify(`${response?.data?.message || response?.data?.data.message || response?.data?.data.errors.amount}`, {
+        status: 'error',
+      });
+    },
+  });
 
   return (
     <>
@@ -90,7 +89,7 @@ export const CashInCrypto: FC = () => {
 
       {cryptoPaymentData && (
         <Box mb="2rem">
-          {!isLoading ? (
+          {!isPending ? (
             <>
               <Box color="white">
                 <Text fontSize="24px">Current Exchange Value</Text>

@@ -1,5 +1,6 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import { FormContainer, TextField } from 'component';
 import { post } from 'constants/api';
 import Image from 'next/image';
@@ -7,7 +8,6 @@ import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { notify } from 'utils';
 
 const ForgotPassword: FC = () => {
@@ -15,12 +15,14 @@ const ForgotPassword: FC = () => {
   const router = useRouter();
   const { control, handleSubmit } = method;
 
-  const { mutate, isLoading } = useMutation((variable) => post('web/forgot-password', variable), {
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) => post('web/forgot-password', variable),
     onSuccess: ({ data }) => {
       notify(`${data.status.message}`);
       void router.push('/login');
     },
-    onError: ({ response }) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
       notify(`${response?.data?.messages || response?.data?.message}`, { status: 'error' });
     },
   });
@@ -75,7 +77,7 @@ const ForgotPassword: FC = () => {
             mt="1rem"
             w={350}
             h="3.25rem"
-            isLoading={isLoading}
+            isLoading={isPending}
           >
             Send Reset Email
           </Button>

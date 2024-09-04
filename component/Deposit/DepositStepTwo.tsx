@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Spinner, Text, Textarea } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, Label } from 'component';
 import { STAGING_URL } from 'constants/url';
 import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { useCryptoPaymentData, useSelectedBankDetails, useType } from 'store';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 
@@ -24,23 +24,21 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
     total_amount: number;
   }>();
 
-  const { mutate, isLoading } = useMutation(
-    (variable) =>
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/wallet/computation`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: ({ data }) => {
-        setComputationData(data?.data);
-      },
-      onError: () => {
-        // notify(`Failed to send request`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: ({ data }) => {
+      setComputationData(data?.data);
+    },
+    onError: () => {
+      // notify(`Failed to send request`, { status: 'error' });
+    },
+  });
 
   useEffect(() => {
     mutate({ type: label === 'Redeem' ? 'withdraw' : 'purchase', amount } as any);
@@ -72,7 +70,7 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
         </Box>
       )}
 
-      {!isLoading ? (
+      {!isPending ? (
         <>
           <Label label={`${label} Amount`} image={QuxTokenIcon} amount={computationData?.amount || 0.0} />
           <Label label="Token Fee" image={QuxTokenIcon} amount={computationData?.qux_charge || 0.0} />

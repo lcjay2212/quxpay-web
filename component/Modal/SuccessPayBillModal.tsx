@@ -1,11 +1,11 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Divider, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
-import { useMutation } from 'react-query';
 import { useSuccessPayBillsModal } from 'store';
 import { notify } from 'utils';
 
@@ -25,24 +25,22 @@ type TempDataType = {
 export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
   const [visible, setVisible] = useSuccessPayBillsModal((state) => [state.visible, state.setVisible]);
 
-  const { mutate: savePayment, isLoading: savePaymentLoading } = useMutation(
-    (variable) =>
+  const { mutate: savePayment, isPending: savePaymentLoading } = useMutation({
+    mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/billing/save-info`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
-    {
-      onSuccess: () => {
-        notify('Saved payment info successfully');
-        setVisible(false);
-      },
-      onError: () => {
-        notify(`Error`, { status: 'error' });
-      },
-    }
-  );
+    onSuccess: () => {
+      notify('Saved payment info successfully');
+      setVisible(false);
+    },
+    onError: () => {
+      notify(`Error`, { status: 'error' });
+    },
+  });
 
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size={{ base: 'full', md: '3xl' }} isCentered>

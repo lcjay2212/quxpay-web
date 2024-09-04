@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, Flex } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, useType } from 'store';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 import { notify } from 'utils';
@@ -45,7 +45,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     setCongratsType(type as any);
   };
 
-  const handleError = ({ response }): any => {
+  const handleError = ({ response }: any): any => {
     const { errors, data } = response?.data || {};
     const errorMsg =
       errors?.account_number ||
@@ -62,12 +62,13 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   };
 
   const useCustomMutation = (url?: string, onSuccess?: () => void, onError?: (error: any) => void): any =>
-    useMutation((variable) => postRequest(url, variable), {
+    useMutation({
+      mutationFn: (variable) => postRequest(url, variable),
       onSuccess,
       onError,
     });
 
-  const { mutate, isLoading } = useCustomMutation(
+  const { mutate, isPending } = useCustomMutation(
     `${STAGING_URL}/${
       type === 'BANK' || type === 'EXISTING_CREDITCARD' ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'
     }`,
@@ -75,22 +76,22 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     handleError
   );
 
-  const { mutate: addCrypto, isLoading: addCryptoLoading } = useCustomMutation(
+  const { mutate: addCrypto, isPending: addCryptoLoading } = useCustomMutation(
     `${STAGING_URL}/web/crypto/create-wallet`,
     () => setStep((e) => e + 1),
     () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
-  const { mutate: completeCryptoPayment, isLoading: paymentLoading } = useCustomMutation(
+  const { mutate: completeCryptoPayment, isPending: paymentLoading } = useCustomMutation(
     `${STAGING_URL}/web/crypto/complete-transaction`,
     handleSuccess,
     () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
-  const { mutate: checkCryptoTransaction, isLoading: checkLoading } = useCustomMutation(
+  const { mutate: checkCryptoTransaction, isPending: checkLoading } = useCustomMutation(
     `${STAGING_URL}/web/crypto/check-transaction`,
     () => setStep((e) => e + 1),
-    ({ response }) => notify(response?.data?.data?.message, { status: 'warning' })
+    ({ response }: any) => notify(response?.data?.data?.message, { status: 'warning' })
   );
 
   const onSubmit = (val): void => {
@@ -158,7 +159,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                 borderRadius="1rem"
                 w="400px"
                 h="3.25rem"
-                isLoading={isLoading || addCryptoLoading || paymentLoading || checkLoading}
+                isLoading={isPending || addCryptoLoading || paymentLoading || checkLoading}
               >
                 {step === 1
                   ? label === 'Purchase' && type === 'CRYPTO'
@@ -179,7 +180,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   borderRadius="1rem"
                   w="400px"
                   h="3.25rem"
-                  isLoading={isLoading}
+                  isLoading={isPending}
                   mt="1rem"
                   onClick={(): void => {
                     void router.push('dashboard');

@@ -12,16 +12,16 @@ import {
   Text,
 } from '@chakra-ui/react';
 import Image from 'next/image';
-import { FC } from 'react';
+import { FC, useState } from 'react';
 import { useTransactionHistoryFilterModal } from 'store';
 
 export const TransactionHistoryFilterModal: FC<{
   title: string;
   data: any;
   setValue: (val: string) => void;
-  value: string;
-}> = ({ title, data, value, setValue }) => {
+}> = ({ title, data, setValue }) => {
   const [visible, setVisible] = useTransactionHistoryFilterModal(({ visible, setVisible }) => [visible, setVisible]);
+  const [selected, setSelected] = useState<any>();
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(!visible)} size={{ base: 'full', md: '3xl' }} isCentered>
       <ModalOverlay />
@@ -33,7 +33,7 @@ export const TransactionHistoryFilterModal: FC<{
             </Text>
 
             <Box mt="2rem">
-              <RadioGroup onChange={setValue} value={value}>
+              <RadioGroup onChange={(e): void => setSelected(e)} value={selected}>
                 {data.map((item) => {
                   return (
                     <Box key={item.value}>
@@ -55,7 +55,14 @@ export const TransactionHistoryFilterModal: FC<{
               </RadioGroup>
             </Box>
 
-            <Button mt="2rem" variant="primary" onClick={(): void => setVisible(!visible)}>
+            <Button
+              mt="2rem"
+              variant="primary"
+              onClick={(): void => {
+                setVisible(!visible);
+                setValue(selected);
+              }}
+            >
               Apply Filter
             </Button>
           </Flex>

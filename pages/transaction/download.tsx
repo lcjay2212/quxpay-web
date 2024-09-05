@@ -102,12 +102,7 @@ const TransactionDownloadPage: FC = () => {
                           }
                         />
                         {id === 'date' && (
-                          <TransactionHistoryFilterModal
-                            title="Date"
-                            data={DATE_FILTER}
-                            setValue={onChange}
-                            value={value}
-                          />
+                          <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={onChange} />
                         )}
                       </FormContainer>
                     )}
@@ -196,7 +191,6 @@ const TransactionDownloadPage: FC = () => {
                             title="Transaction"
                             data={TRANSACTION_FILTER}
                             setValue={onChange}
-                            value={value}
                           />
                         )}
                       </FormContainer>

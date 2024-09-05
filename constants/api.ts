@@ -9,8 +9,8 @@ export const post = async <T>(url: string, variable: void): Promise<T> =>
     },
   });
 
-const getData = async <T>(apiUrl: string, url: string, customToken?: string): Promise<T> => {
-  const token = customToken ?? localStorage.QUX_PAY_USER_TOKEN;
+const getData = async <T>(apiUrl: string, url: string): Promise<T> => {
+  const token = localStorage.QUX_PAY_USER_TOKEN;
 
   const { data } = await axios.get(`${apiUrl}/${url}`, {
     headers: {
@@ -74,7 +74,7 @@ export const FETCH_BILLER_BY_CATEGORY_ID = async ({ queryKey }: QueryFunctionCon
   await fetchResource(`web/billing/billers-by-category?biller_type_id=${queryKey[1]}`);
 
 export const FETCH_BILLER = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
-  await getData<any>(STAGING_URL, `web/billing/search/billers?search=${queryKey[1]}`, localStorage.QUX_PAY_USER_TOKEN);
+  await fetchResource(`web/billing/search/billers?search=${queryKey[1]}`);
 
 export const FETCH_SCHEDULED_PAYMENT_INFO_BY_ID = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await fetchResource(`web/billing/saved-info?saved_payment_info_id=${queryKey[1]}`);

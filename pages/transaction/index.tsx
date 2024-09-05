@@ -123,24 +123,16 @@ const TransactionHistoryPage: FC = () => {
             </Box>
           )}
         </Box>
-        {id === 'date' && (
-          <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} value={dateFilter} />
-        )}
+        {id === 'date' && <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} />}
         {id === 'transaction' && (
           <TransactionHistoryFilterModal
             title="Transaction"
             data={TRANSACTION_FILTER}
             setValue={setTransactionFilter}
-            value={transactionFilter}
           />
         )}
         {id === 'status' && (
-          <TransactionHistoryFilterModal
-            title="Status"
-            data={STATUS_FILTER}
-            setValue={setStatusFilter}
-            value={statusFilter}
-          />
+          <TransactionHistoryFilterModal title="Status" data={STATUS_FILTER} setValue={setStatusFilter} />
         )}
       </>
     </HeaderContainer>

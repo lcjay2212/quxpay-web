@@ -113,3 +113,5 @@ export const FETCH_CRYPTO_CURRENCY_LIST = async (): Promise<any> =>
   await getData<any>(STAGING_URL, `web/crypto/currency`, localStorage.QUX_PAY_USER_TOKEN);
 
 export const FETCH_CAPTCHA = async (): Promise<any> => await getData<any>(STAGING_URL, `web/captcha`);
+export const FETCH_SECURITY_MAIN_FILE = async (): Promise<any> =>
+  await getData<any>(STAGING_URL, `web/encryption/main-file`);

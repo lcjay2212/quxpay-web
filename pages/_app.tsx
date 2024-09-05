@@ -5,7 +5,7 @@ import { API_SESSION_URL } from 'constants/url';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import { useRouter } from 'next/router';
-import { FC, useEffect } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { useUser } from 'store';
 import { clearStorage, notify, queryClient, theme } from 'utils';
 
@@ -45,6 +45,14 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     clearTimeout(inactivityTimer);
     inactivityTimer = setTimeout(logout, INACTIVITY_TIMEOUT);
   };
+
+  const [isDevtoolsVisible, setIsDevtoolsVisible] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.host === 'localhost:3000') {
+      setIsDevtoolsVisible(true);
+    }
+  }, []);
   useEffect(() => {
     if (user) {
       const handleActivity = (): void => resetInactivityTimer();
@@ -67,7 +75,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
             <Component {...pageProps} />
           </Box>
         </main>
-        {typeof window !== 'undefined' && window.location.host === 'localhost:3000' && <ReactQueryDevtools />}
+        {isDevtoolsVisible && <ReactQueryDevtools />}
       </ChakraProvider>
     </QueryClientProvider>
   );

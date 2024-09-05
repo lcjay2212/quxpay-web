@@ -51,6 +51,7 @@ const Home: FC = () => {
   const router = useRouter();
   const visible = useHomePageModal(({ visible }) => visible);
   const breakPoint = useBreakpoint();
+
   return (
     <Box bg="#3D075F">
       <SEO page="index" />

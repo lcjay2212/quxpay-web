@@ -44,6 +44,7 @@ import {
 } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useBalance, usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
+import { useSecurityMainFile } from 'store/useSecurityMainFile';
 import { clearStorage, getServerSideProps, notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
@@ -68,22 +69,13 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 
 const Dashboard: FC = () => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
-  // const setPrivatekey = usePrivatekey((state) => state.setPrivatekey);
 
-  // useEffect(() => {
-  //   const url = user?.privatekey;
+  // eslint-disable-next-line no-console
 
-  //   const config = {
-  //     mode: 'get',
-  //     url,
-  //   };
+  const { data, dataLoading } = useSecurityMainFile('balance');
 
-  //   axios
-  //     .request(config)
-  //     .then((response) => setPrivatekey(response.data))
-  //     // eslint-disable-next-line no-console
-  //     .catch((error) => console.error(error));
-  // }, [setPrivatekey, user]);
+  // eslint-disable-next-line no-console
+  console.log(data);
 
   const temp = [
     {
@@ -233,85 +225,98 @@ const Dashboard: FC = () => {
         </Box>
       </Flex>
 
-      <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
-        <Label label="Available Balance" image={QuxTokenIcon} amount={balance.toFixed(2)} loading={isLoading} />
-        <Flex justifyContent="center">
-          <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-        </Flex>
-        <Label label="Purchase Pending" image={QuxTokenIcon} amount={deposit.toFixed(2)} loading={isLoading} />
-        <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={isLoading} />
-        <Flex justifyContent="center">
-          <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-        </Flex>
-        <Label label="Redeem Pending" image={QuxTokenIcon} amount={withdrawalPending.toFixed(2)} loading={isLoading} />
-      </Grid>
-      <Grid
-        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }}
-        gap={{ base: 2, md: 6 }}
-        bg="blue.100"
-        py="1rem"
-        px="1.5rem"
-        borderRadius="xl"
-      >
-        {temp
-          .filter((q) => q.show)
-          .map((item) => (
-            <Box key={item.alt}>
-              {item.show && (
-                <Box key={item.label}>
-                  <chakra.input
-                    type="file"
-                    id="Upload"
-                    display="none"
-                    onChange={(e: any): void => {
-                      const formData = new FormData();
-                      formData.append('file', e.target.files[0]);
-                      mutate(formData as any);
-                    }}
-                  />
-                  <chakra.label
-                    htmlFor={item.alt}
-                    key={item.alt}
-                    w={100}
-                    textAlign="center"
-                    cursor="pointer"
-                    _hover={{
-                      color: 'primary',
-                    }}
-                    id={item.alt}
-                    onClick={(): void => {
-                      if (item.alt !== 'Upload') {
-                        void router.push(item.route);
-                      }
-                    }}
-                  >
-                    <Flex justifyContent="center" width="auto" height={50}>
-                      <Image
-                        src={item.image}
-                        width={item.alt === 'Upload' ? 45 : 55}
-                        height={50}
-                        alt={item.alt}
-                        placeholder="empty"
+      {!dataLoading ? (
+        <Box>
+          <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
+            <Label label="Available Balance" image={QuxTokenIcon} amount={balance.toFixed(2)} loading={isLoading} />
+            <Flex justifyContent="center">
+              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+            </Flex>
+            <Label label="Purchase Pending" image={QuxTokenIcon} amount={deposit.toFixed(2)} loading={isLoading} />
+            <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={isLoading} />
+            <Flex justifyContent="center">
+              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+            </Flex>
+            <Label
+              label="Redeem Pending"
+              image={QuxTokenIcon}
+              amount={withdrawalPending.toFixed(2)}
+              loading={isLoading}
+            />
+          </Grid>
+          <Grid
+            templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }}
+            gap={{ base: 2, md: 6 }}
+            bg="blue.100"
+            py="1rem"
+            px="1.5rem"
+            borderRadius="xl"
+          >
+            {temp
+              .filter((q) => q.show)
+              .map((item) => (
+                <Box key={item.alt}>
+                  {item.show && (
+                    <Box key={item.label}>
+                      <chakra.input
+                        type="file"
+                        id="Upload"
+                        display="none"
+                        onChange={(e: any): void => {
+                          const formData = new FormData();
+                          formData.append('file', e.target.files[0]);
+                          mutate(formData as any);
+                        }}
                       />
-                    </Flex>
-                    <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-                      {item.label}
-                    </Text>
-                  </chakra.label>
+                      <chakra.label
+                        htmlFor={item.alt}
+                        key={item.alt}
+                        w={100}
+                        textAlign="center"
+                        cursor="pointer"
+                        _hover={{
+                          color: 'primary',
+                        }}
+                        id={item.alt}
+                        onClick={(): void => {
+                          if (item.alt !== 'Upload') {
+                            void router.push(item.route);
+                          }
+                        }}
+                      >
+                        <Flex justifyContent="center" width="auto" height={50}>
+                          <Image
+                            src={item.image}
+                            width={item.alt === 'Upload' ? 45 : 55}
+                            height={50}
+                            alt={item.alt}
+                            placeholder="empty"
+                          />
+                        </Flex>
+                        <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                          {item.label}
+                        </Text>
+                      </chakra.label>
+                    </Box>
+                  )}
                 </Box>
-              )}
-            </Box>
-          ))}
-      </Grid>
+              ))}
+          </Grid>
 
-      <NotificationHistory />
-      <TransactionHistory />
-      <OpenPosHistory />
-      <TokenHistory />
-      {user?.corporate && <PoFromPluginHistory />}
-      <CryptoTransactionHistory />
-      <UploadLoadingModal />
-      <VerifyModal />
+          <NotificationHistory />
+          <TransactionHistory />
+          <OpenPosHistory />
+          <TokenHistory />
+          {user?.corporate && <PoFromPluginHistory />}
+          <CryptoTransactionHistory />
+          <UploadLoadingModal />
+          <VerifyModal />
+        </Box>
+      ) : (
+        <Box textAlign="center">
+          <Spinner size="lg" color="primary" />
+        </Box>
+      )}
     </Container>
   );
 };

@@ -17,6 +17,7 @@ const LoginOrRegisterPage: FC = () => {
   useEffect(() => setParams(router.query), [setParams, router]);
   const setUser = useUser((e) => e.setUser);
   const { mutate } = useMutation({
+    mutationKey: ['SSO'],
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/login/sso`, variable, {
         headers: {

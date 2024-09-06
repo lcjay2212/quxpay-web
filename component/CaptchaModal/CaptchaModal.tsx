@@ -20,6 +20,7 @@ export const CaptchaModal: FC = () => {
   const [dragging, setDragging] = useState(false);
   const [rel, setRel] = useState({ x: 0, y: 0 });
   const { mutate, isPending: isVerifying } = useMutation({
+    mutationKey: ['captchaVerify'],
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/captcha/verify`, variable, {
         headers: {

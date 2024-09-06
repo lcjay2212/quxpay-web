@@ -233,108 +233,102 @@ const Dashboard: FC = () => {
         </Box>
       </Flex>
 
-      {!dataLoading ? (
-        <Box>
-          <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
-            <Label
-              label="Available Balance"
-              image={QuxTokenIcon}
-              amount={decryptedBalance?.balance.balance.toFixed(2) || 0}
-              loading={dataLoading}
-            />
-            <Flex justifyContent="center">
-              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-            </Flex>
-            <Label
-              label="Purchase Pending"
-              image={QuxTokenIcon}
-              amount={Number(decryptedBalance?.balance.deposit).toFixed(2) || 0}
-              loading={dataLoading}
-            />
-            <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={dataLoading} />
-            <Flex justifyContent="center">
-              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-            </Flex>
-            <Label
-              label="Redeem Pending"
-              image={QuxTokenIcon}
-              amount={Number(decryptedBalance?.balance.withdraw_pending).toFixed(2) || 0}
-              loading={dataLoading}
-            />
-          </Grid>
-          <Grid
-            templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }}
-            gap={{ base: 2, md: 6 }}
-            bg="blue.100"
-            py="1rem"
-            px="1.5rem"
-            borderRadius="xl"
-          >
-            {dashboardMenu
-              .filter((q) => q.show)
-              .map((item) => (
-                <Box key={item.alt}>
-                  {item.show && (
-                    <Box key={item.label}>
-                      <chakra.input
-                        type="file"
-                        id="Upload"
-                        display="none"
-                        onChange={(e: any): void => {
-                          const formData = new FormData();
-                          formData.append('file', e.target.files[0]);
-                          mutate(formData as any);
-                        }}
-                      />
-                      <chakra.label
-                        htmlFor={item.alt}
-                        key={item.alt}
-                        w={100}
-                        textAlign="center"
-                        cursor="pointer"
-                        _hover={{
-                          color: 'primary',
-                        }}
-                        id={item.alt}
-                        onClick={(): void => {
-                          if (item.alt !== 'Upload') {
-                            void router.push(item.route);
-                          }
-                        }}
-                      >
-                        <Flex justifyContent="center" width="auto" height={50}>
-                          <Image
-                            src={item.image}
-                            width={item.alt === 'Upload' ? 45 : 55}
-                            height={50}
-                            alt={item.alt}
-                            placeholder="empty"
-                          />
-                        </Flex>
-                        <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-                          {item.label}
-                        </Text>
-                      </chakra.label>
-                    </Box>
-                  )}
-                </Box>
-              ))}
-          </Grid>
+      <Box>
+        <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
+          <Label
+            label="Available Balance"
+            image={QuxTokenIcon}
+            amount={decryptedBalance?.balance.balance.toFixed(2) || 0}
+            loading={dataLoading}
+          />
+          <Flex justifyContent="center">
+            <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+          </Flex>
+          <Label
+            label="Purchase Pending"
+            image={QuxTokenIcon}
+            amount={Number(decryptedBalance?.balance.deposit).toFixed(2) || 0}
+            loading={dataLoading}
+          />
+          <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={dataLoading} />
+          <Flex justifyContent="center">
+            <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+          </Flex>
+          <Label
+            label="Redeem Pending"
+            image={QuxTokenIcon}
+            amount={Number(decryptedBalance?.balance.withdraw_pending).toFixed(2) || 0}
+            loading={dataLoading}
+          />
+        </Grid>
+        <Grid
+          templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }}
+          gap={{ base: 2, md: 6 }}
+          bg="blue.100"
+          py="1rem"
+          px="1.5rem"
+          borderRadius="xl"
+        >
+          {dashboardMenu
+            .filter((q) => q.show)
+            .map((item) => (
+              <Box key={item.alt}>
+                {item.show && (
+                  <Box key={item.label}>
+                    <chakra.input
+                      type="file"
+                      id="Upload"
+                      display="none"
+                      onChange={(e: any): void => {
+                        const formData = new FormData();
+                        formData.append('file', e.target.files[0]);
+                        mutate(formData as any);
+                      }}
+                    />
+                    <chakra.label
+                      htmlFor={item.alt}
+                      key={item.alt}
+                      w={100}
+                      textAlign="center"
+                      cursor="pointer"
+                      _hover={{
+                        color: 'primary',
+                      }}
+                      id={item.alt}
+                      onClick={(): void => {
+                        if (item.alt !== 'Upload') {
+                          void router.push(item.route);
+                        }
+                      }}
+                    >
+                      <Flex justifyContent="center" width="auto" height={50}>
+                        <Image
+                          src={item.image}
+                          width={item.alt === 'Upload' ? 45 : 55}
+                          height={50}
+                          alt={item.alt}
+                          placeholder="empty"
+                        />
+                      </Flex>
+                      <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                        {item.label}
+                      </Text>
+                    </chakra.label>
+                  </Box>
+                )}
+              </Box>
+            ))}
+        </Grid>
 
-          <NotificationHistory />
-          <TransactionHistory />
-          <OpenPosHistory />
-          <TokenHistory />
-          {user?.corporate && <PoFromPluginHistory />}
-          <CryptoTransactionHistory />
-          <UploadLoadingModal />
-          <VerifyModal />
-        </Box>
-      ) : (
-        <Box textAlign="center">
-          <Spinner size="lg" color="primary" />
-        </Box>
-      )}
+        <NotificationHistory />
+        <TransactionHistory />
+        <OpenPosHistory />
+        <TokenHistory />
+        {user?.corporate && <PoFromPluginHistory />}
+        <CryptoTransactionHistory />
+        <UploadLoadingModal />
+        <VerifyModal />
+      </Box>
     </Container>
   );
 };

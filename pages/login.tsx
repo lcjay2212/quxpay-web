@@ -22,6 +22,7 @@ const Login: FC = () => {
   const params = useRouteParams((e) => e.params);
 
   const login = useMutation({
+    mutationKey: ['login'],
     mutationFn: (variable) => post('web/login', variable),
     onSuccess: async ({ data }) => {
       notify(`${data.status.message}`);

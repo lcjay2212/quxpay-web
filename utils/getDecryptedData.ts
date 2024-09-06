@@ -24,10 +24,10 @@ export const getDecryptedData = async (encryptedData) => {
 
   const file = decryptData(data, privateKeyPem, `${mainKey}`, iv);
 
-  const masterKey = file?.master_key;
+  const masterPrivateKey = file?.master_private_key;
   const details = JSON.parse(file?.details);
 
-  const decryptedDetails = decryptDetails(details, masterKey);
+  const decryptedDetails = decryptDetails(details, masterPrivateKey);
 
   return {
     details: decryptedDetails,

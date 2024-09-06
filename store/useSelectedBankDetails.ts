@@ -1,7 +1,7 @@
 import { create } from 'zustand';
 
 type Payment = {
-  payment: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
+  payment?: { bankAccount: { bank_name?: string; nameOnAccount?: string } };
 } | null;
 
 type Props = {

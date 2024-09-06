@@ -13,7 +13,7 @@ interface UseSecurityMainFileResult {
   error: unknown;
 }
 
-export const useSecurityMainFile = (type: string): UseSecurityMainFileResult => {
+export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
   const [data, setData] = useState(null);
 
   const { isLoading: dataLoading, error } = useQuery({
@@ -27,9 +27,9 @@ export const useSecurityMainFile = (type: string): UseSecurityMainFileResult => 
             Version: '2',
           },
         });
-
         if (response.data.data) {
           const { details } = await getDecryptedData(response.data.data);
+
           setData(details);
         }
 

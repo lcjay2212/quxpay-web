@@ -135,7 +135,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
             )}
             {(type === 'BANK' || type === 'ADD_BANK') && (
               <Text color="white" fontSize="20px" mt="1rem">
-                Redeeming Tokens <br /> to {selectedBankDetails?.payment.bankAccount.nameOnAccount}
+                Redeeming Tokens <br /> to {selectedBankDetails?.payment?.bankAccount.nameOnAccount}
                 <br /> Successfully Initiated
               </Text>
             )}

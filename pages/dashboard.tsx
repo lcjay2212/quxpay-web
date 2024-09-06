@@ -43,8 +43,9 @@ import {
   WithdrawSuccessful,
 } from 'public/assets';
 import { FC, useEffect } from 'react';
-import { useBalance, usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
-import { useSecurityMainFile } from 'store/useSecurityMainFile';
+import { usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
+import { useDecryptedBalance } from 'store/useDecryptedBalance';
+import { useDecryptedData } from 'store/useDecryptedData';
 import { clearStorage, getServerSideProps, notify } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
@@ -70,14 +71,19 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 const Dashboard: FC = () => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
 
-  // eslint-disable-next-line no-console
+  const { data, dataLoading } = useDecryptedData('balance');
+  const [decryptedBalance, setDecryptedBalance] = useDecryptedBalance((e) => [
+    e.decryptedBalance,
+    e.setDecryptedBalance,
+  ]);
 
-  const { data, dataLoading } = useSecurityMainFile('balance');
+  useEffect(() => {
+    if (data) {
+      setDecryptedBalance(data);
+    }
+  }, [data, setDecryptedBalance]);
 
-  // eslint-disable-next-line no-console
-  console.log(data);
-
-  const temp = [
+  const dashboardMenu = [
     {
       image: CashIn,
       alt: 'Purchase',
@@ -153,7 +159,6 @@ const Dashboard: FC = () => {
   const router = useRouter();
   const setVisible = useUploadLoadingModal((set) => set.setVisible);
 
-  const { isLoading, balance, deposit, withdrawalPending, totalPurchase, verificationStatus } = useBalance();
   const { refetch } = usePosHistory();
   const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
   const logout = async (): Promise<void> => {
@@ -171,10 +176,13 @@ const Dashboard: FC = () => {
   };
 
   useEffect(() => {
-    if (verificationStatus !== 'for_review' && totalPurchase >= 600) {
+    if (
+      decryptedBalance?.balance.verification_status !== 'for_review' &&
+      Number(decryptedBalance?.balance.total_purchase) >= 600
+    ) {
       setVerifyModalVisible(true);
     }
-  }, [setVerifyModalVisible, totalPurchase, verificationStatus]);
+  }, [setVerifyModalVisible, decryptedBalance]);
 
   const { mutate, isSuccess } = useMutation({
     mutationFn: (variable) =>
@@ -228,20 +236,30 @@ const Dashboard: FC = () => {
       {!dataLoading ? (
         <Box>
           <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
-            <Label label="Available Balance" image={QuxTokenIcon} amount={balance.toFixed(2)} loading={isLoading} />
+            <Label
+              label="Available Balance"
+              image={QuxTokenIcon}
+              amount={decryptedBalance?.balance.balance.toFixed(2) || 0}
+              loading={dataLoading}
+            />
             <Flex justifyContent="center">
               <Divider colorScheme="red" orientation="vertical" variant="dashed" />
             </Flex>
-            <Label label="Purchase Pending" image={QuxTokenIcon} amount={deposit.toFixed(2)} loading={isLoading} />
-            <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={isLoading} />
+            <Label
+              label="Purchase Pending"
+              image={QuxTokenIcon}
+              amount={Number(decryptedBalance?.balance.deposit).toFixed(2) || 0}
+              loading={dataLoading}
+            />
+            <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={dataLoading} />
             <Flex justifyContent="center">
               <Divider colorScheme="red" orientation="vertical" variant="dashed" />
             </Flex>
             <Label
               label="Redeem Pending"
               image={QuxTokenIcon}
-              amount={withdrawalPending.toFixed(2)}
-              loading={isLoading}
+              amount={Number(decryptedBalance?.balance.withdraw_pending).toFixed(2) || 0}
+              loading={dataLoading}
             />
           </Grid>
           <Grid
@@ -252,7 +270,7 @@ const Dashboard: FC = () => {
             px="1.5rem"
             borderRadius="xl"
           >
-            {temp
+            {dashboardMenu
               .filter((q) => q.show)
               .map((item) => (
                 <Box key={item.alt}>

@@ -57,8 +57,8 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
         <Box mb="2rem" textAlign="start">
           {type === 'BANK' && (
             <>
-              <Text noOfLines={1}>Sending To: {selectedBankDetails?.payment.bankAccount.bank_name}</Text>
-              <Text>Account Name: {selectedBankDetails?.payment.bankAccount.nameOnAccount}</Text>
+              <Text noOfLines={1}>Sending To: {selectedBankDetails?.payment?.bankAccount.bank_name}</Text>
+              <Text>Account Name: {selectedBankDetails?.payment?.bankAccount.nameOnAccount}</Text>
             </>
           )}
           {(type === 'ADD_CRYPTO' || type === 'CRYPTO') && (

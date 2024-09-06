@@ -11,7 +11,6 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
 import {
   AddBankAccount,
   AddCreditCardForm,
@@ -23,28 +22,39 @@ import {
   FormContainer,
   TextField,
 } from 'component';
-import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
+import { useDecryptedData } from 'store/useDecryptedData';
+import { useDecryptedWallets } from 'store/useDecryptedWallets';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
   const method = useFormContext();
   const { control } = method;
-  const { data, isLoading: loading } = useQuery({
-    queryKey: ['bankCreditCardCrypto'],
-    queryFn: FETCH_BANK_CREDIT_CARD_CRYPTO,
-  });
+
+  const { data: details, dataLoading } = useDecryptedData('wallets');
+
+  const [decryptedWallets, setDecryptedWallets] = useDecryptedWallets((e) => [
+    e.decryptedWallets,
+    e.setDecryptedWallets,
+  ]);
+
+  useEffect(() => {
+    if (details) {
+      setDecryptedWallets(details?.wallets);
+    }
+  }, [details, setDecryptedWallets]);
+
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setSelectedBankDetails = useSelectedBankDetails((e) => e.setSelectedBankDetails);
   const setSelectedCrypto = useSelectedCrypto((e) => e.setSelectedCrypto);
   return (
     <>
-      {!loading ? (
+      {!dataLoading ? (
         <Box display="flex" flexDir="column">
           <Controller
             control={control}
@@ -89,17 +99,17 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                       </Text>
                     )}
                     <FormControl isInvalid={!!error?.message}>
-                      {data?.bank?.length ? (
-                        data?.bank?.map((item, index) => {
-                          const { accountNumber, nameOnAccount, bank_name } = item?.payment?.bankAccount;
+                      {decryptedWallets?.bank.length ? (
+                        decryptedWallets.bank.map((item, index) => {
+                          const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
                           return (
                             <Flex justifyContent="space-between" key={index}>
                               <Box mt="1rem">
                                 <BankAccount
-                                  bankName={bank_name ?? ''}
-                                  name={nameOnAccount ?? ''}
-                                  accountNumber={accountNumber ?? ''}
-                                  loading={loading}
+                                  bankName={bank_name}
+                                  name={nameOnAccount}
+                                  accountNumber={accountNumber}
+                                  loading={dataLoading}
                                 />
                                 {error?.message && (
                                   <SlideFade in={true} offsetY="-1rem">
@@ -129,13 +139,16 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                         <Text>No Bank Record</Text>
                       )}
 
-                      {!isEmpty(data?.credit_card) && (
-                        <Flex justifyContent="space-between" key={data?.credit_card?.customerPaymentProfileId}>
+                      {!isEmpty(decryptedWallets?.credit_card) && (
+                        <Flex
+                          justifyContent="space-between"
+                          key={decryptedWallets?.credit_card.customerPaymentProfileId}
+                        >
                           <Box mt="1rem">
                             <CreditCard
-                              accountNumber={data?.credit_card?.payment?.creditCard?.cardNumber ?? ''}
-                              cardType={data?.credit_card?.payment?.creditCard?.cardType ?? ''}
-                              loading={loading}
+                              accountNumber={decryptedWallets?.credit_card.payment.creditCard.cardNumber ?? ''}
+                              cardType={decryptedWallets?.credit_card.payment.creditCard.cardType ?? ''}
+                              loading={dataLoading}
                             />
                             {error?.message && (
                               <SlideFade in={true} offsetY="-1rem">
@@ -146,15 +159,15 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                             )}
                           </Box>
                           <Radio
-                            value={`${data?.credit_card?.customerPaymentProfileId}`}
+                            value={`${decryptedWallets?.credit_card.customerPaymentProfileId}`}
                             colorScheme="teal"
                             onChange={(): void => {
-                              onChange(data?.credit_card?.customerPaymentProfileId);
+                              onChange(decryptedWallets?.credit_card.customerPaymentProfileId);
                               setPaymentData({
-                                paymentId: data?.credit_card?.customerPaymentProfileId,
-                                paymentType: data.credit_card?.payment_type,
+                                paymentId: decryptedWallets?.credit_card.customerPaymentProfileId,
+                                paymentType: decryptedWallets?.credit_card.payment_type,
                               });
-                              setSelectedBankDetails(data?.credit_card);
+                              setSelectedBankDetails(decryptedWallets?.credit_card as any);
                               setType('EXISTING_CREDITCARD');
                             }}
                           />
@@ -183,15 +196,15 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                           To Crypto
                         </Text>
                         <FormControl isInvalid={!!error?.message}>
-                          {data?.crypto?.length ? (
-                            data?.crypto?.map((item, index) => (
+                          {decryptedWallets?.crypto.length ? (
+                            decryptedWallets.crypto.map((item, index) => (
                               <Flex justifyContent="space-between" key={index}>
                                 <Box mt="1rem">
                                   <CryptoWallet
-                                    address={item.address ?? ''}
-                                    name={item.name ?? ''}
-                                    type={item.currency ?? ''}
-                                    loading={loading}
+                                    address={item.address}
+                                    name={item.name}
+                                    type={item.currency}
+                                    loading={dataLoading}
                                   />
                                   {error?.message && (
                                     <SlideFade in={true} offsetY="-1rem">

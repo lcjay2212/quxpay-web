@@ -1,16 +1,10 @@
 import { CongratulationContent, Deposit, HeaderContainer } from 'component';
 import { FC } from 'react';
 import { useCongratulationContent } from 'store';
-import { useSecurityMainFile } from 'store/useSecurityMainFile';
 import { getServerSideProps } from 'utils';
 
 const RedeemPage: FC = () => {
   const visible = useCongratulationContent((e) => e.visible);
-
-  const { data, dataLoading } = useSecurityMainFile('wallets');
-
-  // eslint-disable-next-line no-console
-  console.log(data, dataLoading);
 
   return (
     <>

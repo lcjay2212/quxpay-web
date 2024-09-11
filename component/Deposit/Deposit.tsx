@@ -4,11 +4,14 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, useType } from 'store';
+import { useDecryptedData } from 'store/useDecryptedData';
+import { useDecryptedWallets } from 'store/useDecryptedWallets';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 import { notify } from 'utils';
+import { encryptData } from 'utils/encryptData';
 import { DepositStepOne } from './DepositStepOne';
 import { DepositStepTwo } from './DepositStepTwo';
 
@@ -22,6 +25,14 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const [step, setStep] = useState(1);
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
+  const { data: details, dataLoading } = useDecryptedData('wallets');
+  const setDecryptedWallets = useDecryptedWallets((e) => e.setDecryptedWallets);
+
+  useEffect(() => {
+    if (details) {
+      setDecryptedWallets(details?.details?.wallets);
+    }
+  }, [details, setDecryptedWallets]);
 
   const amount = watch('amount');
 
@@ -69,9 +80,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     });
 
   const { mutate, isPending } = useCustomMutation(
-    `${STAGING_URL}/${
-      type === 'BANK' || type === 'EXISTING_CREDITCARD' ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'
-    }`,
+    `${STAGING_URL}/${type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'}`,
     handleSuccess,
     handleError
   );
@@ -94,6 +103,28 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     ({ response }: any) => notify(response?.data?.data?.message, { status: 'warning' })
   );
 
+  const { mutate: validate, isPending: validateLoading } = useCustomMutation(
+    `${STAGING_URL}/${url}`,
+    () => setStep((e) => e + 1),
+    ({ response }: any) => notify(response?.data?.data?.message, { status: 'error' })
+  );
+
+  const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
+    `${STAGING_URL}/web/encryption/updated/main-file`,
+    () => setStep((e) => e + 1),
+    ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message, { status: 'error' });
+    }
+  );
+
   const onSubmit = (val): void => {
     if (step === 1) {
       if (type === 'ADD_CRYPTO') {
@@ -107,13 +138,37 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
           type: 'purchase',
         });
       } else {
-        setStep((e) => e + 1);
+        if (type === 'ADD_BANK') {
+          // mutate({ ...val });
+          setStep((e) => e + 1);
+        } else {
+          validate({
+            ...val,
+            payment_type: paymentData?.paymentType,
+          });
+        }
       }
       return;
     }
-
     if (step === 2) {
       const commonData = { ...val };
+
+      const handleEncryptedContent = (tokenType: 'purchase' | 'redeem'): void => {
+        const content = JSON.stringify({
+          [`${tokenType}_tokens`]: [
+            {
+              ...val,
+              payment_type: paymentData?.paymentType,
+            },
+          ],
+        });
+
+        if (details) {
+          const encryptedData = encryptData(content, details, 'balance');
+          updateMainFile(encryptedData);
+        }
+      };
+
       if (label === 'Purchase') {
         if (type === 'CREDIT') {
           mutate({
@@ -131,15 +186,22 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             type: 'purchase',
           });
         } else {
-          mutate({ ...commonData, payment_method: paymentData?.paymentType });
+          if (type === 'ADD_BANK') {
+            mutate({ ...val });
+          } else {
+            handleEncryptedContent('purchase');
+          }
         }
       } else if (label === 'Redeem') {
-        mutate({
-          ...commonData,
-          ...(type === 'ADD_CRYPTO' || type === 'CRYPTO'
-            ? { amount, address: selectedCrypto?.address || val.address }
-            : {}),
-        });
+        if (['ADD_CRYPTO', 'CRYPTO'].includes(type || '')) {
+          mutate({
+            ...commonData,
+            amount,
+            address: selectedCrypto?.address || val.address,
+          });
+        } else {
+          handleEncryptedContent('redeem');
+        }
       }
     }
   };
@@ -149,7 +211,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
-            {step === 1 && <DepositStepOne label={label} />}
+            {step === 1 && <DepositStepOne label={label} loading={dataLoading} />}
             {step === 2 && <DepositStepTwo label={label} />}
 
             <Box mt="2rem">
@@ -159,7 +221,14 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                 borderRadius="1rem"
                 w="400px"
                 h="3.25rem"
-                isLoading={isPending || addCryptoLoading || paymentLoading || checkLoading}
+                isLoading={
+                  isPending ||
+                  addCryptoLoading ||
+                  paymentLoading ||
+                  checkLoading ||
+                  validateLoading ||
+                  updateMainFileLoading
+                }
               >
                 {step === 1
                   ? label === 'Purchase' && type === 'CRYPTO'

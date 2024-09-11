@@ -66,7 +66,7 @@ const Dashboard: FC = () => {
 
   useEffect(() => {
     if (data) {
-      setDecryptedBalance(data);
+      setDecryptedBalance(data?.details);
     }
   }, [data, setDecryptedBalance]);
 
@@ -129,7 +129,7 @@ const Dashboard: FC = () => {
           <Label
             label="Available Balance"
             image={QuxTokenIcon}
-            amount={decryptedBalance?.balance.balance.toFixed(2) || 0}
+            amount={(decryptedBalance?.balance.balance || 0).toFixed(2)}
             loading={dataLoading}
           />
           <Flex justifyContent="center">
@@ -138,17 +138,17 @@ const Dashboard: FC = () => {
           <Label
             label="Purchase Pending"
             image={QuxTokenIcon}
-            amount={Number(decryptedBalance?.balance.deposit).toFixed(2) || 0}
+            amount={Number(decryptedBalance?.balance.deposit || 0).toFixed(2)}
             loading={dataLoading}
           />
-          <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={dataLoading} />
+          <Label label="Tagged Tokens" image={QuxTokenIcon} amount={(0).toFixed(2)} loading={dataLoading} />
           <Flex justifyContent="center">
             <Divider colorScheme="red" orientation="vertical" variant="dashed" />
           </Flex>
           <Label
             label="Redeem Pending"
             image={QuxTokenIcon}
-            amount={Number(decryptedBalance?.balance.withdraw_pending).toFixed(2) || 0}
+            amount={Number(decryptedBalance?.balance.withdraw_pending || 0).toFixed(2)}
             loading={dataLoading}
           />
         </Grid>

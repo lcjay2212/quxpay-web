@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
@@ -8,13 +9,20 @@ import { getDecryptedData } from 'utils/getDecryptedData';
 
 interface UseSecurityMainFileResult {
   dataLoading: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   data: any; // Replace `any` with a more specific type if possible
   error: unknown;
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<{
+    details: any;
+    masterPublicKey: string;
+    encryptedMainKey: string | null;
+    decryptedMainKey: string | null;
+    iv: string;
+    key: string;
+    userPublicKeyPem: string;
+  } | null>(null);
 
   const { isLoading: dataLoading, error } = useQuery({
     queryKey: [`${camelCase(type)}SecurityFile`],
@@ -27,15 +35,25 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
             Version: '2',
           },
         });
-        if (response.data.data) {
-          const { details } = await getDecryptedData(response.data.data);
 
-          setData(details);
+        if (response.data.data) {
+          const { details, masterPublicKey, encryptedMainKey, decryptedMainKey, iv, key, userPublicKeyPem } =
+            await getDecryptedData(response.data.data);
+
+          setData({
+            details,
+            masterPublicKey,
+            encryptedMainKey,
+            decryptedMainKey,
+            iv,
+            key,
+            userPublicKeyPem,
+          });
         }
 
-        return response.data;
+        return response.data.data;
       } catch (error) {
-        notify(`Error fetching or decrypting data`, { status: 'error' });
+        notify(`${error.message}`, { status: 'error' });
       }
     },
   });

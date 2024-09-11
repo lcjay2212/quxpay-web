@@ -1,35 +1,62 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { decryptData } from './decryptData';
 import { decryptDetails } from './decryptDetails';
 import { decryptMainKey } from './decryptMainKey';
 import { queryClient } from './queryClient';
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const getDecryptedData = async (encryptedData) => {
-  const { data: privateKeyPem } = await queryClient.fetchQuery({
+
+type DecryptedData = {
+  details: any; // Define this more explicitly if you know the structure
+  decryptedMainKey: string | null;
+  encryptedMainKey: string;
+  masterPublicKey: string;
+  iv: string;
+  key: string;
+  userPublicKeyPem: string;
+};
+export const getDecryptedData = async (encryptedData: {
+  user_private_key: string;
+  user_public_key: string;
+  key: string;
+  iv: string;
+  encrypted_main_key: string;
+  main_file_path: string;
+}): Promise<DecryptedData> => {
+  const { data: userPrivateKeyPem } = await queryClient.fetchQuery({
     queryKey: ['userPrivateKey'],
     queryFn: async () => await axios.get(`${encryptedData.user_private_key}`),
   });
 
-  const key = encryptedData?.key;
-  const iv = encryptedData?.iv;
-  const encryptedMainKey = encryptedData?.encrypted_main_key;
+  const { data: userPublicKeyPem } = await queryClient.fetchQuery({
+    queryKey: ['userPublicKey'],
+    queryFn: async () => await axios.get(`${encryptedData.user_public_key}`),
+  });
 
-  const mainKey = decryptMainKey(encryptedMainKey, privateKeyPem, key, iv);
+  const key = encryptedData.key;
+  const iv = encryptedData.iv;
+  const encryptedMainKey = encryptedData.encrypted_main_key;
+
+  const mainKey = decryptMainKey(encryptedMainKey, userPrivateKeyPem, key, iv);
 
   const { data } = await queryClient.fetchQuery({
     queryKey: ['useEncrptedMainFile'],
     queryFn: async () => await axios.get(`${encryptedData.main_file_path}`),
   });
 
-  const file = decryptData(data, privateKeyPem, `${mainKey}`, iv);
+  const file = decryptData(data, userPrivateKeyPem, `${mainKey}`, iv);
 
-  const masterPrivateKey = file?.master_private_key;
+  const masterPublicKey = file?.master_public_key;
   const details = JSON.parse(file?.details);
 
-  const decryptedDetails = decryptDetails(details, masterPrivateKey);
+  const decryptedDetails = decryptDetails(details, userPrivateKeyPem);
 
   return {
     details: decryptedDetails,
+    decryptedMainKey: mainKey,
+    encryptedMainKey,
+    masterPublicKey,
+    iv,
+    key,
+    userPublicKeyPem,
   };
 };

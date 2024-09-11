@@ -25,28 +25,16 @@ import {
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets';
-import { FC, ReactElement, useEffect } from 'react';
+import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
-import { useDecryptedData } from 'store/useDecryptedData';
 import { useDecryptedWallets } from 'store/useDecryptedWallets';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
-export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
+export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label, loading }) => {
   const method = useFormContext();
   const { control } = method;
 
-  const { data: details, dataLoading } = useDecryptedData('wallets');
-
-  const [decryptedWallets, setDecryptedWallets] = useDecryptedWallets((e) => [
-    e.decryptedWallets,
-    e.setDecryptedWallets,
-  ]);
-
-  useEffect(() => {
-    if (details) {
-      setDecryptedWallets(details?.wallets);
-    }
-  }, [details, setDecryptedWallets]);
+  const decryptedWallets = useDecryptedWallets((e) => e.decryptedWallets);
 
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
@@ -97,11 +85,12 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                       To My Bank
                     </Text>
                   )}
-                  {!dataLoading ? (
+                  {!loading ? (
                     <FormControl isInvalid={!!error?.message}>
                       {decryptedWallets?.bank.length ? (
                         decryptedWallets.bank.map((item, index) => {
                           const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
+
                           return (
                             <Flex justifyContent="space-between" key={index}>
                               <Box mt="1rem">
@@ -109,7 +98,7 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                                   bankName={bank_name}
                                   name={nameOnAccount}
                                   accountNumber={accountNumber}
-                                  loading={dataLoading}
+                                  loading={loading}
                                 />
                                 {error?.message && (
                                   <SlideFade in={true} offsetY="-1rem">
@@ -148,7 +137,7 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                             <CreditCard
                               accountNumber={decryptedWallets?.credit_card.payment.creditCard.cardNumber ?? ''}
                               cardType={decryptedWallets?.credit_card.payment.creditCard.cardType ?? ''}
-                              loading={dataLoading}
+                              loading={loading}
                             />
                             {error?.message && (
                               <SlideFade in={true} offsetY="-1rem">
@@ -200,7 +189,7 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                       <Text color="white" textAlign="start" fontWeight="bold" fontSize="2rem" my="1rem">
                         To Crypto
                       </Text>
-                      {!dataLoading ? (
+                      {!loading ? (
                         <FormControl isInvalid={!!error?.message}>
                           {decryptedWallets?.crypto.length ? (
                             decryptedWallets.crypto.map((item, index) => (
@@ -210,7 +199,7 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                                     address={item.address}
                                     name={item.name}
                                     type={item.currency}
-                                    loading={dataLoading}
+                                    loading={loading}
                                   />
                                   {error?.message && (
                                     <SlideFade in={true} offsetY="-1rem">

@@ -31,8 +31,6 @@ export const SendQuxTokenWrapper: FC = () => {
   const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
   const [amount, setAmount] = useState(0);
-  const [friendId, setFriendId] = useState();
-  const [comment, setComment] = useState('');
 
   const { data, isLoading: loading, refetch } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
   const [sentToDetail, setSetToDetail] = useState<{
@@ -43,16 +41,12 @@ export const SendQuxTokenWrapper: FC = () => {
 
   const { mutate: sendTokens, isPending: sending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(
-        `${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token&comment=${comment}`,
-        variable,
-        {
-          headers: {
-            Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-            Version: 2,
-          },
-        }
-      ),
+      axios.post(`${STAGING_URL}/web/wallet/transfer-fund`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
     onSuccess: () => {
       setSuccessTrigger(true);
     },
@@ -82,7 +76,7 @@ export const SendQuxTokenWrapper: FC = () => {
 
   const onDeposit = (val): void => {
     if (radioValue !== `${data?.length + 1}`) {
-      sendTokens();
+      sendTokens({ ...val, type: 'tag_token' });
     } else {
       mutate(val);
     }
@@ -108,7 +102,7 @@ export const SendQuxTokenWrapper: FC = () => {
                       value={value ?? ''}
                       placeholder="Enter Amount"
                       onChange={(e): void => {
-                        onChange(+e.target.value);
+                        onChange(e.target.value);
                         setAmount(+e.target.value);
                       }}
                       onBlur={onBlur}
@@ -138,10 +132,7 @@ export const SendQuxTokenWrapper: FC = () => {
                         bg: 'black',
                       }}
                       placeholder="Add Comment (optional)"
-                      onChange={(e): void => {
-                        onChange(e.target.value);
-                        setComment(e.target.value);
-                      }}
+                      onChange={onChange}
                       onBlur={onBlur}
                       value={value}
                       py="1rem"
@@ -159,7 +150,7 @@ export const SendQuxTokenWrapper: FC = () => {
               <RadioGroup onChange={setRadioValue} value={radioValue}>
                 <Controller
                   control={control}
-                  name="id"
+                  name="email"
                   render={({ field: { onChange } }): ReactElement => (
                     <FormControl>
                       {data?.length ? (
@@ -182,8 +173,7 @@ export const SendQuxTokenWrapper: FC = () => {
                                       value={`${index + 1}`}
                                       colorScheme="teal"
                                       onChange={(): void => {
-                                        onChange(item?.id);
-                                        setFriendId(item?.id);
+                                        onChange(item?.email);
                                         setSetToDetail(item);
                                       }}
                                     />

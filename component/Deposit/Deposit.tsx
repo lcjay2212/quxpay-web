@@ -30,7 +30,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
 
   useEffect(() => {
     if (details) {
-      setDecryptedWallets(details?.details?.wallets);
+      setDecryptedWallets(details?.details);
     }
   }, [details, setDecryptedWallets]);
 

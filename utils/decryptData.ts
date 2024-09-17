@@ -18,11 +18,13 @@ export const decryptData = (data: [] | undefined, privateKeyPem: string, mainKey
       }
     });
 
-    const message = forge.util.decode64(accumulatedContent);
+    const outerData = JSON.parse(accumulatedContent);
     const ivBase64 = forge.util.decode64(iv);
+    const innerAes = outerData?.inner_aes;
+    const innerAesBase64 = forge.util.decode64(innerAes);
 
     // Assuming aes256Decrypt is another utility function
-    const mainFile = aes256Decrypt(message, `${mainKey}`, ivBase64);
+    const mainFile = aes256Decrypt(innerAesBase64, `${mainKey}`, ivBase64);
 
     return JSON.parse(mainFile ?? '');
   } catch (error) {

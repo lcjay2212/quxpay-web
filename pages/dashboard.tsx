@@ -88,10 +88,7 @@ const Dashboard: FC = () => {
   };
 
   useEffect(() => {
-    if (
-      decryptedBalance?.balance.verification_status !== 'for_review' &&
-      Number(decryptedBalance?.balance.total_purchase) >= 600
-    ) {
+    if (decryptedBalance?.verification_status !== 'for_review' && Number(decryptedBalance?.total_purchase) >= 600) {
       setVerifyModalVisible(true);
     }
   }, [setVerifyModalVisible, decryptedBalance]);
@@ -129,7 +126,7 @@ const Dashboard: FC = () => {
           <Label
             label="Available Balance"
             image={QuxTokenIcon}
-            amount={(decryptedBalance?.balance.balance || 0).toFixed(2)}
+            amount={(decryptedBalance?.balance || 0).toFixed(2)}
             loading={dataLoading}
           />
           <Flex justifyContent="center">
@@ -138,7 +135,7 @@ const Dashboard: FC = () => {
           <Label
             label="Purchase Pending"
             image={QuxTokenIcon}
-            amount={Number(decryptedBalance?.balance.deposit || 0).toFixed(2)}
+            amount={Number(decryptedBalance?.deposit || 0).toFixed(2)}
             loading={dataLoading}
           />
           <Label label="Tagged Tokens" image={QuxTokenIcon} amount={(0).toFixed(2)} loading={dataLoading} />
@@ -148,7 +145,7 @@ const Dashboard: FC = () => {
           <Label
             label="Redeem Pending"
             image={QuxTokenIcon}
-            amount={Number(decryptedBalance?.balance.withdraw_pending || 0).toFixed(2)}
+            amount={Number(decryptedBalance?.withdraw_pending || 0).toFixed(2)}
             loading={dataLoading}
           />
         </Grid>

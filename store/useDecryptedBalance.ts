@@ -1,18 +1,13 @@
 import { create } from 'zustand';
 
 type BalanceProps = {
-  balance: {
-    balance: number;
-    deposit: string;
-    withdraw_pending: number;
-    total_withdraw: number;
-    total_purchase: string;
-    is_verified: boolean;
-    verification_status: string;
-  };
-  send_tokens: [];
-  purchase_tokens: [];
-  redeem_tokens: [];
+  balance: number;
+  deposit: string;
+  withdraw_pending: number;
+  total_withdraw: number;
+  total_purchase: string;
+  is_verified: boolean;
+  verification_status: string;
 } | null;
 
 type Props = {

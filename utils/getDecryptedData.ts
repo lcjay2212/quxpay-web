@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { decryptData } from './decryptData';
 import { decryptDetails } from './decryptDetails';
+// import { decryptDetails } from './decryptDetails';
 import { decryptMainKey } from './decryptMainKey';
 import { queryClient } from './queryClient';
 
@@ -46,9 +47,9 @@ export const getDecryptedData = async (encryptedData: {
   const file = decryptData(data, userPrivateKeyPem, `${mainKey}`, iv);
 
   const masterPublicKey = file?.master_public_key;
-  const details = JSON.parse(file?.details);
+  const core = JSON.parse(file?.core);
 
-  const decryptedDetails = decryptDetails(details, userPrivateKeyPem);
+  const decryptedDetails = decryptDetails(core, userPrivateKeyPem);
 
   return {
     details: decryptedDetails,

@@ -7,11 +7,12 @@ import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useAccountPaymentId } from 'store';
-import { getServerSideProps, notify, queryClient } from 'utils';
+import { useDecryptedWallets } from 'store/useDecryptedWallets';
+import { getServerSideProps, notify } from 'utils';
 
 export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();
-  const bankCreditAndCryptoData = queryClient.getQueryData(['bankCreditCardCrypto']);
+  const decryptedWallets = useDecryptedWallets((e) => e.decryptedWallets);
   const [radioValue, setRadioValue] = useState('');
   const [paymentData, setPaymentData] = useAccountPaymentId(({ paymentData, setPaymentData }) => [
     paymentData,
@@ -43,19 +44,15 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
         </Text>
 
         <RadioGroup onChange={setRadioValue} value={radioValue}>
-          {bankCreditAndCryptoData ? (
+          {decryptedWallets ? (
             <>
-              {bankCreditAndCryptoData['bank'].map((item, index) => {
-                const { accountNumber, nameOnAccount, bank_name } = item?.payment?.bankAccount;
+              {decryptedWallets['bank'].map((item, index) => {
+                const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
                 return (
                   <>
                     <Flex justifyContent="space-between" key={index}>
                       <Box mt="1rem">
-                        <BankAccount
-                          bankName={bank_name ?? ''}
-                          name={nameOnAccount ?? ''}
-                          accountNumber={accountNumber ?? ''}
-                        />
+                        <BankAccount bankName={bank_name} name={nameOnAccount} accountNumber={accountNumber} />
                       </Box>
                       <Radio
                         value={`${index + 1}`}

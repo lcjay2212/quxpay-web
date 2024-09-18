@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
 import { decryptData } from './decryptData';
-import { decryptDetails } from './decryptDetails';
 // import { decryptDetails } from './decryptDetails';
 import { decryptMainKey } from './decryptMainKey';
 import { queryClient } from './queryClient';
@@ -49,10 +48,8 @@ export const getDecryptedData = async (encryptedData: {
   const masterPublicKey = file?.master_public_key;
   const core = JSON.parse(file?.core);
 
-  const decryptedDetails = decryptDetails(core, userPrivateKeyPem);
-
   return {
-    details: decryptedDetails,
+    details: core,
     decryptedMainKey: mainKey,
     encryptedMainKey,
     masterPublicKey,

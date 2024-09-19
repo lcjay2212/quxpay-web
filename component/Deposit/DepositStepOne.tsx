@@ -75,7 +75,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
             control={control}
             name="payment_profile_id"
             rules={{
-              required: !type ? 'Payment is required' : false,
+              required: !type ? 'Please select an account' : false,
             }}
             render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
               return (

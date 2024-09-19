@@ -1,11 +1,13 @@
 import { ArrowBackIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Divider, Flex, Text } from '@chakra-ui/react';
+import { DeleteAccountModal } from 'component';
 import { API_SESSION_URL, isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { HelpIcon, LinkAccountIcon, QuxPayLogo, SettingsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useUser } from 'store';
+import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
 import { clearStorage, notify } from 'utils';
 
 const ProfilePage: FC = () => {
@@ -28,6 +30,7 @@ const ProfilePage: FC = () => {
     },
   ];
   const router = useRouter();
+  const setVisible = useDeleteAccountModal((e) => e.setVisible);
 
   const logout = async (): Promise<void> => {
     const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
@@ -104,9 +107,14 @@ const ProfilePage: FC = () => {
             Logout
           </Button>
 
-          {isLocalHost() && <Button variant="delete">Delete Account</Button>}
+          {isLocalHost() && (
+            <Button variant="delete" onClick={(): void => setVisible(true)}>
+              Delete Account
+            </Button>
+          )}
         </Flex>
       </Flex>
+      <DeleteAccountModal />
     </Container>
   );
 };

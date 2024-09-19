@@ -1,0 +1,60 @@
+import { Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+import { STAGING_URL } from 'constants/url';
+import { useRouter } from 'next/router';
+import { FC } from 'react';
+import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
+import { clearStorage, notify } from 'utils';
+
+export const DeleteAccountModal: FC = () => {
+  const router = useRouter();
+  const [visible, setVisible] = useDeleteAccountModal((e) => [e.visible, e.setVisible]);
+
+  const { mutate, isPending } = useMutation({
+    mutationFn: (variable) =>
+      axios.post(`${STAGING_URL}/web/delete-my-account`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
+    onSuccess: () => {
+      void router.push('/');
+      setVisible(!visible);
+      clearStorage();
+    },
+    onError: () => {
+      notify(`Failed to delete account`, { status: 'error' });
+    },
+  });
+
+  return (
+    <Modal isOpen={visible} onClose={(): void => setVisible(!visible)} size="3xl" isCentered>
+      <ModalOverlay />
+      <ModalContent bg="blue.100" mx="1rem">
+        <ModalBody>
+          <Flex flexDir="column" color="white" fontSize="0.85rem" justifyContent="space-between">
+            <Text fontSize="1.25rem" fontWeight="bold" textAlign="center" my="1rem">
+              Are you sure you want to delete your account?
+            </Text>
+
+            <Button mt="2rem" variant="primary" isLoading={isPending} onClick={(): void => mutate()}>
+              Confirm
+            </Button>
+            <Button
+              my="1rem"
+              variant="secondary"
+              isLoading={isPending}
+              onClick={(): void => {
+                setVisible(!visible);
+              }}
+            >
+              Cancel
+            </Button>
+          </Flex>
+        </ModalBody>
+      </ModalContent>
+    </Modal>
+  );
+};

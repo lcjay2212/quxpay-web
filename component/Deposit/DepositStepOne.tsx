@@ -30,6 +30,7 @@ import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
 import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
+import { notify } from 'utils';
 export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label, loading }) => {
   const method = useFormContext();
   const { control } = method;
@@ -78,6 +79,9 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
               required: !type ? 'Please select an account' : false,
             }}
             render={({ field: { onChange }, fieldState: { error } }): ReactElement => {
+              if (error) {
+                notify('Please select an account', { status: 'error' });
+              }
               return (
                 <>
                   {label === 'Redeem' && (
@@ -86,7 +90,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                     </Text>
                   )}
                   {!loading ? (
-                    <FormControl isInvalid={!!error?.message}>
+                    <FormControl>
                       {bankDetails?.bank.length ? (
                         bankDetails.bank.map((item, index) => {
                           const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;

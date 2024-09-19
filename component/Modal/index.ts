@@ -1,3 +1,4 @@
+export * from './DeleteAccountModal';
 export * from './HomeModal';
 export * from './PayBillsModal';
 export * from './PendingAccountModal';

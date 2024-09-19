@@ -46,10 +46,9 @@ export const getDecryptedData = async (encryptedData: {
   const file = decryptData(data, userPrivateKeyPem, `${mainKey}`, iv);
 
   const masterPublicKey = file?.master_public_key;
-  const core = JSON.parse(file?.core);
 
   return {
-    details: core,
+    details: file,
     decryptedMainKey: mainKey,
     encryptedMainKey,
     masterPublicKey,

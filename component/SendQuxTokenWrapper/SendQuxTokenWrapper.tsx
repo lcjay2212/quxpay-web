@@ -21,7 +21,9 @@ import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useDecryptedCoreBalance } from 'store/useDecryptedCoreBalance';
 import { notify } from 'utils';
+import { encryptData } from 'utils/encryptData';
 
 export const SendQuxTokenWrapper: FC = () => {
   const router = useRouter();
@@ -39,9 +41,12 @@ export const SendQuxTokenWrapper: FC = () => {
     email: string;
   }>(data?.[0] || {});
 
-  const { mutate: sendTokens, isPending: sending } = useMutation({
+  const [payload, setPayload] = useState();
+  const coreBalance = useDecryptedCoreBalance((e) => e.coreBalance);
+
+  const { mutate: updateMainFile, isPending: updateMainFileLoading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/wallet/transfer-fund`, variable, {
+      axios.post(`${STAGING_URL}/web/encryption/updated/main-file`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -49,6 +54,31 @@ export const SendQuxTokenWrapper: FC = () => {
       }),
     onSuccess: () => {
       setSuccessTrigger(true);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      notify(response?.data?.status?.message, { status: 'error' });
+    },
+  });
+
+  const { mutate: validate, isPending: validating } = useMutation({
+    mutationFn: (variable) =>
+      axios.post(`${STAGING_URL}/web/validate/send-token`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
+    onSuccess: () => {
+      const content = JSON.stringify({
+        send_tokens: [payload],
+      });
+
+      if (coreBalance) {
+        const encryptedData = encryptData(content, coreBalance, 'balance');
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        updateMainFile(encryptedData as any);
+      }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
@@ -76,7 +106,8 @@ export const SendQuxTokenWrapper: FC = () => {
 
   const onDeposit = (val): void => {
     if (radioValue !== `${data?.length + 1}`) {
-      sendTokens({ ...val, type: 'tag_token' });
+      validate({ ...val, type: 'tag_token' });
+      setPayload({ ...val, type: 'tag_token' });
     } else {
       mutate(val);
     }
@@ -114,7 +145,7 @@ export const SendQuxTokenWrapper: FC = () => {
 
               <Controller
                 control={control}
-                name="comment"
+                name="message"
                 render={({ field: { onChange, value, onBlur } }): ReactElement => (
                   <FormContainer>
                     <Textarea
@@ -158,8 +189,8 @@ export const SendQuxTokenWrapper: FC = () => {
                           {!loading ? (
                             data.map((item, index) => {
                               return (
-                                <>
-                                  <Flex justifyContent="space-between" key={index}>
+                                <Box key={index}>
+                                  <Flex justifyContent="space-between">
                                     <Box mt="1rem">
                                       <Flex justifyContent="flex-start">
                                         <Avatar name={item.name} />
@@ -179,7 +210,7 @@ export const SendQuxTokenWrapper: FC = () => {
                                     />
                                   </Flex>
                                   <Divider mt="1rem" />
-                                </>
+                                </Box>
                               );
                             })
                           ) : (
@@ -238,7 +269,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 mt={{ base: '1rem', md: '2rem' }}
                 w={350}
                 h="3.25rem"
-                isLoading={isPending || sending}
+                isLoading={isPending || validating || updateMainFileLoading}
               >
                 {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
               </Button>

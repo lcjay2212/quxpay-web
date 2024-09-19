@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-type WalletsProps = {
+type BanksDetailsProps = {
   credit_card: {
     customerPaymentProfileId?: string;
     defaultPaymentProfile?: null;
@@ -41,13 +41,13 @@ type WalletsProps = {
 } | null;
 
 type Props = {
-  decryptedWallets: WalletsProps;
-  setDecryptedWallets: (decryptedWallets: WalletsProps) => void;
+  banksDetails: BanksDetailsProps;
+  setBankDetails: (banksDetails: BanksDetailsProps) => void;
 };
-export const useDecryptedWallets = create<Props>((set) => ({
-  decryptedWallets: null,
-  setDecryptedWallets: (decryptedWallets: WalletsProps): void =>
+export const useDecryptedUserBanks = create<Props>((set) => ({
+  banksDetails: null,
+  setBankDetails: (banksDetails: BanksDetailsProps): void =>
     set(() => ({
-      decryptedWallets,
+      banksDetails,
     })),
 }));

@@ -28,13 +28,13 @@ import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets'
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
-import { useDecryptedWallets } from 'store/useDecryptedWallets';
+import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label, loading }) => {
   const method = useFormContext();
   const { control } = method;
 
-  const decryptedWallets = useDecryptedWallets((e) => e.decryptedWallets);
+  const bankDetails = useDecryptedUserBanks((e) => e.banksDetails);
 
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
@@ -87,8 +87,8 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                   )}
                   {!loading ? (
                     <FormControl isInvalid={!!error?.message}>
-                      {decryptedWallets?.bank.length ? (
-                        decryptedWallets.bank.map((item, index) => {
+                      {bankDetails?.bank.length ? (
+                        bankDetails.bank.map((item, index) => {
                           const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
 
                           return (
@@ -128,15 +128,12 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                         <Text>No Bank Record</Text>
                       )}
 
-                      {!isEmpty(decryptedWallets?.credit_card) && (
-                        <Flex
-                          justifyContent="space-between"
-                          key={decryptedWallets?.credit_card.customerPaymentProfileId}
-                        >
+                      {!isEmpty(bankDetails?.credit_card) && (
+                        <Flex justifyContent="space-between" key={bankDetails?.credit_card.customerPaymentProfileId}>
                           <Box mt="1rem">
                             <CreditCard
-                              accountNumber={decryptedWallets?.credit_card.payment.creditCard.cardNumber ?? ''}
-                              cardType={decryptedWallets?.credit_card.payment.creditCard.cardType ?? ''}
+                              accountNumber={bankDetails?.credit_card.payment.creditCard.cardNumber ?? ''}
+                              cardType={bankDetails?.credit_card.payment.creditCard.cardType ?? ''}
                               loading={loading}
                             />
                             {error?.message && (
@@ -148,15 +145,15 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                             )}
                           </Box>
                           <Radio
-                            value={`${decryptedWallets?.credit_card.customerPaymentProfileId}`}
+                            value={`${bankDetails?.credit_card.customerPaymentProfileId}`}
                             colorScheme="teal"
                             onChange={(): void => {
-                              onChange(decryptedWallets?.credit_card.customerPaymentProfileId);
+                              onChange(bankDetails?.credit_card.customerPaymentProfileId);
                               setPaymentData({
-                                paymentId: decryptedWallets?.credit_card.customerPaymentProfileId,
-                                paymentType: decryptedWallets?.credit_card.payment_type,
+                                paymentId: bankDetails?.credit_card.customerPaymentProfileId,
+                                paymentType: bankDetails?.credit_card.payment_type,
                               });
-                              setSelectedBankDetails(decryptedWallets?.credit_card as any);
+                              setSelectedBankDetails(bankDetails?.credit_card as any);
                               setType('EXISTING_CREDITCARD');
                             }}
                           />
@@ -191,8 +188,8 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                       </Text>
                       {!loading ? (
                         <FormControl isInvalid={!!error?.message}>
-                          {decryptedWallets?.crypto.length ? (
-                            decryptedWallets.crypto.map((item, index) => (
+                          {bankDetails?.crypto.length ? (
+                            bankDetails.crypto.map((item, index) => (
                               <Flex justifyContent="space-between" key={index}>
                                 <Box mt="1rem">
                                   <CryptoWallet

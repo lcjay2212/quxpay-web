@@ -32,6 +32,7 @@ import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useUser, useVerifyModal } from 'store';
 import { useDecryptedBalance } from 'store/useDecryptedBalance';
+import { useDecryptedCoreBalance } from 'store/useDecryptedCoreBalance';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { clearStorage, getServerSideProps, notify } from 'utils';
 
@@ -63,12 +64,15 @@ const Dashboard: FC = () => {
     e.decryptedBalance,
     e.setDecryptedBalance,
   ]);
+  const setCoreBalance = useDecryptedCoreBalance((e) => e.setCoreBalance);
 
   useEffect(() => {
     if (data) {
-      setDecryptedBalance(data?.details);
+      const balance = JSON.parse(data.details.core);
+      setCoreBalance(data);
+      setDecryptedBalance(balance);
     }
-  }, [data, setDecryptedBalance]);
+  }, [data, setCoreBalance, setDecryptedBalance]);
 
   const router = useRouter();
 

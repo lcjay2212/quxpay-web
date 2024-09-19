@@ -7,17 +7,18 @@ import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useAccountPaymentId } from 'store';
-import { useDecryptedWallets } from 'store/useDecryptedWallets';
+import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
 import { getServerSideProps, notify } from 'utils';
 
 export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();
-  const decryptedWallets = useDecryptedWallets((e) => e.decryptedWallets);
+  const banksDetails = useDecryptedUserBanks((e) => e.banksDetails);
   const [radioValue, setRadioValue] = useState('');
   const [paymentData, setPaymentData] = useAccountPaymentId(({ paymentData, setPaymentData }) => [
     paymentData,
     setPaymentData,
   ]);
+
   const { mutate } = useMutation({
     mutationFn: (variable) =>
       axios.delete(`${STAGING_URL}/web/wallet/remove-card`, {
@@ -44,13 +45,13 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
         </Text>
 
         <RadioGroup onChange={setRadioValue} value={radioValue}>
-          {decryptedWallets ? (
+          {banksDetails ? (
             <>
-              {decryptedWallets['bank'].map((item, index) => {
+              {banksDetails['bank'].map((item, index) => {
                 const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
                 return (
-                  <>
-                    <Flex justifyContent="space-between" key={index}>
+                  <Box key={index}>
+                    <Flex justifyContent="space-between">
                       <Box mt="1rem">
                         <BankAccount bankName={bank_name} name={nameOnAccount} accountNumber={accountNumber} />
                       </Box>
@@ -63,7 +64,7 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
                       />
                     </Flex>
                     <Divider mt="1rem" />
-                  </>
+                  </Box>
                 );
               })}
             </>

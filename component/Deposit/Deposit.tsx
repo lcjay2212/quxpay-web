@@ -7,8 +7,10 @@ import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, useType } from 'store';
+import { useDecryptedCoreBalance } from 'store/useDecryptedCoreBalance';
+import { useDecryptedCoreWallet } from 'store/useDecryptedCoreWallet';
 import { useDecryptedData } from 'store/useDecryptedData';
-import { useDecryptedWallets } from 'store/useDecryptedWallets';
+import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 import { notify } from 'utils';
 import { encryptData } from 'utils/encryptData';
@@ -26,13 +28,24 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
   const { data: details, dataLoading } = useDecryptedData('wallets');
-  const setDecryptedWallets = useDecryptedWallets((e) => e.setDecryptedWallets);
+  const coreBalance = useDecryptedCoreBalance((e) => e.coreBalance);
+  const [decryptedWallets, setDecryptedWallets] = useDecryptedCoreWallet((e) => [
+    e.decryptedWallets,
+    e.setDecryptedWallets,
+  ]);
+
+  // eslint-disable-next-line no-console
+  console.log({ decryptedWallets, coreBalance });
+  const setBanksDetails = useDecryptedUserBanks((e) => e.setBankDetails);
 
   useEffect(() => {
     if (details) {
-      setDecryptedWallets(details?.details);
+      const banks = JSON.parse(details.details.core);
+
+      setDecryptedWallets(details);
+      setBanksDetails(banks);
     }
-  }, [details, setDecryptedWallets]);
+  }, [details, setDecryptedWallets, setBanksDetails]);
 
   const amount = watch('amount');
 
@@ -163,8 +176,8 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
           ],
         });
 
-        if (details) {
-          const encryptedData = encryptData(content, details, 'balance');
+        if (coreBalance) {
+          const encryptedData = encryptData(content, coreBalance, 'balance');
           updateMainFile(encryptedData);
         }
       };

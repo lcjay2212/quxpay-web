@@ -3,9 +3,11 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { camelCase } from 'lodash';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
-import { notify } from 'utils';
+import { clearStorage, notify } from 'utils';
 import { getDecryptedData } from 'utils/getDecryptedData';
+import { useUser } from './useUser';
 
 interface UseSecurityMainFileResult {
   dataLoading: boolean;
@@ -14,6 +16,8 @@ interface UseSecurityMainFileResult {
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
+  const router = useRouter();
+  const { setUser } = useUser();
   const [data, setData] = useState<{
     details: any;
     masterPublicKey: string;
@@ -32,6 +36,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
           params: { type },
           headers: {
             Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('QUX_PAY_USER_TOKEN') : ''}`,
+            'Content-Type': 'application/json',
             Version: '2',
           },
         });
@@ -53,6 +58,12 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
 
         return response.data.data;
       } catch (error) {
+        if (error.response.status === 401) {
+          clearStorage();
+          setUser(null);
+          void router.push('/');
+          notify(`${error.message}`, { status: 'error' });
+        }
         notify(`${error.message}`, { status: 'error' });
       }
     },

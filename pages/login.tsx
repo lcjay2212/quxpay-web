@@ -1,63 +1,26 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import { FormContainer, PendingAccountModal, TextField } from 'component';
-import { post } from 'constants/api';
-import storage from 'constants/storage';
-import { API_SESSION_URL } from 'constants/url';
+import { CaptchaModal, FormContainer, PendingAccountModal, TextField } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { usePendingAccountModal, useRouteParams, useUser } from 'store';
-import { notify } from 'utils';
+import { useCaptchaModal } from 'store';
+import { useLogin } from 'store/useLogin';
 
 const Login: FC = () => {
   const method = useForm();
   const router = useRouter();
   const { control, handleSubmit } = method;
-  const setUser = useUser((e) => e.setUser);
-  const setVisible = usePendingAccountModal((e) => e.setVisible);
-  const params = useRouteParams((e) => e.params);
 
-  const login = useMutation({
-    mutationKey: ['login'],
-    mutationFn: (variable) => post('web/login', variable),
-    onSuccess: async ({ data }) => {
-      notify(`${data.status.message}`);
+  const setCatchaModalVisible = useCaptchaModal((e) => e.setVisible);
 
-      const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
-      const json = await loginSession.json();
-
-      if (json.success) {
-        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
-      } else {
-        throw new Error('Something went wrong');
-      }
-
-      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
-      void router.push(redirectUrl);
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: ({ response }: any) => {
-      const message = response?.data?.data?.message;
-
-      if (message === 'These credentials do not match our records.') {
-        notify(response?.data?.data?.messages || message, { status: 'error' });
-      } else if (message === 'Account pending.') {
-        setVisible(true);
-      } else {
-        notify('These credentials do not match our records.', { status: 'error' });
-      }
-    },
-  });
-
-  const onSubmit = (val): void => {
-    login.mutate(val);
+  const onSubmit = (): void => {
+    setCatchaModalVisible(true);
   };
+
+  const { login } = useLogin();
 
   return (
     <Grid placeContent="center" h="100vh" gap="2">
@@ -123,6 +86,8 @@ const Login: FC = () => {
           >
             Login
           </Button>
+
+          <CaptchaModal label="login" />
         </form>
       </FormProvider>
 

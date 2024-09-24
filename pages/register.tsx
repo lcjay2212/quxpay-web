@@ -242,7 +242,7 @@ const Register: FC = () => {
       </Box>
 
       <PendingAccountModal />
-      <CaptchaModal />
+      <CaptchaModal label="register" />
     </>
   );
 };

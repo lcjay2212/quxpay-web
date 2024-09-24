@@ -5,18 +5,23 @@ import { FETCH_CAPTCHA } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { FC, useState } from 'react';
+import { useFormContext } from 'react-hook-form';
 import { useCaptchaModal } from 'store';
+import { useLogin } from 'store/useLogin';
 import { notify, queryClient } from 'utils';
 
-export const CaptchaModal: FC = () => {
+export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const { getValues } = useFormContext();
+  const { login } = useLogin();
 
   const { data, isLoading } = useQuery({
     queryKey: ['captcha'],
     queryFn: FETCH_CAPTCHA,
     refetchOnWindowFocus: false,
   });
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+
   const [dragging, setDragging] = useState(false);
   const [rel, setRel] = useState({ x: 0, y: 0 });
   const { mutate, isPending: isVerifying } = useMutation({
@@ -30,6 +35,12 @@ export const CaptchaModal: FC = () => {
     onSuccess: ({ data }) => {
       notify(data?.status?.message);
       setVisible(false);
+      if (label === 'login') {
+        login.mutate({
+          email: getValues('email'),
+          password: getValues('password'),
+        });
+      }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {

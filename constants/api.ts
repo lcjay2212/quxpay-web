@@ -1,5 +1,6 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import axios from 'axios';
+import { clearStorage, notify } from 'utils';
 import { STAGING_URL } from './url';
 
 export const post = async <T>(url: string, variable: void): Promise<T> =>
@@ -9,17 +10,24 @@ export const post = async <T>(url: string, variable: void): Promise<T> =>
     },
   });
 
-const getData = async <T>(apiUrl: string, url: string): Promise<T> => {
+const getData = async <T>(apiUrl: string, url: string): Promise<T | undefined> => {
   const token = localStorage.QUX_PAY_USER_TOKEN;
 
-  const { data } = await axios.get(`${apiUrl}/${url}`, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-      Version: 2,
-    },
-  });
-
-  return data.data;
+  try {
+    const { data } = await axios.get(`${apiUrl}/${url}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        Version: 2,
+      },
+    });
+    return data.data;
+  } catch (error) {
+    if (error.response.status === 401) {
+      clearStorage();
+      window.location.href = '/';
+      notify(error.message, { status: 'error' });
+    }
+  }
 };
 
 // Generalized fetch function

@@ -1,4 +1,5 @@
 export * from './useAccountPaymentId';
+export * from './useAmountVerificationModal';
 export * from './useBalance';
 export * from './useBankLists';
 export * from './useCaptchaModal';
@@ -9,6 +10,7 @@ export * from './useHeaderName';
 export * from './useHomePageModal';
 export * from './usePayBillsModal';
 export * from './usePendingAccountModal';
+export * from './usePendingBankAccountVerificationModal';
 export * from './usePosHistory';
 export * from './usePrivatekey';
 export * from './useProductModal';

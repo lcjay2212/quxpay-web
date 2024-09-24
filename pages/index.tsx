@@ -84,6 +84,7 @@ const Home: FC = () => {
                   alt="Phone Image"
                   placeholder="empty"
                   style={{ objectFit: 'contain' }}
+                  priority={false}
                 />
               </Flex>
               <Box>

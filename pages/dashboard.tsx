@@ -15,9 +15,11 @@ import {
   Text,
 } from '@chakra-ui/react';
 import {
+  AmountVerificationModal,
   CryptoTransactionHistory,
   NotificationHistory,
   OpenPosHistory,
+  PendingBankAccountVerificationModal,
   PoFromPluginHistory,
   TokenHistory,
   TransactionHistory,
@@ -60,6 +62,8 @@ const Dashboard: FC = () => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
 
   const { data, dataLoading } = useDecryptedData('balance');
+  // const { data: transactionsData } = useDecryptedData('transactions');
+
   const [decryptedBalance, setDecryptedBalance] = useDecryptedBalance((e) => [
     e.decryptedBalance,
     e.setDecryptedBalance,
@@ -161,6 +165,8 @@ const Dashboard: FC = () => {
         {user?.corporate && <PoFromPluginHistory />}
         <CryptoTransactionHistory />
         <UploadLoadingModal />
+        <PendingBankAccountVerificationModal />
+        <AmountVerificationModal />
         <VerifyModal />
       </Box>
     </Container>

@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { camelCase } from 'lodash';
-import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { clearStorage, notify } from 'utils';
 import { getDecryptedData } from 'utils/getDecryptedData';
@@ -16,7 +15,6 @@ interface UseSecurityMainFileResult {
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
-  const router = useRouter();
   const { setUser } = useUser();
   const [data, setData] = useState<{
     details: any;
@@ -61,7 +59,6 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
         if (error.response.status === 401) {
           clearStorage();
           setUser(null);
-          void router.push('/');
           notify(`${error.message}`, { status: 'error' });
         }
         notify(`${error.message}`, { status: 'error' });

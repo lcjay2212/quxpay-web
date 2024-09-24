@@ -21,6 +21,7 @@ export const getDecryptedData = async (encryptedData: {
   iv: string;
   encrypted_main_key: string;
   main_file_path: string;
+  main_file_path_content: string;
 }): Promise<DecryptedData> => {
   const { data: userPrivateKeyPem } = await queryClient.fetchQuery({
     queryKey: ['userPrivateKey'],
@@ -35,15 +36,16 @@ export const getDecryptedData = async (encryptedData: {
   const key = encryptedData.key;
   const iv = encryptedData.iv;
   const encryptedMainKey = encryptedData.encrypted_main_key;
+  const content = JSON.parse(encryptedData.main_file_path_content);
 
   const mainKey = decryptMainKey(encryptedMainKey, userPrivateKeyPem, key, iv);
 
-  const { data } = await queryClient.fetchQuery({
-    queryKey: ['useEncrptedMainFile'],
-    queryFn: async () => await axios.get(`${encryptedData.main_file_path}`),
-  });
+  // const { data } = await queryClient.fetchQuery({
+  //   queryKey: ['useEncrptedMainFile'],
+  //   queryFn: async () => await axios.get(`${encryptedData.main_file_path}`),
+  // });
 
-  const file = decryptData(data, userPrivateKeyPem, `${mainKey}`, iv);
+  const file = decryptData(content, userPrivateKeyPem, `${mainKey}`, iv);
 
   const masterPublicKey = file?.master_public_key;
 

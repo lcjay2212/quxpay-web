@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -13,6 +14,8 @@ import { notify, queryClient } from 'utils';
 export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
   const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   const { getValues } = useFormContext();
   const { login } = useLogin();
 
@@ -22,8 +25,6 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
     refetchOnWindowFocus: false,
   });
 
-  const [dragging, setDragging] = useState(false);
-  const [rel, setRel] = useState({ x: 0, y: 0 });
   const { mutate, isPending: isVerifying } = useMutation({
     mutationKey: ['captchaVerify'],
     mutationFn: (variable) =>
@@ -51,14 +52,27 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
   });
 
   const handleMouseDown = (e): void => {
-    if (e.button !== 0) return;
-    setRel({ x: e.pageX - position.x, y: e.pageY - position.y });
-    setDragging(true);
     e.preventDefault();
+    setIsDragging(true);
+    setStartPos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleMouseMove = (e): void => {
+    if (!isDragging) return;
+
+    const dx = e.clientX - startPos.x;
+    const dy = e.clientY - startPos.y;
+
+    setPosition((prevPos) => ({
+      x: prevPos.x + dx,
+      y: prevPos.y + dy,
+    }));
+
+    setStartPos({ x: e.clientX, y: e.clientY });
   };
 
   const handleMouseUp = (): void => {
-    setDragging(false);
+    setIsDragging(false);
     mutate({
       captcha_id: data?.captcha_id,
       x: position.x,
@@ -66,8 +80,34 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
     } as any);
   };
 
-  const handleMouseMove = (e): void => {
-    if (dragging) setPosition({ x: e.pageX - rel.x, y: e.pageY - rel.y });
+  const handleTouchStart = (e): void => {
+    setIsDragging(true);
+    const touch = e.touches[0];
+    setStartPos({ x: touch.clientX, y: touch.clientY });
+  };
+
+  const handleTouchMove = (e): void => {
+    if (!isDragging) return;
+
+    const touch = e.touches[0];
+    const dx = touch.clientX - startPos.x;
+    const dy = touch.clientY - startPos.y;
+
+    setPosition((prevPos) => ({
+      x: prevPos.x + dx,
+      y: prevPos.y + dy,
+    }));
+
+    setStartPos({ x: touch.clientX, y: touch.clientY });
+  };
+
+  const handleTouchEnd = (): void => {
+    setIsDragging(false);
+    mutate({
+      captcha_id: data?.captcha_id,
+      x: position.x,
+      y: position.y,
+    } as any);
   };
 
   return (
@@ -98,8 +138,12 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
                 <Box
                   style={{ left: `${position.x}px`, top: `${position.y}px` }}
                   onMouseDown={handleMouseDown}
-                  onMouseUp={handleMouseUp}
                   onMouseMove={handleMouseMove}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp} // To stop dragging if cursor leaves the div
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
                   position="absolute"
                   cursor="pointer"
                 >

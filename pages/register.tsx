@@ -237,12 +237,12 @@ const Register: FC = () => {
                 {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
               </Button>
             </form>
+            <CaptchaModal label="register" />
           </FormProvider>
         </Grid>
       </Box>
 
       <PendingAccountModal />
-      <CaptchaModal label="register" />
     </>
   );
 };

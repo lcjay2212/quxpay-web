@@ -124,7 +124,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
 
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
     `${STAGING_URL}/web/encryption/updated/main-file`,
-    () => setStep((e) => e + 1),
+    handleSuccess,
     ({ response }: any) => {
       let message = '';
 

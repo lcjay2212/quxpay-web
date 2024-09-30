@@ -50,26 +50,28 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
       queryClient.setQueryData(['captcha'], data);
     },
   });
-  const startDragging = (clientX: number, clientY: number): void => {
+
+  const handleMouseDown = (e): void => {
+    e.preventDefault();
     setIsDragging(true);
-    setStartPos({ x: clientX, y: clientY });
+    setStartPos({ x: e.clientX, y: e.clientY });
   };
 
-  const onDrag = (clientX: number, clientY: number): void => {
+  const handleMouseMove = (e): void => {
     if (!isDragging) return;
 
-    const dx = clientX - startPos.x;
-    const dy = clientY - startPos.y;
+    const dx = e.clientX - startPos.x;
+    const dy = e.clientY - startPos.y;
 
     setPosition((prevPos) => ({
       x: prevPos.x + dx,
       y: prevPos.y + dy,
     }));
 
-    setStartPos({ x: clientX, y: clientY });
+    setStartPos({ x: e.clientX, y: e.clientY });
   };
 
-  const stopDragging = (): void => {
+  const handleMouseUp = (): void => {
     setIsDragging(false);
     mutate({
       captcha_id: data?.captcha_id,
@@ -78,15 +80,34 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
     } as any);
   };
 
-  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>): void => startDragging(e.clientX, e.clientY);
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>): void => onDrag(e.clientX, e.clientY);
-  const handleTouchStart = (e: React.TouchEvent<HTMLDivElement>): void => {
+  const handleTouchStart = (e): void => {
+    setIsDragging(true);
     const touch = e.touches[0];
-    startDragging(touch.clientX, touch.clientY);
+    setStartPos({ x: touch.clientX, y: touch.clientY });
   };
-  const handleTouchMove = (e: React.TouchEvent<HTMLDivElement>): void => {
+
+  const handleTouchMove = (e): void => {
+    if (!isDragging) return;
+
     const touch = e.touches[0];
-    onDrag(touch.clientX, touch.clientY);
+    const dx = touch.clientX - startPos.x;
+    const dy = touch.clientY - startPos.y;
+
+    setPosition((prevPos) => ({
+      x: prevPos.x + dx,
+      y: prevPos.y + dy,
+    }));
+
+    setStartPos({ x: touch.clientX, y: touch.clientY });
+  };
+
+  const handleTouchEnd = (): void => {
+    setIsDragging(false);
+    mutate({
+      captcha_id: data?.captcha_id,
+      x: position.x,
+      y: position.y,
+    } as any);
   };
 
   return (
@@ -106,9 +127,6 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
             <Text color="white" mb="1rem" fontWeight="bold">
               Captcha
             </Text>
-            <Text color="white" mb="1rem" fontWeight="bold">
-              Please move the puzzle pieces
-            </Text>
             {!isLoading ? (
               <Box position="relative" width={300} height={300} opacity={isVerifying ? 0.5 : 1}>
                 {isVerifying && (
@@ -121,11 +139,11 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
                   style={{ left: `${position.x}px`, top: `${position.y}px` }}
                   onMouseDown={handleMouseDown}
                   onMouseMove={handleMouseMove}
-                  onMouseUp={stopDragging}
-                  onMouseLeave={stopDragging}
+                  onMouseUp={handleMouseUp}
+                  onMouseLeave={handleMouseUp} // To stop dragging if cursor leaves the div
                   onTouchStart={handleTouchStart}
                   onTouchMove={handleTouchMove}
-                  onTouchEnd={stopDragging}
+                  onTouchEnd={handleTouchEnd}
                   position="absolute"
                   cursor="pointer"
                 >

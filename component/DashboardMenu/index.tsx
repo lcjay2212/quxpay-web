@@ -16,15 +16,13 @@ import {
   WithdrawSuccessful,
 } from 'public/assets';
 import { FC, useEffect } from 'react';
-import { usePosHistory, useUploadLoadingModal, useUser } from 'store';
+import { useUploadLoadingModal, useUser } from 'store';
 import { notify } from 'utils';
 
 const DashboardMenu: FC = () => {
   const user = useUser((e) => e.user);
   const router = useRouter();
   const setVisible = useUploadLoadingModal((set) => set.setVisible);
-
-  const { refetch } = usePosHistory();
 
   const { mutate, isSuccess } = useMutation({
     mutationFn: (variable) =>
@@ -37,7 +35,6 @@ const DashboardMenu: FC = () => {
     onSuccess: () => {
       notify('Upload success!');
       setVisible(false);
-      refetch();
     },
     onError: ({ response }: any) => {
       notify(`${response.data?.data.format}`, { status: 'error' });

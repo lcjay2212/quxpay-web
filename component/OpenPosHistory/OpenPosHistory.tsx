@@ -3,10 +3,11 @@ import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import { usePosHistory, useUser } from 'store';
+import { useUser } from 'store';
+import { queryClient } from 'utils';
 
-export const OpenPosHistory: FC = () => {
-  const { unpaidData, isLoading } = usePosHistory();
+export const OpenPosHistory: FC<{ loading: boolean }> = ({ loading }) => {
+  const data = queryClient.getQueryData<{ unpaid_or_open: PosHistoryProps[] }>(['posHistory']);
   const { user } = useUser();
   const router = useRouter();
 
@@ -27,22 +28,22 @@ export const OpenPosHistory: FC = () => {
         </Text>
       </Flex>
 
-      {isLoading ? (
+      {loading ? (
         <Box textAlign="center" py="2rem">
           <Spinner color="primary" size="xl" />
         </Box>
       ) : (
         <>
-          {unpaidData?.length ? (
+          {data?.unpaid_or_open.length ? (
             <Box>
-              {unpaidData?.slice(0, 3).map((item) => (
+              {data.unpaid_or_open.slice(0, 3).map((item) => (
                 <ItemListDisplay
                   // label={startCase(item.type)}
                   label={item.label}
                   date={item.created}
                   amount={+item.amount}
                   key={item.id}
-                  complete={item.confirmed}
+                  // complete={item.confirmed}
                   image={UnpaidHistoryIcon}
                   onClick={(): void => void router.push(`/open-po/${item.id}`)}
                   type={item.type}

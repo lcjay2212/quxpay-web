@@ -14,6 +14,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import {
   AmountVerificationModal,
   CryptoTransactionHistory,
@@ -26,6 +27,7 @@ import {
   UploadLoadingModal,
   VerifyModal,
 } from 'component';
+import { FETCH_POS_HISTORY } from 'constants/api';
 import { API_SESSION_URL } from 'constants/url';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
@@ -69,6 +71,11 @@ const Dashboard: FC = () => {
     e.setDecryptedBalance,
   ]);
   const setCoreBalance = useDecryptedCoreBalance((e) => e.setCoreBalance);
+
+  const { isLoading } = useQuery<{ unpaid_or_open: PosHistoryProps[] }>({
+    queryKey: ['posHistory'],
+    queryFn: FETCH_POS_HISTORY,
+  });
 
   useEffect(() => {
     if (data) {
@@ -160,9 +167,9 @@ const Dashboard: FC = () => {
         <DashboarMenuComponent />
         <NotificationHistory />
         <TransactionHistory />
-        <OpenPosHistory />
-        <TokenHistory />
-        {user?.corporate && <PoFromPluginHistory />}
+        <OpenPosHistory loading={isLoading} />
+        <TokenHistory loading={isLoading} />
+        {user?.corporate && <PoFromPluginHistory loading={isLoading} />}
         <CryptoTransactionHistory />
         <UploadLoadingModal />
         <PendingBankAccountVerificationModal />

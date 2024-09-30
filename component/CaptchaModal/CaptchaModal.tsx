@@ -106,6 +106,9 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
             <Text color="white" mb="1rem" fontWeight="bold">
               Captcha
             </Text>
+            <Text color="white" mb="1rem" fontWeight="bold">
+              Please move the puzzle pieces
+            </Text>
             {!isLoading ? (
               <Box position="relative" width={300} height={300} opacity={isVerifying ? 0.5 : 1}>
                 {isVerifying && (

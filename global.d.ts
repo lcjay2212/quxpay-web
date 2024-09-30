@@ -1,7 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'iron-session' {
   interface IronSessionData {
     user?: {
       token: string;
     };
   }
+}
+interface PosHistoryProps {
+  id: string;
+  amount: number;
+  po_from: string;
+  po_to: string;
+  paid_po_from: boolean;
+  paid_po_to: boolean;
+  completed: boolean | null;
+  received: string;
+  sent: string;
+  created: string;
+  token_fee: number;
+  total_amount: number;
+  qr_image: string;
+  qr_id: string;
+  selected_products: [
+    {
+      id: number;
+      product: string;
+      variation: string;
+      product_image: string;
+    }
+  ];
+  product_po: boolean;
+  token_po: boolean;
+  transaction_upload: boolean;
+  csv_upload_date: any | null;
+  bank_name: string | null;
+  account_number: number | null;
+  show_token_fee: boolean;
+  type: string;
+  label: string;
 }

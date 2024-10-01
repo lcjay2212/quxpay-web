@@ -205,23 +205,29 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
 
       switch (type) {
         case 'CREDIT':
-          content = {
-            [`${name}`]: [addCreditCardVal],
-          };
+          content = [
+            {
+              [`${name}`]: [addCreditCardVal],
+            },
+          ];
           encryptionTarget = 'wallets';
           break;
 
         case 'ADD_BANK':
-          content = {
-            [`${name}`]: [{ ...val }],
-          };
+          content = [
+            {
+              [`${name}`]: [{ ...val }],
+            },
+          ];
           encryptionTarget = 'wallets';
           break;
 
         default:
-          content = {
-            [`${name}_tokens`]: [purchaseRedeemVal],
-          };
+          content = [
+            {
+              [`${name}_tokens`]: [purchaseRedeemVal],
+            },
+          ];
           encryptionTarget = 'balance';
           break;
       }

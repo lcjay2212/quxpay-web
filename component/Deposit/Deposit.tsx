@@ -135,7 +135,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
         });
       }
 
-      notify(message, { status: 'error' });
+      notify(message || response?.data?.status?.message, { status: 'error' });
     }
   );
 

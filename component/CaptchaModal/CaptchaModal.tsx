@@ -2,7 +2,6 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { FETCH_CAPTCHA } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { FC, useState } from 'react';
@@ -19,9 +18,29 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
   const { getValues } = useFormContext();
   const { login } = useLogin();
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, refetch } = useQuery({
     queryKey: ['captcha'],
-    queryFn: FETCH_CAPTCHA,
+    queryFn: async () => {
+      try {
+        const { data: responseData } = await axios.get(`${STAGING_URL}/web/captcha`, {
+          headers: {
+            Version: 2,
+          },
+        });
+        return responseData.data; // Return the expected data directly
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          if (error.response.status === 500) {
+            setVisible(false); // Hide some UI element
+          }
+          notify(error.response.data?.message || error.message, { status: 'error' }); // General error notification with more detail
+        } else {
+          // Handle network or unexpected errors
+          notify('An unexpected error occurred.', { status: 'error' });
+        }
+        return null; // Return null in case of error to maintain consistent return type
+      }
+    },
     refetchOnWindowFocus: false,
   });
 
@@ -48,6 +67,8 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
       const { status } = response.data;
       notify(`${status.message}`, { status: 'error' });
       setVisible(false);
+      setPosition({ x: 0, y: 0 });
+      void refetch();
     },
   });
 

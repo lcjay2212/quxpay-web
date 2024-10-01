@@ -82,7 +82,10 @@ export const SendQuxTokenWrapper: FC = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      notify(response?.data?.status?.message, { status: 'error' });
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      Object.entries(response.data.errors).forEach(([_, message]) => {
+        notify(` ${message}`, { status: 'error' });
+      });
     },
   });
 

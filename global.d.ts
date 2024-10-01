@@ -21,20 +21,18 @@ interface PosHistoryProps {
   total_amount: number;
   qr_image: string;
   qr_id: string;
-  selected_products: [
-    {
-      id: number;
-      product: string;
-      variation: string;
-      product_image: string;
-    }
-  ];
+  selected_products: Array<{
+    id: number;
+    product: string;
+    variation: string;
+    product_image: string;
+  }>;
   product_po: boolean;
   token_po: boolean;
   transaction_upload: boolean;
-  csv_upload_date: any | null;
+  csv_upload_date: Date | string | null; // Assume it's a date, or adjust if otherwise
   bank_name: string | null;
-  account_number: number | null;
+  account_number: string | number | null; // Changed to string for potential leading zeros
   show_token_fee: boolean;
   type: string;
   label: string;

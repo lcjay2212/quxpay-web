@@ -9,7 +9,7 @@ import { FC, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { useCaptchaModal } from 'store';
 import { useLogin } from 'store/useLogin';
-import { notify, queryClient } from 'utils';
+import { notify } from 'utils';
 
 export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
@@ -45,9 +45,9 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      const { data, status } = response.data;
+      const { status } = response.data;
       notify(`${status.message}`, { status: 'error' });
-      queryClient.setQueryData(['captcha'], data);
+      setVisible(false);
     },
   });
 

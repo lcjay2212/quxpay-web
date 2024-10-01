@@ -92,11 +92,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       onError,
     });
 
-  const { mutate, isPending } = useCustomMutation(
-    `${STAGING_URL}/${type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'}`,
-    handleSuccess,
-    handleError
-  );
+  const { mutate, isPending } = useCustomMutation(`${STAGING_URL}/${url2}`, handleSuccess, handleError);
 
   const { mutate: addCrypto, isPending: addCryptoLoading } = useCustomMutation(
     `${STAGING_URL}/web/crypto/create-wallet`,
@@ -116,10 +112,31 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     ({ response }: any) => notify(response?.data?.data?.message, { status: 'warning' })
   );
 
+  const getUrl = (): string => {
+    switch (type) {
+      case 'CREDIT':
+        return 'web/validate/add-credit-card';
+      case 'ADD_BANK':
+        return 'web/validate/add-bank-account';
+      default:
+        return url; // Default case
+    }
+  };
+
   const { mutate: validate, isPending: validateLoading } = useCustomMutation(
-    `${STAGING_URL}/${url}`,
+    `${STAGING_URL}/${getUrl()}`,
     () => setStep((e) => e + 1),
-    ({ response }: any) => notify(response?.data?.data?.message, { status: 'error' })
+    ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message, { status: 'error' });
+    }
   );
 
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
@@ -139,83 +156,133 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   );
 
   const onSubmit = (val): void => {
-    if (step === 1) {
-      if (type === 'ADD_CRYPTO') {
-        addCrypto({ address: val.address, name: val.name, currency: val.currency });
-      } else if (type === 'CRYPTO') {
-        checkCryptoTransaction({
-          payment_id: cryptoPaymentData?.payment_id,
-          pos_id: cryptoPaymentData?.pos_id,
-          currency: cryptoPaymentData?.currency,
-          address: cryptoPaymentData?.address,
-          type: 'purchase',
-        });
-      } else {
-        if (type === 'ADD_BANK') {
-          // mutate({ ...val });
-          setStep((e) => e + 1);
-        } else {
-          validate({
-            ...val,
-            payment_type: paymentData?.paymentType,
-          });
-        }
-      }
-      return;
-    }
-    if (step === 2) {
-      const commonData = { ...val };
+    const purchaseRedeemVal = {
+      ...val,
+      payment_type: paymentData?.paymentType,
+    };
 
-      const handleEncryptedContent = (tokenType: 'purchase' | 'redeem'): void => {
-        const content = JSON.stringify({
-          [`${tokenType}_tokens`]: [
-            {
-              ...val,
-              payment_type: paymentData?.paymentType,
-            },
-          ],
-        });
+    const addCreditCardVal = {
+      ...val,
+      card_holder_name: `${val.firstname} ${val.lastname}`,
+      address2: val.address2 || '',
+      expiration_date: val.expiration_date?.replace('/', ''),
+    };
 
-        if (coreBalance) {
-          const encryptedData = encryptData(content, coreBalance, 'balance');
-          updateMainFile(encryptedData);
-        }
-      };
+    const handleStepOne = (): void => {
+      switch (type) {
+        case 'ADD_CRYPTO':
+          addCrypto({ address: val.address, name: val.name, currency: val.currency });
+          break;
 
-      if (label === 'Purchase') {
-        if (type === 'CREDIT') {
-          mutate({
-            ...commonData,
-            card_holder_name: `${val.firstname} ${val.lastname}`,
-            address2: val.address2 || '',
-            expiration_date: val.expiration_date?.replace('/', ''),
-          });
-        } else if (type === 'CRYPTO') {
-          completeCryptoPayment({
+        case 'CRYPTO':
+          checkCryptoTransaction({
             payment_id: cryptoPaymentData?.payment_id,
             pos_id: cryptoPaymentData?.pos_id,
             currency: cryptoPaymentData?.currency,
             address: cryptoPaymentData?.address,
             type: 'purchase',
           });
-        } else {
-          if (type === 'ADD_BANK') {
-            mutate({ ...val });
-          } else {
-            handleEncryptedContent('purchase');
-          }
-        }
-      } else if (label === 'Redeem') {
-        if (['ADD_CRYPTO', 'CRYPTO'].includes(type || '')) {
-          mutate({
-            ...commonData,
-            amount,
-            address: selectedCrypto?.address || val.address,
-          });
-        } else {
-          handleEncryptedContent('redeem');
-        }
+          break;
+
+        case 'CREDIT':
+          validate(addCreditCardVal);
+          break;
+
+        case 'ADD_BANK':
+          validate({ ...val });
+
+          break;
+
+        default:
+          validate(purchaseRedeemVal);
+          break;
       }
+    };
+
+    const handleEncryptedContent = (name: string): void => {
+      let content;
+      let encryptionTarget;
+
+      switch (type) {
+        case 'CREDIT':
+          content = {
+            [`${name}`]: [addCreditCardVal],
+          };
+          encryptionTarget = 'wallets';
+          break;
+
+        case 'ADD_BANK':
+          content = {
+            [`${name}`]: [{ ...val }],
+          };
+          encryptionTarget = 'wallets';
+          break;
+
+        default:
+          content = {
+            [`${name}_tokens`]: [purchaseRedeemVal],
+          };
+          encryptionTarget = 'balance';
+          break;
+      }
+
+      if (coreBalance) {
+        const encryptedData = encryptData(content, coreBalance, encryptionTarget);
+        updateMainFile(encryptedData);
+      }
+    };
+
+    const handleStepTwo = (): void => {
+      switch (label) {
+        case 'Purchase':
+          switch (type) {
+            case 'CRYPTO':
+              completeCryptoPayment({
+                payment_id: cryptoPaymentData?.payment_id,
+                pos_id: cryptoPaymentData?.pos_id,
+                currency: cryptoPaymentData?.currency,
+                address: cryptoPaymentData?.address,
+                type: 'purchase',
+              });
+              break;
+
+            case 'CREDIT':
+              handleEncryptedContent('add_credit_card');
+              break;
+
+            case 'ADD_BANK':
+              handleEncryptedContent('add-bank-account');
+              break;
+
+            default:
+              handleEncryptedContent('purchase');
+              break;
+          }
+          break;
+
+        case 'Redeem':
+          if (['ADD_CRYPTO', 'CRYPTO'].includes(type || '')) {
+            mutate({
+              ...val,
+              amount,
+              address: selectedCrypto?.address || val.address,
+            });
+          } else {
+            handleEncryptedContent('redeem');
+          }
+          break;
+
+        default:
+          // Handle other labels if needed
+          break;
+      }
+    };
+
+    if (step === 1) {
+      handleStepOne();
+    }
+    if (step === 2) {
+      handleStepTwo();
     }
   };
 

@@ -251,7 +251,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
               break;
 
             case 'ADD_BANK':
-              handleEncryptedContent('add-bank-account');
+              handleEncryptedContent('added_bank_accounts');
               break;
 
             default:

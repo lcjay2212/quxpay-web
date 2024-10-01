@@ -189,7 +189,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
           break;
 
         case 'ADD_BANK':
-          validate({ ...val });
+          validate({ ...val, payment_type: 'ach_bank' });
 
           break;
 
@@ -213,7 +213,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
 
         case 'ADD_BANK':
           content = {
-            [`${name}`]: [{ ...val }],
+            [`${name}`]: [{ ...val, payment_type: 'ach_bank' }],
           };
           encryptionTarget = 'wallets';
           break;

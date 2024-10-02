@@ -327,7 +327,14 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   variant="secondary"
                   borderRadius="1rem"
                   h="3.25rem"
-                  isLoading={isPending}
+                  isLoading={
+                    isPending ||
+                    addCryptoLoading ||
+                    paymentLoading ||
+                    checkLoading ||
+                    validateLoading ||
+                    updateMainFileLoading
+                  }
                   mt="1rem"
                   onClick={(): void => {
                     void router.push('dashboard');

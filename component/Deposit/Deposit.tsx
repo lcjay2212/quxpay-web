@@ -29,13 +29,8 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
   const { data: details, dataLoading } = useDecryptedData('wallets');
   const coreBalance = useDecryptedCoreBalance((e) => e.coreBalance);
-  const [decryptedWallets, setDecryptedWallets] = useDecryptedCoreWallet((e) => [
-    e.decryptedWallets,
-    e.setDecryptedWallets,
-  ]);
+  const setDecryptedWallets = useDecryptedCoreWallet((e) => e.setDecryptedWallets);
 
-  // eslint-disable-next-line no-console
-  console.log({ decryptedWallets, coreBalance });
   const setBanksDetails = useDecryptedUserBanks((e) => e.setBankDetails);
 
   useEffect(() => {

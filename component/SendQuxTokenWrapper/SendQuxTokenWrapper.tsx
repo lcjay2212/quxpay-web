@@ -80,12 +80,12 @@ export const SendQuxTokenWrapper: FC = () => {
         updateMainFile(encryptedData as any);
       }
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: ({ response }: any) => {
+    onError: () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      Object.entries(response.data.errors).forEach(([_, message]) => {
-        notify(` ${message}`, { status: 'error' });
-      });
+      // Object.entries(response.data.errors).forEach(([_, message]) => {
+      //   notify(` ${message}`, { status: 'error' });
+      // });
+      notify(`User not found`, { status: 'error' });
     },
   });
 

@@ -19,6 +19,12 @@ const Register: FC = () => {
   const [selected, setSelected] = useState('');
   const setVisible = usePendingAccountModal((e) => e.setVisible);
 
+  const errorMessage = (res): void => {
+    Object.keys(res).forEach((errorKey) => {
+      notify(`${res[errorKey]}`, { status: 'error' });
+    });
+  };
+
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) => post('web/register', variable),
     onSuccess: () => {
@@ -27,13 +33,7 @@ const Register: FC = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      let message = '';
-
-      Object.keys(response?.data?.errors).forEach((errorKey) => {
-        message += response?.data?.errors[errorKey];
-      });
-
-      notify(`${message}`, { status: 'error' });
+      errorMessage(response?.data?.errors);
     },
   });
 
@@ -45,13 +45,18 @@ const Register: FC = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      let message = '';
+      errorMessage(response?.data?.errors);
+    },
+  });
 
-      Object.keys(response?.data?.errors).forEach((errorKey) => {
-        message += response?.data?.errors[errorKey];
-      });
-
-      notify(`${message}`, { status: 'error' });
+  const { mutate: validateMutation, isPending: isValidating } = useMutation({
+    mutationFn: (variable) => post('web/validate', variable),
+    onSuccess: () => {
+      setStep((e) => e + 1);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: ({ response }: any) => {
+      errorMessage(response?.data?.errors);
     },
   });
 
@@ -60,12 +65,13 @@ const Register: FC = () => {
     const birthdate = `${val.year}-${val.month}-${val.day}`;
 
     if (step === 1) {
-      setStep((e) => e + 1);
+      validateMutation({ ...val, step });
       return;
     }
 
     if (step === 2) {
-      setStep((e) => e + 1);
+      validateMutation({ ...val, step });
+      // setStep((e) => e + 1);
     }
 
     formData.append('email', val.email);
@@ -232,7 +238,7 @@ const Register: FC = () => {
                 mt="1rem"
                 w={350}
                 h="3.25rem"
-                isLoading={isPending || loading}
+                isLoading={isPending || loading || isValidating}
               >
                 {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
               </Button>

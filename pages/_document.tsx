@@ -27,7 +27,7 @@ class MyDocument extends Document {
                   const token = event.data.token;
                   console.log('Received token:', token);
 
-                  localStorage.setItem(storage.QUX_PAY_USER_TOKEN, token)
+                  sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, token)
                 }, false);
               `,
             }}

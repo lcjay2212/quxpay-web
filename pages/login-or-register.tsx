@@ -26,9 +26,9 @@ const LoginOrRegisterPage: FC = () => {
       }),
     onSuccess: ({ data }) => {
       if (data?.data?.token) {
-        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+        sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+        sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+        setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
         void router.push('/checkout');
       }
     },

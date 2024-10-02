@@ -19,8 +19,8 @@ const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
   useEffect(() => {
-    if (!user && typeof window !== 'undefined' && localStorage.QUX_PAY_USER_DETAILS) {
-      setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+    if (!user && typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_DETAILS) {
+      setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
     }
   }, [setUser, user]);
 

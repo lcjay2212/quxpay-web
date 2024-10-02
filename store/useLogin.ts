@@ -24,9 +24,9 @@ export const useLogin = (): { login: UseMutationResult } => {
       const json = await loginSession.json();
 
       if (json.success) {
-        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+        sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+        sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+        setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
       } else {
         throw new Error('Something went wrong');
       }

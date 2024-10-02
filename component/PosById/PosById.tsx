@@ -34,7 +34,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/pay/qr`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           'QuxPay-Web': 1,
           Version: 2,
         },
@@ -51,7 +51,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
     mutationFn: () =>
       axios.delete(`${STAGING_URL}/web/pos/${data?.id}/delete`, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),

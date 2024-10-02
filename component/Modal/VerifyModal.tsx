@@ -20,7 +20,7 @@ export const VerifyModal: FC = () => {
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/verify/user`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           'QuxPay-Web': 1,
           Version: 2,
         },

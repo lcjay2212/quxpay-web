@@ -11,7 +11,7 @@ export const post = async <T>(url: string, variable: void): Promise<T> =>
   });
 
 const getData = async <T>(apiUrl: string, url: string): Promise<T | undefined> => {
-  const token = localStorage.QUX_PAY_USER_TOKEN;
+  const token = sessionStorage.QUX_PAY_USER_TOKEN;
 
   try {
     const { data } = await axios.get(`${apiUrl}/${url}`, {

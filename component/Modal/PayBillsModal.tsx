@@ -42,7 +42,7 @@ export const PayBillsModal: FC = () => {
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),

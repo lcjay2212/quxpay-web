@@ -55,7 +55,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   }));
 
   const headers = {
-    Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+    Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
     Version: 2,
   };
 
@@ -294,12 +294,11 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             {step === 1 && <DepositStepOne label={label} loading={dataLoading} />}
             {step === 2 && <DepositStepTwo label={label} />}
 
-            <Box mt="2rem">
+            <Flex mt="2rem" flexDirection="column">
               <Button
                 type="submit"
                 variant="primary"
                 borderRadius="1rem"
-                w="400px"
                 h="3.25rem"
                 isLoading={
                   isPending ||
@@ -327,7 +326,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                 <Button
                   variant="secondary"
                   borderRadius="1rem"
-                  w="400px"
                   h="3.25rem"
                   isLoading={isPending}
                   mt="1rem"
@@ -339,7 +337,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   Cancel
                 </Button>
               )}
-            </Box>
+            </Flex>
           </Flex>
         </form>
       </FormProvider>

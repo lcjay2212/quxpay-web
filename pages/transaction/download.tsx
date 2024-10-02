@@ -26,7 +26,7 @@ const TransactionDownloadPage: FC = () => {
       axios.get(`${STAGING_URL}/web/wallet/download-transactions`, {
         params: variable,
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),

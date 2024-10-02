@@ -54,7 +54,7 @@ const CheckoutPage: FC = () => {
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/wp/po-paid`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),

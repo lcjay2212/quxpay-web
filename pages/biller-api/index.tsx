@@ -17,7 +17,7 @@ const BillerApiPage: FC = () => {
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/authentication/create?url=${data?.url}`, variable, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem('QUX_PAY_USER_TOKEN')}`,
+          Authorization: `Bearer ${sessionStorage.getItem('QUX_PAY_USER_TOKEN')}`,
         },
       }),
     onSuccess: () => {

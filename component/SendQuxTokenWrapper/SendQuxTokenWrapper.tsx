@@ -48,7 +48,7 @@ export const SendQuxTokenWrapper: FC = () => {
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/encryption/updated/main-file`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
@@ -65,7 +65,7 @@ export const SendQuxTokenWrapper: FC = () => {
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/validate/send-token`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
@@ -93,7 +93,7 @@ export const SendQuxTokenWrapper: FC = () => {
     mutationFn: (variable) =>
       axios.post(`${STAGING_URL}/web/friends/add`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),

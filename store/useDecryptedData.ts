@@ -33,7 +33,9 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
         const response = await axios.get(`${STAGING_URL}/web/encryption/main-file`, {
           params: { type },
           headers: {
-            Authorization: `Bearer ${typeof window !== 'undefined' ? localStorage.getItem('QUX_PAY_USER_TOKEN') : ''}`,
+            Authorization: `Bearer ${
+              typeof window !== 'undefined' ? sessionStorage.getItem('QUX_PAY_USER_TOKEN') : ''
+            }`,
             'Content-Type': 'application/json',
             Version: '2',
           },

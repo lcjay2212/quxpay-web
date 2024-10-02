@@ -45,7 +45,7 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
   }, [amount, label, mutate]);
 
   return (
-    <Box color="white" m="2rem">
+    <Box color="white" my="2rem" mx="1rem">
       {label === 'Purchase' && type === 'CRYPTO' && (
         <Box mb="2rem" textAlign="start">
           <Text noOfLines={1}>Received ${amount?.toFixed(2)} in tokens</Text>

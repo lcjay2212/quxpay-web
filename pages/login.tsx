@@ -14,10 +14,10 @@ const Login: FC = () => {
   const router = useRouter();
   const { control, handleSubmit } = method;
 
-  const setCatchaModalVisible = useCaptchaModal((e) => e.setVisible);
+  const [captchaModalVisible, setCaptchaModalVisible] = useCaptchaModal((e) => [e.visible, e.setVisible]);
 
   const onSubmit = (): void => {
-    setCatchaModalVisible(true);
+    setCaptchaModalVisible(true);
   };
 
   const { login } = useLogin();
@@ -87,7 +87,7 @@ const Login: FC = () => {
             Login
           </Button>
 
-          <CaptchaModal label="login" />
+          {captchaModalVisible && <CaptchaModal label="login" />}
         </form>
       </FormProvider>
 

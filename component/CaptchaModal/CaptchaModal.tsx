@@ -18,7 +18,7 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
   const { getValues } = useFormContext();
   const { login } = useLogin();
 
-  const { data, isLoading, refetch } = useQuery({
+  const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['captcha'],
     queryFn: async () => {
       try {
@@ -41,7 +41,6 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
         return null; // Return null in case of error to maintain consistent return type
       }
     },
-    refetchOnWindowFocus: false,
   });
 
   const { mutate, isPending: isVerifying } = useMutation({
@@ -151,7 +150,7 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
             <Text color="white" mb="1rem" fontWeight="bold">
               Please move the puzzle pieces
             </Text>
-            {!isLoading ? (
+            {!isLoading && !isRefetching ? (
               <Box position="relative" width={300} height={300} opacity={isVerifying ? 0.5 : 1}>
                 {isVerifying && (
                   <Box position="absolute" zIndex={9999} top="40%" right="40%">

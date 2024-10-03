@@ -56,7 +56,7 @@ export const AmountVerificationModal: FC = () => {
   };
 
   return (
-    <Modal isOpen={!visible} onClose={(): void => setVisible(visible)} size="full" isCentered>
+    <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size="full" isCentered>
       <ModalOverlay />
       <ModalContent bg="black">
         <ModalBody>

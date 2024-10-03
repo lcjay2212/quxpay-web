@@ -36,7 +36,6 @@ import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useUser, useVerifyModal } from 'store';
 import { useDecryptedBalance } from 'store/useDecryptedBalance';
-import { useDecryptedCoreBalance } from 'store/useDecryptedCoreBalance';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { clearStorage, getServerSideProps, notify } from 'utils';
 
@@ -63,27 +62,14 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 const Dashboard: FC = () => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
 
-  const { data, dataLoading } = useDecryptedData('balance');
-  // const { data: transactionsData } = useDecryptedData('transactions');
+  const { dataLoading } = useDecryptedData('balance');
 
-  const [decryptedBalance, setDecryptedBalance] = useDecryptedBalance((e) => [
-    e.decryptedBalance,
-    e.setDecryptedBalance,
-  ]);
-  const setCoreBalance = useDecryptedCoreBalance((e) => e.setCoreBalance);
+  const decryptedBalance = useDecryptedBalance((e) => e.decryptedBalance);
 
   const { isLoading } = useQuery<{ unpaid_or_open: PosHistoryProps[] }>({
     queryKey: ['posHistory'],
     queryFn: FETCH_POS_HISTORY,
   });
-
-  useEffect(() => {
-    if (data) {
-      const balance = JSON.parse(data.details.core);
-      setCoreBalance(data);
-      setDecryptedBalance(balance);
-    }
-  }, [data, setCoreBalance, setDecryptedBalance]);
 
   const router = useRouter();
 

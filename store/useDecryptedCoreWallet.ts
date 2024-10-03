@@ -1,29 +1,15 @@
 import { create } from 'zustand';
 
-type WalletsProps = {
-  details: {
-    master_public_key: string;
-    core: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    changes: any;
-    signature: string;
-  };
-  masterPublicKey: string;
-  encryptedMainKey: string;
-  decryptedMainKey: string;
-  iv: string;
-  key: string;
-  userPublicKeyPem: string;
-} | null;
+type WalletsProps = Details | null;
 
 type Props = {
-  decryptedWallets: WalletsProps;
-  setDecryptedWallets: (decryptedWallets: WalletsProps) => void;
+  coreWallets: WalletsProps;
+  setCoreWallets: (coreWallets: WalletsProps) => void;
 };
 export const useDecryptedCoreWallet = create<Props>((set) => ({
-  decryptedWallets: null,
-  setDecryptedWallets: (decryptedWallets: WalletsProps): void =>
+  coreWallets: null,
+  setCoreWallets: (coreWallets: WalletsProps): void =>
     set(() => ({
-      decryptedWallets,
+      coreWallets,
     })),
 }));

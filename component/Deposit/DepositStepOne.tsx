@@ -28,12 +28,14 @@ import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets'
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
+import { useDecryptedData } from 'store/useDecryptedData';
 import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 import { notify } from 'utils';
-export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label, loading }) => {
+export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
   const method = useFormContext();
   const { control } = method;
+  const { dataLoading } = useDecryptedData('wallets');
 
   const bankDetails = useDecryptedUserBanks((e) => e.banksDetails);
 
@@ -89,7 +91,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                       To My Bank
                     </Text>
                   )}
-                  {!loading ? (
+                  {!dataLoading ? (
                     <FormControl>
                       {bankDetails?.bank.length ? (
                         bankDetails.bank.map((item, index) => {
@@ -102,7 +104,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                                   bankName={bank_name}
                                   name={nameOnAccount}
                                   accountNumber={accountNumber}
-                                  loading={loading}
+                                  loading={dataLoading}
                                 />
                                 {error?.message && (
                                   <SlideFade in={true} offsetY="-1rem">
@@ -138,7 +140,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                             <CreditCard
                               accountNumber={bankDetails?.credit_card.payment.creditCard.cardNumber ?? ''}
                               cardType={bankDetails?.credit_card.payment.creditCard.cardType ?? ''}
-                              loading={loading}
+                              loading={dataLoading}
                             />
                             {error?.message && (
                               <SlideFade in={true} offsetY="-1rem">
@@ -190,7 +192,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                       <Text color="white" textAlign="start" fontWeight="bold" fontSize="2rem" my="1rem">
                         To Crypto
                       </Text>
-                      {!loading ? (
+                      {!dataLoading ? (
                         <FormControl isInvalid={!!error?.message}>
                           {bankDetails?.crypto.length ? (
                             bankDetails.crypto.map((item, index) => (
@@ -200,7 +202,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                                     address={item.address}
                                     name={item.name}
                                     type={item.currency}
-                                    loading={loading}
+                                    loading={dataLoading}
                                   />
                                   {error?.message && (
                                     <SlideFade in={true} offsetY="-1rem">

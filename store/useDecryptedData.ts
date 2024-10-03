@@ -3,28 +3,26 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { camelCase } from 'lodash';
-import { useState } from 'react';
 import { clearStorage, notify } from 'utils';
 import { getDecryptedData } from 'utils/getDecryptedData';
+import { useDecryptedBalance } from './useDecryptedBalance';
+import { useDecryptedCoreBalance } from './useDecryptedCoreBalance';
+import { useDecryptedCoreWallet } from './useDecryptedCoreWallet';
+import { useDecryptedUserBanks } from './useDecryptedUserBanks';
 import { useUser } from './useUser';
 
 interface UseSecurityMainFileResult {
   dataLoading: boolean;
-  data: any; // Replace `any` with a more specific type if possible
   error: unknown;
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
   const { setUser } = useUser();
-  const [data, setData] = useState<{
-    details: any;
-    masterPublicKey: string;
-    encryptedMainKey: string | null;
-    decryptedMainKey: string | null;
-    iv: string;
-    key: string;
-    userPublicKeyPem: string;
-  } | null>(null);
+
+  const setDecryptedBalance = useDecryptedBalance((e) => e.setDecryptedBalance);
+  const setCoreBalance = useDecryptedCoreBalance((e) => e.setCoreBalance);
+  const setCoreWallets = useDecryptedCoreWallet((e) => e.setCoreWallets);
+  const setBanksDetails = useDecryptedUserBanks((e) => e.setBankDetails);
 
   const { isLoading: dataLoading, error } = useQuery({
     queryKey: [`${camelCase(type)}SecurityFile`],
@@ -45,7 +43,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
           const { details, masterPublicKey, encryptedMainKey, decryptedMainKey, iv, key, userPublicKeyPem } =
             await getDecryptedData(response.data.data);
 
-          setData({
+          const initialData = {
             details,
             masterPublicKey,
             encryptedMainKey,
@@ -53,7 +51,20 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
             iv,
             key,
             userPublicKeyPem,
-          });
+          };
+
+          if (type === 'balance') {
+            const balance = JSON.parse(details.core);
+            setCoreBalance(initialData);
+            setDecryptedBalance(balance);
+          }
+
+          if (type === 'wallets') {
+            const banks = JSON.parse(details.core);
+
+            setCoreWallets(initialData);
+            setBanksDetails(banks);
+          }
         }
 
         return response.data.data;
@@ -69,5 +80,5 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
     refetchInterval: 60000,
   });
 
-  return { dataLoading, data, error };
+  return { dataLoading, error };
 };

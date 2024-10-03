@@ -37,3 +37,19 @@ interface PosHistoryProps {
   type: string;
   label: string;
 }
+
+interface Details {
+  masterPublicKey: string;
+  encryptedMainKey: string | null;
+  decryptedMainKey: string | null;
+  iv: string;
+  key: string;
+  userPublicKeyPem?: string;
+  details: {
+    master_public_key: string;
+    core: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    changes: any;
+    signature: string;
+  };
+}

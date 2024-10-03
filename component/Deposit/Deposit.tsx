@@ -4,13 +4,11 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
-import { FC, useEffect, useState } from 'react';
+import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, useType } from 'store';
 import { useDecryptedCoreBalance } from 'store/useDecryptedCoreBalance';
 import { useDecryptedCoreWallet } from 'store/useDecryptedCoreWallet';
-import { useDecryptedData } from 'store/useDecryptedData';
-import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 import { notify } from 'utils';
 import { encryptData } from 'utils/encryptData';
@@ -27,20 +25,9 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const [step, setStep] = useState(1);
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
-  const { data: details, dataLoading } = useDecryptedData('wallets');
+
   const coreBalance = useDecryptedCoreBalance((e) => e.coreBalance);
-  const setDecryptedWallets = useDecryptedCoreWallet((e) => e.setDecryptedWallets);
-
-  const setBanksDetails = useDecryptedUserBanks((e) => e.setBankDetails);
-
-  useEffect(() => {
-    if (details) {
-      const banks = JSON.parse(details.details.core);
-
-      setDecryptedWallets(details);
-      setBanksDetails(banks);
-    }
-  }, [details, setDecryptedWallets, setBanksDetails]);
+  const coreWallet = useDecryptedCoreWallet((e) => e.coreWallets);
 
   const amount = watch('amount');
 
@@ -197,6 +184,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     const handleEncryptedContent = (name: string): void => {
       let content;
       let encryptionTarget;
+      let core;
 
       switch (type) {
         case 'CREDIT':
@@ -204,6 +192,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             [`${name}`]: [addCreditCardVal],
           };
           encryptionTarget = 'wallets';
+          core = coreWallet;
           break;
 
         case 'ADD_BANK':
@@ -211,6 +200,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             [`${name}`]: [{ ...val, payment_type: 'ach_bank' }],
           };
           encryptionTarget = 'wallets';
+          core = coreWallet;
           break;
 
         default:
@@ -218,11 +208,12 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             [`${name}_tokens`]: [purchaseRedeemVal],
           };
           encryptionTarget = 'balance';
+          core = coreBalance;
           break;
       }
 
-      if (coreBalance) {
-        const encryptedData = encryptData(JSON.stringify(content), coreBalance, encryptionTarget);
+      if (core) {
+        const encryptedData = encryptData(JSON.stringify(content), core, encryptionTarget);
         updateMainFile(encryptedData);
       }
     };
@@ -286,7 +277,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
-            {step === 1 && <DepositStepOne label={label} loading={dataLoading} />}
+            {step === 1 && <DepositStepOne label={label} />}
             {step === 2 && <DepositStepTwo label={label} />}
 
             <Flex mt="2rem" flexDirection="column">

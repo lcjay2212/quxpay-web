@@ -52,7 +52,9 @@ export const SchedulePayBillModal: FC = () => {
       reset();
     },
     onError: ({ response }: any) => {
-      notify(`${response?.data?.data?.errors?.scheduled_type}`, { status: 'error' });
+      Object.keys(response?.data?.data?.errors).forEach((errorKey) => {
+        notify(`${response?.data?.data?.errors[errorKey]}`, { status: 'error' });
+      });
     },
   });
 

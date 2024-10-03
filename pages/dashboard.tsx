@@ -158,7 +158,7 @@ const Dashboard: FC = () => {
           />
         </Grid>
 
-        {data?.status !== 'Approved' && (
+        {data?.status === 'Pending' && (
           <Flex
             justifyContent="space-between"
             alignItems="center"

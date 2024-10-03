@@ -27,7 +27,7 @@ export const AmountVerificationModal: FC = () => {
   const { handleSubmit, control } = methods;
   const data = queryClient.getQueryData<{
     status: string;
-    date_created: string;
+    show_having_trouble: boolean;
   }>(['bankStatus']);
 
   const { mutate, isPending } = useMutation({
@@ -133,9 +133,8 @@ export const AmountVerificationModal: FC = () => {
                   )}
                 />
 
-                {data?.date_created !== 'No ongoing verification' && (
+                {data?.show_having_trouble && (
                   <>
-                    {' '}
                     <Text color="white" mt="4rem">
                       Having Trouble?
                     </Text>

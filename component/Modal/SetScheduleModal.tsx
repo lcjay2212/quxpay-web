@@ -32,19 +32,19 @@ export const SetScheduleModal: FC<{
   ];
 
   return (
-    <Modal isOpen={visible} onClose={(): void => setVisible(!visible)} size="2xl" isCentered scrollBehavior="inside">
+    <Modal isOpen={visible} onClose={(): void => setVisible(!visible)} size="2xl" isCentered>
       <ModalOverlay />
       <ModalContent
         display="flex"
         justifyContent="flex-end"
         bg="#10101F"
-        minH={filter === 'repeat' ? 640 : 400}
         h="auto"
-        mt={filter === 'repeat' ? '32rem' : '42rem'}
         borderTopRadius="3rem"
         color="white"
         overflow="hidden"
         pt="1rem"
+        marginTop="auto"
+        mb={0}
       >
         <ModalBody>
           <Flex mt="2rem" flexDir="column" justifyContent="space-between" gap={2}>
@@ -129,36 +129,7 @@ export const SetScheduleModal: FC<{
                       </FormContainer>
                     )}
                   />
-                  {/* <Controller
-                    control={control}
-                    name="end_date"
-                    rules={{ required: 'End Date is required' }}
-                    render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-                      <FormContainer errorMessage={error?.message ?? ''} label="Choose End Date">
-                        <TextField
-                          value={value}
-                          placeholder="Select end date"
-                          onChange={onChange}
-                          onBlur={onBlur}
-                          customRightElement={
-                            <Box>
-                              <DatePicker
-                                customInput={<CalendarIcon w={25} h={25} mt="0.5rem" mr="1rem" color="primary" />}
-                                selected={value ? dayjs(value).date() : value}
-                                dropdownMode="select"
-                                popperPlacement="top-end"
-                                popperProps={{ strategy: 'fixed' }}
-                                onChange={(a: Date): void => {
-                                  onChange(dayjs(a).format('YYYY-MM-DD'));
-                                }}
-                                showYearDropdown
-                              />
-                            </Box>
-                          }
-                        />
-                      </FormContainer>
-                    )}
-                  /> */}
+
                   <Controller
                     control={control}
                     name="frequency"
@@ -234,6 +205,7 @@ export const SetScheduleModal: FC<{
               borderRadius="1rem"
               h="3.25rem"
               mt="2rem"
+              mb="1rem"
               onClick={(): void => setVisible(false)}
             >
               Next

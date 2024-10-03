@@ -1,18 +1,34 @@
-import { Button, chakra, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
+import {
+  Button,
+  chakra,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { FormContainer } from 'component';
+import { AccountVerifySuccess, FormContainer } from 'component';
 import { STAGING_URL } from 'constants/url';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import PinInput from 'react-pin-input';
-import { useAmountVerificationModal } from 'store';
-import { notify } from 'utils';
+import { useAccountVerifySuccessModal, useAmountVerificationModal } from 'store';
+import { notify, queryClient } from 'utils';
 
 export const AmountVerificationModal: FC = () => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [visible, setVisible] = useAmountVerificationModal(({ visible, setVisible }) => [visible, setVisible]);
+  const setAccountVerifySuccessModalVisible = useAccountVerifySuccessModal((e) => e.setVisible);
   const methods = useForm();
   const { handleSubmit, control } = methods;
+  const data = queryClient.getQueryData<{
+    status: string;
+    date_created: string;
+  }>(['bankStatus']);
 
   const { mutate, isPending } = useMutation({
     mutationKey: ['verifyBank'],
@@ -26,6 +42,7 @@ export const AmountVerificationModal: FC = () => {
     onSuccess: ({ data }) => {
       notify(data?.status?.message);
       setVisible(false);
+      setAccountVerifySuccessModalVisible(true);
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
@@ -39,7 +56,7 @@ export const AmountVerificationModal: FC = () => {
   };
 
   return (
-    <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size="full" isCentered>
+    <Modal isOpen={!visible} onClose={(): void => setVisible(visible)} size="full" isCentered>
       <ModalOverlay />
       <ModalContent bg="black">
         <ModalBody>
@@ -76,7 +93,8 @@ export const AmountVerificationModal: FC = () => {
                         inputStyle={{
                           borderColor: '#7f7f7f',
                           borderRadius: '1rem',
-                          color: 'white',
+                          color: 'black2',
+                          background: 'white',
                         }}
                         autoSelect
                         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
@@ -105,7 +123,8 @@ export const AmountVerificationModal: FC = () => {
                         inputStyle={{
                           borderColor: '#7f7f7f',
                           borderRadius: '1rem',
-                          color: 'white',
+                          color: 'black2',
+                          background: 'white',
                         }}
                         autoSelect
                         regexCriteria={/^[ A-Za-z0-9_@./#&+-]*$/}
@@ -113,12 +132,56 @@ export const AmountVerificationModal: FC = () => {
                     </FormContainer>
                   )}
                 />
-                <Button variant="primary" type="submit" isLoading={isPending} mt="6rem" w="345px">
+
+                {data?.date_created !== 'No ongoing verification' && (
+                  <>
+                    {' '}
+                    <Text color="white" mt="4rem">
+                      Having Trouble?
+                    </Text>
+                    <Text color="primary" cursor="pointer" as="u" onClick={(): void => onOpen()}>
+                      Click here to start verification again.
+                    </Text>
+                  </>
+                )}
+
+                <Button variant="primary" type="submit" isLoading={isPending} mt="3rem" w="345px">
                   Submit
                 </Button>
               </form>
             </Flex>
           </FormProvider>
+
+          <Modal isOpen={isOpen} onClose={onClose} isCentered>
+            <ModalOverlay />
+            <ModalContent bg="black">
+              <ModalBody>
+                <Flex
+                  flexDir="column"
+                  placeContent="center"
+                  alignItems="center"
+                  textAlign="center"
+                  bg="gray"
+                  borderRadius="xl"
+                  p="2rem"
+                >
+                  <Text color="white" fontSize="12px" fontWeight="bold" mb="2rem">
+                    Are you sure you want to start over?
+                  </Text>
+
+                  <Flex flexDirection="column" gap={2}>
+                    <Button variant="primary" borderRadius="1rem" onClick={(): void => onClose()}>
+                      Yes, start adding the account over
+                    </Button>
+                    <Button variant="primary" borderRadius="1rem" onClick={(): void => onClose()}>
+                      No, I'll try verifying
+                    </Button>
+                  </Flex>
+                </Flex>
+              </ModalBody>
+            </ModalContent>
+          </Modal>
+          <AccountVerifySuccess />
         </ModalBody>
       </ModalContent>
     </Modal>

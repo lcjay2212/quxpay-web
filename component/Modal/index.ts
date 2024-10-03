@@ -1,3 +1,4 @@
+export * from './AccountVerifySuccess';
 export * from './AmountVerificationModal';
 export * from './DeleteAccountModal';
 export * from './HomeModal';

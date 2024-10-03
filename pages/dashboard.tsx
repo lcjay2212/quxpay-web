@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { ArrowForwardIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
   Container,
@@ -27,14 +27,14 @@ import {
   UploadLoadingModal,
   VerifyModal,
 } from 'component';
-import { FETCH_POS_HISTORY } from 'constants/api';
+import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
 import { API_SESSION_URL } from 'constants/url';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC, useEffect } from 'react';
-import { useUser, useVerifyModal } from 'store';
+import { usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
 import { useDecryptedBalance } from 'store/useDecryptedBalance';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { clearStorage, getServerSideProps, notify } from 'utils';
@@ -66,9 +66,16 @@ const Dashboard: FC = () => {
 
   const decryptedBalance = useDecryptedBalance((e) => e.decryptedBalance);
 
+  const setVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
+
   const { isLoading } = useQuery<{ unpaid_or_open: PosHistoryProps[] }>({
     queryKey: ['posHistory'],
     queryFn: FETCH_POS_HISTORY,
+  });
+
+  const { data } = useQuery({
+    queryKey: ['bankStatus'],
+    queryFn: FETCH_BANK_STATUS,
   });
 
   const router = useRouter();
@@ -150,6 +157,22 @@ const Dashboard: FC = () => {
             loading={dataLoading}
           />
         </Grid>
+
+        {data?.status !== 'Approved' && (
+          <Flex
+            justifyContent="space-between"
+            alignItems="center"
+            mb="1rem"
+            mx="1rem"
+            onClick={(): void => setVisible(true)}
+          >
+            <Text color="red.500" cursor="pointer">
+              Verify Account: Bank Nickname
+            </Text>
+            <ArrowForwardIcon cursor="pointer" color="red.500" />
+          </Flex>
+        )}
+
         <DashboarMenuComponent />
         <NotificationHistory />
         <TransactionHistory />

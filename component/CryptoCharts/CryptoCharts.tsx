@@ -41,8 +41,8 @@ const CryptoCharts: FC<{ currency: string }> = ({ currency }) => {
     },
   ];
 
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: [`${currency}graph`],
+  const { data, isLoading } = useQuery({
+    queryKey: [`${currency}graph`, filter],
     queryFn: async () => {
       const { data } = await axios.get(`${STAGING_URL}/web/crypto/graph?filter=${filter}&currency=${currency}`, {
         headers: {
@@ -125,7 +125,6 @@ const CryptoCharts: FC<{ currency: string }> = ({ currency }) => {
             color={filter === item.value ? 'primary' : 'white'}
             onClick={(): void => {
               setFilter(item.value);
-              void refetch();
             }}
           >
             {item.label}

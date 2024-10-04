@@ -8,6 +8,7 @@ export * from './CashInCrypto';
 export * from './CongratulationContent';
 export * from './CreatePoForm';
 export * from './CreditCard';
+export * from './CryptoCharts';
 export * from './CryptoTransactionHistory';
 export * from './CryptoWallet';
 export * from './DateOfBirthPicker';

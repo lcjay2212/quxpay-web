@@ -8,8 +8,8 @@ const CryptoPricePage: FC = () => {
   return (
     <HeaderContainer label="Crypto Prices" route="/dashboard">
       <Box>
-        <CryptoCharts currency="BTC" />
-        <CryptoCharts currency="ETH" />
+        <CryptoCharts currency="BTC" key="btc-chart" />
+        <CryptoCharts currency="ETH" key="eth-chart" />
       </Box>
     </HeaderContainer>
   );

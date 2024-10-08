@@ -11,16 +11,16 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
-import { FETCH_FRIEND_LIST } from 'constants/api';
 import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useDecryptedData } from 'store/useDecryptedData';
 import { notify, queryClient } from 'utils';
 import { encryptData } from 'utils/encryptData';
 
@@ -32,13 +32,12 @@ export const SendQuxTokenWrapper: FC = () => {
   const [radioValue, setRadioValue] = useState('');
   const [successTrigger, setSuccessTrigger] = useState(false);
   const [amount, setAmount] = useState(0);
-
-  const { data, isLoading: loading, refetch } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
+  const { data: friendList, dataLoading } = useDecryptedData('friends');
   const [sentToDetail, setSetToDetail] = useState<{
     name: string;
     username: string;
     email: string;
-  }>(data?.[0] || {});
+  }>(friendList.friends?.[0] || {});
 
   const [payload, setPayload] = useState();
 
@@ -98,7 +97,6 @@ export const SendQuxTokenWrapper: FC = () => {
         },
       }),
     onSuccess: () => {
-      void refetch();
       setRadioValue('');
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -108,7 +106,7 @@ export const SendQuxTokenWrapper: FC = () => {
   });
 
   const onDeposit = (val): void => {
-    if (radioValue !== `${data?.length + 1}`) {
+    if (radioValue !== `${friendList?.friends?.length + 1}`) {
       validate({ ...val, type: 'tag_token' });
       setPayload({ ...val, type: 'tag_token' });
     } else {
@@ -126,7 +124,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 control={control}
                 name="amount"
                 rules={{
-                  required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false,
+                  required: radioValue !== `${friendList?.friends?.length + 1}` ? 'Amount is required' : false,
                   validate: (value) => value >= 20 || 'Amount must be at least $20',
                 }}
                 render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
@@ -152,7 +150,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 render={({ field: { onChange, value, onBlur } }): ReactElement => (
                   <FormContainer>
                     <Textarea
-                      bg={loading ? 'lightgray' : '#10101F'}
+                      bg={dataLoading ? 'lightgray' : '#10101F'}
                       border="1px solid #4D4D6B"
                       borderRadius="16px"
                       height="3.5rem"
@@ -187,10 +185,10 @@ export const SendQuxTokenWrapper: FC = () => {
                   name="email"
                   render={({ field: { onChange } }): ReactElement => (
                     <FormControl>
-                      {data?.length ? (
+                      {friendList?.friends?.length ? (
                         <>
-                          {!loading ? (
-                            data.map((item, index) => {
+                          {!dataLoading ? (
+                            friendList?.friends.map((item, index) => {
                               return (
                                 <Box key={index}>
                                   <Flex justifyContent="space-between">
@@ -238,11 +236,11 @@ export const SendQuxTokenWrapper: FC = () => {
                     </Text>
                   </Flex>
 
-                  <Radio value={`${data?.length + 1}`} colorScheme="teal" />
+                  <Radio value={`${friendList?.friends?.length + 1}`} colorScheme="teal" />
                 </Flex>
               </RadioGroup>
 
-              {radioValue !== `${data?.length + 1}` ? (
+              {radioValue !== `${friendList?.friends?.length + 1}` ? (
                 <></>
               ) : (
                 <Controller
@@ -274,7 +272,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 h="3.25rem"
                 isLoading={isPending || validating || updateMainFileLoading}
               >
-                {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
+                {radioValue !== `${friendList?.friends?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
               </Button>
             </form>
           </FormProvider>

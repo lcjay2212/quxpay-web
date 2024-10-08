@@ -60,7 +60,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
             }
 
             case 'friends': {
-              const friends = JSON.parse(details.core);
+              const { friends } = JSON.parse(details.core);
               return { initialData, friends }; // Return data for 'friends' type
             }
 

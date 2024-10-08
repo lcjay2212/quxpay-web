@@ -35,7 +35,6 @@ import { useRouter } from 'next/router';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
-import { useDecryptedBalance } from 'store/useDecryptedBalance';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { clearStorage, getServerSideProps, notify } from 'utils';
 
@@ -62,9 +61,7 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 const Dashboard: FC = () => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
 
-  const { dataLoading } = useDecryptedData('balance');
-
-  const decryptedBalance = useDecryptedBalance((e) => e.decryptedBalance);
+  const { data: balance, dataLoading } = useDecryptedData('balance');
 
   const setVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
 
@@ -96,10 +93,10 @@ const Dashboard: FC = () => {
   };
 
   useEffect(() => {
-    if (decryptedBalance?.verification_status !== 'for_review' && Number(decryptedBalance?.total_purchase) >= 600) {
+    if (balance?.balance?.verification_status !== 'for_review' && Number(balance?.balance?.total_purchase) >= 600) {
       setVerifyModalVisible(true);
     }
-  }, [setVerifyModalVisible, decryptedBalance]);
+  }, [setVerifyModalVisible, balance]);
 
   const DashboarMenuComponent = dynamic(() => import('../component/DashboardMenu'), {
     ssr: false,
@@ -134,7 +131,7 @@ const Dashboard: FC = () => {
           <Label
             label="Available Balance"
             image={QuxTokenIcon}
-            amount={(decryptedBalance?.balance || 0).toFixed(2)}
+            amount={(balance?.balance?.balance || 0).toFixed(2)}
             loading={dataLoading}
           />
           <Flex justifyContent="center">
@@ -143,7 +140,7 @@ const Dashboard: FC = () => {
           <Label
             label="Purchase Pending"
             image={QuxTokenIcon}
-            amount={Number(decryptedBalance?.deposit || 0).toFixed(2)}
+            amount={Number(balance?.balance?.deposit || 0).toFixed(2)}
             loading={dataLoading}
           />
           <Label label="Tagged Tokens" image={QuxTokenIcon} amount={(0).toFixed(2)} loading={dataLoading} />
@@ -153,7 +150,7 @@ const Dashboard: FC = () => {
           <Label
             label="Redeem Pending"
             image={QuxTokenIcon}
-            amount={Number(decryptedBalance?.withdraw_pending || 0).toFixed(2)}
+            amount={Number(balance?.balance?.withdraw_pending || 0).toFixed(2)}
             loading={dataLoading}
           />
         </Grid>

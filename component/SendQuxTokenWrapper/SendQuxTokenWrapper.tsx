@@ -21,8 +21,7 @@ import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useDecryptedCoreBalance } from 'store/useDecryptedCoreBalance';
-import { notify } from 'utils';
+import { notify, queryClient } from 'utils';
 import { encryptData } from 'utils/encryptData';
 
 export const SendQuxTokenWrapper: FC = () => {
@@ -42,7 +41,8 @@ export const SendQuxTokenWrapper: FC = () => {
   }>(data?.[0] || {});
 
   const [payload, setPayload] = useState();
-  const coreBalance = useDecryptedCoreBalance((e) => e.coreBalance);
+
+  const balance = queryClient.getQueryData<{ initialData: Details }>(['balanceSecurityFile']);
 
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useMutation({
     mutationFn: (variable) =>
@@ -74,8 +74,8 @@ export const SendQuxTokenWrapper: FC = () => {
         send_tokens: [payload],
       });
 
-      if (coreBalance) {
-        const encryptedData = encryptData(content, coreBalance, 'balance');
+      if (balance?.initialData) {
+        const encryptedData = encryptData(content, balance.initialData, 'balance');
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         updateMainFile(encryptedData as any);
       }

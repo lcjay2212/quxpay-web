@@ -7,12 +7,13 @@ import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useAccountPaymentId } from 'store';
-import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
-import { getServerSideProps, notify } from 'utils';
+import { getServerSideProps, notify, queryClient } from 'utils';
 
 export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();
-  const banksDetails = useDecryptedUserBanks((e) => e.banksDetails);
+  const bankDetails = queryClient.getQueryData<{ initialData: Details; banks: UserBankDetails }>([
+    'walletsSecurityFile',
+  ]);
   const [radioValue, setRadioValue] = useState('');
   const [paymentData, setPaymentData] = useAccountPaymentId(({ paymentData, setPaymentData }) => [
     paymentData,
@@ -45,9 +46,9 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
         </Text>
 
         <RadioGroup onChange={setRadioValue} value={radioValue}>
-          {banksDetails ? (
+          {bankDetails ? (
             <>
-              {banksDetails['bank'].map((item, index) => {
+              {bankDetails.banks['bank'].map((item, index) => {
                 const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
                 return (
                   <Box key={index}>

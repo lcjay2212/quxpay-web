@@ -28,16 +28,14 @@ import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets'
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
-import { useDecryptedData } from 'store/useDecryptedData';
-import { useDecryptedUserBanks } from 'store/useDecryptedUserBanks';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
-import { notify } from 'utils';
-export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
+import { notify, queryClient } from 'utils';
+export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label, loading }) => {
   const method = useFormContext();
   const { control } = method;
-  const { dataLoading } = useDecryptedData('wallets');
-
-  const bankDetails = useDecryptedUserBanks((e) => e.banksDetails);
+  const bankDetails = queryClient.getQueryData<{ initialData: Details; banks: UserBankDetails }>([
+    'walletsSecurityFile',
+  ]);
 
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
@@ -91,10 +89,10 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                       To My Bank
                     </Text>
                   )}
-                  {!dataLoading ? (
+                  {!loading ? (
                     <FormControl>
-                      {bankDetails?.bank.length ? (
-                        bankDetails.bank.map((item, index) => {
+                      {bankDetails?.banks.bank.length ? (
+                        bankDetails.banks.bank.map((item, index) => {
                           const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
 
                           return (
@@ -104,7 +102,7 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                                   bankName={bank_name}
                                   name={nameOnAccount}
                                   accountNumber={accountNumber}
-                                  loading={dataLoading}
+                                  loading={loading}
                                 />
                                 {error?.message && (
                                   <SlideFade in={true} offsetY="-1rem">
@@ -134,13 +132,16 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                         <Text>No Bank Record</Text>
                       )}
 
-                      {!isEmpty(bankDetails?.credit_card) && (
-                        <Flex justifyContent="space-between" key={bankDetails?.credit_card.customerPaymentProfileId}>
+                      {!isEmpty(bankDetails?.banks.credit_card) && (
+                        <Flex
+                          justifyContent="space-between"
+                          key={bankDetails?.banks.credit_card.customerPaymentProfileId}
+                        >
                           <Box mt="1rem">
                             <CreditCard
-                              accountNumber={bankDetails?.credit_card.payment.creditCard.cardNumber ?? ''}
-                              cardType={bankDetails?.credit_card.payment.creditCard.cardType ?? ''}
-                              loading={dataLoading}
+                              accountNumber={bankDetails?.banks.credit_card.payment.creditCard.cardNumber ?? ''}
+                              cardType={bankDetails?.banks.credit_card.payment.creditCard.cardType ?? ''}
+                              loading={loading}
                             />
                             {error?.message && (
                               <SlideFade in={true} offsetY="-1rem">
@@ -151,15 +152,15 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                             )}
                           </Box>
                           <Radio
-                            value={`${bankDetails?.credit_card.customerPaymentProfileId}`}
+                            value={`${bankDetails?.banks.credit_card.customerPaymentProfileId}`}
                             colorScheme="teal"
                             onChange={(): void => {
-                              onChange(bankDetails?.credit_card.customerPaymentProfileId);
+                              onChange(bankDetails?.banks.credit_card.customerPaymentProfileId);
                               setPaymentData({
-                                paymentId: bankDetails?.credit_card.customerPaymentProfileId,
-                                paymentType: bankDetails?.credit_card.payment_type,
+                                paymentId: bankDetails?.banks.credit_card.customerPaymentProfileId,
+                                paymentType: bankDetails?.banks.credit_card.payment_type,
                               });
-                              setSelectedBankDetails(bankDetails?.credit_card as any);
+                              setSelectedBankDetails(bankDetails?.banks.credit_card as any);
                               setType('EXISTING_CREDITCARD');
                             }}
                           />
@@ -192,17 +193,17 @@ export const DepositStepOne: FC<{ label: string }> = ({ label }) => {
                       <Text color="white" textAlign="start" fontWeight="bold" fontSize="2rem" my="1rem">
                         To Crypto
                       </Text>
-                      {!dataLoading ? (
+                      {!loading ? (
                         <FormControl isInvalid={!!error?.message}>
-                          {bankDetails?.crypto.length ? (
-                            bankDetails.crypto.map((item, index) => (
+                          {bankDetails?.banks.crypto.length ? (
+                            bankDetails.banks.crypto.map((item, index) => (
                               <Flex justifyContent="space-between" key={index}>
                                 <Box mt="1rem">
                                   <CryptoWallet
                                     address={item.address}
                                     name={item.name}
                                     type={item.currency}
-                                    loading={dataLoading}
+                                    loading={loading}
                                   />
                                   {error?.message && (
                                     <SlideFade in={true} offsetY="-1rem">

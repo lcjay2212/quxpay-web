@@ -5,26 +5,22 @@ import { STAGING_URL } from 'constants/url';
 import { camelCase } from 'lodash';
 import { clearStorage, notify } from 'utils';
 import { getDecryptedData } from 'utils/getDecryptedData';
-import { useDecryptedBalance } from './useDecryptedBalance';
-import { useDecryptedCoreBalance } from './useDecryptedCoreBalance';
-import { useDecryptedCoreWallet } from './useDecryptedCoreWallet';
-import { useDecryptedUserBanks } from './useDecryptedUserBanks';
 import { useUser } from './useUser';
 
 interface UseSecurityMainFileResult {
   dataLoading: boolean;
   error: unknown;
+  data: any;
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
   const { setUser } = useUser();
 
-  const setDecryptedBalance = useDecryptedBalance((e) => e.setDecryptedBalance);
-  const setCoreBalance = useDecryptedCoreBalance((e) => e.setCoreBalance);
-  const setCoreWallets = useDecryptedCoreWallet((e) => e.setCoreWallets);
-  const setBanksDetails = useDecryptedUserBanks((e) => e.setBankDetails);
-
-  const { isLoading: dataLoading, error } = useQuery({
+  const {
+    data,
+    isLoading: dataLoading,
+    error,
+  } = useQuery({
     queryKey: [`${camelCase(type)}SecurityFile`],
     queryFn: async () => {
       try {
@@ -52,22 +48,29 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
             key,
             userPublicKeyPem,
           };
+          switch (type) {
+            case 'balance': {
+              const balance = JSON.parse(details.core);
+              return { initialData, balance }; // Return data for 'balance' type
+            }
 
-          if (type === 'balance') {
-            const balance = JSON.parse(details.core);
-            setCoreBalance(initialData);
-            setDecryptedBalance(balance);
-          }
+            case 'wallets': {
+              const banks = JSON.parse(details.core);
+              return { initialData, banks }; // Return data for 'wallets' type
+            }
 
-          if (type === 'wallets') {
-            const banks = JSON.parse(details.core);
+            case 'friends': {
+              const friends = JSON.parse(details.core);
+              return { initialData, friends }; // Return data for 'friends' type
+            }
 
-            setCoreWallets(initialData);
-            setBanksDetails(banks);
+            default:
+              notify(`Unhandled type: ${type}`, { status: 'warning' });
+              return null; // Return null if type is unhandled
           }
         }
 
-        return response.data.data;
+        return response.data.data; // Fallback return if no specific case matches
       } catch (error) {
         if (error.response.status === 401) {
           clearStorage();
@@ -80,5 +83,5 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
     refetchInterval: 60000,
   });
 
-  return { dataLoading, error };
+  return { data, dataLoading, error };
 };

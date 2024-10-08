@@ -65,12 +65,12 @@ const Register: FC = () => {
     const birthdate = `${val.year}-${val.month}-${val.day}`;
 
     if (step === 1) {
-      validateMutation({ ...val, step });
+      validateMutation({ ...val, step, ...(selected === 'corporate' && { is_corporate: true }) });
       return;
     }
 
     if (step === 2) {
-      validateMutation({ ...val, step });
+      validateMutation({ ...val, step, ...(selected === 'corporate' && { is_corporate: true }) });
       // setStep((e) => e + 1);
     }
 

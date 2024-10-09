@@ -1,28 +1,23 @@
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
-import { FETCH_BANK_STATUS } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxLogo } from 'public/assets';
 import { FC } from 'react';
 import { useAccountVerifySuccessModal } from 'store';
+import { queryClient } from 'utils';
 
 export const AccountVerifySuccess: FC = () => {
   const [visible, setVisible] = useAccountVerifySuccessModal(({ visible, setVisible }) => [visible, setVisible]);
   const router = useRouter();
-  const { refetch } = useQuery({
-    queryKey: ['bankStatus'],
-    queryFn: FETCH_BANK_STATUS,
-  });
 
   const handleClose = (route: string): void => {
-    void refetch();
+    void queryClient.removeQueries({ queryKey: ['bankStatus'] });
     setVisible(!visible);
     void router.push(route);
   };
 
   return (
-    <Modal isOpen={!visible} onClose={(): void => setVisible(visible)} size="full" isCentered>
+    <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size="full" isCentered>
       <ModalOverlay />
       <ModalContent bg="black">
         <ModalBody>

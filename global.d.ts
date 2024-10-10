@@ -89,3 +89,15 @@ interface UserBankDetails {
     id: number;
   }[];
 }
+
+interface TransactionsDetails {
+  id: number;
+  payable_id: number;
+  wallet_id: number;
+  type: string;
+  amount: string;
+  balance: number;
+  confirmed: boolean;
+  created_at: string;
+  description: string | null;
+}

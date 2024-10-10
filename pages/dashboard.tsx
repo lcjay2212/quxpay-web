@@ -62,38 +62,6 @@ const Dashboard: FC = () => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
 
   const { data: balance, dataLoading } = useDecryptedData('balance');
-  // const { data: transactionsData, dataLoading: transactionsLoading } = useDecryptedData('transactions');
-
-  // console.log(transactionsData, transactionsLoading);
-
-  // const fetchTransactions = async (): Promise<any> => {
-  //   const transactionUrls = transactionsData?.transactions;
-
-  //   if (!transactionUrls) {
-  //     console.log('No transaction URLs found');
-  //     return;
-  //   }
-
-  //   try {
-  //     // Using axios.all for multiple requests
-  //     const responses = await axios.all(transactionUrls.map((url: string) => axios.get(url)));
-
-  //     // Process all the responses
-  //     const transactions = responses.map((response) => {
-  //       console.log(response);
-  //       return response.data;
-  //     });
-  //     console.log(transactions);
-  //   } catch (error) {
-  //     console.log('Error fetching transactions:', error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!transactionsLoading && transactionsData) {
-  //     void fetchTransactions();
-  //   }
-  // }, [transactionsLoading, transactionsData]);
 
   const setVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
 

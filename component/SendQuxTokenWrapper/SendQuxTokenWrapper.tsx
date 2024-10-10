@@ -37,7 +37,7 @@ export const SendQuxTokenWrapper: FC = () => {
     name: string;
     username: string;
     email: string;
-  }>(friendList.friends?.[0] || {});
+  }>(friendList?.friends?.[0] || {});
 
   const [payload, setPayload] = useState();
 

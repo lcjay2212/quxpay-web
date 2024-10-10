@@ -1,8 +1,6 @@
 import { CalendarIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { Box, Button, Flex } from '@chakra-ui/react';
 import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
-import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
 import { isLocalHost } from 'constants/url';
 import { startCase } from 'lodash';
 import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
@@ -10,25 +8,22 @@ import { QuxWalletIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
-// import { usePrivatekey } from 'store';
 import { useTransactionHistoryFilterModal } from 'store';
+import { queryClient } from 'utils';
 const TransactionHistoryPage: FC = () => {
   const [search, setSearch] = useState('');
   const {
     setVisible,
     visible,
     setDateFilter,
-    dateFilter,
-    transactionFilter,
+    // dateFilter,
+    // transactionFilter,
     setTransactionFilter,
-    statusFilter,
+    // statusFilter,
     setStatusFilter,
   } = useTransactionHistoryFilterModal((state) => state);
-  const { data, isLoading } = useQuery({
-    queryKey: ['transactionHistoryPhaseTwo', dateFilter, transactionFilter, statusFilter],
-    queryFn: FETCH_TRANSACTION_HISTORY_PHASE_TWO,
-  });
-  // const privatekey = usePrivatekey((state) => state.privatekey);
+
+  const transactionHistory = queryClient.getQueryData<TransactionsDetails[]>(['decryptedTransactions']);
 
   const [id, setId] = useState('');
   return (
@@ -91,15 +86,15 @@ const TransactionHistoryPage: FC = () => {
           </Box>
         )}
         <Box bg="blue.100" mt="1rem" py="1.5rem" minH="100vh" h="auto" borderTopRadius="32px" color="white">
-          {isLoading ? (
+          {/* {isLoading ? (
             <Box textAlign="center" py="2rem">
               <Spinner color="primary" size="xl" />
             </Box>
           ) : (
             <Box px="1rem">
-              {data?.length ? (
+              {transactionHistory?.length ? (
                 <Box>
-                  {data?.map((item) => {
+                  {transactionHistory.map((item) => {
                     // const amount = item.amount;
                     // const privateKey = new NodeRSA(privatekey);
                     // const decryptedData = privateKey.decrypt(amount, 'utf8');
@@ -121,7 +116,32 @@ const TransactionHistoryPage: FC = () => {
                 <>No Record</>
               )}
             </Box>
-          )}
+          )} */}
+          <Box px="1rem">
+            {transactionHistory?.length ? (
+              <Box>
+                {transactionHistory.map((item) => {
+                  // const amount = item.amount;
+                  // const privateKey = new NodeRSA(privatekey);
+                  // const decryptedData = privateKey.decrypt(amount, 'utf8');
+
+                  return (
+                    <ItemListDisplay
+                      label={`Qux User ${startCase(item.type)}`}
+                      date={item.created_at}
+                      amount={+item.amount}
+                      key={item.id}
+                      complete={item.confirmed}
+                      image={QuxWalletIcon}
+                      hasComplete
+                    />
+                  );
+                })}
+              </Box>
+            ) : (
+              <>No Record</>
+            )}
+          </Box>
         </Box>
         {id === 'date' && <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} />}
         {id === 'transaction' && (

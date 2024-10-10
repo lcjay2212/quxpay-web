@@ -89,7 +89,16 @@ const Home: FC = () => {
               </Flex>
               <Box>
                 <Text
-                  fontSize={{ base: '2rem', md: '37px' }}
+                  fontSize="37px"
+                  textAlign="center"
+                  color="white"
+                  fontFamily="'Coda', sans-serif"
+                  fontWeight="extrabold"
+                >
+                  The Pay App™
+                </Text>
+                <Text
+                  fontSize="27px"
                   textAlign="center"
                   color="white"
                   fontFamily="'Coda', sans-serif"

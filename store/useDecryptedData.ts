@@ -64,6 +64,11 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
               return { initialData, friends }; // Return data for 'friends' type
             }
 
+            case 'transactions': {
+              const { transactions } = JSON.parse(details.core);
+              return { initialData, transactions };
+            }
+
             default:
               notify(`Unhandled type: ${type}`, { status: 'warning' });
               return null; // Return null if type is unhandled

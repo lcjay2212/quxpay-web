@@ -9,6 +9,7 @@ export * from './useCryptoPaymentData';
 export * from './useDebounce';
 export * from './useHeaderName';
 export * from './useHomePageModal';
+export * from './usePage';
 export * from './usePayBillsModal';
 export * from './usePendingAccountModal';
 export * from './usePendingBankAccountVerificationModal';

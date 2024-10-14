@@ -1,12 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { ItemListDisplay } from 'component';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import forge from 'node-forge';
 import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
+import { usePage } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { notify, queryClient } from 'utils';
 
@@ -14,34 +15,27 @@ export const TransactionHistory: FC = () => {
   const router = useRouter();
 
   const { data: transactionsData, dataLoading: transactionsLoading } = useDecryptedData('transactions');
+  const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
+  const page = usePage((e) => e.page);
 
   const { data: decryptedTransactions, isLoading: decryptedTransactionsLoading } = useQuery({
-    queryKey: ['decryptedTransactions'],
-    queryFn: async () => {
-      const transactionUrls = transactionsData?.transactions;
-      const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
+    queryKey: ['decryptedTransactions', page],
+    queryFn: () => {
+      const transactions = JSON.parse(transactionsData?.transactions[page]);
+      const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
+      const decryptedContents: string[] = [];
 
-      if (!transactionUrls) {
-        return;
-      }
+      transactions?.forEach((content: string) => {
+        try {
+          const message = forge.util.decode64(content);
+          const decryptedContent = privateKey.decrypt(message, 'RSA-OAEP');
+          decryptedContents.push(JSON.parse(decryptedContent));
+        } catch (error) {
+          notify('Decryption failed for content:', { status: 'error' });
+        }
+      });
 
-      try {
-        // Using axios.all for multiple requests
-        const responses = await axios.all(transactionUrls.map((url: string) => axios.get(url)));
-
-        // Process all the responses
-        const transactions = responses.map((response: { data: string }) => {
-          //decrypt using user private key
-          const encryptedMessage = Buffer.from(response.data, 'base64');
-          const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
-          const decryptedMessageBase64 = privateKey.decrypt(encryptedMessage, 'RSA-OAEP');
-          return JSON.parse(decryptedMessageBase64); // return decrypted data
-        });
-
-        return transactions;
-      } catch (error) {
-        notify(`Error fetching transactions: ${error}`, { status: 'error' });
-      }
+      return decryptedContents;
     },
     enabled: !transactionsLoading,
   });
@@ -71,7 +65,7 @@ export const TransactionHistory: FC = () => {
         <>
           {decryptedTransactions?.length ? (
             <Box>
-              {decryptedTransactions.slice(0, 3).map((item) => {
+              {decryptedTransactions.slice(0, 3).map((item: any) => {
                 return (
                   <ItemListDisplay
                     label={`QUX® User ${startCase(item.type)}`}

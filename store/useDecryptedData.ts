@@ -36,8 +36,16 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
         });
 
         if (response.data.data) {
-          const { details, masterPublicKey, encryptedMainKey, decryptedMainKey, iv, key, userPublicKeyPem } =
-            await getDecryptedData(response.data.data);
+          const {
+            details,
+            masterPublicKey,
+            encryptedMainKey,
+            decryptedMainKey,
+            iv,
+            key,
+            userPublicKeyPem,
+            transactions,
+          } = await getDecryptedData(response.data.data);
 
           const initialData = {
             details,
@@ -65,7 +73,6 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
             }
 
             case 'transactions': {
-              const { transactions } = JSON.parse(details.core);
               return { initialData, transactions };
             }
 

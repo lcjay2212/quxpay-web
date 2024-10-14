@@ -1,15 +1,18 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { CalendarIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex } from '@chakra-ui/react';
+import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
 import { isLocalHost } from 'constants/url';
 import { startCase } from 'lodash';
 import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
+import forge from 'node-forge';
 import { QuxWalletIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { BsBank2 } from 'react-icons/bs';
 import { FaEllipsisH } from 'react-icons/fa';
-import { useTransactionHistoryFilterModal } from 'store';
-import { queryClient } from 'utils';
+import { usePage, useTransactionHistoryFilterModal } from 'store';
+import { notify, queryClient } from 'utils';
 const TransactionHistoryPage: FC = () => {
   const [search, setSearch] = useState('');
   const {
@@ -23,7 +26,31 @@ const TransactionHistoryPage: FC = () => {
     setStatusFilter,
   } = useTransactionHistoryFilterModal((state) => state);
 
-  const transactionHistory = queryClient.getQueryData<TransactionsDetails[]>(['decryptedTransactions']);
+  const [page, setPage] = usePage((e) => [e.page, e.setPage]);
+
+  const transactionsData = queryClient.getQueryData<{ transactions: any[] }>(['transactionsSecurityFile']);
+  const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
+
+  const { data: decryptedTransactions, isLoading: decryptedTransactionsLoading } = useQuery({
+    queryKey: ['decryptedTransactions', page],
+    queryFn: () => {
+      const transactions = JSON.parse(transactionsData?.transactions[page]);
+      const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
+      const decryptedContents: string[] = [];
+
+      transactions?.forEach((content: string) => {
+        try {
+          const message = forge.util.decode64(content);
+          const decryptedContent = privateKey.decrypt(message, 'RSA-OAEP');
+          decryptedContents.push(JSON.parse(decryptedContent));
+        } catch (error) {
+          notify('Decryption failed for content:', { status: 'error' });
+        }
+      });
+
+      return decryptedContents;
+    },
+  });
 
   const [id, setId] = useState('');
   return (
@@ -85,47 +112,16 @@ const TransactionHistoryPage: FC = () => {
             </Flex>
           </Box>
         )}
-        <Box bg="blue.100" mt="1rem" py="1.5rem" minH="100vh" h="auto" borderTopRadius="32px" color="white">
-          {/* {isLoading ? (
+        <Box bg="blue.100" mt="1rem" py="1.5rem" minH="80vh" h="auto" borderTopRadius="32px" color="white">
+          {decryptedTransactionsLoading ? (
             <Box textAlign="center" py="2rem">
               <Spinner color="primary" size="xl" />
             </Box>
           ) : (
             <Box px="1rem">
-              {transactionHistory?.length ? (
+              {decryptedTransactions?.length ? (
                 <Box>
-                  {transactionHistory.map((item) => {
-                    // const amount = item.amount;
-                    // const privateKey = new NodeRSA(privatekey);
-                    // const decryptedData = privateKey.decrypt(amount, 'utf8');
-
-                    return (
-                      <ItemListDisplay
-                        label={`Qux User ${startCase(item.type)}`}
-                        date={item.created_at}
-                        amount={+item.amount}
-                        key={item.id}
-                        complete={item.confirmed}
-                        image={QuxWalletIcon}
-                        hasComplete
-                      />
-                    );
-                  })}
-                </Box>
-              ) : (
-                <>No Record</>
-              )}
-            </Box>
-          )} */}
-          <Box px="1rem">
-            {transactionHistory?.length ? (
-              <Box>
-                {transactionHistory.map((item) => {
-                  // const amount = item.amount;
-                  // const privateKey = new NodeRSA(privatekey);
-                  // const decryptedData = privateKey.decrypt(amount, 'utf8');
-
-                  return (
+                  {decryptedTransactions.map((item: any) => (
                     <ItemListDisplay
                       label={`Qux User ${startCase(item.type)}`}
                       date={item.created_at}
@@ -135,14 +131,21 @@ const TransactionHistoryPage: FC = () => {
                       image={QuxWalletIcon}
                       hasComplete
                     />
-                  );
-                })}
-              </Box>
-            ) : (
-              <>No Record</>
-            )}
-          </Box>
+                  ))}
+                </Box>
+              ) : (
+                <>No Record</>
+              )}
+            </Box>
+          )}
+
+          <Flex justifyContent="center">
+            <Button color="black" onClick={(): void => setPage(page + 1)} isLoading={decryptedTransactionsLoading}>
+              Load More
+            </Button>
+          </Flex>
         </Box>
+
         {id === 'date' && <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} />}
         {id === 'transaction' && (
           <TransactionHistoryFilterModal

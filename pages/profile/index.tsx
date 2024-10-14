@@ -4,7 +4,7 @@ import { DeleteAccountModal } from 'component';
 import { API_SESSION_URL, isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { HelpIcon, LinkAccountIcon, QuxPayLogo, SettingsIcon } from 'public/assets';
+import { QuxPayLogo, SettingsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useUser } from 'store';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
@@ -13,16 +13,16 @@ import { clearStorage, notify } from 'utils';
 const ProfilePage: FC = () => {
   const { user } = useUser();
   const mockData = [
-    {
-      icon: LinkAccountIcon,
-      label: 'Link Account',
-      route: '',
-    },
-    {
-      icon: HelpIcon,
-      label: 'Help',
-      route: '',
-    },
+    // {
+    //   icon: LinkAccountIcon,
+    //   label: 'Link Account',
+    //   route: '',
+    // },
+    // {
+    //   icon: HelpIcon,
+    //   label: 'Help',
+    //   route: '',
+    // },
     {
       icon: SettingsIcon,
       label: 'Settings',

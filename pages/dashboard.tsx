@@ -28,15 +28,14 @@ import {
   VerifyModal,
 } from 'component';
 import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
-import { API_SESSION_URL } from 'constants/url';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
-import { clearStorage, getServerSideProps, notify, queryClient } from 'utils';
+import { useLogin } from 'store/useLogin';
+import { getServerSideProps } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
   <Box w={{ base: 150, md: 250 }}>
@@ -59,7 +58,7 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 );
 
 const Dashboard: FC = () => {
-  const [user, setUser] = useUser((e) => [e.user, e.setUser]);
+  const user = useUser((e) => e.user);
 
   const { data: balance, dataLoading } = useDecryptedData('balance');
 
@@ -75,23 +74,8 @@ const Dashboard: FC = () => {
     queryFn: FETCH_BANK_STATUS,
   });
 
-  const router = useRouter();
-
   const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
-  const logout = async (): Promise<void> => {
-    const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
-    const json = await loginSession.json();
-
-    if (json.success) {
-      clearStorage();
-      notify('Successfully Logout');
-      setUser(null);
-      void router.push('/');
-      queryClient.clear();
-    } else {
-      // TODO: handler
-    }
-  };
+  const { logout } = useLogin();
 
   useEffect(() => {
     if (balance?.balance?.verification_status !== 'for_review' && Number(balance?.balance?.total_purchase) >= 600) {

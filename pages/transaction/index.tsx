@@ -31,7 +31,12 @@ const TransactionHistoryPage: FC = () => {
   const transactionsData = queryClient.getQueryData<{ transactions: any[] }>(['transactionsSecurityFile']);
   const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
 
-  const { data: decryptedTransactions, isLoading: decryptedTransactionsLoading } = useQuery({
+  const {
+    data: decryptedTransactions,
+    isLoading: decryptedTransactionsLoading,
+    isRefetching,
+    isPending,
+  } = useQuery({
     queryKey: ['decryptedTransactions', page],
     queryFn: () => {
       const transactions = JSON.parse(transactionsData?.transactions[page]);
@@ -113,7 +118,7 @@ const TransactionHistoryPage: FC = () => {
           </Box>
         )}
         <Box bg="blue.100" mt="1rem" py="1.5rem" minH="80vh" h="auto" borderTopRadius="32px" color="white">
-          {decryptedTransactionsLoading ? (
+          {decryptedTransactionsLoading || isPending ? (
             <Box textAlign="center" py="2rem">
               <Spinner color="primary" size="xl" />
             </Box>
@@ -140,7 +145,11 @@ const TransactionHistoryPage: FC = () => {
           )}
 
           <Flex justifyContent="center">
-            <Button color="black" onClick={(): void => setPage(page + 1)} isLoading={decryptedTransactionsLoading}>
+            <Button
+              color="black"
+              onClick={(): void => setPage(page + 1)}
+              isLoading={decryptedTransactionsLoading || isRefetching}
+            >
               Load More
             </Button>
           </Flex>

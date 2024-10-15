@@ -36,7 +36,7 @@ import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
-import { clearStorage, getServerSideProps, notify } from 'utils';
+import { clearStorage, getServerSideProps, notify, queryClient } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
   <Box w={{ base: 150, md: 250 }}>
@@ -87,6 +87,7 @@ const Dashboard: FC = () => {
       notify('Successfully Logout');
       setUser(null);
       void router.push('/');
+      queryClient.clear();
     } else {
       // TODO: handler
     }

@@ -8,7 +8,7 @@ import { QuxPayLogo, SettingsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useUser } from 'store';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
-import { clearStorage, notify } from 'utils';
+import { clearStorage, notify, queryClient } from 'utils';
 
 const ProfilePage: FC = () => {
   const { user } = useUser();
@@ -39,6 +39,7 @@ const ProfilePage: FC = () => {
     if (json.success) {
       clearStorage();
       notify('Successfully Logout');
+      queryClient.clear();
       void router.push('/');
     } else {
       // TODO: handler

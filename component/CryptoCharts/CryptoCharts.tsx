@@ -2,7 +2,7 @@
 import { Box, Flex, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
+
 import { ChartOptions, createChart } from 'lightweight-charts';
 import { FC, useEffect, useRef, useState } from 'react';
 
@@ -44,12 +44,15 @@ const CryptoCharts: FC<{ currency: string }> = ({ currency }) => {
   const { data, isLoading } = useQuery({
     queryKey: [`${currency}graph`, filter],
     queryFn: async () => {
-      const { data } = await axios.get(`${STAGING_URL}/web/crypto/graph?filter=${filter}&currency=${currency}`, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      });
+      const { data } = await axios.get(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/graph?filter=${filter}&currency=${currency}`,
+        {
+          headers: {
+            Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
+            Version: 2,
+          },
+        }
+      );
 
       return data.data;
     },

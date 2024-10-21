@@ -3,7 +3,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ApiIntegrationForm, HeaderContainer } from 'component';
 import { FETCH_AUTHENTICATION } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
@@ -15,7 +14,7 @@ const BillerApiPage: FC = () => {
 
   const { mutate } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/authentication/create?url=${data?.url}`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/authentication/create?url=${data?.url}`, variable, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('QUX_PAY_USER_TOKEN')}`,
         },
@@ -27,7 +26,7 @@ const BillerApiPage: FC = () => {
 
   const { mutate: downloadPlugin } = useMutation({
     mutationFn: () =>
-      axios.get(`${STAGING_URL}/web/quxpay`, {
+      axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/quxpay`, {
         headers: {
           Version: 2,
         },

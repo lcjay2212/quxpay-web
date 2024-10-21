@@ -2,7 +2,6 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
@@ -74,22 +73,26 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       onError,
     });
 
-  const { mutate, isPending } = useCustomMutation(`${STAGING_URL}/${url2}`, handleSuccess, handleError);
+  const { mutate, isPending } = useCustomMutation(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url2}`,
+    handleSuccess,
+    handleError
+  );
 
   const { mutate: addCrypto, isPending: addCryptoLoading } = useCustomMutation(
-    `${STAGING_URL}/web/crypto/create-wallet`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/create-wallet`,
     () => setStep((e) => e + 1),
     () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
   const { mutate: completeCryptoPayment, isPending: paymentLoading } = useCustomMutation(
-    `${STAGING_URL}/web/crypto/complete-transaction`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/complete-transaction`,
     handleSuccess,
     () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
   const { mutate: checkCryptoTransaction, isPending: checkLoading } = useCustomMutation(
-    `${STAGING_URL}/web/crypto/check-transaction`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/check-transaction`,
     () => setStep((e) => e + 1),
     ({ response }: any) => notify(response?.data?.data?.message, { status: 'warning' })
   );
@@ -106,7 +109,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   };
 
   const { mutate: validate, isPending: validateLoading } = useCustomMutation(
-    `${STAGING_URL}/${getUrl()}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/${getUrl()}`,
     () => setStep((e) => e + 1),
     ({ response }: any) => {
       let message = '';
@@ -122,7 +125,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   );
 
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
-    `${STAGING_URL}/web/encryption/updated/main-file`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`,
     handleSuccess,
     ({ response }: any) => {
       let message = '';

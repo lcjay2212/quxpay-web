@@ -14,7 +14,6 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer } from 'component';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
@@ -40,7 +39,7 @@ export const PayBillsModal: FC = () => {
 
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

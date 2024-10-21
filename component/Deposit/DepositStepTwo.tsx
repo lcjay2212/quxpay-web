@@ -3,7 +3,6 @@ import { Box, Spinner, Text, Textarea } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, Label } from 'component';
-import { STAGING_URL } from 'constants/url';
 import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -26,7 +25,7 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/wallet/computation`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/computation`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

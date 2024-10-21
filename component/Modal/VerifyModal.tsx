@@ -2,7 +2,6 @@ import { Box, Button, chakra, Flex, Modal, ModalBody, ModalContent, ModalOverlay
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { BankIcon, UploadIcon2 } from 'public/assets';
 import { FC, ReactElement } from 'react';
@@ -18,7 +17,7 @@ export const VerifyModal: FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/verify/user`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/verify/user`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           'QuxPay-Web': 1,

@@ -14,7 +14,6 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
@@ -45,7 +44,7 @@ export const SendQuxTokenWrapper: FC = () => {
 
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/encryption/updated/main-file`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -62,7 +61,7 @@ export const SendQuxTokenWrapper: FC = () => {
 
   const { mutate: validate, isPending: validating } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/validate/send-token`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/validate/send-token`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -90,7 +89,7 @@ export const SendQuxTokenWrapper: FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/friends/add`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/friends/add`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

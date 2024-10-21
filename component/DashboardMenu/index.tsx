@@ -2,7 +2,7 @@
 import { Box, chakra, Flex, Grid, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { isLocalHost, STAGING_URL } from 'constants/url';
+import { isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import {
@@ -26,7 +26,7 @@ const DashboardMenu: FC = () => {
 
   const { mutate, isSuccess } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/corporate/upload/transactions`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/corporate/upload/transactions`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

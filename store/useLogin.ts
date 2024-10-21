@@ -1,7 +1,6 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { post } from 'constants/api';
 import storage from 'constants/storage';
-import { API_SESSION_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { clearStorage, notify, queryClient } from 'utils';
 import { usePendingAccountModal } from './usePendingAccountModal';
@@ -20,16 +19,19 @@ export const useLogin = (): { login: UseMutationResult; logout: () => void } => 
     onSuccess: async ({ data }) => {
       notify(`${data.status.message}`);
 
-      const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
-      const json = await loginSession.json();
+      // const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
+      // const json = await loginSession.json();
 
-      if (json.success) {
-        sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
-      } else {
-        throw new Error('Something went wrong');
-      }
+      // if (json.success) {
+      //   sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+      //   sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+      //   setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
+      // } else {
+      //   throw new Error('Something went wrong');
+      // }
+      sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+      sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+      setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
 
       const redirectUrl = params?.t ? '/checkout' : '/dashboard';
       void router.push(redirectUrl);
@@ -49,28 +51,33 @@ export const useLogin = (): { login: UseMutationResult; logout: () => void } => 
   });
 
   const logout = async (): Promise<void> => {
-    try {
-      const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
-      const json = await loginSession.json();
+    clearStorage(); // Clear storage
+    notify('Successfully Logout');
+    setUser(null);
+    await router.push('/');
+    queryClient.clear();
+    // try {
+    //   const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
+    //   const json = await loginSession.json();
 
-      if (json.success) {
-        clearStorage(); // Clear storage
-        notify('Successfully Logout');
-        setUser(null); // Set user to null
+    //   if (json.success) {
+    //     clearStorage(); // Clear storage
+    //     notify('Successfully Logout');
+    //     setUser(null); // Set user to null
 
-        // Ensure the user is null before removing queries and redirecting
-        await router.push('/'); // Await the router redirection
+    //     // Ensure the user is null before removing queries and redirecting
+    //     await router.push('/'); // Await the router redirection
 
-        // After redirect, safely remove queries
-        queryClient.clear();
-      } else {
-        // TODO: Handle failure (e.g., show error notification)
-        notify('Logout failed. Please try again.');
-      }
-    } catch (error) {
-      // Handle any potential errors with the fetch
-      notify('An error occurred during logout.');
-    }
+    //     // After redirect, safely remove queries
+    //     queryClient.clear();
+    //   } else {
+    //     // TODO: Handle failure (e.g., show error notification)
+    //     notify('Logout failed. Please try again.');
+    //   }
+    // } catch (error) {
+    //   // Handle any potential errors with the fetch
+    //   notify('An error occurred during logout.');
+    // }
   };
 
   return { login, logout };

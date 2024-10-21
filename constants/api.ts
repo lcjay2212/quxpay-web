@@ -1,10 +1,9 @@
 import { QueryFunctionContext } from '@tanstack/react-query';
 import axios from 'axios';
 import { clearStorage, notify } from 'utils';
-import { STAGING_URL } from './url';
 
 export const post = async <T>(url: string, variable: void): Promise<T> =>
-  await axios.post(`${STAGING_URL}/${url}`, variable, {
+  await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`, variable, {
     headers: {
       Version: 2,
     },
@@ -32,7 +31,7 @@ const getData = async <T>(apiUrl: string, url: string): Promise<T | undefined> =
 
 // Generalized fetch function
 const fetchResource = async (endpoint: string): Promise<any> => {
-  return await getData<any>(STAGING_URL, endpoint);
+  return await getData<any>(`${process.env.NEXT_PUBLIC_API_BASE_URL}`, endpoint);
 };
 
 export const FETCH_WALLET_BALANCE = async (): Promise<any> => await fetchResource('web/wallet/balance');

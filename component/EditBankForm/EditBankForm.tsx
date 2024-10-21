@@ -4,7 +4,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { BankAccount, FormContainer, HeaderContainer } from 'component';
 import { SHOW_BANK_ACCOUNT_DETAILS } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useForm } from 'react-hook-form';
@@ -25,7 +24,7 @@ export const EditBankForm: FC<{ label: string }> = ({ label }) => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/wallet/update-bank`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/update-bank`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

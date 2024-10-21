@@ -3,7 +3,6 @@ import { Box, Button, Divider, Flex, Radio, RadioGroup, Text } from '@chakra-ui/
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { BankAccount, HeaderContainer } from 'component';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useAccountPaymentId } from 'store';
@@ -22,7 +21,7 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
 
   const { mutate } = useMutation({
     mutationFn: (variable) =>
-      axios.delete(`${STAGING_URL}/web/wallet/remove-card`, {
+      axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/remove-card`, {
         data: variable,
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,

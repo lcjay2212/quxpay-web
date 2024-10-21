@@ -2,7 +2,6 @@ import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import storage from 'constants/storage';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxpayAndQuxLogo } from 'public/assets';
@@ -19,7 +18,7 @@ const LoginOrRegisterPage: FC = () => {
   const { mutate } = useMutation({
     mutationKey: ['SSO'],
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/login/sso`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/login/sso`, variable, {
         headers: {
           Version: 2,
         },

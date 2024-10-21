@@ -4,7 +4,6 @@ import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text }
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { ScheduleBiller } from 'component';
-import { STAGING_URL } from 'constants/url';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
@@ -40,7 +39,7 @@ export const SchedulePayBillModal: FC = () => {
 
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/billing/scheduled-payment`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/billing/scheduled-payment`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

@@ -4,7 +4,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer } from 'component';
 import { FETCH_FRIEND_LIST } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { getServerSideProps, notify } from 'utils';
@@ -18,7 +17,7 @@ const DeleteFriend: FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/friends/remove`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/friends/remove`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

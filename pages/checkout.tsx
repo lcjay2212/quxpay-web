@@ -4,7 +4,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer } from 'component';
 import { FETCH_WP_PO_DETAILS } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
@@ -52,7 +51,7 @@ const CheckoutPage: FC = () => {
     data: paymentData,
   } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/wp/po-paid`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wp/po-paid`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

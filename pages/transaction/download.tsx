@@ -5,7 +5,6 @@ import { CalendarIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
 import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
 import { DATE_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
@@ -23,7 +22,7 @@ const TransactionDownloadPage: FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.get(`${STAGING_URL}/web/wallet/download-transactions`, {
+      axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/download-transactions`, {
         params: variable,
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,

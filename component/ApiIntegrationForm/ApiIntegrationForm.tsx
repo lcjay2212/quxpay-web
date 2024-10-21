@@ -2,7 +2,6 @@ import { Box, Button, Flex, Text, Textarea } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -15,7 +14,7 @@ export const ApiIntegrationForm: FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/biller/submit/api-info`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/biller/submit/api-info`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

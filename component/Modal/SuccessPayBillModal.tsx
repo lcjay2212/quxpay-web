@@ -2,7 +2,6 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Divider, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
@@ -27,7 +26,7 @@ export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
 
   const { mutate: savePayment, isPending: savePaymentLoading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/billing/save-info`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/billing/save-info`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

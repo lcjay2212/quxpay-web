@@ -2,7 +2,7 @@
 import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
+
 import Image from 'next/image';
 import { FC, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
@@ -22,7 +22,7 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
     queryKey: ['captcha'],
     queryFn: async () => {
       try {
-        const { data: responseData } = await axios.get(`${STAGING_URL}/web/captcha`, {
+        const { data: responseData } = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/captcha`, {
           headers: {
             Version: 2,
           },
@@ -46,7 +46,7 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
   const { mutate, isPending: isVerifying } = useMutation({
     mutationKey: ['captchaVerify'],
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/captcha/verify`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/captcha/verify`, variable, {
         headers: {
           Version: 2,
         },

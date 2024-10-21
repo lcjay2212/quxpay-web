@@ -1,7 +1,6 @@
 import { Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
@@ -13,7 +12,7 @@ export const DeleteAccountModal: FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/delete-my-account`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/delete-my-account`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

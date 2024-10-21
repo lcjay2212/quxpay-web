@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
 import { camelCase } from 'lodash';
 import { clearStorage, notify } from 'utils';
 import { getDecryptedData } from 'utils/getDecryptedData';
@@ -24,7 +23,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
     queryKey: [`${camelCase(type)}SecurityFile`],
     queryFn: async () => {
       try {
-        const response = await axios.get(`${STAGING_URL}/web/encryption/main-file`, {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/main-file`, {
           params: { type },
           headers: {
             Authorization: `Bearer ${

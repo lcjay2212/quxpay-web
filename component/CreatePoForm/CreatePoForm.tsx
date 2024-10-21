@@ -19,7 +19,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Label, ProductModal, TextField } from 'component';
 import { FETCH_FRIEND_LIST, FETCH_PRODUCT_LIST, FETCH_RECENT_PRODUCT_LIST } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddFriendIcon, QuxTokenIcon } from 'public/assets';
@@ -52,7 +51,7 @@ export const CreatePoForm: FC = () => {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/generate/cart/qr`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

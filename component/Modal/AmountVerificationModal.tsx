@@ -14,7 +14,6 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { AccountVerifySuccess, FormContainer } from 'component';
-import { STAGING_URL } from 'constants/url';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import PinInput from 'react-pin-input';
@@ -35,7 +34,7 @@ export const AmountVerificationModal: FC = () => {
   const { mutate, isPending } = useMutation({
     mutationKey: ['verifyBank'],
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/verify/bank`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/verify/bank`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,

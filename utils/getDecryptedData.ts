@@ -47,7 +47,7 @@ export const getDecryptedData = async (encryptedData: {
 
   const mainKey = decryptMainKey(encryptedMainKey, userPrivateKeyPem, key, iv);
 
-  const file = decryptData(content, userPrivateKeyPem, `${mainKey}`, iv);
+  const { file, transactions } = decryptData(content, userPrivateKeyPem, `${mainKey}`, iv);
 
   const masterPublicKey = file?.master_public_key;
 
@@ -59,6 +59,6 @@ export const getDecryptedData = async (encryptedData: {
     iv,
     key,
     userPublicKeyPem,
-    transactions: encryptedData.transactions || null,
+    transactions,
   };
 };

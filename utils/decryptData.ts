@@ -22,11 +22,12 @@ export const decryptData = (data: [] | undefined, privateKeyPem: string, mainKey
     const ivBase64 = forge.util.decode64(iv);
     const innerAes = outerData?.inner_aes;
     const innerAesBase64 = forge.util.decode64(innerAes);
+    const transactions = outerData?.transactions?.transactions || null;
 
     // Assuming aes256Decrypt is another utility function
     const mainFile = aes256Decrypt(innerAesBase64, `${mainKey}`, ivBase64);
 
-    return JSON.parse(mainFile ?? '');
+    return { file: JSON.parse(mainFile ?? ''), transactions };
   } catch (error) {
     notify(error.message, { status: 'error' });
   }

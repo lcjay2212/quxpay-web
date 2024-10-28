@@ -71,6 +71,18 @@ module.exports = {
         port: '',
         pathname: '/quxtech/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'qa.api.quxtech.tv',
+        port: '',
+        pathname: '/puzzle_images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.qux.tv',
+        port: '',
+        pathname: '/puzzle_images/**',
+      },
     ],
   },
   async headers() {
@@ -94,6 +106,14 @@ module.exports = {
           },
           { key: 'Accept', value: 'application/json' },
         ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://p2.api.quxtech.tv/:path*', // Proxy to QuxTech API
       },
     ];
   },

@@ -40,7 +40,11 @@ const TransactionHistoryPage: FC = () => {
     queryKey: ['decryptedTransactions', page],
     queryFn: async () => {
       const transactions = transactionsData?.transactions[page];
-      const { data } = await axios.get(transactions);
+      const { data } = await axios.get(transactions, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
       const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
       const decryptedContents: string[] = [];
 

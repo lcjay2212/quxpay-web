@@ -1,6 +1,8 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { API_SESSION_URL } from 'constants/url';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
@@ -66,6 +68,15 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
       };
     }
   }, []);
+
+  // Set up persistence
+  const persister = createAsyncStoragePersister({
+    storage: typeof window !== 'undefined' ? window.localStorage : undefined, // Use localStorage
+  });
+  persistQueryClient({
+    queryClient,
+    persister,
+  });
 
   return (
     <QueryClientProvider client={queryClient}>

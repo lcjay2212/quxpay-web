@@ -2,6 +2,7 @@
 import { CalendarIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
 import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
 import { isLocalHost } from 'constants/url';
 import { startCase } from 'lodash';
@@ -35,15 +36,15 @@ const TransactionHistoryPage: FC = () => {
     data: decryptedTransactions,
     isLoading: decryptedTransactionsLoading,
     isRefetching,
-    isPending,
   } = useQuery({
     queryKey: ['decryptedTransactions', page],
-    queryFn: () => {
-      const transactions = JSON.parse(transactionsData?.transactions[page]);
+    queryFn: async () => {
+      const transactions = transactionsData?.transactions[page];
+      const { data } = await axios.get(transactions);
       const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
       const decryptedContents: string[] = [];
 
-      transactions?.forEach((content: string) => {
+      data?.forEach((content: string) => {
         try {
           const message = forge.util.decode64(content);
           const decryptedContent = privateKey.decrypt(message, 'RSA-OAEP');
@@ -118,7 +119,7 @@ const TransactionHistoryPage: FC = () => {
           </Box>
         )}
         <Box bg="blue.100" mt="1rem" py="1.5rem" minH="80vh" h="auto" borderTopRadius="32px" color="white">
-          {decryptedTransactionsLoading || isPending ? (
+          {decryptedTransactionsLoading ? (
             <Box textAlign="center" py="2rem">
               <Spinner color="primary" size="xl" />
             </Box>

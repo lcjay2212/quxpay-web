@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Avatar,
   Box,
@@ -74,43 +75,20 @@ export const SendQuxTokenWrapper: FC = () => {
 
       if (balance?.initialData) {
         const encryptedData = encryptData(content, balance.initialData, 'balance');
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         updateMainFile(encryptedData as any);
       }
     },
-    onError: () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    onError: ({ response }: any) => {
       // Object.entries(response.data.errors).forEach(([_, message]) => {
       //   notify(` ${message}`, { status: 'error' });
       // });
-      notify(`User not found`, { status: 'error' });
+      notify(`${response.data?.status?.message}`, { status: 'error' });
     },
   });
 
-  const { mutate, isPending } = useMutation({
-    mutationFn: (variable) =>
-      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/friends/add`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
-    onSuccess: () => {
-      setRadioValue('');
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: ({ response }: any) => {
-      notify(response?.data?.status?.message, { status: 'error' });
-    },
-  });
-
-  const onDeposit = (val): void => {
-    if (radioValue !== `${friendList?.friends?.length + 1}`) {
-      validate({ ...val, type: 'tag_token' });
-      setPayload({ ...val, type: 'tag_token' });
-    } else {
-      mutate(val);
-    }
+  const onSubmit = (val): void => {
+    validate({ ...val, type: 'tag_token' });
+    setPayload({ ...val, type: 'tag_token' });
   };
 
   return (
@@ -118,7 +96,7 @@ export const SendQuxTokenWrapper: FC = () => {
       {!successTrigger ? (
         <Box mb="2rem">
           <FormProvider {...method}>
-            <form onSubmit={handleSubmit(onDeposit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 control={control}
                 name="amount"
@@ -269,7 +247,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 mt={{ base: '1rem', md: '2rem' }}
                 w={350}
                 h="3.25rem"
-                isLoading={isPending || validating || updateMainFileLoading}
+                isLoading={validating || updateMainFileLoading}
               >
                 {radioValue !== `${friendList?.friends?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
               </Button>

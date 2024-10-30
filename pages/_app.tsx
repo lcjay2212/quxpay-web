@@ -6,8 +6,7 @@ import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
 import { FC, useEffect, useState } from 'react';
-import { useUser } from 'store';
-import { useLogin } from 'store/useLogin';
+import { useLogout, useUser } from 'store';
 import { queryClient, theme } from 'utils';
 
 const poppins = Poppins({
@@ -27,7 +26,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
   let inactivityTimer;
 
-  const { logout } = useLogin();
+  const { logout } = useLogout();
 
   const resetInactivityTimer = (): void => {
     clearTimeout(inactivityTimer);

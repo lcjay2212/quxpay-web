@@ -32,9 +32,8 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC, useEffect } from 'react';
-import { usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
+import { useLogout, usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
-import { useLogin } from 'store/useLogin';
 import { getServerSideProps } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
@@ -75,7 +74,7 @@ const Dashboard: FC = () => {
   });
 
   const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
-  const { logout } = useLogin();
+  const { logout } = useLogout();
 
   useEffect(() => {
     if (balance?.balance?.verification_status !== 'for_review' && Number(balance?.balance?.total_purchase) >= 600) {

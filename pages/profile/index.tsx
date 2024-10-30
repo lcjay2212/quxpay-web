@@ -6,9 +6,8 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo, SettingsIcon } from 'public/assets';
 import { FC } from 'react';
-import { useUser } from 'store';
+import { useLogout, useUser } from 'store';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
-import { useLogin } from 'store/useLogin';
 
 const ProfilePage: FC = () => {
   const { user } = useUser();
@@ -32,7 +31,7 @@ const ProfilePage: FC = () => {
   const router = useRouter();
   const setVisible = useDeleteAccountModal((e) => e.setVisible);
 
-  const { logout } = useLogin();
+  const { logout } = useLogout();
 
   return (
     <Container color="white" overflow="hidden">

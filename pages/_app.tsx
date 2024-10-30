@@ -3,13 +3,12 @@ import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persi
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { persistQueryClient } from '@tanstack/react-query-persist-client';
-import { API_SESSION_URL } from 'constants/url';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
-import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
 import { useUser } from 'store';
-import { clearStorage, notify, queryClient, theme } from 'utils';
+import { useLogin } from 'store/useLogin';
+import { queryClient, theme } from 'utils';
 
 const poppins = Poppins({
   weight: ['400', '700'],
@@ -26,26 +25,16 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     }
   }, [setUser, user]);
 
-  const router = useRouter();
   let inactivityTimer;
 
-  const logout = async (): Promise<void> => {
-    const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
-    const json = await loginSession.json();
-
-    if (json.success) {
-      clearStorage();
-      notify('You have been logged out due to inactivity.');
-      setUser(null);
-      void router.push('/');
-    } else {
-      // TODO: handler
-    }
-  };
+  const { logout } = useLogin();
 
   const resetInactivityTimer = (): void => {
     clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(logout, INACTIVITY_TIMEOUT);
+    inactivityTimer = setTimeout(
+      () => logout({ message: 'You have been logged out due to inactivity.' }),
+      INACTIVITY_TIMEOUT
+    );
   };
 
   const [isDevtoolsVisible, setIsDevtoolsVisible] = useState(false);
@@ -71,7 +60,8 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
 
   // Set up persistence
   const persister = createAsyncStoragePersister({
-    storage: typeof window !== 'undefined' ? window.localStorage : undefined, // Use localStorage
+    storage: typeof window !== 'undefined' ? window.sessionStorage : undefined, // Use localStorage
+    key: 'QUX_QUERY_OFFLINE_CACHE',
   });
   persistQueryClient({
     queryClient,

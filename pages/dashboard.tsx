@@ -103,7 +103,7 @@ const Dashboard: FC = () => {
           <Menu>
             <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
             <MenuList>
-              <MenuItem onClick={logout} color="black">
+              <MenuItem onClick={(): void => void logout({ message: 'Logged out successfully.' })} color="black">
                 Logout
               </MenuItem>
             </MenuList>

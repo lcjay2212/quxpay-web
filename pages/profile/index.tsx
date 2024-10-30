@@ -92,7 +92,7 @@ const ProfilePage: FC = () => {
         </Box>
 
         <Flex flexDir="column" gap={3}>
-          <Button variant="secondary" onClick={logout}>
+          <Button variant="secondary" onClick={(): void => void logout({ message: 'Logged out successfully.' })}>
             Logout
           </Button>
 

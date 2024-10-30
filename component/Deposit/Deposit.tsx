@@ -24,7 +24,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
 
-  const balance = queryClient.getQueryData<{ initialData: Details }>(['balanceSecurityFile']);
+  const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
 
   const { data: wallet, dataLoading } = useDecryptedData('wallets');
 
@@ -124,9 +124,46 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     }
   );
 
+  const updateBalance = (newBalanceData: any): any => {
+    queryClient.setQueryData(['balanceSecurityFile'], (oldData: any) => ({
+      ...oldData,
+      balance: {
+        ...oldData.balance,
+        ...newBalanceData,
+      },
+    }));
+  };
+
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`,
-    handleSuccess,
+    () => {
+      setVisible(true);
+      setAmount(amount);
+      setCongratsType(type as any);
+      const { balance: availableBalance, deposit, withdraw_pending } = balance?.balance || {};
+
+      if (label === 'Redeem') {
+        if (type === 'BANK') {
+          updateBalance({
+            withdraw_pending: (withdraw_pending ?? 0) + amount,
+          });
+        } else if (type === 'EXISTING_CREDITCARD') {
+          updateBalance({
+            balance: (availableBalance ?? 0) + amount,
+          });
+        }
+      } else {
+        if (type === 'BANK') {
+          updateBalance({
+            deposit: (deposit ?? 0) + amount,
+          });
+        } else if (type === 'EXISTING_CREDITCARD') {
+          updateBalance({
+            balance: (availableBalance ?? 0) + amount,
+          });
+        }
+      }
+    },
     ({ response }: any) => {
       let message = '';
 

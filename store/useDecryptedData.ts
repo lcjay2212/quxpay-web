@@ -91,7 +91,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
         notify(`${error.message}`, { status: 'error' });
       }
     },
-    refetchInterval: 60000,
+    refetchInterval: 300000,
   });
 
   return { data, dataLoading, error };

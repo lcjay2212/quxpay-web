@@ -8,7 +8,7 @@ import { usePendingAccountModal } from './usePendingAccountModal';
 import { useRouteParams } from './useRouteParams';
 import { useUser } from './useUser';
 
-export const useLogin = (): { login: UseMutationResult; logout: () => void } => {
+export const useLogin = (): { login: UseMutationResult; logout: ({ message }) => Promise<void> } => {
   const router = useRouter();
   const params = useRouteParams((e) => e.params);
   const setUser = useUser((e) => e.setUser);
@@ -48,20 +48,15 @@ export const useLogin = (): { login: UseMutationResult; logout: () => void } => 
     },
   });
 
-  const logout = async (): Promise<void> => {
-    // clearStorage(); // Clear storage
-    // notify('Successfully Logout');
-    // setUser(null);
-    // await router.push('/');
-    // queryClient.clear();
+  const logout = async ({ message }: { message: string }): Promise<void> => {
     try {
       const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
       const json = await loginSession.json();
 
       if (json.success) {
         clearStorage(); // Clear storage
-        notify('Successfully Logout');
         setUser(null); // Set user to null
+        notify(message);
 
         // Ensure the user is null before removing queries and redirecting
         await router.push('/'); // Await the router redirection

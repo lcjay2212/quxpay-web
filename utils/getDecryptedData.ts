@@ -35,7 +35,7 @@ export const getDecryptedData = async (encryptedData: {
     queryFn: async () => await axios.get(`${encryptedData.user_public_key}`),
   });
 
-  // const { data } = await queryClient.fetchQuery({
+  // const { data: mainFilePath } = await queryClient.fetchQuery({
   //   queryKey: ['useEncrptedMainFile'],
   //   queryFn: async () => await axios.get(`${encryptedData.main_file_path}`),
   // });

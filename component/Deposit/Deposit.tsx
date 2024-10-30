@@ -157,7 +157,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
           updateBalance({
             deposit: (deposit ?? 0) + amount,
           });
-        } else if (type === 'EXISTING_CREDITCARD') {
+        } else if (type === 'EXISTING_CREDITCARD' || type === 'CREDIT') {
           updateBalance({
             balance: (availableBalance ?? 0) + amount,
           });

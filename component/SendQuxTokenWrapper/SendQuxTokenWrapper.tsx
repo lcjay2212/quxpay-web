@@ -156,16 +156,16 @@ export const SendQuxTokenWrapper: FC = () => {
                   My Friends
                 </Text>
               </Flex>
-              <RadioGroup onChange={setRadioValue} value={radioValue}>
-                <Controller
-                  control={control}
-                  name="email"
-                  render={({ field: { onChange } }): ReactElement => (
-                    <FormControl>
-                      {friendList?.friends?.length ? (
-                        <>
-                          {!dataLoading ? (
-                            friendList?.friends.map((item, index) => {
+              {!dataLoading ? (
+                <RadioGroup onChange={setRadioValue} value={radioValue}>
+                  <Controller
+                    control={control}
+                    name="email"
+                    render={({ field: { onChange } }): ReactElement => (
+                      <FormControl>
+                        {friendList?.friends?.length ? (
+                          <>
+                            {friendList?.friends.map((item, index) => {
                               return (
                                 <Box key={index}>
                                   <Flex justifyContent="space-between">
@@ -190,32 +190,32 @@ export const SendQuxTokenWrapper: FC = () => {
                                   <Divider mt="1rem" />
                                 </Box>
                               );
-                            })
-                          ) : (
-                            <Spinner />
-                          )}
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </FormControl>
-                  )}
-                />
+                            })}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </FormControl>
+                    )}
+                  />
 
-                <Flex my="1.5rem" justifyContent="space-between">
-                  <Flex>
-                    <Box ml="1rem">
-                      <Image src={AddFriendIcon} alt="Add Bank Icon" />
-                    </Box>
+                  <Flex my="1.5rem" justifyContent="space-between">
+                    <Flex>
+                      <Box ml="1rem">
+                        <Image src={AddFriendIcon} alt="Add Bank Icon" />
+                      </Box>
 
-                    <Text ml="0.5rem" color="white" fontSize="1.25rem">
-                      Add New Friend
-                    </Text>
+                      <Text ml="0.5rem" color="white" fontSize="1.25rem">
+                        Add New Friend
+                      </Text>
+                    </Flex>
+
+                    <Radio value={`${friendList?.friends?.length + 1}`} colorScheme="teal" />
                   </Flex>
-
-                  <Radio value={`${friendList?.friends?.length + 1}`} colorScheme="teal" />
-                </Flex>
-              </RadioGroup>
+                </RadioGroup>
+              ) : (
+                <Spinner />
+              )}
 
               {radioValue !== `${friendList?.friends?.length + 1}` ? (
                 <></>

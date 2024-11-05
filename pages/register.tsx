@@ -8,7 +8,7 @@ import { useRouter } from 'next/router';
 import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { usePendingAccountModal } from 'store';
+import { useCaptchaModal, usePendingAccountModal } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {
@@ -18,6 +18,8 @@ const Register: FC = () => {
   const router = useRouter();
   const [selected, setSelected] = useState('');
   const setVisible = usePendingAccountModal((e) => e.setVisible);
+  // const [captchaModalVisible, setCaptchaModalVisible] = useCaptchaModal((e) => [e.visible, e.setVisible]);
+  const captchaModalVisible = useCaptchaModal((e) => e.visible);
 
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
@@ -243,7 +245,7 @@ const Register: FC = () => {
                 {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
               </Button>
             </form>
-            <CaptchaModal label="register" />
+            {captchaModalVisible && <CaptchaModal label="login" />}
           </FormProvider>
         </Grid>
       </Box>

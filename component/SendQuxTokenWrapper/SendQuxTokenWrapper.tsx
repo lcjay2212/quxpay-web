@@ -79,10 +79,14 @@ export const SendQuxTokenWrapper: FC = () => {
       }
     },
     onError: ({ response }: any) => {
-      // Object.entries(response.data.errors).forEach(([_, message]) => {
-      //   notify(` ${message}`, { status: 'error' });
-      // });
-      notify(`${response.data?.status?.message}`, { status: 'error' });
+      if (response.data.errors) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        Object.entries(response.data.errors).forEach(([_, message]) => {
+          notify(` ${message}`, { status: 'error' });
+        });
+      } else {
+        notify(`${response.data?.status?.message}`, { status: 'error' });
+      }
     },
   });
 

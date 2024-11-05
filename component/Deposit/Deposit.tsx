@@ -145,21 +145,21 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       if (label === 'Redeem') {
         if (type === 'BANK') {
           updateBalance({
-            withdraw_pending: (withdraw_pending ?? 0) + amount,
+            withdraw_pending: +(withdraw_pending ?? 0) + amount,
           });
         } else if (type === 'EXISTING_CREDITCARD') {
           updateBalance({
-            balance: (availableBalance ?? 0) + amount,
+            balance: +(availableBalance ?? 0) + amount,
           });
         }
       } else {
         if (type === 'BANK') {
           updateBalance({
-            deposit: (deposit ?? 0) + amount,
+            deposit: +(deposit ?? 0) + amount,
           });
         } else if (type === 'EXISTING_CREDITCARD' || type === 'CREDIT') {
           updateBalance({
-            balance: (availableBalance ?? 0) + amount,
+            balance: +(availableBalance ?? 0) + amount,
           });
         }
       }

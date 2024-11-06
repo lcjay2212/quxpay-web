@@ -54,4 +54,10 @@ export const SEO_META_TAGS: SeoMetaTags = {
     keyphrase: 'QUXPay™ faq',
     ...image,
   },
+  dashboard: {
+    title: `Dashboard`,
+    description: '',
+    keyphrase: 'QUXPay™ Dashboard',
+    ...image,
+  },
 };

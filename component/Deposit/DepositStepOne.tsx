@@ -11,6 +11,7 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
+import { useQuery } from '@tanstack/react-query';
 import {
   AddBankAccount,
   AddCreditCardForm,
@@ -22,6 +23,7 @@ import {
   FormContainer,
   TextField,
 } from 'component';
+import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets';
@@ -41,6 +43,11 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setSelectedBankDetails = useSelectedBankDetails((e) => e.setSelectedBankDetails);
   const setSelectedCrypto = useSelectedCrypto((e) => e.setSelectedCrypto);
+  const { data } = useQuery({
+    queryKey: ['bandAndCreditDetails'],
+    queryFn: FETCH_BANK_CREDIT_CARD_CRYPTO,
+  });
+
   return (
     <>
       <Box display="flex" flexDir="column">
@@ -132,15 +139,12 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                         <Text>No Bank Record</Text>
                       )}
 
-                      {!isEmpty(bankDetails?.banks.credit_card) && (
-                        <Flex
-                          justifyContent="space-between"
-                          key={bankDetails?.banks.credit_card.customerPaymentProfileId}
-                        >
+                      {!isEmpty(data?.credit_card) && (
+                        <Flex justifyContent="space-between" key={data.credit_card.customerPaymentProfileId}>
                           <Box mt="1rem">
                             <CreditCard
-                              accountNumber={bankDetails?.banks.credit_card.payment.creditCard.cardNumber ?? ''}
-                              cardType={bankDetails?.banks.credit_card.payment.creditCard.cardType ?? ''}
+                              accountNumber={data.credit_card.payment.creditCard.cardNumber ?? ''}
+                              cardType={data.credit_card.payment.creditCard.cardType ?? ''}
                               loading={loading}
                             />
                             {error?.message && (
@@ -152,15 +156,15 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                             )}
                           </Box>
                           <Radio
-                            value={`${bankDetails?.banks.credit_card.customerPaymentProfileId}`}
+                            value={`${data.credit_card.customerPaymentProfileId}`}
                             colorScheme="teal"
                             onChange={(): void => {
-                              onChange(bankDetails?.banks.credit_card.customerPaymentProfileId);
+                              onChange(data.credit_card.customerPaymentProfileId);
                               setPaymentData({
-                                paymentId: bankDetails?.banks.credit_card.customerPaymentProfileId,
-                                paymentType: bankDetails?.banks.credit_card.payment_type,
+                                paymentId: data.credit_card.customerPaymentProfileId,
+                                paymentType: data.credit_card.payment_type,
                               });
-                              setSelectedBankDetails(bankDetails?.banks.credit_card as any);
+                              setSelectedBankDetails(data.credit_card as any);
                               setType('EXISTING_CREDITCARD');
                             }}
                           />

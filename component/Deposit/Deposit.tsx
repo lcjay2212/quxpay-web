@@ -23,6 +23,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const [step, setStep] = useState(1);
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
+  const [paymentProfileId, setPaymentProfileId] = useState();
 
   const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
 
@@ -66,7 +67,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     );
   };
 
-  const useCustomMutation = (url?: string, onSuccess?: () => void, onError?: (error: any) => void): any =>
+  const useCustomMutation = (url?: string, onSuccess?: (data: any) => void, onError?: (error: any) => void): any =>
     useMutation({
       mutationFn: (variable) => postRequest(url, variable),
       onSuccess,
@@ -99,8 +100,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
 
   const getUrl = (): string => {
     switch (type) {
-      case 'CREDIT':
-        return 'web/validate/add-credit-card';
       case 'ADD_BANK':
         return 'web/validate/add-bank-account';
       default:
@@ -111,6 +110,25 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const { mutate: validate, isPending: validateLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/${getUrl()}`,
     () => setStep((e) => e + 1),
+    ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message || response?.data?.status?.message, { status: 'error' });
+    }
+  );
+
+  const { mutate: addCreditCard, isPending: addCreditCardLoading } = useCustomMutation(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/add-credit-card`,
+    ({ data }): void => {
+      setPaymentProfileId(data?.data?.payment_profile_id);
+      validate({ amount, payment_profile_id: data?.data?.payment_profile_id, payment_type: 'authorize_creditcard' });
+    },
     ({ response }: any) => {
       let message = '';
 
@@ -185,9 +203,17 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
 
     const addCreditCardVal = {
       ...val,
+      firstname: val.firstname,
+      lastname: val.lastname,
+      card_number: val.card_number,
       card_holder_name: `${val.firstname} ${val.lastname}`,
-      address2: val.address2 || '',
+      card_code: val.card_code,
       expiration_date: val.expiration_date?.replace('/', ''),
+      address: val.address,
+      address2: val.address2 || '',
+      city: val.city,
+      state: val.state,
+      zip: val.zip,
     };
 
     const handleStepOne = (): void => {
@@ -207,7 +233,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
           break;
 
         case 'CREDIT':
-          validate(addCreditCardVal);
+          addCreditCard(addCreditCardVal);
           break;
 
         case 'ADD_BANK':
@@ -229,10 +255,12 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       switch (type) {
         case 'CREDIT':
           content = {
-            [`${name}`]: [addCreditCardVal],
+            [`${name}_tokens`]: [
+              { amount: val.amount, payment_profile_id: paymentProfileId, payment_type: 'authorize_creditcard' },
+            ],
           };
-          encryptionTarget = 'wallets';
-          core = wallet.initialData;
+          encryptionTarget = 'balance';
+          core = balance?.initialData;
           break;
 
         case 'ADD_BANK':
@@ -273,7 +301,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
               break;
 
             case 'CREDIT':
-              handleEncryptedContent('add_credit_card');
+              handleEncryptedContent('purchase');
               break;
 
             case 'ADD_BANK':
@@ -332,7 +360,8 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   paymentLoading ||
                   checkLoading ||
                   validateLoading ||
-                  updateMainFileLoading
+                  updateMainFileLoading ||
+                  addCreditCardLoading
                 }
               >
                 {step === 1

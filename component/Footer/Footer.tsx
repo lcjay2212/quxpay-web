@@ -57,51 +57,52 @@ export const Footer: FC = () => {
           py={{ base: '2rem', md: '5rem' }}
         >
           <Text>
-            QUX®️ Technologies, Inc maintains a “Know Your Customer” (KYC) standard designed to protect financial
+            QUX Technologies, Inc.™., Inc maintains a “Know Your Customer” (KYC) standard designed to protect financial
             institutions against fraud, corruption, money laundering and terrorist financing. QUX® Technologies, Inc's
             KYC policy involves several steps to 1) establish customer identity; 2) understand the nature of user's
             activities and qualify that sources of funds are legitimate; and 3) assess money laundering risks associated
             with users.
           </Text>
           <Text>
-            QUX Technologies™, QUX® Tokens and QUXPay™ are not a bank, but rather are financial technology companies.
+            QUX Technologies™, QUX eToken® and QUX Pay® are not a bank, but rather are financial technology companies.
           </Text>
           <Text>
             Nothing contained in this website constitutes legal advice by these related companies. You are encouraged to
             consult with your legal advisors to evaluate all information provided.
           </Text>
           <Text>
-            QUX®️ Technologies, Inc maintains compliance with Anti-Money Laundering laws (AML) and U.S. Department of
-            Treasury's Financial Crimes Enforcement Network (FinCEN) through internal audits of all QUX® Token purchases
-            and redemptions. All users of QUX® Tokens who redeem over $600 per year shall receive a 1099-K or 1099-Misc
-            form at the end of the year.
+            QUX Technologies, Inc.™., Inc maintains compliance with Anti-Money Laundering laws (AML) and U.S. Department
+            of Treasury's Financial Crimes Enforcement Network (FinCEN) through internal audits of all QUX® Token
+            purchases and redemptions. All users of QUX eToken® who redeem over $600 per year shall receive a 1099-K or
+            1099-Misc form at the end of the year.
           </Text>
           <Text>
-            QUX® Tokens are only integral to QUXPay™ and QUX® Stores. The sale of QUX® Tokens does not constitute money
-            transmission services. Purchases of QUX® Tokens are necessary to use QUXPay™ and QUX® Stores.
+            QUX eToken® are only integral to QUX Pay® and QUX® Stores. The sale of QUX eToken® does not constitute money
+            transmission services. Purchases of QUX eToken® are necessary to use QUX Pay® and QUX® Stores.
           </Text>
           <Text>
-            In order to use QUX® Tokens, one must register and create an account through QUXPay™ or the QUX® General
-            Dashboard. QUX® Tokens can only be purchased or redeemed through a registered user’s bank account(s).
-            QUXPay™ and QUX® Stores can only be used to purchase or redeem QUX® Tokens through QUX®️ Technologies, Inc.
+            In order to use QUX eToken®, one must register and create an account through QUX Pay® or the QUX® General
+            Dashboard. QUX eToken® can only be purchased or redeemed through a registered user’s bank account(s). QUX
+            Pay® and QUX® Stores can only be used to purchase or redeem QUX eToken® through QUX Technologies, Inc.™.,
+            Inc.
           </Text>
           <Text>
-            QUX®️ Technologies, Inc limits the purchase of QUX® Tokens of any user to 2,000 in any one day. QUX® Tokens,
-            QUXPay™ and QUX® Store policies and procedures limited QUX® Token redemptions to 10,000 or less from any one
-            user in any one day.
+            QUX Technologies, Inc.™., Inc limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX®
+            Tokens, QUX Pay® and QUX® Store policies and procedures limited QUX® Token redemptions to 10,000 or less
+            from any one user in any one day.
           </Text>
           <Text>
-            QUX Technologies™, QUX® Tokens and QUXPay™ have a{' '}
+            QUX Technologies™, QUX eToken® and QUX Pay® have a{' '}
             <u onClick={(): void => openInNewTab('https://qux.tv/privacy-policy')} style={{ cursor: 'pointer' }}>
               Privacy Policy
             </u>{' '}
             that the collection and use of information that is collected as data will not be distributed to third
-            parties without consent of the customer. QUX Technologies™, QUX® Tokens and QUXPay™ do not have regulator
+            parties without consent of the customer. QUX Technologies™, QUX eToken® and QUX Pay® do not have regulator
             endorsements, implied or expressed related to information contained herein or related to QUX Technologies™,
-            QUX® Tokens and QUXPay™.
+            QUX eToken® and QUX Pay®.
           </Text>
           <Text>
-            QUX Technologies™, QUX® Tokens and QUXPay™ strive to insure that its services are accessible to people with
+            QUX Technologies™, QUX eToken® and QUX Pay® strive to insure that its services are accessible to people with
             disabilities.
           </Text>
         </Flex>
@@ -124,7 +125,7 @@ export const Footer: FC = () => {
         <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
           <Box fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
             <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
-            <Text>QUXPay™</Text>
+            <Text>QUX Pay®</Text>
             <Text>175 S Third Street</Text>
             <Text>Suite 210</Text>
             <Text>Columbus, OH 43215</Text>
@@ -172,7 +173,7 @@ export const Footer: FC = () => {
         textAlign="center"
         py="0.5rem"
       >
-        <Text>© {date.getFullYear()} QUX® Technologies, Inc. . All Rights Reserved.</Text>
+        <Text>© {date.getFullYear()} QUX Technologies, Inc.™. . All Rights Reserved.</Text>
       </Box>
     </Box>
   );

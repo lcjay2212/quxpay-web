@@ -69,11 +69,11 @@ export const VerifyModal: FC = () => {
             <Text color="white" textAlign="center" fontWeight="bold" fontSize="1.5rem">
               <chakra.span color="primary">N</chakra.span>
               ow you're leveling
-              <br /> up with QUXPay™!
+              <br /> up with QUX Pay®!
             </Text>
 
             <Text my="1rem" fontSize="10px" textAlign="center" color="white">
-              In order to complete setting up your account and continue using QUXPay™,
+              In order to complete setting up your account and continue using QUX Pay®,
               <br /> please enter your information. Remember that all information will
               <br /> follow the strictest form of our privacy policy.
             </Text>

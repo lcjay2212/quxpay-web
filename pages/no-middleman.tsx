@@ -23,7 +23,7 @@ const NoMiddlemanPage: FC = () => {
           <Box mt={{ base: '2rem', md: 0 }} textAlign="center">
             <Content
               label="NO MIDDLEMAN. NO NONSENSE."
-              content="Unlike others, QUXPay™ has no hidden fees and will never sell your data for profit. What you see is what you get."
+              content="Unlike others, QUX Pay® has no hidden fees and will never sell your data for profit. What you see is what you get."
               showBtn={false}
             />
           </Box>

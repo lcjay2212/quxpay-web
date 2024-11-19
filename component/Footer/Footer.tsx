@@ -72,38 +72,37 @@ export const Footer: FC = () => {
           </Text>
           <Text>
             QUX Technologies, Inc.™., Inc maintains compliance with Anti-Money Laundering laws (AML) and U.S. Department
-            of Treasury's Financial Crimes Enforcement Network (FinCEN) through internal audits of all QUX® Token
+            of Treasury's Financial Crimes Enforcement Network (FinCEN) through internal audits of all QUX eToken®
             purchases and redemptions. All users of QUX eToken® who redeem over $600 per year shall receive a 1099-K or
             1099-Misc form at the end of the year.
           </Text>
           <Text>
-            QUX eToken® are only integral to QUX Pay® and QUX® Stores. The sale of QUX eToken® does not constitute money
-            transmission services. Purchases of QUX eToken® are necessary to use QUX Pay® and QUX® Stores.
+            QUX eToken® are only integral to QUX Pay® and QUXStore™. The sale of QUX eToken® does not constitute money
+            transmission services. Purchases of QUX eToken® are necessary to use QUX Pay® and QUXStore™.
           </Text>
           <Text>
             In order to use QUX eToken®, one must register and create an account through QUX Pay® or the QUX® General
             Dashboard. QUX eToken® can only be purchased or redeemed through a registered user’s bank account(s). QUX
-            Pay® and QUX® Stores can only be used to purchase or redeem QUX eToken® through QUX Technologies, Inc.™.,
-            Inc.
+            Pay® and QUXStore™ can only be used to purchase or redeem QUX eToken® through QUX Technologies, Inc.™., Inc.
           </Text>
           <Text>
             QUX Technologies, Inc.™., Inc limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX®
-            Tokens, QUX Pay® and QUX® Store policies and procedures limited QUX® Token redemptions to 10,000 or less
+            Tokens, QUX Pay® and QUX® Store policies and procedures limited QUX eToken® redemptions to 10,000 or less
             from any one user in any one day.
           </Text>
           <Text>
-            QUX Technologies™, QUX eToken® and QUX Pay® have a{' '}
+            QUX Technologies, Inc.™., QUX eToken® and QUX Pay® have a{' '}
             <u onClick={(): void => openInNewTab('https://qux.tv/privacy-policy')} style={{ cursor: 'pointer' }}>
               Privacy Policy
             </u>{' '}
             that the collection and use of information that is collected as data will not be distributed to third
-            parties without consent of the customer. QUX Technologies™, QUX eToken® and QUX Pay® do not have regulator
-            endorsements, implied or expressed related to information contained herein or related to QUX Technologies™,
-            QUX eToken® and QUX Pay®.
+            parties without consent of the customer. QUX Technologies, Inc.™., QUX eToken® and QUX Pay® do not have
+            regulator endorsements, implied or expressed related to information contained herein or related to QUX
+            Technologies, Inc.™., QUX eToken® and QUX Pay®.
           </Text>
           <Text>
-            QUX Technologies™, QUX eToken® and QUX Pay® strive to insure that its services are accessible to people with
-            disabilities.
+            QUX Technologies, Inc.™., QUX eToken® and QUX Pay® strive to insure that its services are accessible to
+            people with disabilities.
           </Text>
         </Flex>
       </Container>

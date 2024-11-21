@@ -1,5 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Spinner, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Button,
+  Flex,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalOverlay,
+  Slider,
+  SliderFilledTrack,
+  SliderThumb,
+  SliderTrack,
+  Spinner,
+  Text,
+} from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -13,10 +27,9 @@ import { notify } from 'utils';
 export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isDragging, setIsDragging] = useState(false);
-  const [startPos, setStartPos] = useState({ x: 0, y: 0 });
   const { getValues } = useFormContext();
   const { login } = useLogin();
+  const [sliderValue, setSliderValue] = useState(0);
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['captcha'],
@@ -71,65 +84,6 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
     },
   });
 
-  const handleMouseDown = (e): void => {
-    e.preventDefault();
-    setIsDragging(true);
-    setStartPos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseMove = (e): void => {
-    if (!isDragging) return;
-
-    const dx = e.clientX - startPos.x;
-    const dy = e.clientY - startPos.y;
-
-    setPosition((prevPos) => ({
-      x: prevPos.x + dx,
-      y: prevPos.y + dy,
-    }));
-
-    setStartPos({ x: e.clientX, y: e.clientY });
-  };
-
-  const handleMouseUp = (): void => {
-    setIsDragging(false);
-    mutate({
-      captcha_id: data?.captcha_id,
-      x: position.x,
-      y: position.y,
-    } as any);
-  };
-
-  const handleTouchStart = (e): void => {
-    setIsDragging(true);
-    const touch = e.touches[0];
-    setStartPos({ x: touch.clientX, y: touch.clientY });
-  };
-
-  const handleTouchMove = (e): void => {
-    if (!isDragging) return;
-
-    const touch = e.touches[0];
-    const dx = touch.clientX - startPos.x;
-    const dy = touch.clientY - startPos.y;
-
-    setPosition((prevPos) => ({
-      x: prevPos.x + dx,
-      y: prevPos.y + dy,
-    }));
-
-    setStartPos({ x: touch.clientX, y: touch.clientY });
-  };
-
-  const handleTouchEnd = (): void => {
-    setIsDragging(false);
-    mutate({
-      captcha_id: data?.captcha_id,
-      x: position.x,
-      y: position.y,
-    } as any);
-  };
-
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} closeOnOverlayClick={false} isCentered>
       <ModalOverlay />
@@ -151,28 +105,48 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
               Please move the puzzle pieces
             </Text>
             {!isLoading && !isRefetching ? (
-              <Box position="relative" width={300} height={300} opacity={isVerifying ? 0.5 : 1}>
-                {isVerifying && (
-                  <Box position="absolute" zIndex={9999} top="40%" right="40%">
-                    <Spinner color="primary" size="xl" />
+              <>
+                <Box position="relative" width={300} height={300} opacity={isVerifying ? 0.5 : 1}>
+                  {isVerifying && (
+                    <Box position="absolute" zIndex={9999} top="40%" right="40%">
+                      <Spinner color="primary" size="xl" />
+                    </Box>
+                  )}
+                  <Image src={data?.image} width={300} height={300} alt="Captcha Image" />
+                  <Box style={{ left: `${position.x}px`, top: `${data.y}px` }} position="absolute" cursor="pointer">
+                    <Image src={data?.jigsaw_part_missing} width={120} height={120} alt="Jigsaw Part Image" />
                   </Box>
-                )}
-                <Image src={data?.image} width={300} height={300} alt="Captcha Image" />
-                <Box
-                  style={{ left: `${position.x}px`, top: `${position.y}px` }}
-                  onMouseDown={handleMouseDown}
-                  onMouseMove={handleMouseMove}
-                  onMouseUp={handleMouseUp}
-                  onMouseLeave={handleMouseUp} // To stop dragging if cursor leaves the div
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleTouchEnd}
-                  position="absolute"
-                  cursor="pointer"
-                >
-                  <Image src={data?.jigsaw_part_missing} width={120} height={120} alt="Jigsaw Part Image" />
                 </Box>
-              </Box>
+                <Box width={300}>
+                  <Slider
+                    mt={4}
+                    value={sliderValue}
+                    onChange={(e): void => {
+                      const newX = (e / 250) * 300; // Convert slider value to x position
+                      setPosition({ x: newX, y: data?.y });
+                      setSliderValue(e);
+                    }}
+                    min={0}
+                    max={150}
+                  >
+                    <SliderTrack bg="gray.100">
+                      <SliderFilledTrack bg="blue.500" />
+                    </SliderTrack>
+                    <SliderThumb boxSize={6} />
+                  </Slider>
+                </Box>
+                <Button
+                  onClick={(): void => {
+                    mutate({
+                      captcha_id: data?.captcha_id,
+                      x: position.x,
+                      y: data.y,
+                    } as any);
+                  }}
+                >
+                  Submit
+                </Button>
+              </>
             ) : (
               <Spinner />
             )}

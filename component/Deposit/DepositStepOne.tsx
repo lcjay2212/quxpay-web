@@ -139,36 +139,40 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                         <Text>No Bank Record</Text>
                       )}
 
-                      {!isEmpty(data?.credit_card) && (
-                        <Flex justifyContent="space-between" key={data.credit_card.customerPaymentProfileId}>
-                          <Box mt="1rem">
-                            <CreditCard
-                              accountNumber={data.credit_card.payment.creditCard.cardNumber ?? ''}
-                              cardType={data.credit_card.payment.creditCard.cardType ?? ''}
-                              loading={loading}
-                            />
-                            {error?.message && (
-                              <SlideFade in={true} offsetY="-1rem">
-                                <FormErrorMessage fontSize="0.9rem" color="error">
-                                  {error.message}
-                                </FormErrorMessage>
-                              </SlideFade>
-                            )}
-                          </Box>
-                          <Radio
-                            value={`${data.credit_card.customerPaymentProfileId}`}
-                            colorScheme="teal"
-                            onChange={(): void => {
-                              onChange(data.credit_card.customerPaymentProfileId);
-                              setPaymentData({
-                                paymentId: data.credit_card.customerPaymentProfileId,
-                                paymentType: data.credit_card.payment_type,
-                              });
-                              setSelectedBankDetails(data.credit_card as any);
-                              setType('EXISTING_CREDITCARD');
-                            }}
-                          />
-                        </Flex>
+                      {label === 'Purchase' && (
+                        <>
+                          {!isEmpty(data?.credit_card) && (
+                            <Flex justifyContent="space-between" key={data.credit_card.customerPaymentProfileId}>
+                              <Box mt="1rem">
+                                <CreditCard
+                                  accountNumber={data.credit_card.payment.creditCard.cardNumber ?? ''}
+                                  cardType={data.credit_card.payment.creditCard.cardType ?? ''}
+                                  loading={loading}
+                                />
+                                {error?.message && (
+                                  <SlideFade in={true} offsetY="-1rem">
+                                    <FormErrorMessage fontSize="0.9rem" color="error">
+                                      {error.message}
+                                    </FormErrorMessage>
+                                  </SlideFade>
+                                )}
+                              </Box>
+                              <Radio
+                                value={`${data.credit_card.customerPaymentProfileId}`}
+                                colorScheme="teal"
+                                onChange={(): void => {
+                                  onChange(data.credit_card.customerPaymentProfileId);
+                                  setPaymentData({
+                                    paymentId: data.credit_card.customerPaymentProfileId,
+                                    paymentType: data.credit_card.payment_type,
+                                  });
+                                  setSelectedBankDetails(data.credit_card as any);
+                                  setType('EXISTING_CREDITCARD');
+                                }}
+                              />
+                            </Flex>
+                          )}
+                        </>
                       )}
                     </FormControl>
                   ) : (

@@ -4,6 +4,7 @@ import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
+import Pagination from 'component/Pagination/Pagination';
 import { isLocalHost } from 'constants/url';
 import { startCase } from 'lodash';
 import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
@@ -35,7 +36,7 @@ const TransactionHistoryPage: FC = () => {
   const {
     data: decryptedTransactions,
     isLoading: decryptedTransactionsLoading,
-    isRefetching,
+    isPending,
   } = useQuery({
     queryKey: ['decryptedTransactions', page],
     queryFn: async () => {
@@ -159,15 +160,14 @@ const TransactionHistoryPage: FC = () => {
             </Box>
           )}
 
-          <Flex justifyContent="center">
-            <Button
-              color="black"
-              onClick={(): void => setPage(page + 1)}
-              isLoading={decryptedTransactionsLoading || isRefetching}
-            >
-              Load More
-            </Button>
-          </Flex>
+          {transactionsData?.transactions.length && (
+            <Pagination
+              currentPage={page}
+              totalPages={transactionsData.transactions.length}
+              onPageChange={setPage}
+              isLoading={isPending}
+            />
+          )}
         </Flex>
 
         {id === 'date' && <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} />}

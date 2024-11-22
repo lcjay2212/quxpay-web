@@ -25,6 +25,7 @@ export * from './NotificationHistory';
 export * from './NotificationListDisplay';
 export * from './OpenPosHistory';
 export * from './PageWrapper';
+export * from './Pagination';
 export * from './PaidPosInfoById';
 export * from './PayBillsPageWrapper';
 export * from './PoFromPluginHistory';

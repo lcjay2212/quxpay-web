@@ -48,7 +48,7 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
       <Button
         variant="primary"
         onClick={(): void => onPageChange(currentPage + 1)}
-        isDisabled={currentPage === totalPages}
+        isDisabled={currentPage + 1 === totalPages}
       >
         <ArrowRightIcon />
       </Button>

@@ -47,19 +47,19 @@ const TransactionHistoryPage: FC = () => {
         },
       });
       const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
-      const decryptedContents: string[] = [];
+      let combinedDecryptedContent = '';
 
       data?.forEach((content: string) => {
         try {
           const message = forge.util.decode64(content);
           const decryptedContent = privateKey.decrypt(message, 'RSA-OAEP');
-          decryptedContents.push(JSON.parse(decryptedContent));
+          combinedDecryptedContent += decryptedContent;
         } catch (error) {
           notify('Decryption failed for content:', { status: 'error' });
         }
       });
 
-      return decryptedContents;
+      return JSON.parse(combinedDecryptedContent);
     },
   });
 

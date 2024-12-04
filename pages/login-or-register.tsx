@@ -60,7 +60,7 @@ const LoginOrRegisterPage: FC = () => {
       </Button>
 
       <Text color="white" textAlign="center" mt="1rem" size="sm">
-        QUX® is a registered trademark <br /> of QUX® Technologies, Inc.
+        QUX® is a registered trademark <br /> of QUX Technologies, Inc.™
       </Text>
 
       <Flex justifyContent="space-between" color="primary" fontSize="1rem" mt="1rem">

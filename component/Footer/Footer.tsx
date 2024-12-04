@@ -87,7 +87,7 @@ export const Footer: FC = () => {
           </Text>
           <Text>
             QUX Technologies, Inc.™. limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX®
-            Tokens, QUX Pay® and QUX® Store policies and procedures limited QUX eToken® redemptions to 10,000 or less
+            Tokens, QUX Pay® and QUXStore™ policies and procedures limited QUX eToken® redemptions to 10,000 or less
             from any one user in any one day.
           </Text>
           <Text>

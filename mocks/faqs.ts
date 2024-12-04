@@ -70,8 +70,8 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: `The "Check Out" screen is where you will be prompted to input your billing and shipping addresses for the orders you have purchased. Payment will be processed using QUX Pay®™.`,
   },
   {
-    question: 'What is the Qux® Token?',
-    answers: `QUX eToken® are exonumia used in our marketplace, as a numismatic management system, for any kind of goods or services offered in the QUX® store. QUX eToken® privately secure purchases without financial data being collected or transmitted. When a token is purchased, funds are drawn through ACH transfer from the user's bank account. If the user doesn't have enough QUX eToken® to cover the payment, the user will be redirected to the "top-up" screen to replenish their balance. Merchants can redeem QUX eToken® by directing funds to be transferred through ACH into their bank account.<br/><br/> The minimum purchase of QUX eToken® $20.<br/><br/>$1 = 𐤒1 = One Dollar = One Qux® Token. Always.`,
+    question: 'What is the QUX eToken®?',
+    answers: `QUX eToken® are exonumia used in our marketplace, as a numismatic management system, for any kind of goods or services offered in the QUXStore™. QUX eToken® privately secure purchases without financial data being collected or transmitted. When a token is purchased, funds are drawn through ACH transfer from the user's bank account. If the user doesn't have enough QUX eToken® to cover the payment, the user will be redirected to the "top-up" screen to replenish their balance. Merchants can redeem QUX eToken® by directing funds to be transferred through ACH into their bank account.<br/><br/> The minimum purchase of QUX eToken® $20.<br/><br/>$1 = 𐤒1 = One Dollar = One Qux® Token. Always.`,
   },
   {
     question: 'HOW TO TOP UP YOUR QUX eToken®',

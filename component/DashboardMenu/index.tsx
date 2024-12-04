@@ -67,7 +67,7 @@ const DashboardMenu: FC = () => {
       image: SendQuxCash,
       alt: 'Send',
       route: '/send-qux-token',
-      label: 'Send Qux® Token',
+      label: 'Send QUX eToken®',
       show: true,
     },
     {

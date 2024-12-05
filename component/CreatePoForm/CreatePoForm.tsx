@@ -2,10 +2,10 @@ import {
   Avatar,
   Box,
   Button,
+  Image as ChakraImage,
   Checkbox,
   Divider,
   Flex,
-  Image as ChakraImage,
   Modal,
   ModalBody,
   ModalContent,
@@ -345,7 +345,7 @@ export const CreatePoForm: FC = () => {
               h="3.25rem"
               onClick={onSubmit}
               disabled={true}
-              isDisabled={step === 1 ? !productValue : !selectedFriend}
+              isDisabled={!productValue}
               isLoading={isPending}
             >
               Send To User

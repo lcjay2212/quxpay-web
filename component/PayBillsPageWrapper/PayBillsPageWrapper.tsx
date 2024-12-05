@@ -93,7 +93,13 @@ export const PayBillsPageWrapper: FC = () => {
                             }}
                           >
                             <Flex justifyContent="center" width="auto" height={50}>
-                              <Image src={BillsIcon} width={45} height={50} alt={item.id} placeholder="empty" />
+                              <Image
+                                src={item?.image || BillsIcon}
+                                width={45}
+                                height={50}
+                                alt={item.id}
+                                placeholder="empty"
+                              />
                             </Flex>
                             <Text color="white" mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
                               {item.name}

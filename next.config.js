@@ -83,6 +83,12 @@ module.exports = {
         port: '',
         pathname: '/puzzle_images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 's3.qux.tv',
+        port: '',
+        pathname: '/quxtech/**',
+      },
     ],
   },
   async headers() {

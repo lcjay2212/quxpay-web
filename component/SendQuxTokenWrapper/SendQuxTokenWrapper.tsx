@@ -28,8 +28,9 @@ export const SendQuxTokenWrapper: FC = () => {
   const router = useRouter();
   const method = useForm();
 
-  const { control, handleSubmit } = method;
+  const { control, handleSubmit, watch } = method;
   const [radioValue, setRadioValue] = useState('');
+
   const [successTrigger, setSuccessTrigger] = useState(false);
   const [amount, setAmount] = useState(0);
   const { data: friendList, dataLoading } = useDecryptedData('friends');
@@ -221,9 +222,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 <Spinner />
               )}
 
-              {radioValue !== `${friendList?.friends?.length + 1}` ? (
-                <></>
-              ) : (
+              {radioValue === `${friendList?.friends?.length + 1}` && (
                 <Controller
                   control={control}
                   name="email"
@@ -267,13 +266,18 @@ export const SendQuxTokenWrapper: FC = () => {
             $ {amount.toFixed(2)}
           </Text>
           <Text my="12px">Tokens sent to</Text>
-          <Flex justifyContent="flex-start">
-            <Avatar name={sentToDetail.name} />
-            <Box textAlign="start" ml="1rem">
-              <Text>{sentToDetail.name}</Text>
-              <Text>Username: {sentToDetail.username || 'N/A'}</Text>
-            </Box>
-          </Flex>
+
+          {radioValue === `${friendList?.friends?.length + 1}` ? (
+            <>{watch('email')}</>
+          ) : (
+            <Flex justifyContent="flex-start">
+              <Avatar name={sentToDetail.name} />
+              <Box textAlign="start" ml="1rem">
+                <Text>{sentToDetail.name}</Text>
+                <Text>Username: {sentToDetail.username || 'N/A'}</Text>
+              </Box>
+            </Flex>
+          )}
           <Button
             variant="primary"
             borderRadius="1rem"

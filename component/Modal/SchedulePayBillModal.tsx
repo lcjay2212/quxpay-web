@@ -63,11 +63,15 @@ export const SchedulePayBillModal: FC = () => {
       account_number: val?.account_number || billerData?.account_number,
       biller_id: billerData?.biller_id,
       biller_type_id: billerData?.biller_type_id,
-      start_date: dayjs(startDate).format('YYYY-MM-DD'),
-      end_date: dayjs(endDate).format('YYYY-MM-DD'),
+      ...(filter === 'repeat'
+        ? {
+            start_date: dayjs(startDate).format('YYYY-MM-DD'),
+            end_date: dayjs(endDate).format('YYYY-MM-DD'),
+            frequency: val?.frequency || billerData?.frequency,
+          }
+        : { date: val?.date }),
       scheduled_type: filter,
       amount: val?.amount || billerData?.amount,
-      frequency: val?.frequency || billerData?.frequency,
     } as any);
   };
 

@@ -32,8 +32,8 @@ import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
-import { FC, useEffect } from 'react';
-import { useLogout, usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
+import { FC } from 'react';
+import { useLogout, usePendingBankAccountVerificationModal, useUser } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps } from 'utils';
 
@@ -74,14 +74,7 @@ const Dashboard: FC = () => {
     queryFn: FETCH_BANK_STATUS,
   });
 
-  const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
   const { logout } = useLogout();
-
-  useEffect(() => {
-    if (balance?.balance?.verification_status !== 'for_review' && Number(balance?.balance?.total_purchase) >= 600) {
-      setVerifyModalVisible(true);
-    }
-  }, [setVerifyModalVisible, balance]);
 
   const DashboarMenuComponent = dynamic(() => import('../component/DashboardMenu'), {
     ssr: false,

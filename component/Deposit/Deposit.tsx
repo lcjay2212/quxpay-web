@@ -6,6 +6,7 @@ import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, useType } from 'store';
+import { useComputationData } from 'store/useComputationData';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 import { notify, queryClient } from 'utils';
@@ -26,6 +27,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const [paymentProfileId, setPaymentProfileId] = useState();
 
   const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
+  const computationData = useComputationData((e) => e.computationData);
 
   const { data: wallet, dataLoading } = useDecryptedData('wallets');
 
@@ -164,6 +166,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
         if (type === 'BANK') {
           updateBalance({
             withdraw_pending: +(withdraw_pending ?? 0) + amount,
+            balance: +(availableBalance ?? 0) - (computationData?.total_amount ?? 0),
           });
         } else if (type === 'EXISTING_CREDITCARD') {
           updateBalance({

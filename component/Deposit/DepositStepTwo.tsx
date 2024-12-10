@@ -4,9 +4,10 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, Label } from 'component';
 import { QuxTokenIcon } from 'public/assets';
-import { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useCryptoPaymentData, useSelectedBankDetails, useType } from 'store';
+import { useComputationData } from 'store/useComputationData';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 
 export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
@@ -17,11 +18,7 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
   const amount = watch('amount');
-  const [computationData, setComputationData] = useState<{
-    amount: number;
-    qux_charge: number;
-    total_amount: number;
-  }>();
+  const [computationData, setComputationData] = useComputationData((e) => [e.computationData, e.setComputationData]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>

@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Spinner, Text, chakra } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ApiIntegrationForm, HeaderContainer } from 'component';
@@ -45,16 +45,49 @@ const BillerApiPage: FC = () => {
               Biller Agreement
             </Text>
             <Text color="white" fontSize="18px" mt="1rem">
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-              et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.
-              Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit
-              amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
-              aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd
-              gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+              Becoming a biller using QUX Pay® means being able to integrate QUX Pay® into your sales process in two
+              easy-to-use ways.
               <br />
               <br />
-              Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore
-              et
+              First, you can use our API with any custom website so that you can accept QUX Pay® eTokens® as a payment
+              process. It’s very similar to other integrations out there (which means it’s quick to integrate) and
+              you’ll also gain access to our documentation.
+              <br />
+              <br />
+              Second, you’ll have access to our Wordpress WooCommerce Plugin which can be downloaded and installed in
+              any current version of Wordpress. This also comes with documentation.
+              <br />
+              <br />
+              By clicking agree, you accept the QUX® Merchant{' '}
+              <a href="https://qux.tv/terms-and-condition" target="_blank" rel="noreferrer">
+                <chakra.span
+                  color="white"
+                  fontSize={{ base: '20px', md: '16px', lg: '29px' }}
+                  fontWeight="bold"
+                  my="0.5rem"
+                  _hover={{
+                    color: 'primary',
+                  }}
+                >
+                  Terms and Conditions
+                </chakra.span>
+              </a>{' '}
+              and{' '}
+              <span>
+                <a href="https://qux.tv/privacy-policy" target="_blank" rel="noreferrer">
+                  <chakra.span
+                    color="white"
+                    fontSize={{ base: '20px', md: '16px', lg: '29px' }}
+                    fontWeight="bold"
+                    my="0.5rem"
+                    _hover={{
+                      color: 'primary',
+                    }}
+                  >
+                    Privacy Policy.
+                  </chakra.span>
+                </a>
+              </span>
             </Text>
             <Flex flexDir="column" gap={4} mt="1rem">
               <Button variant="primary" borderRadius="1rem" h="3.25rem" onClick={(): void => setStep(step + 1)}>

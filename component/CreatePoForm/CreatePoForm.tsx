@@ -285,7 +285,7 @@ export const CreatePoForm: FC = () => {
                   </Flex>
 
                   <Radio
-                    value={`${friendData.friends?.length + 1}`}
+                    value={`${friendData?.friends?.length + 1}`}
                     onClick={(): void => setEmailValue('')}
                     colorScheme="teal"
                   />
@@ -348,7 +348,7 @@ export const CreatePoForm: FC = () => {
               isDisabled={
                 step === 1
                   ? !productValue
-                  : radioValue !== `${friendData.friends?.length + 1}`
+                  : radioValue !== `${friendData?.friends?.length + 1}`
                   ? !selectedFriend
                   : isEmpty(associateEmail) && isEmpty(emailValue)
               }

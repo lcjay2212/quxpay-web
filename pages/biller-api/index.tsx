@@ -61,10 +61,6 @@ const BillerApiPage: FC = () => {
               By clicking agree, you accept the QUX® Merchant{' '}
               <a href="https://qux.tv/terms-and-condition" target="_blank" rel="noreferrer">
                 <chakra.span
-                  color="white"
-                  fontSize={{ base: '20px', md: '16px', lg: '29px' }}
-                  fontWeight="bold"
-                  my="0.5rem"
                   _hover={{
                     color: 'primary',
                   }}
@@ -76,10 +72,6 @@ const BillerApiPage: FC = () => {
               <span>
                 <a href="https://qux.tv/privacy-policy" target="_blank" rel="noreferrer">
                   <chakra.span
-                    color="white"
-                    fontSize={{ base: '20px', md: '16px', lg: '29px' }}
-                    fontWeight="bold"
-                    my="0.5rem"
                     _hover={{
                       color: 'primary',
                     }}

@@ -23,6 +23,7 @@ type Me = {
   purchaser_info: any;
   privatekey: string;
   is_verified: boolean;
+  hash: string;
 } | null;
 
 type Props = {

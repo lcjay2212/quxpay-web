@@ -13,7 +13,7 @@ interface UseSecurityMainFileResult {
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
-  const { setUser } = useUser();
+  const [user, setUser] = useUser((e) => [e.user, e.setUser]);
 
   const {
     data,
@@ -44,7 +44,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
             key,
             userPublicKeyPem,
             transactions,
-          } = await getDecryptedData(response.data.data);
+          } = await getDecryptedData(response.data.data, user?.hash);
 
           const initialData = {
             details,

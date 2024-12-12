@@ -33,7 +33,7 @@ export const SchedulePayBillModal: FC = () => {
     setValue('biller_id', billerData?.biller_id);
     setValue('biller_type_id', billerData?.biller_type_id);
     setValue('id', billerData?.id);
-    setValue('frequency', billerData?.frequency);
+    setValue('frequency', billerData?.frequency || 'weekly');
     setValue('amount', billerData?.amount);
   }, [setValue, billerData]);
 

@@ -101,3 +101,8 @@ interface TransactionsDetails {
   created_at: string;
   description: string | null;
 }
+
+interface ValueLabelProps {
+  value: string | number;
+  label: string | number;
+}

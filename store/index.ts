@@ -22,6 +22,7 @@ export * from './useRouteParams';
 export * from './useSchedulePayBillModal';
 export * from './useSelectedBankDetails';
 export * from './useSetScheduleModal';
+export * from './useStateList';
 export * from './useSuccessPayBillsModal';
 export * from './useTransactionHistoryFilterModal';
 export * from './useType';

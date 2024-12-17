@@ -3,15 +3,14 @@ import { FormContainer, TextField } from 'component';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
 import { AddBankIconTwo } from 'public/assets';
-import { FC, ReactElement, useState } from 'react';
+import { FC, ReactElement, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
 import { useBankLists, useDebounce } from 'store';
-import { ValueLabelProps } from 'typings';
 import { blockInvalidChar, reactSelectStyles } from 'utils';
 
 export const FinalStep: FC = () => {
-  const { control, watch } = useFormContext();
+  const { control, watch, setValue } = useFormContext();
   const [searchText, setSearchText] = useState('America');
 
   const debounceText = useDebounce(searchText, 1000);
@@ -20,9 +19,7 @@ export const FinalStep: FC = () => {
   const { data: bankList, isLoading } = useBankLists(debounceText, routingNumber);
   const { data: fullBankList } = useBankLists(debounceText);
 
-  const selectedList = bankList?.length ? bankList : fullBankList;
-
-  const finalData = selectedList?.map((item) => ({
+  const finalData = fullBankList?.map((item) => ({
     label: item.name,
     value: item.name,
   }));
@@ -35,6 +32,12 @@ export const FinalStep: FC = () => {
   const listOfYears = YEARS.map((item) => {
     return { label: `${item}`, value: `${item}` };
   });
+
+  useEffect(() => {
+    if (bankList?.length === 1) {
+      setValue('bank_name', bankList?.[0].name);
+    }
+  }, [bankList]);
 
   return (
     <>
@@ -104,18 +107,28 @@ export const FinalStep: FC = () => {
         render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
           return (
             <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
-              <Select
-                onBlur={onBlur}
-                styles={reactSelectStyles}
-                placeholder="Select Bank Name"
-                isLoading={isLoading}
-                options={finalData}
-                onChange={(e: SingleValue<ValueLabelProps>): void => {
-                  onChange(e?.value);
-                }}
-                onInputChange={(e: string): void => setSearchText(e)}
-                isClearable={true}
-              />
+              {bankList?.length === 1 ? (
+                <TextField
+                  type="text"
+                  value={bankList?.[0].name}
+                  placeholder="Enter Bank Name"
+                  onKeyDown={blockInvalidChar}
+                  onBlur={onBlur}
+                />
+              ) : (
+                <Select
+                  onBlur={onBlur}
+                  styles={reactSelectStyles}
+                  placeholder="Select Bank Name"
+                  isLoading={isLoading}
+                  options={finalData}
+                  onChange={(e: SingleValue<ValueLabelProps>): void => {
+                    onChange(e?.value);
+                  }}
+                  onInputChange={(e: string): void => setSearchText(e)}
+                  isClearable={true}
+                />
+              )}
             </FormContainer>
           );
         }}

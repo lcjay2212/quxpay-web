@@ -104,3 +104,5 @@ export const FETCH_CAPTCHA = async (): Promise<any> => await fetchResource(`web/
 export const FETCH_SECURITY_MAIN_FILE = async (): Promise<any> => await fetchResource(`web/encryption/main-file`);
 
 export const FETCH_BANK_STATUS = async (): Promise<any> => await fetchResource(`web/verify/bank-status`);
+
+export const FETCH_STATES = async (): Promise<any> => await fetchResource(`web/states`);

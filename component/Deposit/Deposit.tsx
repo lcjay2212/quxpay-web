@@ -9,6 +9,7 @@ import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, us
 import { useComputationData } from 'store/useComputationData';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
+import { updateBalance } from 'store/useUpdateBalance';
 import { notify, queryClient } from 'utils';
 import { encryptData } from 'utils/encryptData';
 import { DepositStepOne } from './DepositStepOne';
@@ -143,16 +144,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       notify(message || response?.data?.status?.message, { status: 'error' });
     }
   );
-
-  const updateBalance = (newBalanceData: any): any => {
-    queryClient.setQueryData(['balanceSecurityFile'], (oldData: any) => ({
-      ...oldData,
-      balance: {
-        ...oldData.balance,
-        ...newBalanceData,
-      },
-    }));
-  };
 
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`,

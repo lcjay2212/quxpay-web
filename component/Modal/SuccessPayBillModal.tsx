@@ -3,10 +3,12 @@ import { Box, Button, Divider, Flex, Modal, ModalBody, ModalContent, ModalOverla
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
 import { useSuccessPayBillsModal } from 'store';
-import { notify } from 'utils';
+import { updateBalance } from 'store/useUpdateBalance';
+import { notify, queryClient } from 'utils';
 
 type TempDataType = {
   account_number?: number;
@@ -23,6 +25,8 @@ type TempDataType = {
 
 export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
   const [visible, setVisible] = useSuccessPayBillsModal((state) => [state.visible, state.setVisible]);
+  const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
+  const router = useRouter();
 
   const { mutate: savePayment, isPending: savePaymentLoading } = useMutation({
     mutationFn: (variable) =>
@@ -35,6 +39,7 @@ export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
     onSuccess: () => {
       notify('Saved payment info successfully');
       setVisible(false);
+      router.push('/dashboard');
     },
     onError: () => {
       notify(`Error`, { status: 'error' });
@@ -95,15 +100,18 @@ export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
                 w={350}
                 h="3.25rem"
                 isLoading={savePaymentLoading}
-                onClick={(): void =>
+                onClick={(): void => {
                   savePayment({
                     account_number: data?.account_number,
                     account_name: data?.account_name,
                     biller_category_id: data?.biller_category_id,
                     biller_id: data?.biller_id,
                     tag: 'Service',
-                  } as any)
-                }
+                  } as any);
+                  updateBalance({
+                    balance: +(balance?.balance?.balance ?? 0) + (data?.total_amount ?? 0),
+                  });
+                }}
               >
                 Save to biller list
               </Button>

@@ -144,7 +144,7 @@ const Dashboard: FC = () => {
               onClick={(): void => setVisible(true)}
             >
               <Text color="red.500" cursor="pointer">
-                Verify Account: Bank Nickname
+                Verify Account: {data?.account_nickname}
               </Text>
               <ArrowForwardIcon cursor="pointer" color="red.500" />
             </Flex>

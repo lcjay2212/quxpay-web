@@ -25,7 +25,7 @@ const MilitaryGradeSecurityPage: FC = () => {
           <Box w={{ base: '360px', md: 'auto' }} m={{ base: 'auto' }}>
             <Content
               label="Military-Grade Security"
-              content="QUX Pay® utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
+              content="QUXPay™ utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
                 stays private."
               showBtn={false}
             />

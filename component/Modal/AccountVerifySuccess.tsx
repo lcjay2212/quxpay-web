@@ -31,7 +31,7 @@ export const AccountVerifySuccess: FC = () => {
                 </Text>
                 <Text>You can now use your account</Text>
                 <Text>Account Nickname</Text>
-                <Text>in QUX Pay®</Text>
+                <Text>in QUXPay™</Text>
               </Box>
 
               <Button variant="primary" onClick={(): void => handleClose('/purchase')}>

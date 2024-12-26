@@ -64,7 +64,7 @@ export const Footer: FC = () => {
             with users.
           </Text>
           <Text>
-            QUX Technologies™, QUX eToken® and QUX Pay® are not a bank, but rather are financial technology companies.
+            QUX Technologies™, QUX eToken® and QUXPay™ are not a bank, but rather are financial technology companies.
           </Text>
           <Text>
             Nothing contained in this website constitutes legal advice by these related companies. You are encouraged to
@@ -77,31 +77,31 @@ export const Footer: FC = () => {
             1099-Misc form at the end of the year.
           </Text>
           <Text>
-            QUX eToken® are only integral to QUX Pay® and QUXStore™. The sale of QUX eToken® does not constitute money
-            transmission services. Purchases of QUX eToken® are necessary to use QUX Pay® and QUXStore™.
+            QUX eToken® are only integral to QUXPay™ and QUXStore™. The sale of QUX eToken® does not constitute money
+            transmission services. Purchases of QUX eToken® are necessary to use QUXPay™ and QUXStore™.
           </Text>
           <Text>
-            In order to use QUX eToken®, one must register and create an account through QUX Pay® or the QUX® General
+            In order to use QUX eToken®, one must register and create an account through QUXPay™ or the QUX® General
             Dashboard. QUX eToken® can only be purchased or redeemed through a registered user’s bank account(s). QUX
             Pay® and QUXStore™ can only be used to purchase or redeem QUX eToken® through QUX Technologies, Inc.™.
           </Text>
           <Text>
             QUX Technologies, Inc.™. limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX®
-            Tokens, QUX Pay® and QUXStore™ policies and procedures limited QUX eToken® redemptions to 10,000 or less
-            from any one user in any one day.
+            Tokens, QUXPay™ and QUXStore™ policies and procedures limited QUX eToken® redemptions to 10,000 or less from
+            any one user in any one day.
           </Text>
           <Text>
-            QUX Technologies, Inc.™., QUX eToken® and QUX Pay® have a{' '}
+            QUX Technologies, Inc.™., QUX eToken® and QUXPay™ have a{' '}
             <u onClick={(): void => openInNewTab('https://qux.tv/privacy-policy')} style={{ cursor: 'pointer' }}>
               Privacy Policy
             </u>{' '}
             that the collection and use of information that is collected as data will not be distributed to third
-            parties without consent of the customer. QUX Technologies, Inc.™., QUX eToken® and QUX Pay® do not have
+            parties without consent of the customer. QUX Technologies, Inc.™., QUX eToken® and QUXPay™ do not have
             regulator endorsements, implied or expressed related to information contained herein or related to QUX
-            Technologies, Inc.™., QUX eToken® and QUX Pay®.
+            Technologies, Inc.™., QUX eToken® and QUXPay™.
           </Text>
           <Text>
-            QUX Technologies, Inc.™., QUX eToken® and QUX Pay® strive to insure that its services are accessible to
+            QUX Technologies, Inc.™., QUX eToken® and QUXPay™ strive to insure that its services are accessible to
             people with disabilities.
           </Text>
         </Flex>
@@ -124,7 +124,7 @@ export const Footer: FC = () => {
         <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
           <Box fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
             <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
-            <Text>QUX Pay®</Text>
+            <Text>QUXPay™</Text>
             <Text>175 S Third Street</Text>
             <Text>Suite 210</Text>
             <Text>Columbus, OH 43215</Text>

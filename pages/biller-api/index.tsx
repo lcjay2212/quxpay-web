@@ -45,11 +45,11 @@ const BillerApiPage: FC = () => {
               Biller Agreement
             </Text>
             <Text color="white" fontSize="18px" mt="1rem">
-              Becoming a biller using QUX Pay® means being able to integrate QUX Pay® into your sales process in two
+              Becoming a biller using QUXPay™ means being able to integrate QUXPay™ into your sales process in two
               easy-to-use ways.
               <br />
               <br />
-              First, you can use our API with any custom website so that you can accept QUX Pay® eTokens® as a payment
+              First, you can use our API with any custom website so that you can accept QUXPay™ eTokens® as a payment
               process. It’s very similar to other integrations out there (which means it’s quick to integrate) and
               you’ll also gain access to our documentation.
               <br />

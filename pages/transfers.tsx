@@ -22,7 +22,7 @@ const TransfersPage: FC = () => {
           <TopBarHeader />
           <Content
             label="Transfers in a Flash"
-            content="Amount transferred through QUX Pay® reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
+            content="Amount transferred through QUXPay™ reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
             showBtn={false}
             mt={{ base: '2rem', md: '25rem' }}
           />

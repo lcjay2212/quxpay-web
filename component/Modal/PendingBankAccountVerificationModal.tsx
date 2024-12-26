@@ -60,9 +60,9 @@ export const PendingBankAccountVerificationModal: FC = () => {
                     <br />
                     in your account. You will need these two
                     <br />
-                    amount to verify your bank account.
+                    amount to verify your bank account
                     <br />
-                    once apprived
+                    once approved!
                   </Text>
                 </Box>
               )}

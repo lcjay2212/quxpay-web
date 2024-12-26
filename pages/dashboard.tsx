@@ -28,12 +28,12 @@ import {
   UploadLoadingModal,
   VerifyModal,
 } from 'component';
-import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
+import { FETCH_BANK_STATUS, FETCH_POS_HISTORY, FETCH_VERIFICATION_STATUS } from 'constants/api';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
-import { FC } from 'react';
-import { useLogout, usePendingBankAccountVerificationModal, useUser } from 'store';
+import { FC, useEffect } from 'react';
+import { useLogout, usePendingBankAccountVerificationModal, useUser, useVerifyModal } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps } from 'utils';
 
@@ -61,6 +61,7 @@ const Dashboard: FC = () => {
   const user = useUser((e) => e.user);
 
   const { data: balance, dataLoading } = useDecryptedData('balance');
+  const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
 
   const setVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
 
@@ -74,7 +75,18 @@ const Dashboard: FC = () => {
     queryFn: FETCH_BANK_STATUS,
   });
 
+  const { data: status } = useQuery({
+    queryKey: ['verificationStatus'],
+    queryFn: FETCH_VERIFICATION_STATUS,
+  });
+
   const { logout } = useLogout();
+
+  useEffect(() => {
+    if (status?.status) {
+      setVerifyModalVisible(true);
+    }
+  }, [setVerifyModalVisible, balance]);
 
   const DashboarMenuComponent = dynamic(() => import('../component/DashboardMenu'), {
     ssr: false,

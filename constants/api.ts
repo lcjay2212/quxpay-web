@@ -54,6 +54,9 @@ export const SHOW_BANK_ACCOUNT_DETAILS = async ({ queryKey }: QueryFunctionConte
 
 export const FETCH_POS_HISTORY = async (): Promise<any> => await fetchResource(`web/pos`);
 
+export const FETCH_VERIFICATION_STATUS = async (): Promise<any> =>
+  await fetchResource(`web/encryption/check/verification`);
+
 export const FETCH_POS_HISTORY_BY_ID = async ({ queryKey }: QueryFunctionContext): Promise<any> =>
   await fetchResource(`web/pos/${queryKey[1]}/show`);
 

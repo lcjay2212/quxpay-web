@@ -9,8 +9,8 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: `Send QuxTokens by entering the recipient's @username in the app.`,
   },
   {
-    question: 'Does the recipient need a QUXPay™ account to get my QuxTokens?',
-    answers: `Yes, the recipient needs to have a QUXPay™ account to receive your QuxToken transfers. It's free and fast to sign up.`,
+    question: 'Does the recipient need a QUX Pay® account to get my QuxTokens?',
+    answers: `Yes, the recipient needs to have a QUX Pay® account to receive your QuxToken transfers. It's free and fast to sign up.`,
   },
   {
     question: 'How will the recipient know when I send QuxTokens?',
@@ -25,7 +25,7 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: `As much as possible be very careful and double check usernames. Contact support at info@quxtech.com for help.`,
   },
   {
-    question: 'Does QUXPay™ work for international QuxToken transfers? ',
+    question: 'Does QUX Pay® work for international QuxToken transfers? ',
     answers: `We'd love to expand! However, we're currently only available in the US.`,
   },
   {
@@ -33,7 +33,7 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: `No maximum limits on sending QuxTokens but there is a requirement of 1 QuxToken to be able to send. 1 QuxToken = $20 USD.`,
   },
   {
-    question: 'What fees does QUXPay™ charge to send QuxTokens? ',
+    question: 'What fees does QUX Pay® charge to send QuxTokens? ',
     answers: `3% fees for cash in and cash out. User to user transfers are free.`,
   },
   {
@@ -41,11 +41,11 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: `User to user transfers are instant. Cash in/out takes 1-3 banking days.`,
   },
   {
-    question: 'Is QUXPay™ secure? How is my data protected? ',
+    question: 'Is QUX Pay® secure? How is my data protected? ',
     answers: `We take security and privacy very seriously. See our privacy policy. `,
   },
   {
-    question: 'Does QUXPay™ share or sell user data? ',
+    question: 'Does QUX Pay® share or sell user data? ',
     answers: `We never share or sell user data. See our T&C and privacy policy.
       `,
   },
@@ -54,7 +54,7 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: ``,
   },
   {
-    question: 'Can I close my QUXPay™ account if needed? ',
+    question: 'Can I close my QUX Pay® account if needed? ',
     answers: `Yes, just e-mail our support at info@quxtech.tv for more information and assistance.`,
   },
   {
@@ -62,12 +62,12 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: ` You can reset your e-mail by clicking the "Forget Password. Make sure the e-mail you used to log-in is still active. You'll receive a link to change your password. If you need more help, e-mail info@quxtech.tv`,
   },
   {
-    question: 'How does QUXPay™ handle disputes or fraud? ',
-    answers: `Our dispute resolution process at QUXPay™ ensures fair and timely resolutions for customers. Please e-mail us at info@quxtech.tv for assistance`,
+    question: 'How does QUX Pay® handle disputes or fraud? ',
+    answers: `Our dispute resolution process at QUX Pay® ensures fair and timely resolutions for customers. Please e-mail us at info@quxtech.tv for assistance`,
   },
   {
     question: 'CHECK OUT',
-    answers: `The "Check Out" screen is where you will be prompted to input your billing and shipping addresses for the orders you have purchased. Payment will be processed using QUXPay™™.`,
+    answers: `The "Check Out" screen is where you will be prompted to input your billing and shipping addresses for the orders you have purchased. Payment will be processed using QUX Pay®.`,
   },
   {
     question: 'What is the QUX eToken®?',

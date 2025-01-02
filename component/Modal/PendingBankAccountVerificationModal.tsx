@@ -26,13 +26,13 @@ export const PendingBankAccountVerificationModal: FC = () => {
                   <Text fontSize="1.25rem" fontWeight="bold">
                     Your Account Is Pending
                   </Text>
-                  <Text my="2rem">Thanks for signing up for QUXPay™!</Text>
+                  <Text my="2rem">Thanks for signing up for QUX Pay®!</Text>
                   <Text>Because you've submitted your first</Text>
                   <Text>account, you'll see two small amounts</Text>
                   <Text>depostited from</Text>
                   <Text>QUX TECHNOLOGIES INC</Text>
                   <Text>in your account. You will need these two</Text>
-                  <Text>amount to verify your bank account.</Text>
+                  <Text>amounts to verify your bank account.</Text>
                   <Text mt="2rem">You will be able to use your bank account</Text>
                   <Text>as soon as verification is complete!</Text>
                 </Box>
@@ -42,7 +42,7 @@ export const PendingBankAccountVerificationModal: FC = () => {
                     Your Account Is Pending
                   </Text>
                   <Text my="2rem">
-                    Thanks for signing up for QUXPay™!
+                    Thanks for signing up for QUX Pay®!
                     <br />
                     We're validation your account right now.
                     <br /> Please check back in 24-48 hours and

@@ -17,7 +17,7 @@ export const MILITARY_GRADE_SECURITY_MOCK: Props[] = [
   },
   {
     title: 'Patent-Pending Encryption Mesh',
-    context: `QUXPay™ utilizes a global encryption mesh 
+    context: `QUX Pay® utilizes a global encryption mesh 
       infrastructure allowing each device to pay 
       in real-time. Big words but the point is - 
       there's no central point of failure. Hacks 
@@ -72,7 +72,7 @@ export const PAYMENTS_MADE_PERFECT_MOCKS: Props[] = [
   {
     title: 'Zero P2P Fees. Ever.',
     context: `Forget fees eating into transfers. 
-    QUXPay™ is absolutely free for P2P payments. 
+    QUX Pay® is absolutely free for P2P payments. 
     Keep more in your wallet.`,
     imageSrc: '/assets/images/payments-made-perfect-2.webp',
     reverse: true,

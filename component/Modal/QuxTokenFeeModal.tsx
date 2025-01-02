@@ -36,7 +36,7 @@ export const QuxTokenFeeModal: FC = () => {
               <br />
               Keep your data private.
               <br />
-              Tell your friends to use QUXPay™!
+              Tell your friends to use QUX Pay®!
             </Text>
             <Button variant="primary" mt="1rem" onClick={(): void => setVisible(!visible)}>
               I Will Tell My Friends

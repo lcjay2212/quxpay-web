@@ -48,7 +48,7 @@ export const getDecryptedData = async (
   const encryptedMainKey = encryptedData.encrypted_main_key;
   const content = JSON.parse(encryptedData.main_file_path_content);
 
-  const mainKey = decryptMainKey(encryptedMainKey, userPrivateKeyPem, key, iv);
+  const mainKey = decryptMainKey(encryptedMainKey, userPrivateKeyPem, key, iv, password);
 
   const { file, transactions } = decryptData(content, userPrivateKeyPem, `${mainKey}`, iv, password);
 

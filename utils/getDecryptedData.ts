@@ -15,16 +15,19 @@ type DecryptedData = {
   userPublicKeyPem: string;
   transactions: any;
 };
-export const getDecryptedData = async (encryptedData: {
-  user_private_key: string;
-  user_public_key: string;
-  key: string;
-  iv: string;
-  encrypted_main_key: string;
-  main_file_path: string;
-  main_file_path_content: string;
-  transactions: any;
-}): Promise<DecryptedData> => {
+export const getDecryptedData = async (
+  encryptedData: {
+    user_private_key: string;
+    user_public_key: string;
+    key: string;
+    iv: string;
+    encrypted_main_key: string;
+    main_file_path: string;
+    main_file_path_content: string;
+    transactions: any;
+  },
+  password?: string
+): Promise<DecryptedData> => {
   const { data: userPrivateKeyPem } = await queryClient.fetchQuery({
     queryKey: ['userPrivateKey'],
     queryFn: async () => await axios.get(`${encryptedData.user_private_key}`),
@@ -47,7 +50,7 @@ export const getDecryptedData = async (encryptedData: {
 
   const mainKey = decryptMainKey(encryptedMainKey, userPrivateKeyPem, key, iv);
 
-  const { file, transactions } = decryptData(content, userPrivateKeyPem, `${mainKey}`, iv);
+  const { file, transactions } = decryptData(content, userPrivateKeyPem, `${mainKey}`, iv, password);
 
   const masterPublicKey = file?.master_public_key;
 

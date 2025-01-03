@@ -109,3 +109,5 @@ export const FETCH_SECURITY_MAIN_FILE = async (): Promise<any> => await fetchRes
 export const FETCH_BANK_STATUS = async (): Promise<any> => await fetchResource(`web/verify/bank-status`);
 
 export const FETCH_STATES = async (): Promise<any> => await fetchResource(`web/states`);
+
+export const FETCH_PASSPHASE = async (): Promise<any> => await fetchResource(`web/passphrase`);

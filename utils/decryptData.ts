@@ -3,9 +3,16 @@ import forge from 'node-forge';
 import { aes256Decrypt } from './aes256Decrypt';
 import { notify } from './notify';
 
-export const decryptData = (data: [] | undefined, privateKeyPem: string, mainKey: string, iv: string): any => {
+export const decryptData = (
+  data: [] | undefined,
+  privateKeyPem: string,
+  mainKey: string,
+  iv: string,
+  password?: string
+): any => {
   try {
-    const privateKey = forge.pki.privateKeyFromPem(privateKeyPem);
+    const privateKey = forge.pki.decryptRsaPrivateKey(privateKeyPem, password);
+
     let accumulatedContent = '';
 
     data?.forEach((content: string) => {
@@ -19,6 +26,7 @@ export const decryptData = (data: [] | undefined, privateKeyPem: string, mainKey
     });
 
     const outerData = JSON.parse(accumulatedContent);
+
     const ivBase64 = forge.util.decode64(iv);
     const innerAes = outerData?.inner_aes;
     const innerAesBase64 = forge.util.decode64(innerAes);
@@ -29,6 +37,6 @@ export const decryptData = (data: [] | undefined, privateKeyPem: string, mainKey
 
     return { file: JSON.parse(mainFile ?? ''), transactions };
   } catch (error) {
-    notify(error.message, { status: 'error' });
+    notify(`Decrypted Data: ${error.message}`, { status: 'error' });
   }
 };

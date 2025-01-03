@@ -37,6 +37,6 @@ export const decryptData = (
 
     return { file: JSON.parse(mainFile ?? ''), transactions };
   } catch (error) {
-    notify(error.message, { status: 'error' });
+    notify(`Decrypted Data: ${error.message}`, { status: 'error' });
   }
 };

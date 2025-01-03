@@ -8,14 +8,15 @@ export const decryptMainKey = (
   encryptedMainKey: string,
   privateKeyPem: string,
   key: string,
-  ivBase64: string
+  ivBase64: string,
+  password?: string
 ): DecryptionResult => {
   try {
     // Convert the encrypted main key to a Buffer
     const encryptedMessage = Buffer.from(encryptedMainKey, 'base64');
 
     // Convert private key PEM to node-forge format
-    const privateKey = forge.pki.privateKeyFromPem(privateKeyPem);
+    const privateKey = forge.pki.decryptRsaPrivateKey(privateKeyPem, password);
 
     // Decrypt the AES key using RSA with RSA-OAEP padding
     const decryptedMessageBase64 = privateKey.decrypt(encryptedMessage, 'RSA-OAEP');

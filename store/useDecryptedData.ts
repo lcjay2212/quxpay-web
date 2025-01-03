@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
+import { FETCH_PASSPHASE } from 'constants/api';
 import { camelCase } from 'lodash';
 import { clearStorage, notify } from 'utils';
 import { getDecryptedData } from 'utils/getDecryptedData';
@@ -13,7 +14,12 @@ interface UseSecurityMainFileResult {
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
-  const [user, setUser] = useUser((e) => [e.user, e.setUser]);
+  const setUser = useUser((e) => e.setUser);
+
+  const { data: passphrase } = useQuery({
+    queryKey: ['passphrase'],
+    queryFn: FETCH_PASSPHASE,
+  });
 
   const {
     data,
@@ -44,7 +50,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
             key,
             userPublicKeyPem,
             transactions,
-          } = await getDecryptedData(response.data.data, user?.hash);
+          } = await getDecryptedData(response.data.data, passphrase?.pass);
 
           const initialData = {
             details,
@@ -92,6 +98,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
       }
     },
     refetchInterval: 60000,
+    enabled: !!passphrase?.pass,
   });
 
   return { data, dataLoading, error };

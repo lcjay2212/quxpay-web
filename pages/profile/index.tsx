@@ -4,7 +4,7 @@ import { DeleteAccountModal } from 'component';
 import { isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogo, SettingsIcon } from 'public/assets';
+import { HelpIcon, QuxPayLogo } from 'public/assets';
 import { FC } from 'react';
 import { useLogout, useUser } from 'store';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
@@ -17,16 +17,16 @@ const ProfilePage: FC = () => {
     //   label: 'Link Account',
     //   route: '',
     // },
-    // {
-    //   icon: HelpIcon,
-    //   label: 'Help',
-    //   route: '',
-    // },
     {
-      icon: SettingsIcon,
-      label: 'Settings',
-      route: '/profile/settings',
+      icon: HelpIcon,
+      label: 'Help',
+      route: 'https://blog.quxpay.com/',
     },
+    // {
+    //   icon: SettingsIcon,
+    //   label: 'Settings',
+    //   route: '/profile/settings',
+    // },
   ];
   const router = useRouter();
   const setVisible = useDeleteAccountModal((e) => e.setVisible);
@@ -59,10 +59,10 @@ const ProfilePage: FC = () => {
             {user?.firstname} {user?.lastname}
           </Text>
 
-          <Box bg="primary" py="1rem" px="1rem" borderRadius="xl">
+          {/* <Box bg="primary" py="1rem" px="1rem" borderRadius="xl">
             <Text fontSize="12px">My Referral Code</Text>
             <Text fontWeight="bold">test123-test123</Text>
-          </Box>
+          </Box> */}
 
           <Divider my="1.5rem" />
 

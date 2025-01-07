@@ -299,7 +299,14 @@ const Register: FC = () => {
         ) : (
           <FormProvider {...method}>
             <form onSubmit={handleSubmit(onVerify)}>
-              <Flex m="2rem" height="90vh" flexDirection="column" justifyContent="space-between">
+              <Flex
+                mx={{ base: '2rem', md: 'auto' }}
+                my="2rem"
+                height="90vh"
+                w="400px"
+                flexDirection="column"
+                justifyContent="space-between"
+              >
                 <Box>
                   <Text color="primary" fontSize="3xl" w={300}>
                     2<span style={{ color: 'white' }}>-steps verification</span>

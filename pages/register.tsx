@@ -1,25 +1,27 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
+import { Box, Button, chakra, Flex, Grid, HStack, PinInput, PinInputField, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { CaptchaModal, CorporationStep, FinalStep, FirstStep, PendingAccountModal, SecondStep } from 'component';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
-import { FC, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FC, ReactElement, useState } from 'react';
+import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useCaptchaModal, usePendingAccountModal } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {
   const method = useForm();
-  const { handleSubmit } = method;
+  const { handleSubmit, control, getValues } = method;
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [selected, setSelected] = useState('');
   const setVisible = usePendingAccountModal((e) => e.setVisible);
-  // const [captchaModalVisible, setCaptchaModalVisible] = useCaptchaModal((e) => [e.visible, e.setVisible]);
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
+  const [verification, setVerification] = useState(false);
+  const pinFields = new Array(6).fill(null);
 
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
@@ -31,9 +33,8 @@ const Register: FC = () => {
     mutationFn: (variable) => post('web/register', variable),
     onSuccess: () => {
       notify(`User registration success!`);
-      void router.push('/login');
+      setVerification(true);
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
       errorMessage(response?.data?.errors);
     },
@@ -42,10 +43,9 @@ const Register: FC = () => {
   const { mutate: corporationMutate, isPending: loading } = useMutation({
     mutationFn: (variable) => post('web/purchaser-register', variable),
     onSuccess: () => {
-      setVisible(true);
       notify(`Corporation registration success!`);
+      setVerification(true);
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
       errorMessage(response?.data?.errors);
     },
@@ -56,9 +56,33 @@ const Register: FC = () => {
     onSuccess: () => {
       setStep((e) => e + 1);
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
       errorMessage(response?.data?.errors);
+    },
+  });
+
+  const { mutate: verify, isPending: isVerifying } = useMutation({
+    mutationFn: (variable) => post('web/otp/verify', variable),
+    onSuccess: () => {
+      notify('Verify OTP success');
+      if (selected === 'regular') {
+        void router.push('/login');
+      } else {
+        setVisible(true);
+      }
+    },
+    onError: ({ response }: any) => {
+      notify(response?.data?.status?.message, { status: 'error' });
+    },
+  });
+
+  const { mutate: resend } = useMutation({
+    mutationFn: (variable) => post('web/otp/resend', variable),
+    onSuccess: () => {
+      notify('Resend login OTP success');
+    },
+    onError: ({ response }: any) => {
+      notify(response?.data?.status?.message, { status: 'error' });
     },
   });
 
@@ -119,6 +143,14 @@ const Register: FC = () => {
     }
   };
 
+  const onVerify = (val): void => {
+    verify({
+      otp: val.pin,
+      email: getValues('email'),
+      type: 'register',
+    } as any);
+  };
+
   return (
     <>
       <Box display={!selected ? 'block' : 'none'}>
@@ -162,92 +194,166 @@ const Register: FC = () => {
       </Box>
 
       <Box display={!selected ? 'none' : 'block'}>
-        <Grid placeContent="center" h="auto" gap="2" my="3rem">
-          <Box display="flex" justifyContent="center">
-            <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
-          </Box>
+        {!verification ? (
+          <Grid placeContent="center" h="auto" gap="2" my="3rem">
+            <Box display="flex" justifyContent="center">
+              <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+            </Box>
 
-          {step === 1 && (
-            <Flex justifyContent="space-between" alignItems="center" mt="2rem" mx="0.75rem">
-              <Flex>
-                <ArrowBackIcon
-                  color="white"
-                  mt="1.30rem"
-                  mr="1rem"
-                  cursor="pointer"
-                  onClick={(): void => void router.push('/')}
-                />
-                <Text color="primary" fontSize="4xl">
-                  R<span style={{ color: 'white' }}>egister</span>
-                </Text>
-              </Flex>
-              <LockIcon color="white" w={30} h={30} />
-            </Flex>
-          )}
-          {step === 2 && (
-            <>
-              <Flex mt="2rem">
-                <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(1)} />
-                <Text color="primary" fontSize="4xl" w={300}>
-                  C<span style={{ color: 'white' }}>ontinue Your Registration</span>
-                </Text>
-              </Flex>
-
-              <Flex justifyContent="space-around" alignItems="center" my="1rem">
+            {step === 1 && (
+              <Flex justifyContent="space-between" alignItems="center" mt="2rem" mx="0.75rem">
                 <Flex>
-                  <LockIcon color="primary" w={50} h={50} />
-                  <CheckIcon color="primary" w={50} h={50} />
+                  <ArrowBackIcon
+                    color="white"
+                    mt="1.30rem"
+                    mr="1rem"
+                    cursor="pointer"
+                    onClick={(): void => void router.push('/')}
+                  />
+                  <Text color="primary" fontSize="4xl">
+                    R<span style={{ color: 'white' }}>egister</span>
+                  </Text>
                 </Flex>
-                <Text color="white" fontSize="1.25rem">
-                  Confirm Your Identity
-                  <br /> to Protect Your Account
-                </Text>
+                <LockIcon color="white" w={30} h={30} />
               </Flex>
-            </>
-          )}
-          {step === 3 && (
-            <>
-              <Flex mt="2rem">
-                <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(2)} />
-                <Text color="primary" fontSize="4xl" w={300}>
-                  C<span style={{ color: 'white' }}>ontinue Your Registration</span>
-                </Text>
-              </Flex>
-
-              <Flex justifyContent="space-around" alignItems="center" my="1rem">
-                <Flex flexDirection="column">
-                  <Image src={ShieldIcon} height={45} width={45} alt="Shield" />
-                  <Image src={HandsIcon} height={45} width={45} alt="Hands" />
+            )}
+            {step === 2 && (
+              <>
+                <Flex mt="2rem">
+                  <ArrowBackIcon
+                    color="white"
+                    mt="1.30rem"
+                    mr="1rem"
+                    cursor="pointer"
+                    onClick={(): void => setStep(1)}
+                  />
+                  <Text color="primary" fontSize="4xl" w={300}>
+                    C<span style={{ color: 'white' }}>ontinue Your Registration</span>
+                  </Text>
                 </Flex>
-                <Text color="white" fontSize="1.25rem">
-                  Securely enter your bank <br />
-                  account information into our <br />
-                  encrypted system
-                </Text>
-              </Flex>
-            </>
-          )}
 
+                <Flex justifyContent="space-around" alignItems="center" my="1rem">
+                  <Flex>
+                    <LockIcon color="primary" w={50} h={50} />
+                    <CheckIcon color="primary" w={50} h={50} />
+                  </Flex>
+                  <Text color="white" fontSize="1.25rem">
+                    Confirm Your Identity
+                    <br /> to Protect Your Account
+                  </Text>
+                </Flex>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <Flex mt="2rem">
+                  <ArrowBackIcon
+                    color="white"
+                    mt="1.30rem"
+                    mr="1rem"
+                    cursor="pointer"
+                    onClick={(): void => setStep(2)}
+                  />
+                  <Text color="primary" fontSize="4xl" w={300}>
+                    C<span style={{ color: 'white' }}>ontinue Your Registration</span>
+                  </Text>
+                </Flex>
+
+                <Flex justifyContent="space-around" alignItems="center" my="1rem">
+                  <Flex flexDirection="column">
+                    <Image src={ShieldIcon} height={45} width={45} alt="Shield" />
+                    <Image src={HandsIcon} height={45} width={45} alt="Hands" />
+                  </Flex>
+                  <Text color="white" fontSize="1.25rem">
+                    Securely enter your bank <br />
+                    account information into our <br />
+                    encrypted system
+                  </Text>
+                </Flex>
+              </>
+            )}
+
+            <FormProvider {...method}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {step === 1 && <FirstStep />}
+                {step === 2 && <>{selected === 'regular' ? <SecondStep /> : <CorporationStep />}</>}
+                {step === 3 && <FinalStep />}
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  mt="1rem"
+                  w={350}
+                  h="3.25rem"
+                  isLoading={isPending || loading || isValidating}
+                >
+                  {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
+                </Button>
+              </form>
+              {captchaModalVisible && <CaptchaModal label="login" />}
+            </FormProvider>
+          </Grid>
+        ) : (
           <FormProvider {...method}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {step === 1 && <FirstStep />}
-              {step === 2 && <>{selected === 'regular' ? <SecondStep /> : <CorporationStep />}</>}
-              {step === 3 && <FinalStep />}
-              <Button
-                type="submit"
-                variant="primary"
-                borderRadius="1rem"
-                mt="1rem"
-                w={350}
-                h="3.25rem"
-                isLoading={isPending || loading || isValidating}
-              >
-                {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
-              </Button>
+            <form onSubmit={handleSubmit(onVerify)}>
+              <Flex m="2rem" height="90vh" flexDirection="column" justifyContent="space-between">
+                <Box>
+                  <Text color="primary" fontSize="3xl" w={300}>
+                    2<span style={{ color: 'white' }}>-steps verification</span>
+                  </Text>
+                  <Text my="1rem" color="white" lineHeight="2rem" fontSize="18px">
+                    We have sent a verification code via
+                    <br /> email to {getValues('email')}. Please enter it here.
+                  </Text>
+
+                  <Controller
+                    control={control}
+                    name="pin"
+                    render={({ field: { onChange } }): ReactElement => (
+                      <HStack justifyContent="center" my="2rem">
+                        <PinInput size="lg" type="alphanumeric" onChange={onChange}>
+                          {pinFields.map((_, index) => (
+                            <PinInputField key={index} bg="white" />
+                          ))}
+                        </PinInput>
+                      </HStack>
+                    )}
+                  />
+
+                  <Text my="1rem" color="white" lineHeight="2rem" fontSize="18px">
+                    Didn&apos;t get a code?{' '}
+                    <chakra.span
+                      color="primary"
+                      as="u"
+                      cursor="pointer"
+                      onClick={(): void => {
+                        resend({
+                          email: getValues('email'),
+                          type: 'register',
+                        } as any);
+                      }}
+                    >
+                      Click to resend
+                    </chakra.span>
+                  </Text>
+                </Box>
+                <Box textAlign="center">
+                  <Button
+                    type="submit"
+                    variant="primary"
+                    borderRadius="1rem"
+                    mt="1rem"
+                    w={350}
+                    h="3.25rem"
+                    isLoading={isVerifying}
+                  >
+                    Submit
+                  </Button>
+                </Box>
+              </Flex>
             </form>
-            {captchaModalVisible && <CaptchaModal label="login" />}
           </FormProvider>
-        </Grid>
+        )}
       </Box>
 
       <PendingAccountModal />

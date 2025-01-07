@@ -4,12 +4,13 @@ import { Box, Button, chakra, Flex, Grid, HStack, PinInput, PinInputField, Text 
 import { useMutation } from '@tanstack/react-query';
 import { CaptchaModal, CorporationStep, FinalStep, FirstStep, PendingAccountModal, SecondStep } from 'component';
 import { post } from 'constants/api';
+import storage from 'constants/storage';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useCaptchaModal, usePendingAccountModal } from 'store';
+import { useCaptchaModal, usePendingAccountModal, useUser } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {
@@ -22,6 +23,7 @@ const Register: FC = () => {
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
   const [verification, setVerification] = useState(false);
   const pinFields = new Array(6).fill(null);
+  const setUser = useUser((e) => e.setUser);
 
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
@@ -63,10 +65,13 @@ const Register: FC = () => {
 
   const { mutate: verify, isPending: isVerifying } = useMutation({
     mutationFn: (variable) => post('web/otp/verify', variable),
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+      sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+      setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
       notify('Verify OTP success');
       if (selected === 'regular') {
-        void router.push('/login');
+        void router.push('/dashboard');
       } else {
         setVisible(true);
       }

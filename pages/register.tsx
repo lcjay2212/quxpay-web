@@ -102,49 +102,47 @@ const Register: FC = () => {
 
     if (step === 2) {
       validateMutation({ ...val, step, ...(selected === 'corporate' && { is_corporate: true }) });
-      // setStep((e) => e + 1);
     }
 
-    formData.append('email', val.email);
-    formData.append('password', val.password);
-    formData.append('password_confirmation', val.password_confirmation);
-    formData.append('username', val.username);
-
-    formData.append('address_2', val.address_2);
-    formData.append('city', val.city);
-    formData.append('state', val.state);
-    formData.append('zip', val.zip);
-
-    formData.append('account_name', val.account_name);
-    formData.append('account_number', val.account_number);
-    formData.append('routing_number', val.routing_number);
-    formData.append('bank_name', val.bank_name);
-    formData.append('ssn', val.ssn);
+    [
+      'email',
+      'password',
+      'password_confirmation',
+      'username',
+      'address_2',
+      'city',
+      'state',
+      'zip',
+      'account_name',
+      'account_number',
+      'routing_number',
+      'bank_name',
+      'ssn',
+    ].forEach((field) => formData.append(field, val[field]));
 
     if (step === 3) {
-      if (selected === 'regular') {
-        formData.append('firstname', val.firstname);
-        formData.append('lastname', val.lastname);
-        formData.append('billing_address', val.billing_address);
-        formData.append('phone_number', val.phone_number);
-        formData.append('dob', birthdate);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        mutate(formData as any);
-      } else {
-        formData.append('role', selected);
-        formData.append('mailing_address', val.mailing_address);
-        formData.append('el_number', val.el_number);
-        formData.append('corporation_name', val.corporation_name);
-        formData.append('business_license', val.business_license);
-        formData.append('contact_person_firstname', val.contact_person_firstname);
-        formData.append('contact_person_lastname', val.contact_person_lastname);
-        formData.append('contact_person_phone', val.contact_person_phone);
-        formData.append('contact_person_email', val.contact_person_email);
-        formData.append('dob', birthdate);
+      const fields =
+        selected === 'regular'
+          ? ['firstname', 'lastname', 'billing_address', 'phone_number']
+          : [
+              'mailing_address',
+              'el_number',
+              'corporation_name',
+              'business_license',
+              'contact_person_firstname',
+              'contact_person_lastname',
+              'contact_person_phone',
+              'contact_person_email',
+            ];
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        corporationMutate(formData as any);
-      }
+      fields.forEach((field) => formData.append(field, val[field]));
+
+      formData.append('dob', birthdate);
+      formData.append('role', selected);
+      formData.append('passport', val?.passport[0]);
+      formData.append('driver_license', val?.driver_license[0]);
+
+      (selected === 'regular' ? mutate : corporationMutate)(formData as any); // eslint-disable-line @typescript-eslint/no-explicit-any
     }
   };
 

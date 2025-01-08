@@ -1,9 +1,11 @@
-import { Box, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import { HeaderContainer } from 'component';
+import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { usePendingAccountModal } from 'store';
 
 export const PendingAccountModal: FC = () => {
+  const router = useRouter();
   const [visible, setVisible] = usePendingAccountModal(({ visible, setVisible }) => [visible, setVisible]);
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size={{ base: 'full', md: '3xl' }} isCentered>
@@ -11,16 +13,53 @@ export const PendingAccountModal: FC = () => {
       <ModalContent bg="black">
         <ModalBody>
           <HeaderContainer route="/login" label="Wallet">
-            <Flex justifyContent="center" my={{ base: '2rem', md: '15rem' }} px="1rem">
-              <Box color="white" fontSize="0.85rem">
+            <Flex
+              h="70vh"
+              flexDirection="column"
+              px="1rem"
+              mt="4rem"
+              gap="0.5rem"
+              justifyContent="space-between"
+              alignItems="center"
+            >
+              <Box color="white" fontSize="0.85rem" mb="4rem">
                 <Text fontSize="1.25rem" fontWeight="bold">
                   Your Account Is Pending
                 </Text>
-                <Text my="1rem">Thanks for signing up for QUX Pay®!</Text>
-                <Text>We're validating your account right now.</Text>
-                <Text my="0.5rem">Please check back in 24-48 hours and you'll</Text>
-                <Text>have access to the power of Qux®!</Text>
+                <Text my="2rem">
+                  Thanks for signing up for QUX Pay®!
+                  <br />
+                  We're validation your account right now.
+                  <br /> Please check back in 24-48 hours and
+                  <br /> you'll have access to the power of QUX®!
+                </Text>
+                <Text mb="2rem">
+                  We'll send you an email once <br /> your account is available!
+                </Text>
+                <Text>
+                  Also, because you've submitted your first
+                  <br /> account, once you're approved, you'll see
+                  <br /> two small amounts deposited from
+                  <br />
+                  QUX TECHNOLOGIES INC
+                  <br />
+                  in your account. You will need these two
+                  <br />
+                  amounts to verify your bank account
+                  <br />
+                  once approved.
+                </Text>
               </Box>
+              <Button
+                variant="primary"
+                width={300}
+                onClick={(): void => {
+                  router.push('/');
+                  setVisible(!visible);
+                }}
+              >
+                I Understand
+              </Button>
             </Flex>
           </HeaderContainer>
         </ModalBody>

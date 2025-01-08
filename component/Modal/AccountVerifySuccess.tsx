@@ -9,6 +9,9 @@ import { queryClient } from 'utils';
 export const AccountVerifySuccess: FC = () => {
   const [visible, setVisible] = useAccountVerifySuccessModal(({ visible, setVisible }) => [visible, setVisible]);
   const router = useRouter();
+  const data = queryClient.getQueryData<{
+    account_nickname: string;
+  }>(['bankStatus']);
 
   const handleClose = (route: string): void => {
     void queryClient.removeQueries({ queryKey: ['bankStatus'] });
@@ -24,22 +27,24 @@ export const AccountVerifySuccess: FC = () => {
           <Flex flexDirection="column" justifyContent="center" alignItems="center" my="4rem">
             <Image src={QuxLogo} width={100} height={100} alt="Qux Logo" />
 
-            <Flex flexDirection="column" justifyContent="center" px="1rem" mt="4rem" gap="0.5rem">
+            <Flex height="60vh" flexDirection="column" justifyContent="space-between" px="1rem" mt="4rem" gap="0.5rem">
               <Box color="white" fontSize="0.85rem" mb="5rem">
                 <Text fontSize="1.25rem" fontWeight="bold" mb="2rem">
                   Your Account Is Verified!
                 </Text>
                 <Text>You can now use your account</Text>
-                <Text>Account Nickname</Text>
+                <Text>{data?.account_nickname}</Text>
                 <Text>in QUX Pay®</Text>
               </Box>
 
-              <Button variant="primary" onClick={(): void => handleClose('/purchase')}>
-                Purchase Tokens
-              </Button>
-              <Button variant="secondary" onClick={(): void => handleClose('/dashboard')}>
-                Back To Home
-              </Button>
+              <Flex flexDirection="column" gap="1rem">
+                <Button variant="primary" onClick={(): void => handleClose('/purchase')}>
+                  Purchase Tokens
+                </Button>
+                <Button variant="secondary" onClick={(): void => handleClose('/dashboard')}>
+                  Back To Home
+                </Button>
+              </Flex>
             </Flex>
           </Flex>
         </ModalBody>

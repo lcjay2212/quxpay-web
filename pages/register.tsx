@@ -25,6 +25,7 @@ const Register: FC = () => {
   const pinFields = new Array(6).fill(null);
   const setUser = useUser((e) => e.setUser);
   const setVerificationVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
+  const [user, domain] = (getValues('email') ?? '')?.split('@');
 
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
@@ -137,12 +138,14 @@ const Register: FC = () => {
               'contact_person_email',
             ];
 
-      fields.forEach((field) => formData.append(field, val[field]));
+      if (selected !== 'regular') {
+        formData.append('passport', val?.passport[0]);
+        formData.append('driver_license', val?.driver_license[0]);
+      }
 
+      fields.forEach((field) => formData.append(field, val[field]));
       formData.append('dob', birthdate);
       formData.append('role', selected);
-      formData.append('passport', val?.passport[0]);
-      formData.append('driver_license', val?.driver_license[0]);
 
       (selected === 'regular' ? mutate : corporationMutate)(formData as any); // eslint-disable-line @typescript-eslint/no-explicit-any
     }
@@ -315,7 +318,7 @@ const Register: FC = () => {
                   </Text>
                   <Text my="1rem" color="white" lineHeight="2rem" fontSize="18px">
                     We have sent a verification code via
-                    <br /> email to {getValues('email')}. Please enter it here.
+                    <br /> email to {user[0] + '*'.repeat(user.length - 1) + '@' + domain}. Please enter it here.
                   </Text>
 
                   <Controller

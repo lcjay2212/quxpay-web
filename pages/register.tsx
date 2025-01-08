@@ -282,7 +282,7 @@ const Register: FC = () => {
               <form onSubmit={handleSubmit(onSubmit)}>
                 {step === 1 && <FirstStep />}
                 {step === 2 && <>{selected === 'regular' ? <SecondStep /> : <CorporationStep />}</>}
-                {step === 3 && <FinalStep />}
+                {step === 3 && <FinalStep type={selected} />}
                 <Button
                   type="submit"
                   variant="primary"

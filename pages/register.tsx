@@ -10,7 +10,7 @@ import { useRouter } from 'next/router';
 import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useCaptchaModal, usePendingAccountModal, useUser } from 'store';
+import { useCaptchaModal, usePendingAccountModal, usePendingBankAccountVerificationModal, useUser } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {
@@ -24,6 +24,7 @@ const Register: FC = () => {
   const [verification, setVerification] = useState(false);
   const pinFields = new Array(6).fill(null);
   const setUser = useUser((e) => e.setUser);
+  const setVerificationVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
 
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
@@ -71,6 +72,7 @@ const Register: FC = () => {
       setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
       notify('Verify OTP success');
       if (selected === 'regular') {
+        setVerificationVisible(true);
         void router.push('/dashboard');
       } else {
         setVisible(true);

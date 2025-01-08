@@ -76,7 +76,7 @@ const ProfilePage: FC = () => {
                   key={item.label}
                   cursor="pointer"
                   onClick={(): void => {
-                    void router.push(item.route);
+                    void window.open(item.route, 'noopener,noreferrer');
                   }}
                 >
                   <Flex alignItems="center" gap={4}>

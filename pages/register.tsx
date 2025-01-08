@@ -80,7 +80,7 @@ const Register: FC = () => {
       }
     },
     onError: ({ response }: any) => {
-      notify(response?.data?.status?.message, { status: 'error' });
+      notify(response?.data?.status?.message || response?.data?.errors?.otp, { status: 'error' });
     },
   });
 
@@ -308,7 +308,7 @@ const Register: FC = () => {
                 mx={{ base: '2rem', md: 'auto' }}
                 my="2rem"
                 height="90vh"
-                w="400px"
+                w={{ base: 'auto', md: '400px' }}
                 flexDirection="column"
                 justifyContent="space-between"
               >
@@ -358,7 +358,7 @@ const Register: FC = () => {
                     variant="primary"
                     borderRadius="1rem"
                     mt="1rem"
-                    w={350}
+                    w={300}
                     h="3.25rem"
                     isLoading={isVerifying}
                   >

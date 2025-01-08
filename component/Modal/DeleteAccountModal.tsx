@@ -3,12 +3,14 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { useUser } from 'store';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
 import { clearStorage, notify } from 'utils';
 
 export const DeleteAccountModal: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = useDeleteAccountModal((e) => [e.visible, e.setVisible]);
+  const setUser = useUser((e) => e.setUser);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
@@ -19,9 +21,13 @@ export const DeleteAccountModal: FC = () => {
         },
       }),
     onSuccess: () => {
-      void router.push('/');
-      setVisible(!visible);
       clearStorage();
+      notify('Account deleted successfully');
+      setVisible(!visible);
+      setUser(null);
+      setTimeout(() => {
+        void router.push('/');
+      }, 3000);
     },
     onError: () => {
       notify(`Failed to delete account`, { status: 'error' });

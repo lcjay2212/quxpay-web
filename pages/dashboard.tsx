@@ -33,7 +33,7 @@ import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';
-import { useLogout, usePendingBankAccountVerificationModal, useUser } from 'store';
+import { useAmountVerificationModal, useLogout, useUser } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps } from 'utils';
 
@@ -62,7 +62,7 @@ const Dashboard: FC = () => {
 
   const { data: balance, dataLoading } = useDecryptedData('balance');
 
-  const setVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
+  const setVisible = useAmountVerificationModal(({ setVisible }) => setVisible);
 
   const { isLoading } = useQuery<{ unpaid_or_open: PosHistoryProps[] }>({
     queryKey: ['posHistory'],

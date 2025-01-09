@@ -1,31 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
-import { Box, Button, chakra, Flex, Grid, HStack, PinInput, PinInputField, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { CaptchaModal, CorporationStep, FinalStep, FirstStep, PendingAccountModal, SecondStep } from 'component';
+import { VerifyOtpForm } from 'component/VerifyOtpForm';
 import { post } from 'constants/api';
-import storage from 'constants/storage';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
-import { FC, ReactElement, useState } from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useCaptchaModal, usePendingAccountModal, usePendingBankAccountVerificationModal, useUser } from 'store';
+import { FC, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { useCaptchaModal } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {
   const method = useForm();
-  const { handleSubmit, control, getValues } = method;
+  const { handleSubmit, getValues } = method;
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [selected, setSelected] = useState('');
-  const setVisible = usePendingAccountModal((e) => e.setVisible);
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
   const [verification, setVerification] = useState(false);
-  const pinFields = new Array(6).fill(null);
-  const setUser = useUser((e) => e.setUser);
-  const setVerificationVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
-  const [user, domain] = (getValues('email') ?? '')?.split('@');
 
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
@@ -62,35 +57,6 @@ const Register: FC = () => {
     },
     onError: ({ response }: any) => {
       errorMessage(response?.data?.errors);
-    },
-  });
-
-  const { mutate: verify, isPending: isVerifying } = useMutation({
-    mutationFn: (variable) => post('web/otp/verify', variable),
-    onSuccess: ({ data }) => {
-      sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-      sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-      setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
-      notify('Verify OTP success');
-      if (selected === 'regular') {
-        setVerificationVisible(true);
-        void router.push('/dashboard');
-      } else {
-        setVisible(true);
-      }
-    },
-    onError: ({ response }: any) => {
-      notify(response?.data?.status?.message || response?.data?.errors?.otp, { status: 'error' });
-    },
-  });
-
-  const { mutate: resend } = useMutation({
-    mutationFn: (variable) => post('web/otp/resend', variable),
-    onSuccess: () => {
-      notify('Resend login OTP success');
-    },
-    onError: ({ response }: any) => {
-      notify(response?.data?.status?.message, { status: 'error' });
     },
   });
 
@@ -149,14 +115,6 @@ const Register: FC = () => {
 
       (selected === 'regular' ? mutate : corporationMutate)(formData as any); // eslint-disable-line @typescript-eslint/no-explicit-any
     }
-  };
-
-  const onVerify = (val): void => {
-    verify({
-      otp: val.pin,
-      email: getValues('email'),
-      type: 'register',
-    } as any);
   };
 
   return (
@@ -302,72 +260,7 @@ const Register: FC = () => {
             </FormProvider>
           </Grid>
         ) : (
-          <FormProvider {...method}>
-            <form onSubmit={handleSubmit(onVerify)}>
-              <Flex
-                mx={{ base: '2rem', md: 'auto' }}
-                my="2rem"
-                height="90vh"
-                w={{ base: 'auto', md: '400px' }}
-                flexDirection="column"
-                justifyContent="space-between"
-              >
-                <Box>
-                  <Text color="primary" fontSize="3xl" w={300}>
-                    2<span style={{ color: 'white' }}>-steps verification</span>
-                  </Text>
-                  <Text my="1rem" color="white" lineHeight="2rem" fontSize="18px">
-                    We have sent a verification code via
-                    <br /> email to {user[0] + '*'.repeat(user.length - 1) + '@' + domain}. Please enter it here.
-                  </Text>
-
-                  <Controller
-                    control={control}
-                    name="pin"
-                    render={({ field: { onChange } }): ReactElement => (
-                      <HStack justifyContent="center" my="2rem">
-                        <PinInput size="lg" type="alphanumeric" onChange={onChange}>
-                          {pinFields.map((_, index) => (
-                            <PinInputField key={index} bg="white" />
-                          ))}
-                        </PinInput>
-                      </HStack>
-                    )}
-                  />
-
-                  <Text my="1rem" color="white" lineHeight="2rem" fontSize="18px">
-                    Didn&apos;t get a code?{' '}
-                    <chakra.span
-                      color="primary"
-                      as="u"
-                      cursor="pointer"
-                      onClick={(): void => {
-                        resend({
-                          email: getValues('email'),
-                          type: 'register',
-                        } as any);
-                      }}
-                    >
-                      Click to resend
-                    </chakra.span>
-                  </Text>
-                </Box>
-                <Box textAlign="center">
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    borderRadius="1rem"
-                    mt="1rem"
-                    w={300}
-                    h="3.25rem"
-                    isLoading={isVerifying}
-                  >
-                    Submit
-                  </Button>
-                </Box>
-              </Flex>
-            </form>
-          </FormProvider>
+          <VerifyOtpForm email={getValues('email')} selected={selected} />
         )}
       </Box>
 

@@ -29,3 +29,4 @@ export * from './useType';
 export * from './useUploadLoadingModal';
 export * from './useUser';
 export * from './useVerifyModal';
+export * from './useVerifyOtp';

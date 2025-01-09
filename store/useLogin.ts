@@ -7,12 +7,14 @@ import { notify } from 'utils';
 import { usePendingAccountModal } from './usePendingAccountModal';
 import { useRouteParams } from './useRouteParams';
 import { useUser } from './useUser';
+import { useVerifyOtp } from './useVerifyOtp';
 
 export const useLogin = (): { login: UseMutationResult } => {
   const router = useRouter();
   const params = useRouteParams((e) => e.params);
   const setUser = useUser((e) => e.setUser);
   const setVisible = usePendingAccountModal((e) => e.setVisible);
+  const setVerify = useVerifyOtp((e) => e.setVerify);
 
   const login = useMutation({
     mutationKey: ['login'],
@@ -23,16 +25,20 @@ export const useLogin = (): { login: UseMutationResult } => {
       const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
       const json = await loginSession.json();
 
-      if (json.success) {
-        sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
-      } else {
-        throw new Error('Something went wrong');
-      }
+      if (!data?.data?.show_verification_page) {
+        if (json.success) {
+          sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+          sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+          setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
+        } else {
+          throw new Error('Something went wrong');
+        }
 
-      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
-      void router.push(redirectUrl);
+        const redirectUrl = params?.t ? '/checkout' : '/dashboard';
+        void router.push(redirectUrl);
+      } else {
+        setVerify(true);
+      }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {

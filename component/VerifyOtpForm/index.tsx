@@ -26,7 +26,7 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email
       sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
       setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
       notify('Verify OTP success');
-      if (selected === 'regular') {
+      if (selected === undefined || selected === 'regular') {
         setVerificationVisible(true);
         void router.push('/dashboard');
       } else {

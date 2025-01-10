@@ -11,5 +11,6 @@ export * from './SchedulePayBillModal';
 export * from './SetScheduleModal';
 export * from './SuccessPayBillModal';
 export * from './TransactionHistoryFilterModal';
+export * from './UnableToVerifyModal';
 export * from './UploadLoadingModal';
 export * from './VerifyModal';

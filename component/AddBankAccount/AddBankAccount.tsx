@@ -62,7 +62,7 @@ export const AddBankAccount: FC = () => {
       <Controller
         control={control}
         name="routing_number"
-        rules={{ required: 'Address is required' }}
+        rules={{ required: 'Routing Number is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Bank Routing Number" errorMessage={error?.message ?? ''}>
             <TextField

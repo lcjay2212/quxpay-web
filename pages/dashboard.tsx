@@ -25,6 +25,7 @@ import {
   SEO,
   TokenHistory,
   TransactionHistory,
+  UnableToVerifyModal,
   UploadLoadingModal,
   VerifyModal,
 } from 'component';
@@ -161,6 +162,7 @@ const Dashboard: FC = () => {
           <PendingBankAccountVerificationModal />
           <AmountVerificationModal />
           <VerifyModal />
+          <UnableToVerifyModal />
         </Box>
       </Container>
     </Box>

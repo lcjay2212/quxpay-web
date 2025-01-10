@@ -14,16 +14,19 @@ import {
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { AccountVerifySuccess, FormContainer } from 'component';
+import { useRouter } from 'next/navigation';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import PinInput from 'react-pin-input';
-import { useAccountVerifySuccessModal, useAmountVerificationModal } from 'store';
+import { useAccountVerifySuccessModal, useAmountVerificationModal, useUnableToVerifyModal } from 'store';
 import { notify, queryClient } from 'utils';
 
 export const AmountVerificationModal: FC = () => {
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [visible, setVisible] = useAmountVerificationModal(({ visible, setVisible }) => [visible, setVisible]);
   const setAccountVerifySuccessModalVisible = useAccountVerifySuccessModal((e) => e.setVisible);
+  const setUnableToVerifyModalVisible = useUnableToVerifyModal((e) => e.setVisible);
   const methods = useForm();
   const { handleSubmit, control } = methods;
   const data = queryClient.getQueryData<{
@@ -47,8 +50,13 @@ export const AmountVerificationModal: FC = () => {
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      const { status } = response.data;
+      const { status, data } = response.data;
       notify(`${status.message}`, { status: 'error' });
+
+      if (data?.unable_to_verify_account) {
+        setVisible(false);
+        setUnableToVerifyModalVisible(true);
+      }
     },
   });
 
@@ -182,7 +190,14 @@ export const AmountVerificationModal: FC = () => {
                     </Text>
 
                     <Flex flexDirection="column" gap={2}>
-                      <Button variant="primary" borderRadius="1rem" onClick={(): void => onClose()}>
+                      <Button
+                        variant="primary"
+                        borderRadius="1rem"
+                        onClick={(): void => {
+                          router.push('/add-bank');
+                          setVisible(false);
+                        }}
+                      >
                         Yes, start adding the account over
                       </Button>
                       <Button variant="primary" borderRadius="1rem" onClick={(): void => onClose()}>

@@ -14,7 +14,14 @@ export const UnableToVerifyModal: FC = () => {
       <ModalOverlay />
       <ModalContent bg="black">
         <ModalBody>
-          <Flex flexDirection="column" justifyContent="center" alignItems="center" my="4rem">
+          <Flex
+            flexDirection="column"
+            justifyContent="center"
+            alignItems="center"
+            my="4rem"
+            mx={{ base: '0', md: 'auto' }}
+            w={{ base: 'auto', md: 400 }}
+          >
             <Image src={QuxLogo} width={100} height={100} alt="Qux Logo" />
 
             <Flex height="60vh" flexDirection="column" justifyContent="space-between" px="1rem" mt="4rem" gap="0.5rem">
@@ -23,7 +30,7 @@ export const UnableToVerifyModal: FC = () => {
                   Unable to Verify Account
                 </Text>
                 <Text>
-                  You will need to add a new account to try verification again. We're sorry for this inconvenience, nut
+                  You will need to add a new account to try verification again. We're sorry for this inconvenience, but
                   we want to make sure your account is secure.
                 </Text>
               </Box>

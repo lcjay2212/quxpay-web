@@ -22,11 +22,11 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email
   const { mutate: verify, isPending: isVerifying } = useMutation({
     mutationFn: (variable) => post('web/otp/verify', variable),
     onSuccess: ({ data }: any) => {
-      sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-      sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-      setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
       notify('Verify OTP success');
       if (selected === undefined || selected === 'regular') {
+        sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+        sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+        setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
         setVerificationVisible(true);
         void router.push('/dashboard');
       } else {

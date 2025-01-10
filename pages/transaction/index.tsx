@@ -1,32 +1,27 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { CalendarIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
+import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
+import { HeaderContainer, ItemListDisplay } from 'component';
 import Pagination from 'component/Pagination/Pagination';
-import { isLocalHost } from 'constants/url';
 import { startCase } from 'lodash';
-import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
 import forge from 'node-forge';
 import { QuxWalletIcon } from 'public/assets';
-import { FC, useState } from 'react';
-import { BsBank2 } from 'react-icons/bs';
-import { FaEllipsisH } from 'react-icons/fa';
-import { usePage, useTransactionHistoryFilterModal } from 'store';
+import { FC } from 'react';
+import { usePage } from 'store';
 import { notify, queryClient } from 'utils';
 const TransactionHistoryPage: FC = () => {
-  const [search, setSearch] = useState('');
-  const {
-    setVisible,
-    visible,
-    setDateFilter,
-    // dateFilter,
-    // transactionFilter,
-    setTransactionFilter,
-    // statusFilter,
-    setStatusFilter,
-  } = useTransactionHistoryFilterModal((state) => state);
+  // const [search, setSearch] = useState('');
+  // const {
+  //   setVisible,
+  //   visible,
+  //   setDateFilter,
+  //   // dateFilter,
+  //   // transactionFilter,
+  //   setTransactionFilter,
+  //   // statusFilter,
+  //   setStatusFilter,
+  // } = useTransactionHistoryFilterModal((state) => state);
 
   const [page, setPage] = usePage((e) => [e.page, e.setPage]);
 
@@ -63,11 +58,11 @@ const TransactionHistoryPage: FC = () => {
     },
   });
 
-  const [id, setId] = useState('');
+  // const [id, setId] = useState('');
   return (
     <HeaderContainer label="Transactions" route="/dashboard">
       <>
-        {isLocalHost() && (
+        {/* {isLocalHost() && (
           <Box mx="1rem" mt="1rem">
             <TextField
               isSearch
@@ -122,7 +117,7 @@ const TransactionHistoryPage: FC = () => {
               </Button>
             </Flex>
           </Box>
-        )}
+        )} */}
         <Flex
           flexDirection="column"
           justifyContent="space-between"
@@ -170,7 +165,7 @@ const TransactionHistoryPage: FC = () => {
           )}
         </Flex>
 
-        {id === 'date' && <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} />}
+        {/* {id === 'date' && <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} />}
         {id === 'transaction' && (
           <TransactionHistoryFilterModal
             title="Transaction"
@@ -180,7 +175,7 @@ const TransactionHistoryPage: FC = () => {
         )}
         {id === 'status' && (
           <TransactionHistoryFilterModal title="Status" data={STATUS_FILTER} setValue={setStatusFilter} />
-        )}
+        )} */}
       </>
     </HeaderContainer>
   );

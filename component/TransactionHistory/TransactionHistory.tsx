@@ -17,6 +17,7 @@ export const TransactionHistory: FC = () => {
 
   const { data: transactionsData, dataLoading: transactionsLoading } = useDecryptedData('transactions');
   const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
+  const passphrase = queryClient.getQueryData<{ pass: string }>(['passphrase']);
   const page = usePage((e) => e.page);
 
   const { data: decryptedTransactions, isLoading: decryptedTransactionsLoading } = useQuery({
@@ -29,7 +30,7 @@ export const TransactionHistory: FC = () => {
         },
       });
 
-      const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
+      const privateKey = forge.pki.decryptRsaPrivateKey(userPrivateKey?.data, passphrase?.pass);
       let combinedDecryptedContent = '';
 
       data?.forEach((content: string) => {

@@ -11,6 +11,7 @@ import { FC } from 'react';
 import { usePage } from 'store';
 import { notify, queryClient } from 'utils';
 const TransactionHistoryPage: FC = () => {
+  // const [id, setId] = useState('');
   // const [search, setSearch] = useState('');
   // const {
   //   setVisible,
@@ -27,6 +28,7 @@ const TransactionHistoryPage: FC = () => {
 
   const transactionsData = queryClient.getQueryData<{ transactions: any[] }>(['transactionsSecurityFile']);
   const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
+  const passphrase = queryClient.getQueryData<{ pass: string }>(['passphrase']);
 
   const {
     data: decryptedTransactions,
@@ -41,7 +43,8 @@ const TransactionHistoryPage: FC = () => {
           'Access-Control-Allow-Origin': '*',
         },
       });
-      const privateKey = forge.pki.privateKeyFromPem(userPrivateKey?.data);
+
+      const privateKey = forge.pki.decryptRsaPrivateKey(userPrivateKey?.data, passphrase?.pass);
       let combinedDecryptedContent = '';
 
       data?.forEach((content: string) => {
@@ -58,7 +61,6 @@ const TransactionHistoryPage: FC = () => {
     },
   });
 
-  // const [id, setId] = useState('');
   return (
     <HeaderContainer label="Transactions" route="/dashboard">
       <>

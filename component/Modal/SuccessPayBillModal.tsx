@@ -109,7 +109,7 @@ export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
                     tag: 'Service',
                   } as any);
                   updateBalance({
-                    balance: +(balance?.balance?.balance ?? 0) + (data?.total_amount ?? 0),
+                    balance: +(balance?.balance?.balance ?? 0) - (data?.total_amount ?? 0),
                   });
                 }}
               >

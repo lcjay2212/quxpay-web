@@ -11,6 +11,7 @@ interface UseSecurityMainFileResult {
   dataLoading: boolean;
   error: unknown;
   data: any;
+  isFetching: boolean;
 }
 
 export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
@@ -25,6 +26,7 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
     data,
     isLoading: dataLoading,
     error,
+    isFetching,
   } = useQuery({
     queryKey: [`${camelCase(type)}SecurityFile`],
     queryFn: async () => {
@@ -101,5 +103,5 @@ export const useDecryptedData = (type: string): UseSecurityMainFileResult => {
     enabled: !!passphrase?.pass,
   });
 
-  return { data, dataLoading, error };
+  return { data, dataLoading, error, isFetching };
 };

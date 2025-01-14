@@ -15,7 +15,7 @@ import { notify, queryClient } from 'utils';
 export const TransactionHistory: FC = () => {
   const router = useRouter();
 
-  const { data: transactionsData, dataLoading: transactionsLoading } = useDecryptedData('transactions');
+  const { data: transactionsData, dataLoading: transactionsLoading, isFetching } = useDecryptedData('transactions');
   const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
   const passphrase = queryClient.getQueryData<{ pass: string }>(['passphrase']);
   const page = usePage((e) => e.page);
@@ -45,7 +45,7 @@ export const TransactionHistory: FC = () => {
 
       return JSON.parse(combinedDecryptedContent);
     },
-    enabled: !transactionsLoading,
+    enabled: !isFetching,
   });
 
   return (

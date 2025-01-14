@@ -97,22 +97,17 @@ export const SetScheduleModal: FC<{
                     render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => (
                       <FormContainer errorMessage={error?.message ?? ''} label="Choose Date">
                         <TextField
-                          value={dayjs(startDate).format('YYYY-MM-DD') + ' to ' + dayjs(endDate).format('YYYY-MM-DD')}
+                          value={
+                            dayjs(startDate).format('YYYY-MM-DD') +
+                            ' to ' +
+                            `${!endDate ? 'YYYY-MM-DD' : dayjs(endDate).format('YYYY-MM-DD')}`
+                          }
                           placeholder="Select date"
                           onChange={onChange}
                           onBlur={onBlur}
                           customRightElement={
                             <Box>
                               <DatePicker
-                                // customInput={<CalendarIcon w={25} h={25} mt="0.5rem" mr="1rem" color="primary" />}
-                                // selected={value ? dayjs(value).date() : value}
-                                // dropdownMode="select"
-                                // popperPlacement="top-end"
-                                // popperProps={{ strategy: 'fixed' }}
-                                // onChange={(a: Date): void => {
-                                //   onChange(dayjs(a).format('YYYY-MM-DD'));
-                                // }}
-                                // showYearDropdown
                                 customInput={<CalendarIcon w={25} h={25} mt="0.5rem" mr="1rem" color="primary" />}
                                 popperProps={{ strategy: 'fixed' }}
                                 dropdownMode="select"

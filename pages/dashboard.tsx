@@ -25,6 +25,7 @@ import {
   SEO,
   TokenHistory,
   TransactionHistory,
+  TransactionHistoryModal,
   UnableToVerifyModal,
   UploadLoadingModal,
   VerifyModal,
@@ -163,6 +164,7 @@ const Dashboard: FC = () => {
           <AmountVerificationModal />
           <VerifyModal />
           <UnableToVerifyModal />
+          <TransactionHistoryModal />
         </Box>
       </Container>
     </Box>

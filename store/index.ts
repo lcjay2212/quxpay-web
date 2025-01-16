@@ -25,6 +25,7 @@ export * from './useSetScheduleModal';
 export * from './useStateList';
 export * from './useSuccessPayBillsModal';
 export * from './useTransactionHistoryFilterModal';
+export * from './useTransactionHistoryModal';
 export * from './useType';
 export * from './useUnableToVerifyModal';
 export * from './useUploadLoadingModal';

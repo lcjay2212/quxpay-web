@@ -6,7 +6,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
-import { useSuccessPayBillsModal } from 'store';
+import { useSuccessPayBillsModal, useTransactionHistoryModal } from 'store';
 import { updateBalance } from 'store/useUpdateBalance';
 import { notify, queryClient } from 'utils';
 
@@ -27,6 +27,7 @@ export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
   const [visible, setVisible] = useSuccessPayBillsModal((state) => [state.visible, state.setVisible]);
   const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
   const router = useRouter();
+  const transactionModalVisible = useTransactionHistoryModal((e) => e.setVisible);
 
   const { mutate: savePayment, isPending: savePaymentLoading } = useMutation({
     mutationFn: (variable) =>
@@ -40,6 +41,7 @@ export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
       notify('Saved payment info successfully');
       setVisible(false);
       router.push('/dashboard');
+      transactionModalVisible(true);
     },
     onError: () => {
       notify(`Error`, { status: 'error' });

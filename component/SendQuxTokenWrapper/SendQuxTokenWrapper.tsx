@@ -20,6 +20,7 @@ import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
+import { useTransactionHistoryModal } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { notify, queryClient } from 'utils';
 import { encryptData } from 'utils/encryptData';
@@ -43,6 +44,7 @@ export const SendQuxTokenWrapper: FC = () => {
   const [payload, setPayload] = useState();
 
   const balance = queryClient.getQueryData<{ initialData: Details }>(['balanceSecurityFile']);
+  const transactionModalVisible = useTransactionHistoryModal((e) => e.setVisible);
 
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useMutation({
     mutationFn: (variable) =>
@@ -284,7 +286,10 @@ export const SendQuxTokenWrapper: FC = () => {
             mt="16rem"
             w={350}
             h="3.25rem"
-            onClick={(): void => void router.push('/dashboard')}
+            onClick={(): void => {
+              void router.push('/dashboard');
+              transactionModalVisible(true);
+            }}
           >
             Back Home
           </Button>

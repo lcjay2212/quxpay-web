@@ -151,6 +151,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                 void router.push('/dashboard');
                 setSelectedBankDetails(null);
                 setVisible(false);
+                transactionModalVisible(true);
               }}
             >
               Complete - Back to Home

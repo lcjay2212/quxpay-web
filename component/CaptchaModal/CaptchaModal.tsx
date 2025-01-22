@@ -26,10 +26,12 @@ import { notify } from 'utils';
 
 export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [yPosition, setYPosition] = useState(0);
+  const [xPosition, setXPosition] = useState(0);
   const { getValues } = useFormContext();
   const { login } = useLogin();
-  const [sliderValue, setSliderValue] = useState(0);
+  const [sliderXValue, setXSliderValue] = useState(0);
+  const [sliderYValue, setYSliderValue] = useState(0);
 
   const { data, isLoading, refetch, isRefetching } = useQuery({
     queryKey: ['captcha'],
@@ -79,7 +81,8 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
       const { status } = response.data;
       notify(`${status.message}`, { status: 'error' });
       setVisible(false);
-      setPosition({ x: 0, y: 0 });
+      setYPosition(0);
+      setXPosition(0);
       void refetch();
     },
   });
@@ -106,25 +109,45 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
             </Text>
             {!isLoading && !isRefetching ? (
               <>
-                <Box position="relative" width={300} height={300} opacity={isVerifying ? 0.5 : 1}>
-                  {isVerifying && (
-                    <Box position="absolute" zIndex={9999} top="40%" right="40%">
-                      <Spinner color="primary" size="xl" />
+                <Flex>
+                  <Box position="relative" width={300} height={300} opacity={isVerifying ? 0.5 : 1}>
+                    {isVerifying && (
+                      <Box position="absolute" zIndex={9999} top="40%" right="40%">
+                        <Spinner color="primary" size="xl" />
+                      </Box>
+                    )}
+                    <Image src={data?.image} width={300} height={300} alt="Captcha Image" />
+                    <Box style={{ left: `${xPosition}px`, top: `${yPosition}px` }} position="absolute" cursor="pointer">
+                      <Image src={data?.jigsaw_part_missing} width={120} height={120} alt="Jigsaw Part Image" />
                     </Box>
-                  )}
-                  <Image src={data?.image} width={300} height={300} alt="Captcha Image" />
-                  <Box style={{ left: `${position.x}px`, top: `${data.y}px` }} position="absolute" cursor="pointer">
-                    <Image src={data?.jigsaw_part_missing} width={120} height={120} alt="Jigsaw Part Image" />
                   </Box>
-                </Box>
+                  <Box>
+                    <Slider
+                      min={0}
+                      max={150}
+                      isReversed
+                      value={sliderYValue}
+                      orientation="vertical"
+                      onChange={(e): void => {
+                        const newY = (e / 250) * 300; // Convert slider value to x position
+                        setYPosition(newY);
+                        setYSliderValue(e);
+                      }}
+                    >
+                      <SliderTrack bg="gray.100">
+                        <SliderFilledTrack bg="blue.500" />
+                      </SliderTrack>
+                      <SliderThumb boxSize={6} />
+                    </Slider>
+                  </Box>
+                </Flex>
                 <Box width={300}>
                   <Slider
-                    mt={4}
-                    value={sliderValue}
+                    value={sliderXValue}
                     onChange={(e): void => {
                       const newX = (e / 250) * 300; // Convert slider value to x position
-                      setPosition({ x: newX, y: data?.y });
-                      setSliderValue(e);
+                      setXPosition(newX);
+                      setXSliderValue(e);
                     }}
                     min={0}
                     max={150}
@@ -139,8 +162,8 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
                   onClick={(): void => {
                     mutate({
                       captcha_id: data?.captcha_id,
-                      x: position.x,
-                      y: data.y,
+                      x: xPosition,
+                      y: yPosition,
                     } as any);
                   }}
                 >

@@ -128,7 +128,7 @@ export const Footer: FC = () => {
             <Text>175 S Third Street</Text>
             <Text>Suite 210</Text>
             <Text>Columbus, OH 43215</Text>
-            <Text>info@quxtech.tv</Text>
+            <Text>info@quxnow.com</Text>
             <Text>(877)-700-0789</Text>
           </Box>
           <Box my={{ base: '1rem', md: '2rem' }}>

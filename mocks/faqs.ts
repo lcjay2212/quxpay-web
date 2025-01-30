@@ -55,15 +55,15 @@ export const FAQS_STATIC_DATA: FAQs[] = [
   },
   {
     question: 'Can I close my QUX Pay® account if needed? ',
-    answers: `Yes, just e-mail our support at info@quxtech.tv for more information and assistance.`,
+    answers: `Yes, just e-mail our support at info@quxnow.com for more information and assistance.`,
   },
   {
     question: 'What do I do if I lose access to my account? ',
-    answers: ` You can reset your e-mail by clicking the "Forget Password. Make sure the e-mail you used to log-in is still active. You'll receive a link to change your password. If you need more help, e-mail info@quxtech.tv`,
+    answers: ` You can reset your e-mail by clicking the "Forget Password. Make sure the e-mail you used to log-in is still active. You'll receive a link to change your password. If you need more help, e-mail info@quxnow.com`,
   },
   {
     question: 'How does QUX Pay® handle disputes or fraud? ',
-    answers: `Our dispute resolution process at QUX Pay® ensures fair and timely resolutions for customers. Please e-mail us at info@quxtech.tv for assistance`,
+    answers: `Our dispute resolution process at QUX Pay® ensures fair and timely resolutions for customers. Please e-mail us at info@quxnow.com for assistance`,
   },
   {
     question: 'CHECK OUT',

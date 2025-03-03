@@ -46,7 +46,7 @@ const PayBillsByCategory: FC = () => {
                   <Flex justifyContent="center" width="auto" height={50}>
                     <Image
                       src={BillsIcon}
-                      width={100}
+                      width={60}
                       height={100}
                       alt={item.id}
                       style={{

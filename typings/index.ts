@@ -4,7 +4,8 @@ export type Pages =
   | 'index'
   | 'faqs'
   | 'transfers'
-  | 'payments-made-perfect';
+  | 'payments-made-perfect'
+  | 'dashboard';
 
 export type ValueLabelProps = {
   value: string | number;

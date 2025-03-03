@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Avatar,
   Box,
@@ -11,48 +12,48 @@ import {
   Text,
   Textarea,
 } from '@chakra-ui/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
-import { FETCH_FRIEND_LIST } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddFriendIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { notify } from 'utils';
+import { useTransactionHistoryModal } from 'store';
+import { useDecryptedData } from 'store/useDecryptedData';
+import { notify, queryClient } from 'utils';
+import { encryptData } from 'utils/encryptData';
 
 export const SendQuxTokenWrapper: FC = () => {
   const router = useRouter();
   const method = useForm();
 
-  const { control, handleSubmit } = method;
+  const { control, handleSubmit, watch } = method;
   const [radioValue, setRadioValue] = useState('');
+
   const [successTrigger, setSuccessTrigger] = useState(false);
   const [amount, setAmount] = useState(0);
-  const [friendId, setFriendId] = useState();
-  const [comment, setComment] = useState('');
-
-  const { data, isLoading: loading, refetch } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
+  const { data: friendList, dataLoading } = useDecryptedData('friends');
   const [sentToDetail, setSetToDetail] = useState<{
     name: string;
     username: string;
     email: string;
-  }>(data?.[0] || {});
+  }>(friendList?.friends?.[0] || {});
 
-  const { mutate: sendTokens, isPending: sending } = useMutation({
+  const [payload, setPayload] = useState();
+
+  const balance = queryClient.getQueryData<{ initialData: Details }>(['balanceSecurityFile']);
+  const transactionModalVisible = useTransactionHistoryModal((e) => e.setVisible);
+
+  const { mutate: updateMainFile, isPending: updateMainFileLoading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(
-        `${STAGING_URL}/web/transfer?amount=${amount}&user_id=${friendId}&type=tag_token&comment=${comment}`,
-        variable,
-        {
-          headers: {
-            Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-            Version: 2,
-          },
-        }
-      ),
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
     onSuccess: () => {
       setSuccessTrigger(true);
     },
@@ -62,30 +63,39 @@ export const SendQuxTokenWrapper: FC = () => {
     },
   });
 
-  const { mutate, isPending } = useMutation({
+  const { mutate: validate, isPending: validating } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/friends/add`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/validate/send-token`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
     onSuccess: () => {
-      void refetch();
-      setRadioValue('');
+      const content = JSON.stringify({
+        send_tokens: [payload],
+      });
+
+      if (balance?.initialData) {
+        const encryptedData = encryptData(content, balance.initialData, 'balance');
+        updateMainFile(encryptedData as any);
+      }
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      notify(response?.data?.status?.message, { status: 'error' });
+      if (response.data.errors) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        Object.entries(response.data.errors).forEach(([_, message]) => {
+          notify(` ${message}`, { status: 'error' });
+        });
+      } else {
+        notify(`${response.data?.status?.message}`, { status: 'error' });
+      }
     },
   });
 
-  const onDeposit = (val): void => {
-    if (radioValue !== `${data?.length + 1}`) {
-      sendTokens();
-    } else {
-      mutate(val);
-    }
+  const onSubmit = (val): void => {
+    validate({ ...val, type: 'tag_token' });
+    setPayload({ ...val, type: 'tag_token' });
   };
 
   return (
@@ -93,12 +103,12 @@ export const SendQuxTokenWrapper: FC = () => {
       {!successTrigger ? (
         <Box mb="2rem">
           <FormProvider {...method}>
-            <form onSubmit={handleSubmit(onDeposit)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <Controller
                 control={control}
                 name="amount"
                 rules={{
-                  required: radioValue !== `${data?.length + 1}` ? 'Amount is required' : false,
+                  required: radioValue !== `${friendList?.friends?.length + 1}` ? 'Amount is required' : false,
                   validate: (value) => value >= 20 || 'Amount must be at least $20',
                 }}
                 render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
@@ -108,7 +118,7 @@ export const SendQuxTokenWrapper: FC = () => {
                       value={value ?? ''}
                       placeholder="Enter Amount"
                       onChange={(e): void => {
-                        onChange(+e.target.value);
+                        onChange(e.target.value);
                         setAmount(+e.target.value);
                       }}
                       onBlur={onBlur}
@@ -120,11 +130,11 @@ export const SendQuxTokenWrapper: FC = () => {
 
               <Controller
                 control={control}
-                name="comment"
+                name="message"
                 render={({ field: { onChange, value, onBlur } }): ReactElement => (
                   <FormContainer>
                     <Textarea
-                      bg={loading ? 'lightgray' : '#10101F'}
+                      bg={dataLoading ? 'lightgray' : '#10101F'}
                       border="1px solid #4D4D6B"
                       borderRadius="16px"
                       height="3.5rem"
@@ -138,10 +148,7 @@ export const SendQuxTokenWrapper: FC = () => {
                         bg: 'black',
                       }}
                       placeholder="Add Comment (optional)"
-                      onChange={(e): void => {
-                        onChange(e.target.value);
-                        setComment(e.target.value);
-                      }}
+                      onChange={onChange}
                       onBlur={onBlur}
                       value={value}
                       py="1rem"
@@ -156,19 +163,19 @@ export const SendQuxTokenWrapper: FC = () => {
                   My Friends
                 </Text>
               </Flex>
-              <RadioGroup onChange={setRadioValue} value={radioValue}>
-                <Controller
-                  control={control}
-                  name="id"
-                  render={({ field: { onChange } }): ReactElement => (
-                    <FormControl>
-                      {data?.length ? (
-                        <>
-                          {!loading ? (
-                            data.map((item, index) => {
+              {!dataLoading ? (
+                <RadioGroup onChange={setRadioValue} value={radioValue}>
+                  <Controller
+                    control={control}
+                    name="email"
+                    render={({ field: { onChange } }): ReactElement => (
+                      <FormControl>
+                        {friendList?.friends?.length ? (
+                          <>
+                            {friendList?.friends.map((item, index) => {
                               return (
-                                <>
-                                  <Flex justifyContent="space-between" key={index}>
+                                <Box key={index}>
+                                  <Flex justifyContent="space-between">
                                     <Box mt="1rem">
                                       <Flex justifyContent="flex-start">
                                         <Avatar name={item.name} />
@@ -182,45 +189,42 @@ export const SendQuxTokenWrapper: FC = () => {
                                       value={`${index + 1}`}
                                       colorScheme="teal"
                                       onChange={(): void => {
-                                        onChange(item?.id);
-                                        setFriendId(item?.id);
+                                        onChange(item?.email);
                                         setSetToDetail(item);
                                       }}
                                     />
                                   </Flex>
                                   <Divider mt="1rem" />
-                                </>
+                                </Box>
                               );
-                            })
-                          ) : (
-                            <Spinner />
-                          )}
-                        </>
-                      ) : (
-                        <></>
-                      )}
-                    </FormControl>
-                  )}
-                />
+                            })}
+                          </>
+                        ) : (
+                          <></>
+                        )}
+                      </FormControl>
+                    )}
+                  />
 
-                <Flex my="1.5rem" justifyContent="space-between">
-                  <Flex>
-                    <Box ml="1rem">
-                      <Image src={AddFriendIcon} alt="Add Bank Icon" />
-                    </Box>
+                  <Flex my="1.5rem" justifyContent="space-between">
+                    <Flex>
+                      <Box ml="1rem">
+                        <Image src={AddFriendIcon} alt="Add Bank Icon" />
+                      </Box>
 
-                    <Text ml="0.5rem" color="white" fontSize="1.25rem">
-                      Add New Friend
-                    </Text>
+                      <Text ml="0.5rem" color="white" fontSize="1.25rem">
+                        Add New Friend
+                      </Text>
+                    </Flex>
+
+                    <Radio value={`${friendList?.friends?.length + 1}`} colorScheme="teal" />
                   </Flex>
-
-                  <Radio value={`${data?.length + 1}`} colorScheme="teal" />
-                </Flex>
-              </RadioGroup>
-
-              {radioValue !== `${data?.length + 1}` ? (
-                <></>
+                </RadioGroup>
               ) : (
+                <Spinner />
+              )}
+
+              {radioValue === `${friendList?.friends?.length + 1}` && (
                 <Controller
                   control={control}
                   name="email"
@@ -248,9 +252,9 @@ export const SendQuxTokenWrapper: FC = () => {
                 mt={{ base: '1rem', md: '2rem' }}
                 w={350}
                 h="3.25rem"
-                isLoading={isPending || sending}
+                isLoading={validating || updateMainFileLoading}
               >
-                {radioValue !== `${data?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
+                {radioValue !== `${friendList?.friends?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
               </Button>
             </form>
           </FormProvider>
@@ -264,20 +268,28 @@ export const SendQuxTokenWrapper: FC = () => {
             $ {amount.toFixed(2)}
           </Text>
           <Text my="12px">Tokens sent to</Text>
-          <Flex justifyContent="flex-start">
-            <Avatar name={sentToDetail.name} />
-            <Box textAlign="start" ml="1rem">
-              <Text>{sentToDetail.name}</Text>
-              <Text>Username: {sentToDetail.username || 'N/A'}</Text>
-            </Box>
-          </Flex>
+
+          {radioValue === `${friendList?.friends?.length + 1}` ? (
+            <>{watch('email')}</>
+          ) : (
+            <Flex justifyContent="flex-start">
+              <Avatar name={sentToDetail.name} />
+              <Box textAlign="start" ml="1rem">
+                <Text>{sentToDetail.name}</Text>
+                <Text>Username: {sentToDetail.username || 'N/A'}</Text>
+              </Box>
+            </Flex>
+          )}
           <Button
             variant="primary"
             borderRadius="1rem"
             mt="16rem"
             w={350}
             h="3.25rem"
-            onClick={(): void => void router.push('/dashboard')}
+            onClick={(): void => {
+              void router.push('/dashboard');
+              transactionModalVisible(true);
+            }}
           >
             Back Home
           </Button>

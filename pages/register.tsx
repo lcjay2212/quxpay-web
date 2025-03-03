@@ -1,57 +1,62 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ArrowBackIcon, CheckIcon, LockIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import { CaptchaModal, CorporationStep, FinalStep, FirstStep, PendingAccountModal, SecondStep } from 'component';
+import { VerifyOtpForm } from 'component/VerifyOtpForm';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { usePendingAccountModal } from 'store';
+import { useCaptchaModal } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {
   const method = useForm();
-  const { handleSubmit } = method;
+  const { handleSubmit, getValues } = method;
   const [step, setStep] = useState(1);
   const router = useRouter();
   const [selected, setSelected] = useState('');
-  const setVisible = usePendingAccountModal((e) => e.setVisible);
+  const captchaModalVisible = useCaptchaModal((e) => e.visible);
+  const [verification, setVerification] = useState(false);
+
+  const errorMessage = (res): void => {
+    Object.keys(res).forEach((errorKey) => {
+      notify(`${res[errorKey]}`, { status: 'error' });
+    });
+  };
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) => post('web/register', variable),
     onSuccess: () => {
       notify(`User registration success!`);
-      void router.push('/login');
+      setVerification(true);
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      let message = '';
-
-      Object.keys(response?.data?.errors).forEach((errorKey) => {
-        message += response?.data?.errors[errorKey];
-      });
-
-      notify(`${message}`, { status: 'error' });
+      errorMessage(response?.data?.errors);
     },
   });
 
   const { mutate: corporationMutate, isPending: loading } = useMutation({
     mutationFn: (variable) => post('web/purchaser-register', variable),
     onSuccess: () => {
-      setVisible(true);
       notify(`Corporation registration success!`);
+      setVerification(true);
     },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     onError: ({ response }: any) => {
-      let message = '';
+      errorMessage(response?.data?.errors);
+    },
+  });
 
-      Object.keys(response?.data?.errors).forEach((errorKey) => {
-        message += response?.data?.errors[errorKey];
-      });
-
-      notify(`${message}`, { status: 'error' });
+  const { mutate: validateMutation, isPending: isValidating } = useMutation({
+    mutationFn: (variable) => post('web/validate', variable),
+    onSuccess: () => {
+      setStep((e) => e + 1);
+    },
+    onError: ({ response }: any) => {
+      errorMessage(response?.data?.errors);
     },
   });
 
@@ -60,54 +65,55 @@ const Register: FC = () => {
     const birthdate = `${val.year}-${val.month}-${val.day}`;
 
     if (step === 1) {
-      setStep((e) => e + 1);
+      validateMutation({ ...val, step, ...(selected === 'corporate' && { is_corporate: true }) });
       return;
     }
 
     if (step === 2) {
-      setStep((e) => e + 1);
+      validateMutation({ ...val, step, ...(selected === 'corporate' && { is_corporate: true }) });
     }
 
-    formData.append('email', val.email);
-    formData.append('password', val.password);
-    formData.append('password_confirmation', val.password_confirmation);
-    formData.append('username', val.username);
-
-    formData.append('address_2', val.address_2);
-    formData.append('city', val.city);
-    formData.append('state', val.state);
-    formData.append('zip', val.zip);
-
-    formData.append('account_name', val.account_name);
-    formData.append('account_number', val.account_number);
-    formData.append('routing_number', val.routing_number);
-    formData.append('bank_name', val.bank_name);
-    formData.append('ssn', val.ssn);
+    [
+      'email',
+      'password',
+      'password_confirmation',
+      'username',
+      'address_2',
+      'city',
+      'state',
+      'zip',
+      'account_name',
+      'account_number',
+      'routing_number',
+      'bank_name',
+      'ssn',
+    ].forEach((field) => formData.append(field, val[field]));
 
     if (step === 3) {
-      if (selected === 'regular') {
-        formData.append('firstname', val.firstname);
-        formData.append('lastname', val.lastname);
-        formData.append('billing_address', val.billing_address);
-        formData.append('phone_number', val.phone_number);
-        formData.append('dob', birthdate);
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        mutate(formData as any);
-      } else {
-        formData.append('role', selected);
-        formData.append('mailing_address', val.mailing_address);
-        formData.append('el_number', val.el_number);
-        formData.append('corporation_name', val.corporation_name);
-        formData.append('business_license', val.business_license);
-        formData.append('contact_person_firstname', val.contact_person_firstname);
-        formData.append('contact_person_lastname', val.contact_person_lastname);
-        formData.append('contact_person_phone', val.contact_person_phone);
-        formData.append('contact_person_email', val.contact_person_email);
-        formData.append('dob', birthdate);
+      const fields =
+        selected === 'regular'
+          ? ['firstname', 'lastname', 'billing_address', 'phone_number']
+          : [
+              'mailing_address',
+              'el_number',
+              'corporation_name',
+              'business_license',
+              'contact_person_firstname',
+              'contact_person_lastname',
+              'contact_person_phone',
+              'contact_person_email',
+            ];
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        corporationMutate(formData as any);
+      if (selected !== 'regular') {
+        formData.append('passport', val?.passport[0]);
+        formData.append('driver_license', val?.driver_license[0]);
       }
+
+      fields.forEach((field) => formData.append(field, val[field]));
+      formData.append('dob', birthdate);
+      formData.append('role', selected);
+
+      (selected === 'regular' ? mutate : corporationMutate)(formData as any); // eslint-disable-line @typescript-eslint/no-explicit-any
     }
   };
 
@@ -154,95 +160,111 @@ const Register: FC = () => {
       </Box>
 
       <Box display={!selected ? 'none' : 'block'}>
-        <Grid placeContent="center" h="auto" gap="2" my="3rem">
-          <Box display="flex" justifyContent="center">
-            <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
-          </Box>
+        {!verification ? (
+          <Grid placeContent="center" h="auto" gap="2" my="3rem">
+            <Box display="flex" justifyContent="center">
+              <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+            </Box>
 
-          {step === 1 && (
-            <Flex justifyContent="space-between" alignItems="center" mt="2rem" mx="0.75rem">
-              <Flex>
-                <ArrowBackIcon
-                  color="white"
-                  mt="1.30rem"
-                  mr="1rem"
-                  cursor="pointer"
-                  onClick={(): void => void router.push('/')}
-                />
-                <Text color="primary" fontSize="4xl">
-                  R<span style={{ color: 'white' }}>egister</span>
-                </Text>
-              </Flex>
-              <LockIcon color="white" w={30} h={30} />
-            </Flex>
-          )}
-          {step === 2 && (
-            <>
-              <Flex mt="2rem">
-                <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(1)} />
-                <Text color="primary" fontSize="4xl" w={300}>
-                  C<span style={{ color: 'white' }}>ontinue Your Registration</span>
-                </Text>
-              </Flex>
-
-              <Flex justifyContent="space-around" alignItems="center" my="1rem">
+            {step === 1 && (
+              <Flex justifyContent="space-between" alignItems="center" mt="2rem" mx="0.75rem">
                 <Flex>
-                  <LockIcon color="primary" w={50} h={50} />
-                  <CheckIcon color="primary" w={50} h={50} />
+                  <ArrowBackIcon
+                    color="white"
+                    mt="1.30rem"
+                    mr="1rem"
+                    cursor="pointer"
+                    onClick={(): void => void router.push('/')}
+                  />
+                  <Text color="primary" fontSize="4xl">
+                    R<span style={{ color: 'white' }}>egister</span>
+                  </Text>
                 </Flex>
-                <Text color="white" fontSize="1.25rem">
-                  Confirm Your Identity
-                  <br /> to Protect Your Account
-                </Text>
+                <LockIcon color="white" w={30} h={30} />
               </Flex>
-            </>
-          )}
-          {step === 3 && (
-            <>
-              <Flex mt="2rem">
-                <ArrowBackIcon color="white" mt="1.30rem" mr="1rem" cursor="pointer" onClick={(): void => setStep(2)} />
-                <Text color="primary" fontSize="4xl" w={300}>
-                  C<span style={{ color: 'white' }}>ontinue Your Registration</span>
-                </Text>
-              </Flex>
-
-              <Flex justifyContent="space-around" alignItems="center" my="1rem">
-                <Flex flexDirection="column">
-                  <Image src={ShieldIcon} height={45} width={45} alt="Shield" />
-                  <Image src={HandsIcon} height={45} width={45} alt="Hands" />
+            )}
+            {step === 2 && (
+              <>
+                <Flex mt="2rem">
+                  <ArrowBackIcon
+                    color="white"
+                    mt="1.30rem"
+                    mr="1rem"
+                    cursor="pointer"
+                    onClick={(): void => setStep(1)}
+                  />
+                  <Text color="primary" fontSize="4xl" w={300}>
+                    C<span style={{ color: 'white' }}>ontinue Your Registration</span>
+                  </Text>
                 </Flex>
-                <Text color="white" fontSize="1.25rem">
-                  Securely enter your bank <br />
-                  account information into our <br />
-                  encrypted system
-                </Text>
-              </Flex>
-            </>
-          )}
 
-          <FormProvider {...method}>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              {step === 1 && <FirstStep />}
-              {step === 2 && <>{selected === 'regular' ? <SecondStep /> : <CorporationStep />}</>}
-              {step === 3 && <FinalStep />}
-              <Button
-                type="submit"
-                variant="primary"
-                borderRadius="1rem"
-                mt="1rem"
-                w={350}
-                h="3.25rem"
-                isLoading={isPending || loading}
-              >
-                {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
-              </Button>
-            </form>
-          </FormProvider>
-        </Grid>
+                <Flex justifyContent="space-around" alignItems="center" my="1rem">
+                  <Flex>
+                    <LockIcon color="primary" w={50} h={50} />
+                    <CheckIcon color="primary" w={50} h={50} />
+                  </Flex>
+                  <Text color="white" fontSize="1.25rem">
+                    Confirm Your Identity
+                    <br /> to Protect Your Account
+                  </Text>
+                </Flex>
+              </>
+            )}
+            {step === 3 && (
+              <>
+                <Flex mt="2rem">
+                  <ArrowBackIcon
+                    color="white"
+                    mt="1.30rem"
+                    mr="1rem"
+                    cursor="pointer"
+                    onClick={(): void => setStep(2)}
+                  />
+                  <Text color="primary" fontSize="4xl" w={300}>
+                    C<span style={{ color: 'white' }}>ontinue Your Registration</span>
+                  </Text>
+                </Flex>
+
+                <Flex justifyContent="space-around" alignItems="center" my="1rem">
+                  <Flex flexDirection="column">
+                    <Image src={ShieldIcon} height={45} width={45} alt="Shield" />
+                    <Image src={HandsIcon} height={45} width={45} alt="Hands" />
+                  </Flex>
+                  <Text color="white" fontSize="1.25rem">
+                    Securely enter your bank <br />
+                    account information into our <br />
+                    encrypted system
+                  </Text>
+                </Flex>
+              </>
+            )}
+
+            <FormProvider {...method}>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                {step === 1 && <FirstStep />}
+                {step === 2 && <>{selected === 'regular' ? <SecondStep /> : <CorporationStep />}</>}
+                {step === 3 && <FinalStep type={selected} />}
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  mt="1rem"
+                  w={350}
+                  h="3.25rem"
+                  isLoading={isPending || loading || isValidating}
+                >
+                  {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
+                </Button>
+              </form>
+              {captchaModalVisible && <CaptchaModal label="login" />}
+            </FormProvider>
+          </Grid>
+        ) : (
+          <VerifyOtpForm email={getValues('email')} selected={selected} />
+        )}
       </Box>
 
       <PendingAccountModal />
-      <CaptchaModal />
     </>
   );
 };

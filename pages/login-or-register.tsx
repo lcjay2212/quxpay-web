@@ -2,7 +2,6 @@ import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import storage from 'constants/storage';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxpayAndQuxLogo } from 'public/assets';
@@ -17,17 +16,18 @@ const LoginOrRegisterPage: FC = () => {
   useEffect(() => setParams(router.query), [setParams, router]);
   const setUser = useUser((e) => e.setUser);
   const { mutate } = useMutation({
+    mutationKey: ['SSO'],
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/login/sso`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/login/sso`, variable, {
         headers: {
           Version: 2,
         },
       }),
     onSuccess: ({ data }) => {
       if (data?.data?.token) {
-        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+        sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
+        sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
+        setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
         void router.push('/checkout');
       }
     },
@@ -60,7 +60,7 @@ const LoginOrRegisterPage: FC = () => {
       </Button>
 
       <Text color="white" textAlign="center" mt="1rem" size="sm">
-        QUX® is a registered trademark <br /> of QUX® Technologies, Inc.
+        QUX® is a registered trademark <br /> of QUX Technologies, Inc.™
       </Text>
 
       <Flex justifyContent="space-between" color="primary" fontSize="1rem" mt="1rem">

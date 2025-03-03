@@ -2,10 +2,13 @@ import { Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import { blockInvalidChar } from 'utils';
+import Select, { SingleValue } from 'react-select';
+import { useStateList } from 'store';
+import { blockInvalidChar, reactSelectStyles } from 'utils';
 
 export const CorporationStep: FC = () => {
   const { control } = useFormContext();
+  const { data, isLoading } = useStateList();
 
   return (
     <>
@@ -152,11 +155,23 @@ export const CorporationStep: FC = () => {
         control={control}
         name="state"
         rules={{ required: 'State is required' }}
-        render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-          <FormContainer label="State" errorMessage={error?.message ?? ''}>
-            <TextField value={value ?? ''} placeholder="Enter State" onChange={onChange} onBlur={onBlur} />
-          </FormContainer>
-        )}
+        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+          return (
+            <FormContainer label="State" errorMessage={error?.message ?? ''}>
+              <Select
+                onBlur={onBlur}
+                styles={reactSelectStyles}
+                placeholder="Select State"
+                isLoading={isLoading}
+                options={data}
+                onChange={(e: SingleValue<ValueLabelProps>): void => {
+                  onChange(e?.value);
+                }}
+                isClearable={true}
+              />
+            </FormContainer>
+          );
+        }}
       />
 
       <Controller

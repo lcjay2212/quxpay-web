@@ -3,7 +3,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer } from 'component';
 import { FETCH_CRYPTO_CURRENCY_LIST } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { ClipboardIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
@@ -38,9 +37,9 @@ export const CashInCrypto: FC = () => {
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/crypto/payment`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/payment`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           'QuxPay-Web': 1,
           Version: 2,
         },

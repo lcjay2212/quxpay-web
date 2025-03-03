@@ -51,6 +51,7 @@ const Home: FC = () => {
   const router = useRouter();
   const visible = useHomePageModal(({ visible }) => visible);
   const breakPoint = useBreakpoint();
+
   return (
     <Box bg="#3D075F">
       <SEO page="index" />
@@ -83,6 +84,7 @@ const Home: FC = () => {
                   alt="Phone Image"
                   placeholder="empty"
                   style={{ objectFit: 'contain' }}
+                  priority={false}
                 />
               </Flex>
               <Box>
@@ -126,7 +128,7 @@ const Home: FC = () => {
                       placeholder="empty"
                     />
                     <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
-                      DOWNLOAD <br /> QUX PAY
+                      DOWNLOAD <br /> QUX Pay®
                     </Text>
                   </Flex>
                 </Flex>
@@ -148,7 +150,7 @@ const Home: FC = () => {
       >
         <Content
           label="Military-Grade Security"
-          content="QUXPay™ utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
+          content="QUX Pay® utilizes data protocols trusted by militaries and bank worldwide. Secure every payment. Your data
                 stays private."
           onClick={(): void => void router.push('/military-grade-security')}
         />
@@ -163,7 +165,7 @@ const Home: FC = () => {
       >
         <Content
           label="NO MIDDLEMAN. NO NONSENSE."
-          content="Unlike others, QUXPay™ has no hidden fees and will never sell your data for profit. What you see is what
+          content="Unlike others, QUX Pay® has no hidden fees and will never sell your data for profit. What you see is what
           you get."
           alignItems="start"
           onClick={(): void => void router.push('/no-middleman')}
@@ -205,7 +207,7 @@ const Home: FC = () => {
       >
         <Content
           label=" Transfers in a Flash"
-          content="Amount transferred through QUXPay™ reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
+          content="Amount transferred through QUX Pay® reaches its destination almost instantly. As quick as sending a text. No more waiting around like crypto."
           onClick={(): void => void router.push('/transfers')}
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
@@ -219,7 +221,7 @@ const Home: FC = () => {
           <br /> Today.
         </Text>
         <Text fontSize={{ base: '1.25rem', md: '30px' }} mt="2rem">
-          QUXPay™ combines must-have transfer features with next-gen tech insights.
+          QUX Pay® combines must-have transfer features with next-gen tech insights.
           <br /> Monitor where your payments go.
         </Text>
       </Container>

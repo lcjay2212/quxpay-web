@@ -2,7 +2,6 @@
 import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
@@ -32,9 +31,9 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/pay/qr`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/pay/qr`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           'QuxPay-Web': 1,
           Version: 2,
         },
@@ -49,9 +48,9 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
 
   const { mutate: deleteMutate, isPending: deleteLoading } = useMutation({
     mutationFn: () =>
-      axios.delete(`${STAGING_URL}/web/pos/${data?.id}/delete`, {
+      axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/pos/${data?.id}/delete`, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),

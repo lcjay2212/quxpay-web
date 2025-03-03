@@ -3,10 +3,10 @@ import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import { usePosHistory } from 'store';
+import { queryClient } from 'utils';
 
-export const PoFromPluginHistory: FC = () => {
-  const { pluginData, isLoading } = usePosHistory();
+export const PoFromPluginHistory: FC<{ loading: boolean }> = ({ loading }) => {
+  const data = queryClient.getQueryData<{ test_po_from_plugin: PosHistoryProps[] }>(['posHistory']);
   const router = useRouter();
 
   return (
@@ -26,22 +26,22 @@ export const PoFromPluginHistory: FC = () => {
         </Text>
       </Flex>
 
-      {isLoading ? (
+      {loading ? (
         <Box textAlign="center" py="2rem">
           <Spinner color="primary" size="xl" />
         </Box>
       ) : (
         <>
-          {pluginData?.length ? (
+          {data?.test_po_from_plugin.length ? (
             <Box>
-              {pluginData?.slice(0, 3).map((item) => (
+              {data.test_po_from_plugin.slice(0, 3).map((item) => (
                 <ItemListDisplay
                   // label={startCase(item.type)}
                   label={item.label}
                   date={item.created}
                   amount={+item.amount}
                   key={item.id}
-                  complete={item.confirmed}
+                  // complete={item.confirmed}
                   image={UnpaidHistoryIcon}
                   // onClick={(): void => void router.push(`/open-po/${item.id}`)}
                   type={item.type}

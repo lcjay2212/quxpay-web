@@ -7,7 +7,7 @@ export const useBankLists = (
 ): {
   data: any;
   isLoading: boolean;
-  refetch: any;
+  refetch: () => void;
 } => {
   const { data, isLoading, refetch } = useQuery({
     queryKey: ['bankList', searchText, routingNumber],

@@ -1,46 +1,37 @@
 import { ArrowBackIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Divider, Flex, Text } from '@chakra-ui/react';
-import { API_SESSION_URL, isLocalHost } from 'constants/url';
+import { DeleteAccountModal } from 'component';
+import { isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { HelpIcon, LinkAccountIcon, QuxPayLogo, SettingsIcon } from 'public/assets';
+import { HelpIcon, QuxPayLogo } from 'public/assets';
 import { FC } from 'react';
-import { useUser } from 'store';
-import { clearStorage, notify } from 'utils';
+import { useLogout, useUser } from 'store';
+import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
 
 const ProfilePage: FC = () => {
   const { user } = useUser();
   const mockData = [
-    {
-      icon: LinkAccountIcon,
-      label: 'Link Account',
-      route: '',
-    },
+    // {
+    //   icon: LinkAccountIcon,
+    //   label: 'Link Account',
+    //   route: '',
+    // },
     {
       icon: HelpIcon,
       label: 'Help',
-      route: '',
+      route: 'https://blog.quxpay.com/',
     },
-    {
-      icon: SettingsIcon,
-      label: 'Settings',
-      route: '/profile/settings',
-    },
+    // {
+    //   icon: SettingsIcon,
+    //   label: 'Settings',
+    //   route: '/profile/settings',
+    // },
   ];
   const router = useRouter();
+  const setVisible = useDeleteAccountModal((e) => e.setVisible);
 
-  const logout = async (): Promise<void> => {
-    const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
-    const json = await loginSession.json();
-
-    if (json.success) {
-      clearStorage();
-      notify('Successfully Logout');
-      void router.push('/');
-    } else {
-      // TODO: handler
-    }
-  };
+  const { logout } = useLogout();
 
   return (
     <Container color="white" overflow="hidden">
@@ -68,10 +59,10 @@ const ProfilePage: FC = () => {
             {user?.firstname} {user?.lastname}
           </Text>
 
-          <Box bg="primary" py="1rem" px="1rem" borderRadius="xl">
+          {/* <Box bg="primary" py="1rem" px="1rem" borderRadius="xl">
             <Text fontSize="12px">My Referral Code</Text>
             <Text fontWeight="bold">test123-test123</Text>
-          </Box>
+          </Box> */}
 
           <Divider my="1.5rem" />
 
@@ -85,7 +76,7 @@ const ProfilePage: FC = () => {
                   key={item.label}
                   cursor="pointer"
                   onClick={(): void => {
-                    void router.push(item.route);
+                    void window.open(item.route, 'noopener,noreferrer');
                   }}
                 >
                   <Flex alignItems="center" gap={4}>
@@ -100,13 +91,18 @@ const ProfilePage: FC = () => {
         </Box>
 
         <Flex flexDir="column" gap={3}>
-          <Button variant="secondary" onClick={logout}>
+          <Button variant="secondary" onClick={(): void => void logout({ message: 'Logged out successfully.' })}>
             Logout
           </Button>
 
-          {isLocalHost() && <Button variant="delete">Delete Account</Button>}
+          {isLocalHost() && (
+            <Button variant="delete" onClick={(): void => setVisible(true)}>
+              Delete Account
+            </Button>
+          )}
         </Flex>
       </Flex>
+      <DeleteAccountModal />
     </Container>
   );
 };

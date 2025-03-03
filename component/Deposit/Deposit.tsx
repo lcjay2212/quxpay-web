@@ -2,13 +2,16 @@
 import { Box, Button, Flex } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useAccountPaymentId, useCongratulationContent, useCryptoPaymentData, useType } from 'store';
+import { useComputationData } from 'store/useComputationData';
+import { useDecryptedData } from 'store/useDecryptedData';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
-import { notify } from 'utils';
+import { updateBalance } from 'store/useUpdateBalance';
+import { notify, queryClient } from 'utils';
+import { encryptData } from 'utils/encryptData';
 import { DepositStepOne } from './DepositStepOne';
 import { DepositStepTwo } from './DepositStepTwo';
 
@@ -22,6 +25,12 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const [step, setStep] = useState(1);
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
+  const [paymentProfileId, setPaymentProfileId] = useState();
+
+  const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
+  const computationData = useComputationData((e) => e.computationData);
+
+  const { data: wallet, dataLoading } = useDecryptedData('wallets');
 
   const amount = watch('amount');
 
@@ -31,7 +40,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   }));
 
   const headers = {
-    Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+    Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
     Version: 2,
   };
 
@@ -61,7 +70,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     );
   };
 
-  const useCustomMutation = (url?: string, onSuccess?: () => void, onError?: (error: any) => void): any =>
+  const useCustomMutation = (url?: string, onSuccess?: (data: any) => void, onError?: (error: any) => void): any =>
     useMutation({
       mutationFn: (variable) => postRequest(url, variable),
       onSuccess,
@@ -69,78 +78,259 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     });
 
   const { mutate, isPending } = useCustomMutation(
-    `${STAGING_URL}/${
-      type === 'BANK' || type === 'EXISTING_CREDITCARD' ? url : type !== 'CREDIT' ? url2 : 'web/wallet/add-credit-card'
-    }`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url2}`,
     handleSuccess,
     handleError
   );
 
   const { mutate: addCrypto, isPending: addCryptoLoading } = useCustomMutation(
-    `${STAGING_URL}/web/crypto/create-wallet`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/create-wallet`,
     () => setStep((e) => e + 1),
     () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
   const { mutate: completeCryptoPayment, isPending: paymentLoading } = useCustomMutation(
-    `${STAGING_URL}/web/crypto/complete-transaction`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/complete-transaction`,
     handleSuccess,
     () => notify('Failed to create Crypto Wallet', { status: 'error' })
   );
 
   const { mutate: checkCryptoTransaction, isPending: checkLoading } = useCustomMutation(
-    `${STAGING_URL}/web/crypto/check-transaction`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/crypto/check-transaction`,
     () => setStep((e) => e + 1),
     ({ response }: any) => notify(response?.data?.data?.message, { status: 'warning' })
   );
 
-  const onSubmit = (val): void => {
-    if (step === 1) {
-      if (type === 'ADD_CRYPTO') {
-        addCrypto({ address: val.address, name: val.name, currency: val.currency });
-      } else if (type === 'CRYPTO') {
-        checkCryptoTransaction({
-          payment_id: cryptoPaymentData?.payment_id,
-          pos_id: cryptoPaymentData?.pos_id,
-          currency: cryptoPaymentData?.currency,
-          address: cryptoPaymentData?.address,
-          type: 'purchase',
-        });
-      } else {
-        setStep((e) => e + 1);
-      }
-      return;
+  const getUrl = (): string => {
+    switch (type) {
+      case 'ADD_BANK':
+        return 'web/validate/add-bank-account';
+      default:
+        return url; // Default case
     }
+  };
 
-    if (step === 2) {
-      const commonData = { ...val };
-      if (label === 'Purchase') {
-        if (type === 'CREDIT') {
-          mutate({
-            ...commonData,
-            card_holder_name: `${val.firstname} ${val.lastname}`,
-            address2: val.address2 || '',
-            expiration_date: val.expiration_date?.replace('/', ''),
+  const { mutate: validate, isPending: validateLoading } = useCustomMutation(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/${getUrl()}`,
+    () => setStep((e) => e + 1),
+    ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message || response?.data?.status?.message, { status: 'error' });
+    }
+  );
+
+  const { mutate: addCreditCard, isPending: addCreditCardLoading } = useCustomMutation(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/add-credit-card`,
+    ({ data }): void => {
+      setPaymentProfileId(data?.data?.payment_profile_id);
+      validate({ amount, payment_profile_id: data?.data?.payment_profile_id, payment_type: 'authorize_creditcard' });
+    },
+    ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message || response?.data?.status?.message, { status: 'error' });
+    }
+  );
+
+  const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`,
+    () => {
+      setVisible(true);
+      setAmount(amount);
+      setCongratsType(type as any);
+      const { balance: availableBalance, deposit, withdraw_pending } = balance?.balance || {};
+
+      if (label === 'Redeem') {
+        if (type === 'BANK') {
+          updateBalance({
+            withdraw_pending: +(withdraw_pending ?? 0) + amount,
+            balance: +(availableBalance ?? 0) - (computationData?.total_amount ?? 0),
           });
-        } else if (type === 'CRYPTO') {
-          completeCryptoPayment({
+        } else if (type === 'EXISTING_CREDITCARD') {
+          updateBalance({
+            balance: +(availableBalance ?? 0) + amount,
+          });
+        }
+      } else {
+        if (type === 'BANK') {
+          updateBalance({
+            deposit: +(deposit ?? 0) + amount,
+          });
+        } else if (type === 'EXISTING_CREDITCARD' || type === 'CREDIT') {
+          updateBalance({
+            balance: +(availableBalance ?? 0) + amount,
+          });
+        }
+      }
+    },
+    ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message, { status: 'error' });
+    }
+  );
+
+  const onSubmit = (val): void => {
+    const purchaseRedeemVal = {
+      ...val,
+      payment_type: paymentData?.paymentType,
+    };
+
+    const addCreditCardVal = {
+      ...val,
+      firstname: val.firstname,
+      lastname: val.lastname,
+      card_number: val.card_number,
+      card_holder_name: `${val.firstname} ${val.lastname}`,
+      card_code: val.card_code,
+      expiration_date: val.expiration_date?.replace('/', ''),
+      address: val.address,
+      address2: val.address2 || '',
+      city: val.city,
+      state: val.state,
+      zip: val.zip,
+    };
+
+    const handleStepOne = (): void => {
+      switch (type) {
+        case 'ADD_CRYPTO':
+          addCrypto({ address: val.address, name: val.name, currency: val.currency });
+          break;
+
+        case 'CRYPTO':
+          checkCryptoTransaction({
             payment_id: cryptoPaymentData?.payment_id,
             pos_id: cryptoPaymentData?.pos_id,
             currency: cryptoPaymentData?.currency,
             address: cryptoPaymentData?.address,
             type: 'purchase',
           });
-        } else {
-          mutate({ ...commonData, payment_method: paymentData?.paymentType });
-        }
-      } else if (label === 'Redeem') {
-        mutate({
-          ...commonData,
-          ...(type === 'ADD_CRYPTO' || type === 'CRYPTO'
-            ? { amount, address: selectedCrypto?.address || val.address }
-            : {}),
-        });
+          break;
+
+        case 'CREDIT':
+          addCreditCard(addCreditCardVal);
+          break;
+
+        case 'ADD_BANK':
+          validate({ ...val, payment_type: 'ach_bank' });
+
+          break;
+
+        default:
+          validate(purchaseRedeemVal);
+          break;
       }
+    };
+
+    const handleEncryptedContent = (name: string): void => {
+      let content;
+      let encryptionTarget;
+      let core;
+
+      switch (type) {
+        case 'CREDIT':
+          content = {
+            [`${name}_tokens`]: [
+              { amount: val.amount, payment_profile_id: paymentProfileId, payment_type: 'authorize_creditcard' },
+            ],
+          };
+          encryptionTarget = 'balance';
+          core = balance?.initialData;
+          break;
+
+        case 'ADD_BANK':
+          content = {
+            [`${name}`]: [{ ...val, payment_type: 'ach_bank' }],
+          };
+          encryptionTarget = 'wallets';
+          core = wallet.initialData;
+          break;
+
+        default:
+          content = {
+            [`${name}_tokens`]: [purchaseRedeemVal],
+          };
+          encryptionTarget = 'balance';
+          core = balance?.initialData;
+          break;
+      }
+
+      if (core) {
+        const encryptedData = encryptData(JSON.stringify(content), core, encryptionTarget);
+        updateMainFile(encryptedData);
+      }
+    };
+
+    const handleStepTwo = (): void => {
+      switch (label) {
+        case 'Purchase':
+          switch (type) {
+            case 'CRYPTO':
+              completeCryptoPayment({
+                payment_id: cryptoPaymentData?.payment_id,
+                pos_id: cryptoPaymentData?.pos_id,
+                currency: cryptoPaymentData?.currency,
+                address: cryptoPaymentData?.address,
+                type: 'purchase',
+              });
+              break;
+
+            case 'CREDIT':
+              handleEncryptedContent('purchase');
+              break;
+
+            case 'ADD_BANK':
+              handleEncryptedContent('added_bank_accounts');
+              break;
+
+            default:
+              handleEncryptedContent('purchase');
+              break;
+          }
+          break;
+
+        case 'Redeem':
+          if (['ADD_CRYPTO', 'CRYPTO'].includes(type || '')) {
+            mutate({
+              ...val,
+              amount,
+              address: selectedCrypto?.address || val.address,
+            });
+          } else {
+            handleEncryptedContent('redeem');
+          }
+          break;
+
+        default:
+          // Handle other labels if needed
+          break;
+      }
+    };
+
+    if (step === 1) {
+      handleStepOne();
+    }
+    if (step === 2) {
+      handleStepTwo();
     }
   };
 
@@ -149,17 +339,24 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       <FormProvider {...method}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex flexDir="column" justifyContent="space-between" minH="90vh" h="auto">
-            {step === 1 && <DepositStepOne label={label} />}
+            {step === 1 && <DepositStepOne label={label} loading={dataLoading} />}
             {step === 2 && <DepositStepTwo label={label} />}
 
-            <Box mt="2rem">
+            <Flex mt="2rem" flexDirection="column">
               <Button
                 type="submit"
                 variant="primary"
                 borderRadius="1rem"
-                w="400px"
                 h="3.25rem"
-                isLoading={isPending || addCryptoLoading || paymentLoading || checkLoading}
+                isLoading={
+                  isPending ||
+                  addCryptoLoading ||
+                  paymentLoading ||
+                  checkLoading ||
+                  validateLoading ||
+                  updateMainFileLoading ||
+                  addCreditCardLoading
+                }
               >
                 {step === 1
                   ? label === 'Purchase' && type === 'CRYPTO'
@@ -178,9 +375,15 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                 <Button
                   variant="secondary"
                   borderRadius="1rem"
-                  w="400px"
                   h="3.25rem"
-                  isLoading={isPending}
+                  isLoading={
+                    isPending ||
+                    addCryptoLoading ||
+                    paymentLoading ||
+                    checkLoading ||
+                    validateLoading ||
+                    updateMainFileLoading
+                  }
                   mt="1rem"
                   onClick={(): void => {
                     void router.push('dashboard');
@@ -190,7 +393,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   Cancel
                 </Button>
               )}
-            </Box>
+            </Flex>
           </Flex>
         </form>
       </FormProvider>

@@ -1,26 +1,14 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  Spinner,
-  Text,
-} from '@chakra-ui/react';
+import { Box, Button, Flex, Input, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer } from 'component';
-import { STAGING_URL } from 'constants/url';
 import Image from 'next/image';
 import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useBalance, usePayBillsModal, useSuccessPayBillsModal } from 'store';
-import { notify } from 'utils';
+import { usePayBillsModal, useSuccessPayBillsModal } from 'store';
+import { notify, queryClient } from 'utils';
 import { SuccessPayBillModal } from './SuccessPayBillModal';
 
 export const PayBillsModal: FC = () => {
@@ -36,13 +24,13 @@ export const PayBillsModal: FC = () => {
   const [step, setStep] = useState(1);
   const method = useForm();
   const { handleSubmit, control, reset } = method;
-  const { balance, isLoading } = useBalance();
+  const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
 
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/billing/payment?biller_id=${billerData.id}`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
@@ -112,13 +100,9 @@ export const PayBillsModal: FC = () => {
                             <span>
                               <Image src={QuxTokenIcon} width={20} height={20} alt="Qux Token" />
                             </span>
-                            {!isLoading ? (
-                              <Text fontSize="1.2rem" fontWeight="semibold">
-                                {balance.toFixed(2)}
-                              </Text>
-                            ) : (
-                              <Spinner />
-                            )}
+                            <Text fontSize="1.2rem" fontWeight="semibold">
+                              {balance?.balance.balance.toFixed(2)}
+                            </Text>
                           </Flex>
 
                           <Box my="5rem">

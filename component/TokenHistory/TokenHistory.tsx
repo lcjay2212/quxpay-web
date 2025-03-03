@@ -3,11 +3,12 @@ import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { TokenHistoryGreenIcon, TokenHistoryIcon } from 'public/assets';
 import { FC } from 'react';
-import { usePosHistory } from 'store';
+import { queryClient } from 'utils';
 
-export const TokenHistory: FC = () => {
-  const { paidData, isLoading } = usePosHistory();
+export const TokenHistory: FC<{ loading: boolean }> = ({ loading }) => {
+  const data = queryClient.getQueryData<{ paid: PosHistoryProps[] }>(['posHistory']);
   const router = useRouter();
+
   return (
     <Box bg="blue.100" p="1rem" borderRadius="xl" my="1rem">
       <Flex justifyContent="space-between" alignItems="center" mb="1rem">
@@ -25,21 +26,21 @@ export const TokenHistory: FC = () => {
         </Text>
       </Flex>
 
-      {isLoading ? (
+      {loading ? (
         <Box textAlign="center" py="2rem">
           <Spinner color="primary" size="xl" />
         </Box>
       ) : (
         <>
-          {paidData?.length ? (
+          {data?.paid.length ? (
             <Box>
-              {paidData?.slice(0, 3)?.map((item) => (
+              {data.paid.slice(0, 3).map((item) => (
                 <ItemListDisplay
                   label={item.label}
                   date={item.created}
                   amount={+item.amount}
                   key={item.id}
-                  complete={item.confirmed}
+                  // complete={item.confirmed}
                   image={item.type === 'Created' ? TokenHistoryIcon : TokenHistoryGreenIcon}
                   onClick={(): void => void router.push(`/token-history/${item.id}`)}
                 />

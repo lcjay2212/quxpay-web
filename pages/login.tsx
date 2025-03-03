@@ -1,139 +1,111 @@
 import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import { FormContainer, PendingAccountModal, TextField } from 'component';
-import { post } from 'constants/api';
-import storage from 'constants/storage';
-import { API_SESSION_URL } from 'constants/url';
+import { CaptchaModal, FormContainer, PendingAccountModal, TextField } from 'component';
+import { VerifyOtpForm } from 'component/VerifyOtpForm';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { usePendingAccountModal, useRouteParams, useUser } from 'store';
-import { notify } from 'utils';
+import { useCaptchaModal, useVerifyOtp } from 'store';
+import { useLogin } from 'store/useLogin';
 
 const Login: FC = () => {
   const method = useForm();
   const router = useRouter();
-  const { control, handleSubmit } = method;
-  const setUser = useUser((e) => e.setUser);
-  const setVisible = usePendingAccountModal((e) => e.setVisible);
-  const params = useRouteParams((e) => e.params);
+  const { control, handleSubmit, getValues } = method;
 
-  const login = useMutation({
-    mutationFn: (variable) => post('web/login', variable),
-    onSuccess: async ({ data }) => {
-      notify(`${data.status.message}`);
+  const [captchaModalVisible, setCaptchaModalVisible] = useCaptchaModal((e) => [e.visible, e.setVisible]);
 
-      const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
-      const json = await loginSession.json();
-
-      if (json.success) {
-        localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
-      } else {
-        throw new Error('Something went wrong');
-      }
-
-      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
-      void router.push(redirectUrl);
-    },
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    onError: ({ response }: any) => {
-      const message = response?.data?.data?.message;
-
-      if (message === 'These credentials do not match our records.') {
-        notify(response?.data?.data?.messages || message, { status: 'error' });
-      } else if (message === 'Account pending.') {
-        setVisible(true);
-      } else {
-        notify('These credentials do not match our records.', { status: 'error' });
-      }
-    },
-  });
-
-  const onSubmit = (val): void => {
-    login.mutate(val);
+  const onSubmit = (): void => {
+    setCaptchaModalVisible(true);
   };
+
+  const { login } = useLogin();
+  const verify = useVerifyOtp((e) => e.verify);
 
   return (
     <Grid placeContent="center" h="100vh" gap="2">
-      <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
-      </Box>
-      <Flex mt="2rem">
-        <ArrowBackIcon
-          color="white"
-          mt="1.30rem"
-          mr="1rem"
-          cursor="pointer"
-          onClick={(): void => void router.push('/')}
-        />
-        <Text color="primary" fontSize="4xl" w={300}>
-          L<span style={{ color: 'white' }}>ogin</span>
-        </Text>
-      </Flex>
+      {!verify ? (
+        <>
+          <Box display="flex" justifyContent="center">
+            <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+          </Box>
+          <Flex mt="2rem">
+            <ArrowBackIcon
+              color="white"
+              mt="1.30rem"
+              mr="1rem"
+              cursor="pointer"
+              onClick={(): void => void router.push('/')}
+            />
+            <Text color="primary" fontSize="4xl" w={300}>
+              L<span style={{ color: 'white' }}>ogin</span>
+            </Text>
+          </Flex>
+          <FormProvider {...method}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
+                  <FormContainer label="Email" errorMessage={error?.message ?? ''}>
+                    <TextField
+                      value={value ?? ''}
+                      placeholder="Enter your email"
+                      onChange={(e): void => {
+                        onChange(e.target.value.toLowerCase());
+                      }}
+                      onBlur={onBlur}
+                    />
+                  </FormContainer>
+                )}
+              />
 
-      <FormProvider {...method}>
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Controller
-            control={control}
-            name="email"
-            render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
-              <FormContainer label="Email" errorMessage={error?.message ?? ''}>
-                <TextField
-                  value={value ?? ''}
-                  placeholder="Enter your email"
-                  onChange={(e): void => {
-                    onChange(e.target.value.toLowerCase());
-                  }}
-                  onBlur={onBlur}
-                />
-              </FormContainer>
-            )}
-          />
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
+                  <FormContainer label="Password" errorMessage={error?.message ?? ''}>
+                    <TextField
+                      value={value ?? ''}
+                      placeholder="Enter your password"
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      isPassword
+                    />
+                  </FormContainer>
+                )}
+              />
 
-          <Controller
-            control={control}
-            name="password"
-            render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
-              <FormContainer label="Password" errorMessage={error?.message ?? ''}>
-                <TextField
-                  value={value ?? ''}
-                  placeholder="Enter your password"
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  isPassword
-                />
-              </FormContainer>
-            )}
-          />
+              <Button
+                type="submit"
+                variant="primary"
+                borderRadius="1rem"
+                mt="1rem"
+                w={350}
+                h="3.25rem"
+                isLoading={login.isPending}
+              >
+                Login
+              </Button>
 
-          <Button
-            type="submit"
-            variant="primary"
-            borderRadius="1rem"
-            mt="1rem"
-            w={350}
-            h="3.25rem"
-            isLoading={login.isPending}
-          >
-            Login
-          </Button>
-        </form>
-      </FormProvider>
-
-      <Text color="white" textAlign="center" mt="1rem">
-        Forgot password?&nbsp;
-        <span
-          style={{ cursor: 'pointer', color: '#06A499' }}
-          onClick={(): void => void router.push('/forgot-password')}
-        >
-          Click here
-        </span>
-      </Text>
+              {captchaModalVisible && <CaptchaModal label="login" />}
+            </form>
+          </FormProvider>
+          <Text color="white" textAlign="center" mt="1rem">
+            Forgot password?&nbsp;
+            <span
+              style={{ cursor: 'pointer', color: '#06A499' }}
+              onClick={(): void => void router.push('/forgot-password')}
+            >
+              Click here
+            </span>
+          </Text>
+        </>
+      ) : (
+        <VerifyOtpForm email={getValues('email')} />
+      )}
 
       <PendingAccountModal />
     </Grid>

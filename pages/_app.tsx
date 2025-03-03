@@ -1,13 +1,13 @@
 import { Box, ChakraProvider } from '@chakra-ui/react';
+import { createAsyncStoragePersister } from '@tanstack/query-async-storage-persister';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { API_SESSION_URL } from 'constants/url';
+import { persistQueryClient } from '@tanstack/react-query-persist-client';
 import { AppProps } from 'next/app';
 import { Poppins } from 'next/font/google';
-import { useRouter } from 'next/router';
-import { FC, useEffect } from 'react';
-import { useUser } from 'store';
-import { clearStorage, notify, queryClient, theme } from 'utils';
+import { FC, useEffect, useState } from 'react';
+import { useLogout, useUser } from 'store';
+import { queryClient, theme } from 'utils';
 
 const poppins = Poppins({
   weight: ['400', '700'],
@@ -19,32 +19,30 @@ const INACTIVITY_TIMEOUT = 5 * 60 * 1000;
 const App: FC<AppProps> = ({ Component, pageProps }) => {
   const [user, setUser] = useUser((e) => [e.user, e.setUser]);
   useEffect(() => {
-    if (!user && typeof window !== 'undefined' && localStorage.QUX_PAY_USER_DETAILS) {
-      setUser(JSON.parse(localStorage.QUX_PAY_USER_DETAILS));
+    if (!user && typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_DETAILS) {
+      setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
     }
   }, [setUser, user]);
 
-  const router = useRouter();
   let inactivityTimer;
 
-  const logout = async (): Promise<void> => {
-    const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
-    const json = await loginSession.json();
-
-    if (json.success) {
-      clearStorage();
-      notify('You have been logged out due to inactivity.');
-      setUser(null);
-      void router.push('/');
-    } else {
-      // TODO: handler
-    }
-  };
+  const { logout } = useLogout();
 
   const resetInactivityTimer = (): void => {
     clearTimeout(inactivityTimer);
-    inactivityTimer = setTimeout(logout, INACTIVITY_TIMEOUT);
+    inactivityTimer = setTimeout(
+      () => logout({ message: 'You have been logged out due to inactivity.' }),
+      INACTIVITY_TIMEOUT
+    );
   };
+
+  const [isDevtoolsVisible, setIsDevtoolsVisible] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.host === 'localhost:3000') {
+      setIsDevtoolsVisible(true);
+    }
+  }, []);
   useEffect(() => {
     if (user) {
       const handleActivity = (): void => resetInactivityTimer();
@@ -59,6 +57,16 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
     }
   }, []);
 
+  // Set up persistence
+  const persister = createAsyncStoragePersister({
+    storage: typeof window !== 'undefined' ? window.sessionStorage : undefined, // Use localStorage
+    key: 'QUX_QUERY_OFFLINE_CACHE',
+  });
+  persistQueryClient({
+    queryClient,
+    persister,
+  });
+
   return (
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
@@ -67,7 +75,7 @@ const App: FC<AppProps> = ({ Component, pageProps }) => {
             <Component {...pageProps} />
           </Box>
         </main>
-        {typeof window !== 'undefined' && window.location.host === 'localhost:3000' && <ReactQueryDevtools />}
+        {isDevtoolsVisible && <ReactQueryDevtools />}
       </ChakraProvider>
     </QueryClientProvider>
   );

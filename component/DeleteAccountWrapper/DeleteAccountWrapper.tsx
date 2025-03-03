@@ -3,7 +3,6 @@ import { Box, Button, Divider, Flex, Radio, RadioGroup, Text } from '@chakra-ui/
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { BankAccount, HeaderContainer } from 'component';
-import { STAGING_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useAccountPaymentId } from 'store';
@@ -11,18 +10,21 @@ import { getServerSideProps, notify, queryClient } from 'utils';
 
 export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
   const router = useRouter();
-  const bankCreditAndCryptoData = queryClient.getQueryData(['bankCreditCardCrypto']);
+  const bankDetails = queryClient.getQueryData<{ initialData: Details; banks: UserBankDetails }>([
+    'walletsSecurityFile',
+  ]);
   const [radioValue, setRadioValue] = useState('');
   const [paymentData, setPaymentData] = useAccountPaymentId(({ paymentData, setPaymentData }) => [
     paymentData,
     setPaymentData,
   ]);
+
   const { mutate } = useMutation({
     mutationFn: (variable) =>
-      axios.delete(`${STAGING_URL}/web/wallet/remove-card`, {
+      axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/remove-card`, {
         data: variable,
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
@@ -43,19 +45,15 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
         </Text>
 
         <RadioGroup onChange={setRadioValue} value={radioValue}>
-          {bankCreditAndCryptoData ? (
+          {bankDetails ? (
             <>
-              {bankCreditAndCryptoData['bank'].map((item, index) => {
-                const { accountNumber, nameOnAccount, bank_name } = item?.payment?.bankAccount;
+              {bankDetails.banks['bank'].map((item, index) => {
+                const { accountNumber, nameOnAccount, bank_name } = item.payment.bankAccount;
                 return (
-                  <>
-                    <Flex justifyContent="space-between" key={index}>
+                  <Box key={index}>
+                    <Flex justifyContent="space-between">
                       <Box mt="1rem">
-                        <BankAccount
-                          bankName={bank_name ?? ''}
-                          name={nameOnAccount ?? ''}
-                          accountNumber={accountNumber ?? ''}
-                        />
+                        <BankAccount bankName={bank_name} name={nameOnAccount} accountNumber={accountNumber} />
                       </Box>
                       <Radio
                         value={`${index + 1}`}
@@ -66,7 +64,7 @@ export const DeleteAccountWrapper: FC<{ label: string }> = ({ label }) => {
                       />
                     </Flex>
                     <Divider mt="1rem" />
-                  </>
+                  </Box>
                 );
               })}
             </>

@@ -2,10 +2,10 @@ import {
   Avatar,
   Box,
   Button,
+  Image as ChakraImage,
   Checkbox,
   Divider,
   Flex,
-  Image as ChakraImage,
   Modal,
   ModalBody,
   ModalContent,
@@ -18,13 +18,14 @@ import {
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { Label, ProductModal, TextField } from 'component';
-import { FETCH_FRIEND_LIST, FETCH_PRODUCT_LIST, FETCH_RECENT_PRODUCT_LIST } from 'constants/api';
-import { STAGING_URL } from 'constants/url';
+import { FETCH_PRODUCT_LIST, FETCH_RECENT_PRODUCT_LIST } from 'constants/api';
+import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { AddFriendIcon, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useProductModal } from 'store';
+import { useDecryptedData } from 'store/useDecryptedData';
 import { notify } from 'utils';
 
 export const CreatePoForm: FC = () => {
@@ -36,7 +37,7 @@ export const CreatePoForm: FC = () => {
     queryKey: ['recentProduct'],
     queryFn: FETCH_RECENT_PRODUCT_LIST,
   });
-  const { data: friendData } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
+  const { data: friendData, dataLoading } = useDecryptedData('friends');
   const [radioValue, setRadioValue] = useState('');
   const [emailValue, setEmailValue] = useState('');
   const [associateEmail, setAssociateEmail] = useState('');
@@ -52,9 +53,9 @@ export const CreatePoForm: FC = () => {
 
   const { mutateAsync, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/generate/cart/qr`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/generate/cart/qr`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
@@ -235,10 +236,10 @@ export const CreatePoForm: FC = () => {
                 </Text>
               </Flex>
               <RadioGroup onChange={setRadioValue} value={radioValue}>
-                {friendData?.length ? (
+                {friendData?.friends?.length ? (
                   <>
-                    {!loading ? (
-                      friendData.map((item, index) => {
+                    {!dataLoading ? (
+                      friendData?.friends?.map((item, index) => {
                         return (
                           <>
                             <Flex justifyContent="space-between" key={index}>
@@ -284,16 +285,14 @@ export const CreatePoForm: FC = () => {
                   </Flex>
 
                   <Radio
-                    value={`${friendData?.length + 1}`}
+                    value={`${friendData?.friends?.length + 1}`}
                     onClick={(): void => setEmailValue('')}
                     colorScheme="teal"
                   />
                 </Flex>
               </RadioGroup>
 
-              {radioValue !== `${friendData?.length + 1}` ? (
-                <></>
-              ) : (
+              {radioValue === `${friendData?.friends?.length + 1}` && (
                 <>
                   <TextField
                     type="email"
@@ -346,7 +345,13 @@ export const CreatePoForm: FC = () => {
               h="3.25rem"
               onClick={onSubmit}
               disabled={true}
-              isDisabled={step === 1 ? !productValue : !selectedFriend}
+              isDisabled={
+                step === 1
+                  ? !productValue
+                  : radioValue !== `${friendData?.friends?.length + 1}`
+                  ? !selectedFriend
+                  : isEmpty(associateEmail) && isEmpty(emailValue)
+              }
               isLoading={isPending}
             >
               Send To User

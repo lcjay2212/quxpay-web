@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { BillsIcon, CircleAddIcon } from 'public/assets';
 import { FC, useState } from 'react';
-import { useDebounce, useHeaderName, usePayBillsModal, useSchedulePayBillModal } from 'store';
+import { useDebounce, useHeaderName, usePayBillsModal } from 'store';
 
 export const PayBillsPageWrapper: FC = () => {
   const { data, isLoading } = useQuery({ queryKey: ['billingCategories'], queryFn: FETCH_BILLING_CATEGORIES });
@@ -19,7 +19,6 @@ export const PayBillsPageWrapper: FC = () => {
   });
   const router = useRouter();
   const setHeaderName = useHeaderName((state) => state.setHeaderName);
-  const setVisible = useSchedulePayBillModal((state) => state.setVisible);
 
   const { setPayBillVisible, setPayBillHeaderName, setBillerData } = usePayBillsModal((state) => ({
     setPayBillVisible: state.setVisible,
@@ -60,7 +59,7 @@ export const PayBillsPageWrapper: FC = () => {
                   <Text fontSize="14px">Schedule Bill Payments</Text>
                 </Flex>
 
-                <Box cursor="pointer" onClick={(): void => setVisible(true)}>
+                <Box cursor="pointer">
                   <Image src={CircleAddIcon} alt="Add Icon" />
                 </Box>
               </Flex>
@@ -93,7 +92,13 @@ export const PayBillsPageWrapper: FC = () => {
                             }}
                           >
                             <Flex justifyContent="center" width="auto" height={50}>
-                              <Image src={BillsIcon} width={45} height={50} alt={item.id} placeholder="empty" />
+                              <Image
+                                src={item?.image || BillsIcon}
+                                width={45}
+                                height={50}
+                                alt={item.id}
+                                placeholder="empty"
+                              />
                             </Flex>
                             <Text color="white" mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
                               {item.name}

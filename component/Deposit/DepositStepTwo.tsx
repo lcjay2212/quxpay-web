@@ -3,11 +3,11 @@ import { Box, Spinner, Text, Textarea } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, Label } from 'component';
-import { STAGING_URL } from 'constants/url';
 import { QuxTokenIcon } from 'public/assets';
-import { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useCryptoPaymentData, useSelectedBankDetails, useType } from 'store';
+import { useComputationData } from 'store/useComputationData';
 import { useSelectedCrypto } from 'store/useSelectedCrypto';
 
 export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
@@ -18,17 +18,13 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
   const amount = watch('amount');
-  const [computationData, setComputationData] = useState<{
-    amount: number;
-    qux_charge: number;
-    total_amount: number;
-  }>();
+  const [computationData, setComputationData] = useComputationData((e) => [e.computationData, e.setComputationData]);
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/wallet/computation`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/computation`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
@@ -45,7 +41,7 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
   }, [amount, label, mutate]);
 
   return (
-    <Box color="white" m="2rem">
+    <Box color="white" my="2rem" mx="1rem">
       {label === 'Purchase' && type === 'CRYPTO' && (
         <Box mb="2rem" textAlign="start">
           <Text noOfLines={1}>Received ${amount?.toFixed(2)} in tokens</Text>
@@ -57,8 +53,8 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
         <Box mb="2rem" textAlign="start">
           {type === 'BANK' && (
             <>
-              <Text noOfLines={1}>Sending To: {selectedBankDetails?.payment.bankAccount.bank_name}</Text>
-              <Text>Account Name: {selectedBankDetails?.payment.bankAccount.nameOnAccount}</Text>
+              <Text noOfLines={1}>Sending To: {selectedBankDetails?.payment?.bankAccount.bank_name}</Text>
+              <Text>Account Name: {selectedBankDetails?.payment?.bankAccount.nameOnAccount}</Text>
             </>
           )}
           {(type === 'ADD_CRYPTO' || type === 'CRYPTO') && (

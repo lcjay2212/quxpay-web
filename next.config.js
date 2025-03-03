@@ -71,6 +71,24 @@ module.exports = {
         port: '',
         pathname: '/quxtech/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'qa.api.quxtech.tv',
+        port: '',
+        pathname: '/puzzle_images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.qux.tv',
+        port: '',
+        pathname: '/puzzle_images/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 's3.qux.tv',
+        port: '',
+        pathname: '/quxtech/**',
+      },
     ],
   },
   async headers() {
@@ -79,6 +97,29 @@ module.exports = {
         // Apply security headers to all routes
         source: '/(.*)',
         headers: securityHeaders,
+      },
+      {
+        // matching all API routes
+        source: '/:path*',
+        headers: [
+          { key: 'Access-Control-Allow-Credentials', value: 'true' },
+          { key: 'Access-Control-Allow-Origin', value: '*' },
+          { key: 'Access-Control-Allow-Methods', value: 'GET,PUT,POST,DELETE,PATCH' },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value:
+              'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+          },
+          { key: 'Accept', value: 'application/json' },
+        ],
+      },
+    ];
+  },
+  async rewrites() {
+    return [
+      {
+        source: '/api/:path*',
+        destination: 'https://p2.api.quxtech.tv/:path*', // Proxy to QuxTech API
       },
     ];
   },

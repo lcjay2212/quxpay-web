@@ -1,40 +1,70 @@
-import { CalendarIcon } from '@chakra-ui/icons';
-import { Box, Button, Flex, Spinner } from '@chakra-ui/react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Box, Flex, Spinner } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { HeaderContainer, ItemListDisplay, TextField, TransactionHistoryFilterModal } from 'component';
-import { FETCH_TRANSACTION_HISTORY_PHASE_TWO } from 'constants/api';
-import { isLocalHost } from 'constants/url';
+import axios from 'axios';
+import { HeaderContainer, ItemListDisplay } from 'component';
+import Pagination from 'component/Pagination/Pagination';
 import { startCase } from 'lodash';
-import { DATE_FILTER, STATUS_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
+import forge from 'node-forge';
 import { QuxWalletIcon } from 'public/assets';
-import { FC, useState } from 'react';
-import { BsBank2 } from 'react-icons/bs';
-import { FaEllipsisH } from 'react-icons/fa';
-// import { usePrivatekey } from 'store';
-import { useTransactionHistoryFilterModal } from 'store';
+import { FC } from 'react';
+import { usePage } from 'store';
+import { notify, queryClient } from 'utils';
 const TransactionHistoryPage: FC = () => {
-  const [search, setSearch] = useState('');
-  const {
-    setVisible,
-    visible,
-    setDateFilter,
-    dateFilter,
-    transactionFilter,
-    setTransactionFilter,
-    statusFilter,
-    setStatusFilter,
-  } = useTransactionHistoryFilterModal((state) => state);
-  const { data, isLoading } = useQuery({
-    queryKey: ['transactionHistoryPhaseTwo', dateFilter, transactionFilter, statusFilter],
-    queryFn: FETCH_TRANSACTION_HISTORY_PHASE_TWO,
-  });
-  // const privatekey = usePrivatekey((state) => state.privatekey);
+  // const [id, setId] = useState('');
+  // const [search, setSearch] = useState('');
+  // const {
+  //   setVisible,
+  //   visible,
+  //   setDateFilter,
+  //   // dateFilter,
+  //   // transactionFilter,
+  //   setTransactionFilter,
+  //   // statusFilter,
+  //   setStatusFilter,
+  // } = useTransactionHistoryFilterModal((state) => state);
 
-  const [id, setId] = useState('');
+  const [page, setPage] = usePage((e) => [e.page, e.setPage]);
+
+  const transactionsData = queryClient.getQueryData<{ transactions: any[] }>(['transactionsSecurityFile']);
+  const userPrivateKey = queryClient.getQueryData<{ data: string }>(['userPrivateKey']);
+  const passphrase = queryClient.getQueryData<{ pass: string }>(['passphrase']);
+
+  const {
+    data: decryptedTransactions,
+    isLoading: decryptedTransactionsLoading,
+    isPending,
+  } = useQuery({
+    queryKey: ['decryptedTransactions', page],
+    queryFn: async () => {
+      const transactions = transactionsData?.transactions[page];
+      const { data } = await axios.get(transactions, {
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+      });
+
+      const privateKey = forge.pki.decryptRsaPrivateKey(userPrivateKey?.data, passphrase?.pass);
+      let combinedDecryptedContent = '';
+
+      data?.forEach((content: string) => {
+        try {
+          const message = forge.util.decode64(content);
+          const decryptedContent = privateKey.decrypt(message, 'RSA-OAEP');
+          combinedDecryptedContent += decryptedContent;
+        } catch (error) {
+          notify('Decryption failed for content:', { status: 'error' });
+        }
+      });
+
+      return JSON.parse(combinedDecryptedContent);
+    },
+  });
+
   return (
     <HeaderContainer label="Transactions" route="/dashboard">
       <>
-        {isLocalHost() && (
+        {/* {isLocalHost() && (
           <Box mx="1rem" mt="1rem">
             <TextField
               isSearch
@@ -89,59 +119,65 @@ const TransactionHistoryPage: FC = () => {
               </Button>
             </Flex>
           </Box>
-        )}
-        <Box bg="blue.100" mt="1rem" py="1.5rem" minH="100vh" h="auto" borderTopRadius="32px" color="white">
-          {isLoading ? (
+        )} */}
+        <Flex
+          flexDirection="column"
+          justifyContent="space-between"
+          bg="blue.100"
+          mt="1rem"
+          py="1.5rem"
+          minH="80vh"
+          h="auto"
+          borderTopRadius="32px"
+          color="white"
+        >
+          {decryptedTransactionsLoading ? (
             <Box textAlign="center" py="2rem">
               <Spinner color="primary" size="xl" />
             </Box>
           ) : (
             <Box px="1rem">
-              {data?.length ? (
+              {decryptedTransactions?.length ? (
                 <Box>
-                  {data?.map((item) => {
-                    // const amount = item.amount;
-                    // const privateKey = new NodeRSA(privatekey);
-                    // const decryptedData = privateKey.decrypt(amount, 'utf8');
-
-                    return (
-                      <ItemListDisplay
-                        label={`Qux User ${startCase(item.type)}`}
-                        date={item.created_at}
-                        amount={+item.amount}
-                        key={item.id}
-                        complete={item.confirmed}
-                        image={QuxWalletIcon}
-                        hasComplete
-                      />
-                    );
-                  })}
+                  {decryptedTransactions.map((item: any) => (
+                    <ItemListDisplay
+                      label={`Qux User ${startCase(item.type)}`}
+                      date={item.created_at}
+                      amount={+item.amount}
+                      key={item.id}
+                      complete={item.confirmed}
+                      image={QuxWalletIcon}
+                      hasComplete
+                    />
+                  ))}
                 </Box>
               ) : (
                 <>No Record</>
               )}
             </Box>
           )}
-        </Box>
-        {id === 'date' && (
-          <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} value={dateFilter} />
-        )}
+
+          {transactionsData?.transactions.length && (
+            <Pagination
+              currentPage={page}
+              totalPages={transactionsData.transactions.length}
+              onPageChange={setPage}
+              isLoading={isPending}
+            />
+          )}
+        </Flex>
+
+        {/* {id === 'date' && <TransactionHistoryFilterModal title="Date" data={DATE_FILTER} setValue={setDateFilter} />}
         {id === 'transaction' && (
           <TransactionHistoryFilterModal
             title="Transaction"
             data={TRANSACTION_FILTER}
             setValue={setTransactionFilter}
-            value={transactionFilter}
           />
         )}
         {id === 'status' && (
-          <TransactionHistoryFilterModal
-            title="Status"
-            data={STATUS_FILTER}
-            setValue={setStatusFilter}
-            value={statusFilter}
-          />
-        )}
+          <TransactionHistoryFilterModal title="Status" data={STATUS_FILTER} setValue={setStatusFilter} />
+        )} */}
       </>
     </HeaderContainer>
   );

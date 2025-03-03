@@ -5,11 +5,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { CheckCircleIcon, CryptoIcon, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
-import { useCongratulationContent, useSelectedBankDetails } from 'store';
+import { useCongratulationContent, useSelectedBankDetails, useTransactionHistoryModal } from 'store';
 
 export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
   const type = useCongratulationContent((e) => e.type);
   const setVisible = useCongratulationContent((e) => e.setVisible);
+  const transactionModalVisible = useTransactionHistoryModal((e) => e.setVisible);
   const amount = useCongratulationContent((e) => e.amount);
   const router = useRouter();
   const [selectedBankDetails, setSelectedBankDetails] = useSelectedBankDetails((e) => [
@@ -104,6 +105,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                   onClick={(): void => {
                     void router.push('/dashboard');
                     setVisible(false);
+                    transactionModalVisible(true);
                   }}
                 >
                   Complete - Back to Home
@@ -135,7 +137,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
             )}
             {(type === 'BANK' || type === 'ADD_BANK') && (
               <Text color="white" fontSize="20px" mt="1rem">
-                Redeeming Tokens <br /> to {selectedBankDetails?.payment.bankAccount.nameOnAccount}
+                Redeeming Tokens <br /> to {selectedBankDetails?.payment?.bankAccount.nameOnAccount}
                 <br /> Successfully Initiated
               </Text>
             )}
@@ -149,6 +151,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                 void router.push('/dashboard');
                 setSelectedBankDetails(null);
                 setVisible(false);
+                transactionModalVisible(true);
               }}
             >
               Complete - Back to Home

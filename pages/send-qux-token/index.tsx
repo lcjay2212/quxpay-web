@@ -3,7 +3,7 @@ import { FC } from 'react';
 import { getServerSideProps } from 'utils';
 
 const SendQuxTokenPage: FC = () => (
-  <HeaderContainer label="Send QUX ®Tokens" route="/dashboard" hasMenu>
+  <HeaderContainer label="Send QUX eToken®" route="/dashboard" hasMenu>
     <SendQuxTokenWrapper />
   </HeaderContainer>
 );

@@ -4,7 +4,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { QuxLogo, UnpaidHistoryIcon, UploadIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
-import { useAccountPaymentId, useHomePageModal, usePendingAccountModal, useProductModal, useType } from 'store';
+import {
+  useAccountPaymentId,
+  useHomePageModal,
+  usePage,
+  usePendingAccountModal,
+  useProductModal,
+  useType,
+} from 'store';
 import { notify } from 'utils';
 
 export const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
@@ -20,6 +27,7 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
   const setVisible = useHomePageModal((e) => e.setVisible);
   const setPendingAccountModalVisible = usePendingAccountModal((e) => e.setVisible);
   const setType = useType((e) => e.setType);
+  const setPage = usePage((e) => e.setPage);
 
   return (
     <Box maxW="720px" mx="auto">
@@ -36,6 +44,7 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
               setPaymentData(null);
               setType(null);
               void router.push(route);
+              setPage(0);
             }}
           />
           {label === 'Wallet' && <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" />}

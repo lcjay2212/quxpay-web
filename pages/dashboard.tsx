@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { HamburgerIcon } from '@chakra-ui/icons';
+import { ArrowForwardIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
-  chakra,
   Container,
   Divider,
   Flex,
@@ -15,36 +14,30 @@ import {
   Spinner,
   Text,
 } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
+import { useQuery } from '@tanstack/react-query';
 import {
+  AmountVerificationModal,
   CryptoTransactionHistory,
   NotificationHistory,
   OpenPosHistory,
+  PendingBankAccountVerificationModal,
   PoFromPluginHistory,
+  SEO,
   TokenHistory,
   TransactionHistory,
+  TransactionHistoryModal,
+  UnableToVerifyModal,
   UploadLoadingModal,
   VerifyModal,
 } from 'component';
-import { API_SESSION_URL, isLocalHost, STAGING_URL } from 'constants/url';
+import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
+import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
-import {
-  BillsIcon,
-  CashIn,
-  CryptoPriceIcon,
-  InsightIcon,
-  ProfileIcon,
-  QuxPayLogo,
-  QuxTokenIcon,
-  SendQuxCash,
-  UploadIcon,
-  WithdrawSuccessful,
-} from 'public/assets';
-import { FC, useEffect } from 'react';
-import { useBalance, usePosHistory, useUploadLoadingModal, useUser, useVerifyModal } from 'store';
-import { clearStorage, getServerSideProps, notify } from 'utils';
+import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
+import { FC } from 'react';
+import { useAmountVerificationModal, useLogout, useUser } from 'store';
+import { useDecryptedData } from 'store/useDecryptedData';
+import { getServerSideProps } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
   <Box w={{ base: 150, md: 250 }}>
@@ -67,252 +60,114 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 );
 
 const Dashboard: FC = () => {
-  const [user, setUser] = useUser((e) => [e.user, e.setUser]);
-  // const setPrivatekey = usePrivatekey((state) => state.setPrivatekey);
+  const user = useUser((e) => e.user);
 
-  // useEffect(() => {
-  //   const url = user?.privatekey;
+  const { data: balance, dataLoading } = useDecryptedData('balance');
 
-  //   const config = {
-  //     mode: 'get',
-  //     url,
-  //   };
+  const setVisible = useAmountVerificationModal(({ setVisible }) => setVisible);
 
-  //   axios
-  //     .request(config)
-  //     .then((response) => setPrivatekey(response.data))
-  //     // eslint-disable-next-line no-console
-  //     .catch((error) => console.error(error));
-  // }, [setPrivatekey, user]);
-
-  const temp = [
-    {
-      image: CashIn,
-      alt: 'Purchase',
-      route: '/purchase',
-      label: 'Purchase',
-      show: true,
-    },
-    {
-      image: WithdrawSuccessful,
-      alt: 'Redeem',
-      route: '/redeem',
-      label: 'Redeem Tokens',
-      show: true,
-    },
-    {
-      image: SendQuxCash,
-      alt: 'Send',
-      route: '/send-qux-token',
-      label: 'Send Qux® Token',
-      show: true,
-    },
-    {
-      image: BillsIcon,
-      alt: 'Pay Bills',
-      route: '/pay-bills',
-      label: 'Pay Bills',
-      show: isLocalHost() ? true : false,
-    },
-    {
-      image: UploadIcon,
-      alt: 'Upload',
-      route: '/',
-      label: 'Upload CSV File',
-      show: user?.corporate,
-    },
-    {
-      image: SendQuxCash,
-      alt: 'Create',
-      route: '/create-po',
-      label: 'Create PO',
-      show: user?.corporate,
-    },
-    {
-      image: InsightIcon,
-      alt: 'Insights',
-      route: '/insights',
-      label: 'Insights',
-      show: isLocalHost() ? true : false,
-    },
-    {
-      image: ProfileIcon,
-      alt: 'Profile',
-      route: '/profile',
-      label: 'Profile',
-      show: true,
-    },
-    {
-      image: BillsIcon,
-      alt: 'Biller API',
-      route: '/biller-api',
-      label: 'Biller API',
-      show: user?.corporate,
-    },
-    {
-      image: CryptoPriceIcon,
-      alt: 'Crypto Price',
-      route: '/crypto/prices',
-      label: 'Crypto Price',
-      show: isLocalHost() ? true : false,
-    },
-  ];
-
-  const router = useRouter();
-  const setVisible = useUploadLoadingModal((set) => set.setVisible);
-
-  const { isLoading, balance, deposit, withdrawalPending, totalPurchase, verificationStatus } = useBalance();
-  const { refetch } = usePosHistory();
-  const setVerifyModalVisible = useVerifyModal((e) => e.setVisible);
-  const logout = async (): Promise<void> => {
-    const loginSession = await fetch(`${API_SESSION_URL}/api/logout`);
-    const json = await loginSession.json();
-
-    if (json.success) {
-      clearStorage();
-      notify('Successfully Logout');
-      setUser(null);
-      void router.push('/');
-    } else {
-      // TODO: handler
-    }
-  };
-
-  useEffect(() => {
-    if (verificationStatus !== 'for_review' && totalPurchase >= 600) {
-      setVerifyModalVisible(true);
-    }
-  }, [setVerifyModalVisible, totalPurchase, verificationStatus]);
-
-  const { mutate, isSuccess } = useMutation({
-    mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/corporate/upload/transactions`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
-    onSuccess: () => {
-      notify('Upload success!');
-      setVisible(false);
-      refetch();
-    },
-    onError: ({ response }: any) => {
-      notify(`${response.data?.data.format}`, { status: 'error' });
-      setVisible(false);
-    },
+  const { isLoading } = useQuery<{ unpaid_or_open: PosHistoryProps[] }>({
+    queryKey: ['posHistory'],
+    queryFn: FETCH_POS_HISTORY,
   });
 
-  useEffect(() => {
-    if (isSuccess) {
-      setVisible(true);
-    }
-  }, [isSuccess, setVisible]);
+  const { data } = useQuery({
+    queryKey: ['bankStatus'],
+    queryFn: FETCH_BANK_STATUS,
+  });
+
+  const { logout } = useLogout();
+
+  const DashboarMenuComponent = dynamic(() => import('../component/DashboardMenu'), {
+    ssr: false,
+  });
 
   return (
-    <Container color="white" mb="3rem" overflow="hidden" fontFamily="'Poppins', sans-serif">
-      <Flex justifyContent="space-between" alignItems="center">
-        <Flex justifyContent="start" py="1rem">
-          <Box display="flex" justifyContent="center" height="50px" mr="8px">
-            <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" placeholder="empty" />
-          </Box>
-
-          <Text color="primary" fontSize="3xl" textAlign="center">
-            W<span style={{ color: 'white' }}>allet</span>{' '}
-          </Text>
-        </Flex>
-        <Box>
-          <Menu>
-            <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
-            <MenuList>
-              <MenuItem onClick={logout} color="black">
-                Logout
-              </MenuItem>
-            </MenuList>
-          </Menu>
-        </Box>
-      </Flex>
-
-      <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
-        <Label label="Available Balance" image={QuxTokenIcon} amount={balance.toFixed(2)} loading={isLoading} />
-        <Flex justifyContent="center">
-          <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-        </Flex>
-        <Label label="Purchase Pending" image={QuxTokenIcon} amount={deposit.toFixed(2)} loading={isLoading} />
-        <Label label="Tagged Tokens" image={QuxTokenIcon} amount={0} loading={isLoading} />
-        <Flex justifyContent="center">
-          <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-        </Flex>
-        <Label label="Redeem Pending" image={QuxTokenIcon} amount={withdrawalPending.toFixed(2)} loading={isLoading} />
-      </Grid>
-      <Grid
-        templateColumns={{ base: 'repeat(3, 1fr)', md: 'repeat(4, 1fr)' }}
-        gap={{ base: 2, md: 6 }}
-        bg="blue.100"
-        py="1rem"
-        px="1.5rem"
-        borderRadius="xl"
-      >
-        {temp
-          .filter((q) => q.show)
-          .map((item) => (
-            <Box key={item.alt}>
-              {item.show && (
-                <Box key={item.label}>
-                  <chakra.input
-                    type="file"
-                    id="Upload"
-                    display="none"
-                    onChange={(e: any): void => {
-                      const formData = new FormData();
-                      formData.append('file', e.target.files[0]);
-                      mutate(formData as any);
-                    }}
-                  />
-                  <chakra.label
-                    htmlFor={item.alt}
-                    key={item.alt}
-                    w={100}
-                    textAlign="center"
-                    cursor="pointer"
-                    _hover={{
-                      color: 'primary',
-                    }}
-                    id={item.alt}
-                    onClick={(): void => {
-                      if (item.alt !== 'Upload') {
-                        void router.push(item.route);
-                      }
-                    }}
-                  >
-                    <Flex justifyContent="center" width="auto" height={50}>
-                      <Image
-                        src={item.image}
-                        width={item.alt === 'Upload' ? 45 : 55}
-                        height={50}
-                        alt={item.alt}
-                        placeholder="empty"
-                      />
-                    </Flex>
-                    <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
-                      {item.label}
-                    </Text>
-                  </chakra.label>
-                </Box>
-              )}
+    <Box>
+      <SEO page="dashboard" />
+      <Container color="white" mb="3rem" overflow="hidden" fontFamily="'Poppins', sans-serif">
+        <Flex justifyContent="space-between" alignItems="center">
+          <Flex justifyContent="start" py="1rem">
+            <Box display="flex" justifyContent="center" height="50px" mr="8px">
+              <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" placeholder="empty" />
             </Box>
-          ))}
-      </Grid>
 
-      <NotificationHistory />
-      <TransactionHistory />
-      <OpenPosHistory />
-      <TokenHistory />
-      {user?.corporate && <PoFromPluginHistory />}
-      <CryptoTransactionHistory />
-      <UploadLoadingModal />
-      <VerifyModal />
-    </Container>
+            <Text color="primary" fontSize="3xl" textAlign="center">
+              W<span style={{ color: 'white' }}>allet</span>{' '}
+            </Text>
+          </Flex>
+          <Box>
+            <Menu>
+              <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
+              <MenuList>
+                <MenuItem onClick={(): void => void logout({ message: 'Logged out successfully.' })} color="black">
+                  Logout
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </Box>
+        </Flex>
+
+        <Box>
+          <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
+            <Label
+              label="Available Balance"
+              image={QuxTokenIcon}
+              amount={(balance?.balance?.balance || 0).toFixed(2)}
+              loading={dataLoading}
+            />
+            <Flex justifyContent="center">
+              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+            </Flex>
+            <Label
+              label="Purchase Pending"
+              image={QuxTokenIcon}
+              amount={Number(balance?.balance?.deposit || 0).toFixed(2)}
+              loading={dataLoading}
+            />
+            <Label label="Tagged Tokens" image={QuxTokenIcon} amount={(0).toFixed(2)} loading={dataLoading} />
+            <Flex justifyContent="center">
+              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
+            </Flex>
+            <Label
+              label="Redeem Pending"
+              image={QuxTokenIcon}
+              amount={Number(balance?.balance?.withdraw_pending || 0).toFixed(2)}
+              loading={dataLoading}
+            />
+          </Grid>
+
+          {data?.status === 'Pending' && (
+            <Flex
+              justifyContent="space-between"
+              alignItems="center"
+              mb="1rem"
+              mx="1rem"
+              onClick={(): void => setVisible(true)}
+            >
+              <Text color="red.500" cursor="pointer">
+                Verify Account: {data?.account_nickname}
+              </Text>
+              <ArrowForwardIcon cursor="pointer" color="red.500" />
+            </Flex>
+          )}
+
+          <DashboarMenuComponent />
+          <NotificationHistory />
+          <TransactionHistory />
+          <OpenPosHistory loading={isLoading} />
+          <TokenHistory loading={isLoading} />
+          {user?.corporate && <PoFromPluginHistory loading={isLoading} />}
+          <CryptoTransactionHistory />
+          <UploadLoadingModal />
+          <PendingBankAccountVerificationModal />
+          <AmountVerificationModal />
+          <VerifyModal />
+          <UnableToVerifyModal />
+          <TransactionHistoryModal />
+        </Box>
+      </Container>
+    </Box>
   );
 };
 

@@ -11,7 +11,7 @@ const DepositPage: FC = () => {
         <CongratulationContent label="Purchase" />
       ) : (
         <HeaderContainer label="Purchase" route="/dashboard" hasMenu>
-          <Deposit label="Purchase" url="web/wallet/charge" url2="web/bankaccount/new" />
+          <Deposit label="Purchase" url="web/validate/token-purchase" url2="web/bankaccount/new" />
         </HeaderContainer>
       )}
     </>

@@ -57,7 +57,10 @@ export const HomeModal: FC = () => {
               borderRadius="3xl"
               w={150}
               h={50}
-              onClick={(): void => void router.push('/login')}
+              onClick={(): void => {
+                void router.push('/login');
+                setVisible(false);
+              }}
             >
               Log In
             </Button>
@@ -66,7 +69,10 @@ export const HomeModal: FC = () => {
               borderRadius="3xl"
               w={150}
               h={50}
-              onClick={(): void => void router.push('/register')}
+              onClick={(): void => {
+                void router.push('/register');
+                setVisible(false);
+              }}
             >
               Register
             </Button>

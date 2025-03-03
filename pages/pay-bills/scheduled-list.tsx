@@ -29,37 +29,43 @@ const ScheduledList: FC = () => {
         ) : (
           <>
             <Box my="2rem">
-              {data?.map((item) => (
-                <Flex
-                  key={item.id}
-                  justifyContent="space-between"
-                  alignItems="center"
-                  onClick={(): void => {
-                    setBillerData(item);
-                    setHeaderName(item.name);
-                    setVisible(true);
-                  }}
-                >
-                  <Flex justifyContent="center" alignItems="center">
-                    <Flex justifyContent="center" width="auto" height={50}>
-                      <Image
-                        src={BillsIcon}
-                        width={100}
-                        height={100}
-                        alt={item.id}
-                        style={{
-                          objectFit: 'fill',
-                        }}
-                        placeholder="empty"
-                      />
+              {!data?.length ? (
+                <>No Biller List Yet</>
+              ) : (
+                <>
+                  {data?.map((item) => (
+                    <Flex
+                      key={item.id}
+                      justifyContent="space-between"
+                      alignItems="center"
+                      onClick={(): void => {
+                        setBillerData(item);
+                        setHeaderName(item.name);
+                        setVisible(true);
+                      }}
+                    >
+                      <Flex justifyContent="center" alignItems="center">
+                        <Flex justifyContent="center" width="auto" height={50}>
+                          <Image
+                            src={BillsIcon}
+                            width={100}
+                            height={100}
+                            alt={item.id}
+                            style={{
+                              objectFit: 'fill',
+                            }}
+                            placeholder="empty"
+                          />
+                        </Flex>
+                        <Text color="white" fontWeight="semibold" fontSize="14px">
+                          {item.biller}
+                        </Text>
+                      </Flex>
+                      <ChevronRightIcon color="white" w={10} h={10} />
                     </Flex>
-                    <Text color="white" fontWeight="semibold" fontSize="14px">
-                      {item.biller}
-                    </Text>
-                  </Flex>
-                  <ChevronRightIcon color="white" w={10} h={10} />
-                </Flex>
-              ))}
+                  ))}
+                </>
+              )}
             </Box>
           </>
         )}

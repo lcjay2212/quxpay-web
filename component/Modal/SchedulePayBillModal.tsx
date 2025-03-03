@@ -4,7 +4,6 @@ import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text }
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { ScheduleBiller } from 'component';
-import { STAGING_URL } from 'constants/url';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { FC, useEffect, useState } from 'react';
@@ -34,15 +33,15 @@ export const SchedulePayBillModal: FC = () => {
     setValue('biller_id', billerData?.biller_id);
     setValue('biller_type_id', billerData?.biller_type_id);
     setValue('id', billerData?.id);
-    setValue('frequency', billerData?.frequency);
+    setValue('frequency', billerData?.frequency || 'weekly');
     setValue('amount', billerData?.amount);
   }, [setValue, billerData]);
 
   const { mutate, isPending: loading } = useMutation({
     mutationFn: (variable) =>
-      axios.post(`${STAGING_URL}/web/billing/scheduled-payment`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/billing/scheduled-payment`, variable, {
         headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && localStorage.QUX_PAY_USER_TOKEN}`,
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
         },
       }),
@@ -52,7 +51,9 @@ export const SchedulePayBillModal: FC = () => {
       reset();
     },
     onError: ({ response }: any) => {
-      notify(`${response?.data?.data?.errors?.scheduled_type}`, { status: 'error' });
+      Object.keys(response?.data?.data?.errors).forEach((errorKey) => {
+        notify(`${response?.data?.data?.errors[errorKey]}`, { status: 'error' });
+      });
     },
   });
 
@@ -62,11 +63,15 @@ export const SchedulePayBillModal: FC = () => {
       account_number: val?.account_number || billerData?.account_number,
       biller_id: billerData?.biller_id,
       biller_type_id: billerData?.biller_type_id,
-      start_date: dayjs(startDate).format('YYYY-MM-DD'),
-      end_date: dayjs(endDate).format('YYYY-MM-DD'),
+      ...(filter === 'repeat'
+        ? {
+            start_date: dayjs(startDate).format('YYYY-MM-DD'),
+            end_date: dayjs(endDate).format('YYYY-MM-DD'),
+            frequency: val?.frequency || billerData?.frequency,
+          }
+        : { date: val?.date }),
       scheduled_type: filter,
       amount: val?.amount || billerData?.amount,
-      frequency: val?.frequency || billerData?.frequency,
     } as any);
   };
 

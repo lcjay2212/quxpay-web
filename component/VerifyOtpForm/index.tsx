@@ -6,10 +6,16 @@ import storage from 'constants/storage';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { usePendingAccountModal, usePendingBankAccountVerificationModal, useUser } from 'store';
+import {
+  usePendingAccountModal,
+  usePendingBankAccountVerificationModal,
+  useRouteParams,
+  useUser,
+  useVerifyOtp,
+} from 'store';
 import { notify } from 'utils';
 
-export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email, selected }) => {
+export const VerifyOtpForm: FC<{ email?: string; selected?: string; type: string }> = ({ email, selected, type }) => {
   const router = useRouter();
   const method = useForm();
   const { handleSubmit, control } = method;
@@ -18,11 +24,14 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email
   const setUser = useUser((e) => e.setUser);
   const setVerificationVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
   const [user, domain] = (email ?? '').split('@');
+  const params = useRouteParams((e) => e.params);
+  const setVerify = useVerifyOtp((e) => e.setVerify);
 
   const { mutate: verify, isPending: isVerifying } = useMutation({
     mutationFn: (variable) => post('web/otp/verify', variable),
     onSuccess: ({ data }: any) => {
       notify('Verify OTP success');
+      setVerify(false);
       if (selected === undefined || selected === 'regular') {
         sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
         sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
@@ -32,6 +41,9 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email
       } else {
         setVisible(true);
       }
+
+      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
+      void router.push(redirectUrl);
     },
     onError: ({ response }: any) => {
       notify(response?.data?.status?.message || response?.data?.errors?.otp, { status: 'error' });
@@ -52,7 +64,7 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email
     verify({
       email,
       otp: val.pin,
-      type: 'register',
+      type,
     } as any);
   };
 

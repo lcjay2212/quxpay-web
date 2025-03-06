@@ -260,7 +260,7 @@ const Register: FC = () => {
             </FormProvider>
           </Grid>
         ) : (
-          <VerifyOtpForm email={getValues('email')} selected={selected} />
+          <VerifyOtpForm email={getValues('email')} selected={selected} type="register" />
         )}
       </Box>
 

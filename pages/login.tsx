@@ -15,13 +15,13 @@ const Login: FC = () => {
   const router = useRouter();
   const { control, handleSubmit, getValues } = method;
 
-  const [captchaModalVisible, setCaptchaModalVisible] = useCaptchaModal((e) => [e.visible, e.setVisible]);
+  const captchaModalVisible = useCaptchaModal((e) => e.visible);
+  const { login } = useLogin();
 
-  const onSubmit = (): void => {
-    setCaptchaModalVisible(true);
+  const onSubmit = (val): void => {
+    login.mutate(val);
   };
 
-  const { login } = useLogin();
   const verify = useVerifyOtp((e) => e.verify);
 
   return (
@@ -104,7 +104,7 @@ const Login: FC = () => {
           </Text>
         </>
       ) : (
-        <VerifyOtpForm email={getValues('email')} />
+        <VerifyOtpForm email={getValues('email')} type="login" />
       )}
 
       <PendingAccountModal />

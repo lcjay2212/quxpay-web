@@ -34,8 +34,8 @@ import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
-import { FC } from 'react';
-import { useAmountVerificationModal, useLogout, useUser } from 'store';
+import { FC, useEffect } from 'react';
+import { useAmountVerificationModal, useLogout, usePendingBankAccountVerificationModal, useUser } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps } from 'utils';
 
@@ -65,6 +65,9 @@ const Dashboard: FC = () => {
   const { data: balance, dataLoading } = useDecryptedData('balance');
 
   const setVisible = useAmountVerificationModal(({ setVisible }) => setVisible);
+  const { setIsPendingBankAccountVerificationModal } = usePendingBankAccountVerificationModal((e) => ({
+    setIsPendingBankAccountVerificationModal: e.setVisible,
+  }));
 
   const { isLoading } = useQuery<{ unpaid_or_open: PosHistoryProps[] }>({
     queryKey: ['posHistory'],
@@ -81,6 +84,12 @@ const Dashboard: FC = () => {
   const DashboarMenuComponent = dynamic(() => import('../component/DashboardMenu'), {
     ssr: false,
   });
+
+  useEffect(() => {
+    if (data?.status === 'Pending') {
+      setIsPendingBankAccountVerificationModal(true);
+    }
+  }, [data, setIsPendingBankAccountVerificationModal]);
 
   return (
     <Box>

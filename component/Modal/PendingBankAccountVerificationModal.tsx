@@ -5,10 +5,7 @@ import { FC } from 'react';
 import { useAmountVerificationModal, usePendingBankAccountVerificationModal, useUser } from 'store';
 
 export const PendingBankAccountVerificationModal: FC = () => {
-  const [visible, setVisible] = usePendingBankAccountVerificationModal(({ visible, setVisible }) => [
-    visible,
-    setVisible,
-  ]);
+  const { visible, setVisible } = usePendingBankAccountVerificationModal();
   const setAmountVerificationModalVisible = useAmountVerificationModal((e) => e.setVisible);
   const user = useUser((e) => e.user);
 

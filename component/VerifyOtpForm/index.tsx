@@ -6,13 +6,7 @@ import storage from 'constants/storage';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import {
-  usePendingAccountModal,
-  usePendingBankAccountVerificationModal,
-  useRouteParams,
-  useUser,
-  useVerifyOtp,
-} from 'store';
+import { usePendingAccountModal, useRouteParams, useUser, useVerifyOtp } from 'store';
 import { notify } from 'utils';
 
 export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: string }> = ({ email, selected, type }) => {
@@ -22,7 +16,6 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: strin
   const setVisible = usePendingAccountModal((e) => e.setVisible);
   const pinFields = new Array(6).fill(null);
   const setUser = useUser((e) => e.setUser);
-  const setVerificationVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
   const { setVerify, selectedEmail, selectedType, setEmail } = useVerifyOtp((e) => ({
     setVerify: e.setVerify,
     selectedEmail: e.email,
@@ -42,7 +35,6 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: strin
         sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
         sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
         setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
-        setVerificationVisible(true);
         void router.push('/dashboard');
       } else {
         setVisible(true);
@@ -116,8 +108,8 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: strin
                 cursor="pointer"
                 onClick={(): void => {
                   resend({
-                    email,
-                    type: 'register',
+                    email: email ?? selectedEmail,
+                    type: type ?? selectedType,
                   } as any);
                 }}
               >

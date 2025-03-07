@@ -8,7 +8,7 @@ import { useVerifyOtp } from './useVerifyOtp';
 
 export const useLogin = (): { login: UseMutationResult } => {
   const setVisible = usePendingAccountModal((e) => e.setVisible);
-  const { setVerify, setType, setEmail } = useVerifyOtp();
+  const { setType, setEmail } = useVerifyOtp();
   const setCaptchaModalVisible = useCaptchaModal((e) => e.setVisible);
 
   const login = useMutation({
@@ -29,9 +29,7 @@ export const useLogin = (): { login: UseMutationResult } => {
           throw new Error('Something went wrong');
         }
       } else {
-        setVerify(true);
-        setEmail(data.data.email);
-        setType(data.data.type);
+        setVisible(true);
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -15,7 +15,7 @@ import {
 } from 'store';
 import { notify } from 'utils';
 
-export const VerifyOtpForm: FC<{ email?: string; selected?: string; type: string }> = ({ email, selected, type }) => {
+export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: string }> = ({ email, selected, type }) => {
   const router = useRouter();
   const method = useForm();
   const { handleSubmit, control } = method;
@@ -23,15 +23,21 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string; type: string
   const pinFields = new Array(6).fill(null);
   const setUser = useUser((e) => e.setUser);
   const setVerificationVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
-  const [user, domain] = (email ?? '').split('@');
+  const { setVerify, selectedEmail, selectedType, setEmail } = useVerifyOtp((e) => ({
+    setVerify: e.setVerify,
+    selectedEmail: e.email,
+    selectedType: e.type,
+    setEmail: e.setEmail,
+  }));
+  const [user, domain] = (email ?? selectedEmail ?? '').split('@');
   const params = useRouteParams((e) => e.params);
-  const setVerify = useVerifyOtp((e) => e.setVerify);
 
   const { mutate: verify, isPending: isVerifying } = useMutation({
     mutationFn: (variable) => post('web/otp/verify', variable),
     onSuccess: ({ data }: any) => {
       notify('Verify OTP success');
       setVerify(false);
+      setEmail(null);
       if (selected === undefined || selected === 'regular') {
         sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
         sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
@@ -62,9 +68,9 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string; type: string
 
   const onVerify = (val): void => {
     verify({
-      email,
+      email: email ?? selectedEmail,
       otp: val.pin,
-      type,
+      type: type ?? selectedType,
     } as any);
   };
 

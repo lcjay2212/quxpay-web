@@ -8,7 +8,7 @@ import { useVerifyOtp } from './useVerifyOtp';
 
 export const useLogin = (): { login: UseMutationResult } => {
   const setVisible = usePendingAccountModal((e) => e.setVisible);
-  const setVerify = useVerifyOtp((e) => e.setVerify);
+  const { setVerify, setType, setEmail } = useVerifyOtp();
   const setCaptchaModalVisible = useCaptchaModal((e) => e.setVisible);
 
   const login = useMutation({
@@ -23,11 +23,15 @@ export const useLogin = (): { login: UseMutationResult } => {
       if (!data?.data?.show_verification_page) {
         if (json.success) {
           setCaptchaModalVisible(true);
+          setEmail(data.data.email);
+          setType(data.data.type);
         } else {
           throw new Error('Something went wrong');
         }
       } else {
         setVerify(true);
+        setEmail(data.data.email);
+        setType(data.data.type);
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -26,7 +26,7 @@ export const TRANSACTION_FILTER = [
   },
   {
     value: 'redeem_tokens',
-    label: 'Redeem Tokens',
+    label: 'Redeem QUX eToken®',
   },
   {
     value: 'send_tokens',

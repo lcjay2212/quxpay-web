@@ -60,7 +60,7 @@ const DashboardMenu: FC = () => {
       image: WithdrawSuccessful,
       alt: 'Redeem',
       route: '/redeem',
-      label: 'Redeem Tokens',
+      label: 'Redeem QUX eToken®',
       show: true,
     },
     {

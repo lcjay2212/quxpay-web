@@ -254,7 +254,7 @@ export const SendQuxTokenWrapper: FC = () => {
                 h="3.25rem"
                 isLoading={validating || updateMainFileLoading}
               >
-                {radioValue !== `${friendList?.friends?.length + 1}` ? 'Send Tokens' : 'Add New Friend'}
+                {radioValue !== `${friendList?.friends?.length + 1}` ? 'Send QUX eToken®' : 'Add New Friend'}
               </Button>
             </form>
           </FormProvider>
@@ -267,7 +267,7 @@ export const SendQuxTokenWrapper: FC = () => {
           <Text color="white" fontSize="2rem">
             $ {amount.toFixed(2)}
           </Text>
-          <Text my="12px">Tokens sent to</Text>
+          <Text my="12px">QUX eToken® sent to</Text>
 
           {radioValue === `${friendList?.friends?.length + 1}` ? (
             <>{watch('email')}</>

@@ -5,23 +5,23 @@ type FAQs = {
 
 export const FAQS_STATIC_DATA: FAQs[] = [
   {
-    question: 'How do I send QuxTokens to someone?',
-    answers: `Send QuxTokens by entering the recipient's @username in the app.`,
+    question: 'How do I send QUX eToken® to someone?',
+    answers: `Send QUX eToken® by entering the recipient's @username in the app.`,
   },
   {
-    question: 'Does the recipient need a QUX Pay® account to get my QuxTokens?',
+    question: 'Does the recipient need a QUX Pay® account to get my QUX eToken®?',
     answers: `Yes, the recipient needs to have a QUX Pay® account to receive your QuxToken transfers. It's free and fast to sign up.`,
   },
   {
-    question: 'How will the recipient know when I send QuxTokens?',
-    answers: `The recipient will receive instant in-app and push notifications when you transfer QuxTokens.`,
+    question: 'How will the recipient know when I send QUX eToken®?',
+    answers: `The recipient will receive instant in-app and push notifications when you transfer QUX eToken®.`,
   },
   {
-    question: 'What info will recipients see when I send them QuxTokens?',
+    question: 'What info will recipients see when I send them QUX eToken®?',
     answers: `Recipients will see your username.`,
   },
   {
-    question: 'What if I sent QuxTokens to the wrong person?',
+    question: 'What if I sent QUX eToken® to the wrong person?',
     answers: `As much as possible be very careful and double check usernames. Contact support at info@quxtech.com for help.`,
   },
   {
@@ -29,11 +29,11 @@ export const FAQS_STATIC_DATA: FAQs[] = [
     answers: `We'd love to expand! However, we're currently only available in the US.`,
   },
   {
-    question: 'Is there a limit on how many QuxTokens I can send?',
-    answers: `No maximum limits on sending QuxTokens but there is a requirement of 1 QuxToken to be able to send. 1 QuxToken = $20 USD.`,
+    question: 'Is there a limit on how many QUX eToken® I can send?',
+    answers: `No maximum limits on sending QUX eToken® but there is a requirement of 1 QuxToken to be able to send. 1 QuxToken = $20 USD.`,
   },
   {
-    question: 'What fees does QUX Pay® charge to send QuxTokens? ',
+    question: 'What fees does QUX Pay® charge to send QUX eToken®? ',
     answers: `3% fees for cash in and cash out. User to user transfers are free.`,
   },
   {
@@ -50,7 +50,7 @@ export const FAQS_STATIC_DATA: FAQs[] = [
       `,
   },
   {
-    question: 'How do I withdraw QuxTokens from my account? (step-by-step)',
+    question: 'How do I withdraw QUX eToken® from my account? (step-by-step)',
     answers: ``,
   },
   {

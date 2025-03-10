@@ -131,13 +131,13 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
 
             {(type === 'CRYPTO' || type === 'ADD_CRYPTO') && (
               <Text color="white" fontSize="20px">
-                Redeeming Tokens <br /> to Crypto Wallet
+                Redeeming QUX eToken® <br /> to Crypto Wallet
                 <br /> Successfully Initiated
               </Text>
             )}
             {(type === 'BANK' || type === 'ADD_BANK') && (
               <Text color="white" fontSize="20px" mt="1rem">
-                Redeeming Tokens <br /> to {selectedBankDetails?.payment?.bankAccount.nameOnAccount}
+                Redeeming QUX eToken® <br /> to {selectedBankDetails?.payment?.bankAccount.nameOnAccount}
                 <br /> Successfully Initiated
               </Text>
             )}

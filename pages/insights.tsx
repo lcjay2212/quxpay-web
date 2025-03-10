@@ -166,7 +166,7 @@ const InsightPage: FC = () => {
           <Flex flexDir="column" mx="2rem">
             <TextBox label="PO" value={data?.expenses.po.toFixed(2)} isLoading={isLoading} />
             <TextBox label="Purchase" value={data?.expenses.purchase.toFixed(2)} isLoading={isLoading} />
-            <TextBox label="Redeem Tokens" value={data?.expenses.redeem_tokens.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Redeem QUX eToken®" value={data?.expenses.redeem_tokens.toFixed(2)} isLoading={isLoading} />
             <TextBox label="Send to friend" value={data?.expenses.send_qux_tokens.toFixed(2)} isLoading={isLoading} />
             <TextBox label="Services" value={data?.expenses.services.toFixed(2)} isLoading={isLoading} />
           </Flex>

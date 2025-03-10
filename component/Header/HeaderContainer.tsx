@@ -78,7 +78,7 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
                   <MenuItem onClick={(): void => void router.push('/purchase/delete')}>Delete Account</MenuItem>
                 </>
               )}
-              {label === 'Send QUX ®Tokens' && (
+              {label === 'Send QUX eToken®' && (
                 <>
                   <MenuItem onClick={(): void => void router.push('/send-qux-token/delete')}>Delete Friends</MenuItem>
                 </>

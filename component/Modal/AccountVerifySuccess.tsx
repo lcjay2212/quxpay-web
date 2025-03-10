@@ -39,7 +39,7 @@ export const AccountVerifySuccess: FC = () => {
 
               <Flex flexDirection="column" gap="1rem">
                 <Button variant="primary" onClick={(): void => handleClose('/purchase')}>
-                  Purchase Tokens
+                  Purchase QUX eToken®
                 </Button>
                 <Button variant="secondary" onClick={(): void => handleClose('/dashboard')}>
                   Back To Home

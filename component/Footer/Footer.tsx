@@ -86,8 +86,8 @@ export const Footer: FC = () => {
             Pay® and QUXStore™ can only be used to purchase or redeem QUX eToken® through QUX Technologies, Inc.™.
           </Text>
           <Text>
-            QUX Technologies, Inc.™. limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX®
-            Tokens, QUX Pay® and QUXStore™ policies and procedures limited QUX eToken® redemptions to 10,000 or less
+            QUX Technologies, Inc.™. limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX
+            eToken®, QUX Pay® and QUXStore™ policies and procedures limited QUX eToken® redemptions to 10,000 or less
             from any one user in any one day.
           </Text>
           <Text>

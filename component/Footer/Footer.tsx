@@ -125,11 +125,10 @@ export const Footer: FC = () => {
           <Box fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
             <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
             <Text>QUX Pay®</Text>
-            <Text>175 S Third Street</Text>
-            <Text>Suite 210</Text>
-            <Text>Columbus, OH 43215</Text>
+            <Text>9107 Yale Rd.</Text>
+            <Text>Diamond, OH 44412</Text>
             <Text>info@quxnow.com</Text>
-            <Text>(877)-700-0789</Text>
+            <Text>Toll Free: 877-7000-QUX</Text>
           </Box>
           <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (

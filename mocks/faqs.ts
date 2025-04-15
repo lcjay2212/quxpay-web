@@ -30,7 +30,7 @@ export const FAQS_STATIC_DATA: FAQs[] = [
   },
   {
     question: 'Is there a limit on how many QUX eToken® I can send?',
-    answers: `No maximum limits on sending QUX eToken® but there is a requirement of 1 QuxToken to be able to send. 1 QuxToken = $20 USD.`,
+    answers: `There are no maximum limits on QUX® eToken transfers within QUXPay®. However, we maintain a minimum requirement of 20 QUX eTokens® for any sending transaction. For reference: 20 QUX® eTokens = $20 USD.`,
   },
   {
     question: 'What fees does QUX Pay® charge to send QUX eToken®? ',

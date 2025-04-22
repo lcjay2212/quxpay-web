@@ -17,7 +17,7 @@ import axios from 'axios';
 import { FormContainer, TextField } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddFriendIcon, SendQuxCash } from 'public/assets';
+import { AddFriendIcon, QuxTokenIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useTransactionHistoryModal } from 'store';
@@ -264,9 +264,14 @@ export const SendQuxTokenWrapper: FC = () => {
           <Box mt="14rem">
             <Image src={SendQuxCash} width={100} height={100} alt="Redeem" placeholder="empty" />
           </Box>
-          <Text color="white" fontSize="2rem">
-            $ {amount.toFixed(2)}
-          </Text>
+          <Flex mt="2">
+            <Box display="flex" justifyContent="center" mb="1" alignItems="center">
+              <Image src={QuxTokenIcon} height={32} width={32} alt="Qux Logo" />
+            </Box>
+            <Text color="white" fontSize="2rem">
+              {amount.toFixed(2)}
+            </Text>
+          </Flex>
           <Text my="12px">QUX eToken® sent to</Text>
 
           {radioValue === `${friendList?.friends?.length + 1}` ? (

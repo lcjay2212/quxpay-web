@@ -37,77 +37,68 @@ const securityHeaders = [
   },
 ];
 
-module.exports = {
+const nextConfig = {
   reactStrictMode: false,
+
+  // Remove assetPrefix unless you're serving static assets from a CDN
+  // assetPrefix: 'https://quxpay.com', ❌ Remove this unless using a CDN
+
   images: {
     remotePatterns: [
       {
         protocol: 'https',
         hostname: 'api.forumpay.com',
-        port: '',
         pathname: '/pay/qr/**',
       },
       {
         protocol: 'https',
         hostname: 'sandbox.api.forumpay.com',
-        port: '',
         pathname: '/pay/qr/**',
       },
       {
         protocol: 'https',
         hostname: 'p2.api.quxtech.tv',
-        port: '',
         pathname: '/puzzle_images/**',
       },
       {
         protocol: 'https',
         hostname: 'cdn.quxtech.tv',
-        port: '',
         pathname: '/staging-quxtech/**',
       },
       {
         protocol: 'https',
         hostname: 'cdn.qux.tv',
-        port: '',
         pathname: '/quxtech/**',
       },
       {
         protocol: 'https',
         hostname: 'qa.api.quxtech.tv',
-        port: '',
         pathname: '/puzzle_images/**',
       },
       {
         protocol: 'https',
         hostname: 'api.qux.tv',
-        port: '',
         pathname: '/puzzle_images/**',
       },
       {
         protocol: 'https',
         hostname: 's3.qux.tv',
-        port: '',
         pathname: '/quxtech/**',
       },
       {
         protocol: 'https',
         hostname: 's3.qux.tv',
-        port: '',
         pathname: '/keys/puzzle_images/**',
       },
     ],
   },
+
   async headers() {
     return [
       {
-        // Apply security headers to all routes
         source: '/(.*)',
-        headers: securityHeaders,
-      },
-      {
-        // matching all API routes
-        source: '/:path*',
         headers: [
+          ...securityHeaders,
           { key: 'Access-Control-Allow-Credentials', value: 'true' },
           { key: 'Access-Control-Allow-Origin', value: '*' },
           { key: 'Access-Control-Allow-Methods', value: 'GET,PUT,POST,DELETE,PATCH' },
@@ -121,48 +112,32 @@ module.exports = {
       },
     ];
   },
+
   async rewrites() {
     return [
       {
         source: '/api/:path*',
-        destination: 'https://p2.api.quxtech.tv/:path*', // Proxy to QuxTech API
+        destination: 'https://p2.api.quxtech.tv/:path*',
       },
     ];
   },
 };
 
-// Injected content via Sentry wizard below
-
+// Injected Sentry support
 const { withSentryConfig } = require('@sentry/nextjs');
 
 module.exports = withSentryConfig(
-  module.exports,
+  nextConfig,
   {
-    // For all available options, see:
-    // https://github.com/getsentry/sentry-webpack-plugin#options
-
-    // Suppresses source map uploading logs during build
     silent: true,
     org: 'qux-sn',
     project: 'quxpay-web',
   },
   {
-    // For all available options, see:
-    // https://docs.sentry.io/platforms/javascript/guides/nextjs/manual-setup/
-
-    // Upload a larger set of source maps for prettier stack traces (increases build time)
     widenClientFileUpload: true,
-
-    // Transpiles SDK to be compatible with IE11 (increases bundle size)
     transpileClientSDK: true,
-
-    // Routes browser requests to Sentry through a Next.js rewrite to circumvent ad-blockers (increases server load)
     tunnelRoute: '/monitoring',
-
-    // Hides source maps from generated client bundles
     hideSourceMaps: true,
-
-    // Automatically tree-shake Sentry logger statements to reduce bundle size
     disableLogger: true,
   }
 );

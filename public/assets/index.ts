@@ -49,7 +49,7 @@ import ProfileIcon from './icons/user.webp';
 import WithdrawSuccessful from './icons/withdraw_successful.webp';
 import DownloadImg from './images/download.webp';
 import PhoneImage from './images/phone.webp';
-import QrCodeImage from './images/qrcode.webp';
+import QrCodeImage from './images/QUXPAY QR.png';
 
 //Images
 

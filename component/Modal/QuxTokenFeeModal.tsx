@@ -11,7 +11,7 @@ export const QuxTokenFeeModal: FC = () => {
         <ModalBody color="white" pb={6} bg="gray" textAlign="center">
           <Flex flexDir="column">
             <Text fontSize="14px" my="1rem">
-              QUX Token Fees allow for encryption
+              QUX QUX eToken® Fees allow for encryption
               <br />
               between users to remain secure.
               <br />

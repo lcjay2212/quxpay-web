@@ -30,7 +30,7 @@ export const PaidPosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loa
         )}
 
         <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount} loading={loading} />
-        <Label label="Token Fee:" image={QuxTokenIcon} amount={data?.token_fee} loading={loading} />
+        <Label label="QUX eToken® Fee:" image={QuxTokenIcon} amount={data?.token_fee} loading={loading} />
         <Label label="Total Token amount:" image={QuxTokenIcon} amount={data?.total_amount} loading={loading} />
 
         <Box mt="2rem">

@@ -128,7 +128,12 @@ const CheckoutPage: FC = () => {
                 amount={totalPurchaseAndSubsAmount}
                 loading={isLoading}
               />
-              <Label label="Token Fee:" image={QuxTokenIcon} amount={data?.token_fee.toFixed(2)} loading={isLoading} />
+              <Label
+                label="QUX eToken® Fee:"
+                image={QuxTokenIcon}
+                amount={data?.token_fee.toFixed(2)}
+                loading={isLoading}
+              />
               <Label
                 label="Total Token amount:"
                 image={QuxTokenIcon}

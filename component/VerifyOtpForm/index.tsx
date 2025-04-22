@@ -22,6 +22,7 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: strin
     selectedType: e.type,
     setEmail: e.setEmail,
   }));
+
   const [user, domain] = (email ?? selectedEmail ?? '').split('@');
   const params = useRouteParams((e) => e.params);
 

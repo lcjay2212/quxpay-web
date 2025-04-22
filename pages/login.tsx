@@ -13,7 +13,7 @@ import { useLogin } from 'store/useLogin';
 const Login: FC = () => {
   const method = useForm();
   const router = useRouter();
-  const { control, handleSubmit } = method;
+  const { control, handleSubmit, getValues } = method;
 
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
   const { login } = useLogin();
@@ -104,7 +104,7 @@ const Login: FC = () => {
           </Text>
         </>
       ) : (
-        <VerifyOtpForm />
+        <VerifyOtpForm email={getValues('email')} type="login" />
       )}
 
       <PendingAccountModal />

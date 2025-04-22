@@ -1,7 +1,6 @@
 import { ArrowBackIcon, ChevronRightIcon } from '@chakra-ui/icons';
 import { Box, Button, Container, Divider, Flex, Text } from '@chakra-ui/react';
 import { DeleteAccountModal } from 'component';
-import { isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { HelpIcon, QuxPayLogo } from 'public/assets';
@@ -66,28 +65,26 @@ const ProfilePage: FC = () => {
 
           <Divider my="1.5rem" />
 
-          {isLocalHost() && (
-            <Box bg="blue.100" py="0.5rem" px="1.5rem" borderRadius="xl">
-              {mockData.map((item) => (
-                <Flex
-                  justifyContent="space-between"
-                  alignItems="center"
-                  my="1.5rem"
-                  key={item.label}
-                  cursor="pointer"
-                  onClick={(): void => {
-                    void window.open(item.route, 'noopener,noreferrer');
-                  }}
-                >
-                  <Flex alignItems="center" gap={4}>
-                    <Image src={item.icon} height={35} width={35} alt={item.label} />
-                    <Text fontWeight="semibold">{item.label}</Text>
-                  </Flex>
-                  <ChevronRightIcon w={8} h={8} />
+          <Box bg="blue.100" py="0.5rem" px="1.5rem" borderRadius="xl">
+            {mockData.map((item) => (
+              <Flex
+                justifyContent="space-between"
+                alignItems="center"
+                my="1.5rem"
+                key={item.label}
+                cursor="pointer"
+                onClick={(): void => {
+                  void window.open(item.route, 'noopener,noreferrer');
+                }}
+              >
+                <Flex alignItems="center" gap={4}>
+                  <Image src={item.icon} height={35} width={35} alt={item.label} />
+                  <Text fontWeight="semibold">{item.label}</Text>
                 </Flex>
-              ))}
-            </Box>
-          )}
+                <ChevronRightIcon w={8} h={8} />
+              </Flex>
+            ))}
+          </Box>
         </Box>
 
         <Flex flexDir="column" gap={3}>
@@ -95,11 +92,9 @@ const ProfilePage: FC = () => {
             Logout
           </Button>
 
-          {isLocalHost() && (
-            <Button variant="delete" onClick={(): void => setVisible(true)}>
-              Delete Account
-            </Button>
-          )}
+          <Button variant="delete" onClick={(): void => setVisible(true)}>
+            Delete Account
+          </Button>
         </Flex>
       </Flex>
       <DeleteAccountModal />

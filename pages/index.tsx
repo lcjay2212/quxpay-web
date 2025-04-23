@@ -242,7 +242,7 @@ const Home: FC = () => {
           pb={{ base: '3rem', md: 0 }}
           bg={{ base: 'white', md: 'none' }}
           borderRadius="3xl"
-          border="3px solid #D222A8"
+          border={{ base: '3px solid #D222A8', md: 'none' }}
         >
           <Image
             src="/assets/images/qr.png"

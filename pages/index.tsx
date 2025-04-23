@@ -234,8 +234,22 @@ const Home: FC = () => {
         backgroundSize={{ base: 'cover', md: 'contain' }}
         my={{ base: '3rem', md: 0 }}
       >
-        <Flex justify="center" alignItems="center" gap={3} pt={{ base: '2rem', md: '6.5rem' }}>
-          <Image src="/assets/images/qr.png" height={200} width={200} alt="QR" />
+        <Flex
+          justify="center"
+          alignItems="center"
+          gap={3}
+          pt={{ base: '3rem', md: '6.5rem', xl: '11.5rem' }}
+          pb={{ base: '3rem', md: 0 }}
+          bg={{ base: 'white', md: 'none' }}
+          borderRadius="3xl"
+          border="3px solid #D222A8"
+        >
+          <Image
+            src="/assets/images/qr.png"
+            height={breakPoint === 'base' ? 140 : 200}
+            width={breakPoint === 'base' ? 140 : 200}
+            alt="QR"
+          />
           <Flex flexDirection="column" gap={4}>
             <Box
               cursor="pointer"

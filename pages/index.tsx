@@ -228,12 +228,38 @@ const Home: FC = () => {
 
       <Box
         h={{ base: '60vh', md: '100vh' }}
-        bgImage="url('/assets/images/BG-5-v2.webp')"
+        bgImage="url('/assets/images/qr-background.jpg')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize={{ base: 'cover', md: 'contain' }}
         my={{ base: '3rem', md: 0 }}
-      />
+      >
+        <Flex justify="center" alignItems="center" gap={3} pt={{ base: '2rem', md: '6.5rem' }}>
+          <Image src="/assets/images/qr.png" height={200} width={200} alt="QR" />
+          <Flex flexDirection="column" gap={4}>
+            <Box
+              cursor="pointer"
+              onClick={(): void =>
+                void window.open(
+                  'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US',
+                  'noopener,noreferrer'
+                )
+              }
+            >
+              <Image src="/assets/images/google-play.png" height={200} width={200} alt="QR" />
+            </Box>
+
+            <Box
+              cursor="pointer"
+              onClick={(): void =>
+                void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
+              }
+            >
+              <Image src="/assets/images/app-store.png" height={200} width={200} alt="QR" />
+            </Box>
+          </Flex>
+        </Flex>
+      </Box>
 
       <Footer />
     </Box>

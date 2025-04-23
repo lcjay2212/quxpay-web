@@ -1,7 +1,7 @@
 import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { GooglePlayImage, QuxPayLogoPng } from 'public/assets';
+import { QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 import { openInNewTab } from 'utils';
 
@@ -148,7 +148,39 @@ export const Footer: FC = () => {
             ))}
           </Box>
           <Box color="white">
-            <Image src={GooglePlayImage} alt="Google Play and App Store" width={300} height={100} placeholder="empty" />
+            <Flex
+              justify="center"
+              alignItems="center"
+              borderRadius="xl"
+              border="3px solid #D222A8"
+              bg="white"
+              gap={3}
+              p="1rem"
+            >
+              <Image src="/assets/images/qr.png" height={100} width={100} alt="QR" />
+              <Flex flexDirection="column" gap={4}>
+                <Box
+                  cursor="pointer"
+                  onClick={(): void =>
+                    void window.open(
+                      'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US',
+                      'noopener,noreferrer'
+                    )
+                  }
+                >
+                  <Image src="/assets/images/google-play.png" height={150} width={150} alt="QR" />
+                </Box>
+
+                <Box
+                  cursor="pointer"
+                  onClick={(): void =>
+                    void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
+                  }
+                >
+                  <Image src="/assets/images/app-store.png" height={150} width={150} alt="QR" />
+                </Box>
+              </Flex>
+            </Flex>
             <Text
               fontSize={{ base: '20px', md: '16px', lg: '29px' }}
               fontWeight="bold"

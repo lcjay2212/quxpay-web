@@ -226,54 +226,55 @@ const Home: FC = () => {
         </Text>
       </Container>
 
+      <Flex
+        justify="center"
+        alignItems="center"
+        gap={3}
+        bg="white"
+        borderRadius="3xl"
+        px="2rem"
+        py="2rem"
+        border={{ base: '3px solid #D222A8' }}
+        maxW={500}
+        mx="auto"
+      >
+        <Image
+          src="/assets/images/qr.png"
+          height={breakPoint === 'base' ? 140 : 200}
+          width={breakPoint === 'base' ? 140 : 200}
+          alt="QR"
+        />
+        <Flex flexDirection="column" gap={4}>
+          <Box
+            cursor="pointer"
+            onClick={(): void =>
+              void window.open(
+                'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US',
+                'noopener,noreferrer'
+              )
+            }
+          >
+            <Image src="/assets/images/google-play.png" height={200} width={200} alt="QR" />
+          </Box>
+
+          <Box
+            cursor="pointer"
+            onClick={(): void =>
+              void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
+            }
+          >
+            <Image src="/assets/images/app-store.png" height={200} width={200} alt="QR" />
+          </Box>
+        </Flex>
+      </Flex>
+
       <Box
-        h={{ base: '60vh', md: '100vh' }}
-        bgImage="url('/assets/images/qr-background.jpg')"
+        h="50vh"
+        bgImage="url('/assets/images/box.jpg')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize={{ base: 'cover', md: 'contain' }}
-        my={{ base: '3rem', md: 0 }}
-      >
-        <Flex
-          justify="center"
-          alignItems="center"
-          gap={3}
-          pt={{ base: '3rem', md: '6.5rem', xl: '11.5rem' }}
-          pb={{ base: '3rem', md: 0 }}
-          bg={{ base: 'white', md: 'none' }}
-          borderRadius="3xl"
-          border={{ base: '3px solid #D222A8', md: 'none' }}
-        >
-          <Image
-            src="/assets/images/qr.png"
-            height={breakPoint === 'base' ? 140 : 200}
-            width={breakPoint === 'base' ? 140 : 200}
-            alt="QR"
-          />
-          <Flex flexDirection="column" gap={4}>
-            <Box
-              cursor="pointer"
-              onClick={(): void =>
-                void window.open(
-                  'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US',
-                  'noopener,noreferrer'
-                )
-              }
-            >
-              <Image src="/assets/images/google-play.png" height={200} width={200} alt="QR" />
-            </Box>
-
-            <Box
-              cursor="pointer"
-              onClick={(): void =>
-                void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
-              }
-            >
-              <Image src="/assets/images/app-store.png" height={200} width={200} alt="QR" />
-            </Box>
-          </Flex>
-        </Flex>
-      </Box>
+      ></Box>
 
       <Footer />
     </Box>

@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, SchedulePayBillModal, TextField } from 'component';
 import { FETCH_SCHEDULED_PAYMENT_LISTS } from 'constants/api';
 import Image from 'next/image';
-import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useSchedulePayBillModal } from 'store';
 
@@ -47,7 +46,7 @@ const ScheduledList: FC = () => {
                       <Flex justifyContent="center" alignItems="center">
                         <Flex justifyContent="center" width="auto" height={50}>
                           <Image
-                            src={BillsIcon}
+                            src="/assets/icons/bills.webp"
                             width={100}
                             height={100}
                             alt={item.id}

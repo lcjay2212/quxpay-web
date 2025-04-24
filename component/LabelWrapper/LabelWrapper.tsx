@@ -16,7 +16,7 @@ export const Label: FC<{ label: string; image: any; amount: number; loading?: bo
       <Flex fontSize="18px" justifyContent="space-between" alignItems="center" mt="0.5rem">
         <Flex>
           <Text w="auto">{label}</Text>&nbsp;
-          {label === 'Token Fee:' && (
+          {label === 'QUX eToken® Fee:' && (
             <Text
               bg="gray"
               borderRadius="50%"

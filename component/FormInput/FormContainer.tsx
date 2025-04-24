@@ -34,7 +34,7 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
               : // <Flex>
                 //   <Text>Maximum Amount Available</Text>
                 //   <Box ml={2} display="flex" justifyContent="center" alignItems="center">
-                //     <Image src={QuxTokenIcon} height={20} width={20} alt="Qux Logo" placeholder="empty" />
+                //     <Image src='/assets/icons/qux-token.webp' height={20} width={20} alt="Qux Logo" placeholder="empty" />
                 //   </Box>
                 //   <Text>100</Text>
                 // </Flex>

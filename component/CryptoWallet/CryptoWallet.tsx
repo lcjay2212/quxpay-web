@@ -1,6 +1,5 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import Image from 'next/image';
-import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 
 export const CryptoWallet: FC<{ name?: string; address: string; type: string; loading: boolean }> = ({
@@ -13,7 +12,7 @@ export const CryptoWallet: FC<{ name?: string; address: string; type: string; lo
     {!loading ? (
       <Flex gap={4} height="60px" textAlign="start" color="white">
         <Box height={80}>
-          <Image src={CryptoIcon} height={50} width={50} placeholder="empty" alt="Qux Wallet" />
+          <Image src="/assets/icons/crypto-icon.webp" height={50} width={50} placeholder="empty" alt="Qux Wallet" />
         </Box>
         <Box fontSize="lg">
           <Text noOfLines={1}>

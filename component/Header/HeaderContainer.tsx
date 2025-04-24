@@ -2,7 +2,6 @@ import { ArrowBackIcon, HamburgerIcon } from '@chakra-ui/icons';
 import { Box, Flex, IconButton, Menu, MenuButton, MenuItem, MenuList, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxLogo, UnpaidHistoryIcon, UploadIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import {
   useAccountPaymentId,
@@ -47,14 +46,14 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
               setPage(0);
             }}
           />
-          {label === 'Wallet' && <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" />}
+          {label === 'Wallet' && <Image src="/assets/images/qux-logo.webp" height={35} width={100} alt="Qux Logo" />}
           <Text color="primary" fontSize={label?.charAt(0) !== 'S' ? '4xl' : '3xl'} w="auto">
             {label?.charAt(0)}
             <span style={{ color: 'white' }}>{label?.substring(1)}</span>
           </Text>
           {label === 'Checkout' && (
             <Box ml="1rem">
-              <Image src={UnpaidHistoryIcon} height={30} width={30} alt="Qux Wallet" />
+              <Image src="/assets/icons/unpaid-history-icon.webp" height={30} width={30} alt="Qux Wallet" />
             </Box>
           )}
         </Flex>
@@ -78,7 +77,7 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
                   <MenuItem onClick={(): void => void router.push('/purchase/delete')}>Delete Account</MenuItem>
                 </>
               )}
-              {label === 'Send QUX ®Tokens' && (
+              {label === 'Send QUX eToken®' && (
                 <>
                   <MenuItem onClick={(): void => void router.push('/send-qux-token/delete')}>Delete Friends</MenuItem>
                 </>
@@ -104,7 +103,7 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
         )}
         {label === 'Transactions' && (
           <Box mt="0.5rem" cursor="pointer" onClick={(): void => void router.push('/transaction/download')}>
-            <Image src={UploadIcon} height={25} width={25} alt="Upload icon" />
+            <Image src="/assets/icons/upload-icon.webp" height={25} width={25} alt="Upload icon" />
           </Box>
         )}
       </Flex>

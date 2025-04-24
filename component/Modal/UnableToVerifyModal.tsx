@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { QuxLogo } from 'public/assets';
 import { FC } from 'react';
 import { useUnableToVerifyModal } from 'store';
 
@@ -22,7 +21,7 @@ export const UnableToVerifyModal: FC = () => {
             mx={{ base: '0', md: 'auto' }}
             w={{ base: 'auto', md: 400 }}
           >
-            <Image src={QuxLogo} width={100} height={100} alt="Qux Logo" />
+            <Image src="/assets/images/qux-logo.webp" width={100} height={100} alt="Qux Logo" />
 
             <Flex height="60vh" flexDirection="column" justifyContent="space-between" px="1rem" mt="4rem" gap="0.5rem">
               <Box color="white" fontSize="0.85rem" mb="5rem">

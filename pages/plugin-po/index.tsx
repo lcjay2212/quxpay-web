@@ -1,7 +1,6 @@
 import { Box, Spinner } from '@chakra-ui/react';
 import { HeaderContainer, ItemListDisplay } from 'component';
 import { startCase } from 'lodash';
-import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { usePosHistory } from 'store';
 const PluginPoHistoryPage: FC = () => {
@@ -31,7 +30,7 @@ const PluginPoHistoryPage: FC = () => {
                         amount={+item.amount}
                         key={item.id}
                         complete={item.confirmed}
-                        image={QuxWalletIcon}
+                        image="/assets/icons/qux_wallet.webp"
                         hasComplete
                       />
                     );

@@ -3,7 +3,6 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, TextField } from 'component';
 import Image from 'next/image';
-import { BankIcon, UploadIcon2 } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useUser, useVerifyModal } from 'store';
@@ -64,7 +63,7 @@ export const VerifyModal: FC = () => {
       <ModalContent bg="black">
         <ModalBody>
           <Flex flexDirection="column" justifyContent="center" alignItems="center" mt="4rem">
-            <Image src={BankIcon} height={90} width={90} alt="Qux Logo" placeholder="empty" />
+            <Image src="/assets/icons/bank.webp" height={90} width={90} alt="Qux Logo" placeholder="empty" />
 
             <Text color="white" textAlign="center" fontWeight="bold" fontSize="1.5rem">
               <chakra.span color="primary">N</chakra.span>
@@ -174,7 +173,7 @@ export const VerifyModal: FC = () => {
                                 >
                                   <Text mr="0.5rem">Upload File</Text>
                                   <Image
-                                    src={UploadIcon2}
+                                    src="/assets/icons/upload-icon-2.webp"
                                     height={15}
                                     width={15}
                                     alt="Upload icon"
@@ -223,7 +222,7 @@ export const VerifyModal: FC = () => {
                                 >
                                   <Text mr="0.5rem">Upload File</Text>
                                   <Image
-                                    src={UploadIcon2}
+                                    src="/assets/icons/upload-icon-2.webp"
                                     height={15}
                                     width={15}
                                     alt="Upload icon"

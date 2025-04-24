@@ -33,9 +33,8 @@ import {
 import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
-import { QuxPayLogo, QuxTokenIcon } from 'public/assets';
-import { FC } from 'react';
-import { useAmountVerificationModal, useLogout, useUser } from 'store';
+import { FC, useEffect } from 'react';
+import { useAmountVerificationModal, useLogout, usePendingBankAccountVerificationModal, useUser } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps } from 'utils';
 
@@ -65,6 +64,9 @@ const Dashboard: FC = () => {
   const { data: balance, dataLoading } = useDecryptedData('balance');
 
   const setVisible = useAmountVerificationModal(({ setVisible }) => setVisible);
+  const { setIsPendingBankAccountVerificationModal } = usePendingBankAccountVerificationModal((e) => ({
+    setIsPendingBankAccountVerificationModal: e.setVisible,
+  }));
 
   const { isLoading } = useQuery<{ unpaid_or_open: PosHistoryProps[] }>({
     queryKey: ['posHistory'],
@@ -82,6 +84,12 @@ const Dashboard: FC = () => {
     ssr: false,
   });
 
+  useEffect(() => {
+    if (data?.status === 'Pending') {
+      setIsPendingBankAccountVerificationModal(true);
+    }
+  }, [data, setIsPendingBankAccountVerificationModal]);
+
   return (
     <Box>
       <SEO page="dashboard" />
@@ -89,7 +97,7 @@ const Dashboard: FC = () => {
         <Flex justifyContent="space-between" alignItems="center">
           <Flex justifyContent="start" py="1rem">
             <Box display="flex" justifyContent="center" height="50px" mr="8px">
-              <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" placeholder="empty" />
+              <Image src="/assets/images/qux-pay-logo.webp" height={50} width={50} alt="Qux Logo" placeholder="empty" />
             </Box>
 
             <Text color="primary" fontSize="3xl" textAlign="center">
@@ -112,7 +120,7 @@ const Dashboard: FC = () => {
           <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
             <Label
               label="Available Balance"
-              image={QuxTokenIcon}
+              image="/assets/icons/qux-token.webp"
               amount={(balance?.balance?.balance || 0).toFixed(2)}
               loading={dataLoading}
             />
@@ -121,17 +129,22 @@ const Dashboard: FC = () => {
             </Flex>
             <Label
               label="Purchase Pending"
-              image={QuxTokenIcon}
+              image="/assets/icons/qux-token.webp"
               amount={Number(balance?.balance?.deposit || 0).toFixed(2)}
               loading={dataLoading}
             />
-            <Label label="Tagged Tokens" image={QuxTokenIcon} amount={(0).toFixed(2)} loading={dataLoading} />
+            <Label
+              label="Tagged Tokens"
+              image="/assets/icons/qux-token.webp"
+              amount={(0).toFixed(2)}
+              loading={dataLoading}
+            />
             <Flex justifyContent="center">
               <Divider colorScheme="red" orientation="vertical" variant="dashed" />
             </Flex>
             <Label
               label="Redeem Pending"
-              image={QuxTokenIcon}
+              image="/assets/icons/qux-token.webp"
               amount={Number(balance?.balance?.withdraw_pending || 0).toFixed(2)}
               loading={dataLoading}
             />

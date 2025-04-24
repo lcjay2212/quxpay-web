@@ -3,7 +3,6 @@ import { Box, Button, Container, Divider, Flex, Text } from '@chakra-ui/react';
 import { DeleteAccountModal } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { HelpIcon, QuxPayLogo } from 'public/assets';
 import { FC } from 'react';
 import { useLogout, useUser } from 'store';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
@@ -17,7 +16,7 @@ const ProfilePage: FC = () => {
     //   route: '',
     // },
     {
-      icon: HelpIcon,
+      icon: '/assets/icons/help-icon.webp',
       label: 'Help',
       route: 'https://blog.quxpay.com/',
     },
@@ -46,7 +45,7 @@ const ProfilePage: FC = () => {
               }}
             />
             <Box display="flex" justifyContent="center" height="50px" mr="8px">
-              <Image src={QuxPayLogo} height={50} width={50} alt="Qux Logo" placeholder="empty" />
+              <Image src="/assets/images/qux-pay-logo.webp" height={50} width={50} alt="Qux Logo" placeholder="empty" />
             </Box>
 
             <Text color="primary" fontSize="3xl" textAlign="center">

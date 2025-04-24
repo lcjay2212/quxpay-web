@@ -10,7 +10,15 @@ export const NotificationListDisplay: FC<{
   onClick?: () => void;
 }> = ({ title, date, message, onClick }) => {
   return (
-    <Flex gap={2} justifyContent="flex-start" alignItems="center" color="white" onClick={onClick} cursor="pointer">
+    <Flex
+      gap={2}
+      justifyContent="flex-start"
+      alignItems="center"
+      color="white"
+      onClick={onClick}
+      cursor="pointer"
+      mb="4"
+    >
       <Flex textAlign="center">
         <BellIcon color="#FDB851" w="3rem" height="3rem" />
         <Badge
@@ -27,7 +35,7 @@ export const NotificationListDisplay: FC<{
           h="4"
         />
       </Flex>
-      <Box fontSize="12px" w="auto">
+      <Box fontSize="12px" w="100vw">
         <Flex justifyContent="space-between">
           <Text fontSize="14px" fontWeight="semibold" noOfLines={1}>
             {title}

@@ -5,7 +5,6 @@ import { FormContainer, TextField } from 'component';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { notify } from 'utils';
@@ -34,7 +33,7 @@ const ForgotPassword: FC = () => {
   return (
     <Grid placeContent="center" h="100vh" gap="2">
       <Box display="flex" justifyContent="center">
-        <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+        <Image src="/assets/images/qux-pay-logo.webp" height={70} width={135} alt="Qux Logo" />
       </Box>
 
       <Flex mt="2rem" alignItems="center">

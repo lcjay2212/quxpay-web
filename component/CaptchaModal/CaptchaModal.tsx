@@ -19,17 +19,16 @@ import axios from 'axios';
 
 import Image from 'next/image';
 import { FC, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
-import { useCaptchaModal } from 'store';
-import { useLogin } from 'store/useLogin';
+import { useCaptchaModal, useVerifyOtp } from 'store';
 import { notify } from 'utils';
 
 export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => {
   const [visible, setVisible] = useCaptchaModal(({ visible, setVisible }) => [visible, setVisible]);
   const [yPosition, setYPosition] = useState(0);
   const [xPosition, setXPosition] = useState(0);
-  const { getValues } = useFormContext();
-  const { login } = useLogin();
+
+  const setVerify = useVerifyOtp((e) => e.setVerify);
+
   const [sliderXValue, setXSliderValue] = useState(0);
   const [sliderYValue, setYSliderValue] = useState(0);
 
@@ -70,10 +69,7 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
       notify(data?.status?.message);
       setVisible(false);
       if (label === 'login') {
-        login.mutate({
-          email: getValues('email'),
-          password: getValues('password'),
-        });
+        setVerify(true);
       }
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

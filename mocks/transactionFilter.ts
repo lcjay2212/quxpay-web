@@ -1,5 +1,3 @@
-import { FailedIcon, ProcessingIcon, SuccessIcon } from 'public/assets';
-
 export const DATE_FILTER = [
   {
     value: 'last_7_days',
@@ -26,7 +24,7 @@ export const TRANSACTION_FILTER = [
   },
   {
     value: 'redeem_tokens',
-    label: 'Redeem Tokens',
+    label: 'Redeem QUX eToken®',
   },
   {
     value: 'send_tokens',
@@ -48,17 +46,17 @@ export const TRANSACTION_FILTER = [
 
 export const STATUS_FILTER = [
   {
-    icon: SuccessIcon,
+    icon: '/assets/icons/succesful-icon.webp',
     value: 'success',
     label: 'Successful',
   },
   {
-    icon: FailedIcon,
+    icon: '/assets/icons/failed-icon.webp',
     value: 'failed',
     label: 'Failed',
   },
   {
-    icon: ProcessingIcon,
+    icon: '/assets/icons/processing-icon.webp',
     value: 'processing',
     label: 'Processing',
   },

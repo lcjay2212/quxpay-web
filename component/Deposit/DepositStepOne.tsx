@@ -26,7 +26,6 @@ import {
 import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
-import { AddBankIconTwo, AddCreditCardIcon, AddCryptoIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
@@ -254,7 +253,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
             <>
               <Flex my="1.5rem" justifyContent="space-between">
                 <Flex alignItems="center">
-                  <Image src={AddCryptoIcon} height={50} width={60} alt="Add Bank Icon" />
+                  <Image src="/assets/icons/add-crypto-icon.webp" height={50} width={60} alt="Add Bank Icon" />
                   <Text ml="1rem" color="white" fontSize="1.25rem">
                     Add New Crypto Wallet
                   </Text>
@@ -272,7 +271,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
             <>
               <Flex my="1.5rem" justifyContent="space-between">
                 <Flex alignItems="center">
-                  <Image src={AddBankIconTwo} height={50} width={60} alt="Add Bank Icon" />
+                  <Image src="/assets/icons/add-bank-icon.webp" height={50} width={60} alt="Add Bank Icon" />
                   <Text ml="1rem" color="white" fontSize="1.25rem">
                     Add New Bank Account
                   </Text>
@@ -285,7 +284,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
               <Flex my="1.5rem" justifyContent="space-between">
                 <Flex alignItems="center">
-                  <Image src={AddCreditCardIcon} height={50} width={60} alt="Add Bank Icon" />
+                  <Image src="/assets./icons/add_credit_card_icon.webp" height={50} width={60} alt="Add Bank Icon" />
                   <Text ml="1rem" color="white" fontSize="1.25rem">
                     Add New Credit Card
                   </Text>
@@ -298,7 +297,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
               <Flex my="1.5rem" justifyContent="space-between">
                 <Flex alignItems="center">
-                  <Image src={AddCryptoIcon} height={50} width={60} alt="Add Bank Icon" />
+                  <Image src="/assets/icons/add-crypto-icon.webp" height={50} width={60} alt="Add Bank Icon" />
                   <Text ml="1rem" color="white" fontSize="1.25rem">
                     Cash In Crypto
                   </Text>

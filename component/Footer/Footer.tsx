@@ -1,7 +1,6 @@
 import { Box, Container, Flex, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { GooglePlayImage, QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 import { openInNewTab } from 'utils';
 
@@ -86,8 +85,8 @@ export const Footer: FC = () => {
             Pay® and QUXStore™ can only be used to purchase or redeem QUX eToken® through QUX Technologies, Inc.™.
           </Text>
           <Text>
-            QUX Technologies, Inc.™. limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX®
-            Tokens, QUX Pay® and QUXStore™ policies and procedures limited QUX eToken® redemptions to 10,000 or less
+            QUX Technologies, Inc.™. limits the purchase of QUX eToken® of any user to 2,000 in any one day. QUX
+            eToken®, QUX Pay® and QUXStore™ policies and procedures limited QUX eToken® redemptions to 10,000 or less
             from any one user in any one day.
           </Text>
           <Text>
@@ -123,13 +122,12 @@ export const Footer: FC = () => {
       <Container maxW="1080px" color="white">
         <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
           <Box fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
-            <Image src={QuxPayLogoPng} height={100} width={200} alt="Qux Logo" placeholder="empty" />
+            <Image src="/assets/images/quxpay-logo.webp" height={100} width={200} alt="Qux Logo" placeholder="empty" />
             <Text>QUX Pay®</Text>
-            <Text>175 S Third Street</Text>
-            <Text>Suite 210</Text>
-            <Text>Columbus, OH 43215</Text>
+            <Text>9107 Yale Rd.</Text>
+            <Text>Diamond, OH 44412</Text>
             <Text>info@quxnow.com</Text>
-            <Text>(877)-700-0789</Text>
+            <Text>Toll Free: 877-7000-QUX</Text>
           </Box>
           <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (
@@ -149,7 +147,39 @@ export const Footer: FC = () => {
             ))}
           </Box>
           <Box color="white">
-            <Image src={GooglePlayImage} alt="Google Play and App Store" width={300} height={100} placeholder="empty" />
+            <Flex
+              justify="center"
+              alignItems="center"
+              borderRadius="xl"
+              border="3px solid #D222A8"
+              bg="white"
+              gap={3}
+              p="1rem"
+            >
+              <Image src="/assets/images/qr.png" height={100} width={100} alt="QR" />
+              <Flex flexDirection="column" gap={4}>
+                <Box
+                  cursor="pointer"
+                  onClick={(): void =>
+                    void window.open(
+                      'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US',
+                      'noopener,noreferrer'
+                    )
+                  }
+                >
+                  <Image src="/assets/images/google-play.png" height={150} width={150} alt="QR" />
+                </Box>
+
+                <Box
+                  cursor="pointer"
+                  onClick={(): void =>
+                    void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
+                  }
+                >
+                  <Image src="/assets/images/app-store.png" height={150} width={150} alt="QR" />
+                </Box>
+              </Flex>
+            </Flex>
             <Text
               fontSize={{ base: '20px', md: '16px', lg: '29px' }}
               fontWeight="bold"

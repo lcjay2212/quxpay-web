@@ -1,6 +1,5 @@
 import { Box, Spinner } from '@chakra-ui/react';
 import { HeaderContainer, ItemListDisplay } from 'component';
-import { UnpaidHistoryIcon } from 'public/assets';
 import { FC } from 'react';
 import { usePosHistory } from 'store';
 
@@ -27,7 +26,7 @@ const TokenHistoryPage: FC = () => {
                     amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}
-                    image={UnpaidHistoryIcon}
+                    image="/assets/icons/unpaid-history-icon.webp"
                     // onClick={(): void => void router.push(`/open-po/${item.id}`)}
                   />
                 ))}

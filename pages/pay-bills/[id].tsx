@@ -5,7 +5,6 @@ import { HeaderContainer, SchedulePayBillModal, TextField } from 'component';
 import { FETCH_BILLER_BY_CATEGORY_ID } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { BillsIcon } from 'public/assets';
 import { FC } from 'react';
 import { useHeaderName, useSchedulePayBillModal } from 'store';
 
@@ -45,7 +44,7 @@ const PayBillsByCategory: FC = () => {
                 <Flex justifyContent="center" alignItems="center">
                   <Flex justifyContent="center" width="auto" height={50}>
                     <Image
-                      src={BillsIcon}
+                      src="/assets/icons/bills.webp"
                       width={60}
                       height={100}
                       alt={item.id}

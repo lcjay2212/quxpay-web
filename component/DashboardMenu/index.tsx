@@ -5,16 +5,6 @@ import axios from 'axios';
 import { isLocalHost } from 'constants/url';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import {
-  BillsIcon,
-  CashIn,
-  CryptoPriceIcon,
-  InsightIcon,
-  ProfileIcon,
-  SendQuxCash,
-  UploadIcon,
-  WithdrawSuccessful,
-} from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useUploadLoadingModal, useUser } from 'store';
 import { notify } from 'utils';
@@ -50,70 +40,70 @@ const DashboardMenu: FC = () => {
 
   const dashboardMenu = [
     {
-      image: CashIn,
+      image: '/assets/icons/cash_in.webp',
       alt: 'Purchase',
       route: '/purchase',
       label: 'Purchase',
       show: true,
     },
     {
-      image: WithdrawSuccessful,
+      image: '/assets/icons/withdraw_successful.webp',
       alt: 'Redeem',
       route: '/redeem',
-      label: 'Redeem Tokens',
+      label: 'Redeem QUX eToken®',
       show: true,
     },
     {
-      image: SendQuxCash,
+      image: '/assets/icons/send_qux_cash.webp',
       alt: 'Send',
       route: '/send-qux-token',
       label: 'Send QUX eToken®',
       show: true,
     },
     {
-      image: BillsIcon,
+      image: '/assets/icons/bills.webp',
       alt: 'Pay Bills',
       route: '/pay-bills',
       label: 'Pay Bills',
       show: isLocalHost(),
     },
     {
-      image: UploadIcon,
+      image: '/assets/icons/upload-icon.webp',
       alt: 'Upload',
       route: '/',
       label: 'Upload CSV File',
       show: user?.corporate,
     },
     {
-      image: SendQuxCash,
+      image: '/assets/icons/send_qux_cash.webp',
       alt: 'Create',
       route: '/create-po',
       label: 'Create PO',
       show: user?.corporate,
     },
     {
-      image: InsightIcon,
+      image: '/assets/icons/insight-icon.webp',
       alt: 'Insights',
       route: '/insights',
       label: 'Insights',
       show: isLocalHost(),
     },
     {
-      image: ProfileIcon,
+      image: '/assets/icons/user.webp',
       alt: 'Profile',
       route: '/profile',
       label: 'Profile',
       show: true,
     },
     {
-      image: BillsIcon,
+      image: '/assets/icons/bills.webp',
       alt: 'Biller API',
       route: '/biller-api',
       label: 'Biller API',
       show: user?.corporate,
     },
     {
-      image: CryptoPriceIcon,
+      image: '/assets/icons/crypto-price-icon.webp',
       alt: 'Crypto Price',
       route: '/crypto/prices',
       label: 'Crypto Price',

@@ -2,7 +2,6 @@ import { Box, chakra, Flex, FormLabel, Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
-import { AddBankIconTwo, UploadIcon2 } from 'public/assets';
 import { FC, ReactElement, useEffect, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
@@ -42,7 +41,7 @@ export const FinalStep: FC<{ type: string }> = ({ type }) => {
   return (
     <>
       <Flex mb="1.5rem" alignItems="center">
-        <Image src={AddBankIconTwo} height={50} width={60} alt="Add Bank Icon" />
+        <Image src="/assets/icons/add-bank-icon.webp" height={50} width={60} alt="Add Bank Icon" />
         <Text ml="1rem" color="white" fontSize="1.25rem">
           Add New Bank Account
         </Text>
@@ -283,7 +282,13 @@ export const FinalStep: FC<{ type: string }> = ({ type }) => {
                       alignItems="center"
                     >
                       <Text mr="0.5rem">Upload File</Text>
-                      <Image src={UploadIcon2} height={15} width={15} alt="Upload icon" placeholder="empty" />
+                      <Image
+                        src="/assets/icons/upload-icon-2.webp"
+                        height={15}
+                        width={15}
+                        alt="Upload icon"
+                        placeholder="empty"
+                      />
                     </Flex>
                   </chakra.label>
                 </Box>
@@ -326,7 +331,13 @@ export const FinalStep: FC<{ type: string }> = ({ type }) => {
                       alignItems="center"
                     >
                       <Text mr="0.5rem">Upload File</Text>
-                      <Image src={UploadIcon2} height={15} width={15} alt="Upload icon" placeholder="empty" />
+                      <Image
+                        src="/assets/icons/upload-icon-2.webp"
+                        height={15}
+                        width={15}
+                        alt="Upload icon"
+                        placeholder="empty"
+                      />
                     </Flex>
                   </chakra.label>
                 </Box>

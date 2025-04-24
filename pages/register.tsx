@@ -7,7 +7,6 @@ import { VerifyOtpForm } from 'component/VerifyOtpForm';
 import { post } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { HandsIcon, QuxLogo, QuxPayLogo, ShieldIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useCaptchaModal } from 'store';
@@ -122,7 +121,7 @@ const Register: FC = () => {
       <Box display={!selected ? 'block' : 'none'}>
         <Grid placeContent="center" h="100vh" gap="2" textAlign="center">
           <Box display="flex" justifyContent="center">
-            <Image src={QuxLogo} height={35} width={100} alt="Qux Logo" />
+            <Image src="/assets/images/qux-logo.webp" height={35} width={100} alt="Qux Logo" />
           </Box>
 
           <Text color="primary" fontSize="3xl">
@@ -163,7 +162,7 @@ const Register: FC = () => {
         {!verification ? (
           <Grid placeContent="center" h="auto" gap="2" my="3rem">
             <Box display="flex" justifyContent="center">
-              <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+              <Image src="/assets/images/qux-pay-logo.webp" height={70} width={135} alt="Qux Logo" />
             </Box>
 
             {step === 1 && (
@@ -227,8 +226,8 @@ const Register: FC = () => {
 
                 <Flex justifyContent="space-around" alignItems="center" my="1rem">
                   <Flex flexDirection="column">
-                    <Image src={ShieldIcon} height={45} width={45} alt="Shield" />
-                    <Image src={HandsIcon} height={45} width={45} alt="Hands" />
+                    <Image src="/assets/icons/shield.webp" height={45} width={45} alt="Shield" />
+                    <Image src="/assets/icons/awesome-hands.webp" height={45} width={45} alt="Hands" />
                   </Flex>
                   <Text color="white" fontSize="1.25rem">
                     Securely enter your bank <br />
@@ -260,7 +259,7 @@ const Register: FC = () => {
             </FormProvider>
           </Grid>
         ) : (
-          <VerifyOtpForm email={getValues('email')} selected={selected} />
+          <VerifyOtpForm email={getValues('email')} selected={selected} type="register" />
         )}
       </Box>
 

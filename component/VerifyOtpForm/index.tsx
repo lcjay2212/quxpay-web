@@ -6,32 +6,43 @@ import storage from 'constants/storage';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { usePendingAccountModal, usePendingBankAccountVerificationModal, useUser } from 'store';
+import { usePendingAccountModal, useRouteParams, useUser, useVerifyOtp } from 'store';
 import { notify } from 'utils';
 
-export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email, selected }) => {
+export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: string }> = ({ email, selected, type }) => {
   const router = useRouter();
   const method = useForm();
   const { handleSubmit, control } = method;
   const setVisible = usePendingAccountModal((e) => e.setVisible);
   const pinFields = new Array(6).fill(null);
   const setUser = useUser((e) => e.setUser);
-  const setVerificationVisible = usePendingBankAccountVerificationModal(({ setVisible }) => setVisible);
-  const [user, domain] = (email ?? '').split('@');
+  const { setVerify, selectedEmail, selectedType, setEmail } = useVerifyOtp((e) => ({
+    setVerify: e.setVerify,
+    selectedEmail: e.email,
+    selectedType: e.type,
+    setEmail: e.setEmail,
+  }));
+
+  const [user, domain] = (email ?? selectedEmail ?? '').split('@');
+  const params = useRouteParams((e) => e.params);
 
   const { mutate: verify, isPending: isVerifying } = useMutation({
     mutationFn: (variable) => post('web/otp/verify', variable),
     onSuccess: ({ data }: any) => {
       notify('Verify OTP success');
+      setVerify(false);
+      setEmail(null);
       if (selected === undefined || selected === 'regular') {
         sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
         sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
         setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
-        setVerificationVisible(true);
         void router.push('/dashboard');
       } else {
         setVisible(true);
       }
+
+      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
+      void router.push(redirectUrl);
     },
     onError: ({ response }: any) => {
       notify(response?.data?.status?.message || response?.data?.errors?.otp, { status: 'error' });
@@ -50,9 +61,9 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email
 
   const onVerify = (val): void => {
     verify({
-      email,
+      email: email ?? selectedEmail,
       otp: val.pin,
-      type: 'register',
+      type: type ?? selectedType,
     } as any);
   };
 
@@ -98,8 +109,8 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string }> = ({ email
                 cursor="pointer"
                 onClick={(): void => {
                   resend({
-                    email,
-                    type: 'register',
+                    email: email ?? selectedEmail,
+                    type: type ?? selectedType,
                   } as any);
                 }}
               >

@@ -6,7 +6,6 @@ import { HeaderContainer, ItemListDisplay } from 'component';
 import Pagination from 'component/Pagination/Pagination';
 import { startCase } from 'lodash';
 import forge from 'node-forge';
-import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { usePage } from 'store';
 import { notify, queryClient } from 'utils';
@@ -146,7 +145,7 @@ const TransactionHistoryPage: FC = () => {
                       amount={+item.amount}
                       key={item.id}
                       complete={item.confirmed}
-                      image={QuxWalletIcon}
+                      image="/assets/icons/qux_wallet.webp"
                       hasComplete
                     />
                   ))}

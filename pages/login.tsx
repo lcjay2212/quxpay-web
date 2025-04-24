@@ -4,7 +4,6 @@ import { CaptchaModal, FormContainer, PendingAccountModal, TextField } from 'com
 import { VerifyOtpForm } from 'component/VerifyOtpForm';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useCaptchaModal, useVerifyOtp } from 'store';
@@ -15,13 +14,13 @@ const Login: FC = () => {
   const router = useRouter();
   const { control, handleSubmit, getValues } = method;
 
-  const [captchaModalVisible, setCaptchaModalVisible] = useCaptchaModal((e) => [e.visible, e.setVisible]);
+  const captchaModalVisible = useCaptchaModal((e) => e.visible);
+  const { login } = useLogin();
 
-  const onSubmit = (): void => {
-    setCaptchaModalVisible(true);
+  const onSubmit = (val): void => {
+    login.mutate(val);
   };
 
-  const { login } = useLogin();
   const verify = useVerifyOtp((e) => e.verify);
 
   return (
@@ -29,7 +28,7 @@ const Login: FC = () => {
       {!verify ? (
         <>
           <Box display="flex" justifyContent="center">
-            <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+            <Image src="/assets/images/qux-pay-logo.webp" height={70} width={135} alt="Qux Logo" />
           </Box>
           <Flex mt="2rem">
             <ArrowBackIcon
@@ -104,7 +103,7 @@ const Login: FC = () => {
           </Text>
         </>
       ) : (
-        <VerifyOtpForm email={getValues('email')} />
+        <VerifyOtpForm email={getValues('email')} type="login" />
       )}
 
       <PendingAccountModal />

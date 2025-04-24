@@ -4,7 +4,6 @@ import { ItemListDisplay } from 'component';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
-import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 
 export const CryptoTransactionHistory: FC = () => {
@@ -40,7 +39,7 @@ export const CryptoTransactionHistory: FC = () => {
                   amount={+item.amount}
                   key={index}
                   complete={item.confirmed}
-                  image={CryptoIcon}
+                  image="/assets/icons/crypto-icon.webp"
                   type={startCase(item.type)}
                 />
               ))}

@@ -6,7 +6,6 @@ import dayjs from 'dayjs';
 import { startCase } from 'lodash';
 import { MONTHS } from 'mocks/month';
 import Image from 'next/image';
-import { QuxTokenBigIcon } from 'public/assets';
 import { FC, useState } from 'react';
 
 const TextBox: FC<{ value: number; label: string; isLoading: boolean }> = ({ value, label, isLoading }) => (
@@ -25,7 +24,7 @@ const TextBox: FC<{ value: number; label: string; isLoading: boolean }> = ({ val
     </Box>
     {!isLoading ? (
       <Flex>
-        <Image src={QuxTokenBigIcon} height={25} width={25} alt="Qux Logo" placeholder="empty" />
+        <Image src="/assets/icons/qux-token-big-icon.webp" height={25} width={25} alt="Qux Logo" placeholder="empty" />
         <Text color="white" fontSize={25}>
           {value}
         </Text>
@@ -82,7 +81,13 @@ const InsightPage: FC = () => {
           <Box mb="2rem">
             <Text color="white">{label}</Text>
             <Flex>
-              <Image src={QuxTokenBigIcon} height={50} width={50} alt="Qux Logo" placeholder="empty" />
+              <Image
+                src="/assets/icons/qux-token-big-icon.webp"
+                height={50}
+                width={50}
+                alt="Qux Logo"
+                placeholder="empty"
+              />
               <Box color="white" fontSize={50}>
                 {expensesFilter === 'income' ? (
                   <>{!isLoading ? data?.total?.total_income.toFixed(2) : <Spinner size="lg" color="primary" />}</>
@@ -166,7 +171,7 @@ const InsightPage: FC = () => {
           <Flex flexDir="column" mx="2rem">
             <TextBox label="PO" value={data?.expenses.po.toFixed(2)} isLoading={isLoading} />
             <TextBox label="Purchase" value={data?.expenses.purchase.toFixed(2)} isLoading={isLoading} />
-            <TextBox label="Redeem Tokens" value={data?.expenses.redeem_tokens.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Redeem QUX eToken®" value={data?.expenses.redeem_tokens.toFixed(2)} isLoading={isLoading} />
             <TextBox label="Send to friend" value={data?.expenses.send_qux_tokens.toFixed(2)} isLoading={isLoading} />
             <TextBox label="Services" value={data?.expenses.services.toFixed(2)} isLoading={isLoading} />
           </Flex>

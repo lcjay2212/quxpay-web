@@ -2,7 +2,6 @@ import { Box, Flex, Grid, Spinner } from '@chakra-ui/react';
 import { HeaderContainer, ItemListDisplay } from 'component';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
-import { UnpaidHistoryIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { usePosHistory, useUser } from 'store';
 import { getServerSideProps } from 'utils';
@@ -52,7 +51,7 @@ const OpenPosHistoryPage: FC = () => {
                     amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}
-                    image={UnpaidHistoryIcon}
+                    image="/assets/icons/unpaid-history-icon.webp"
                     type={item.type}
                     onClick={(): void => void router.push(`/open-po/${item.id}`)}
                   />

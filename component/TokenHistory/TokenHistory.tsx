@@ -1,7 +1,6 @@
 import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
-import { TokenHistoryGreenIcon, TokenHistoryIcon } from 'public/assets';
 import { FC } from 'react';
 import { queryClient } from 'utils';
 
@@ -41,7 +40,11 @@ export const TokenHistory: FC<{ loading: boolean }> = ({ loading }) => {
                   amount={+item.amount}
                   key={item.id}
                   // complete={item.confirmed}
-                  image={item.type === 'Created' ? TokenHistoryIcon : TokenHistoryGreenIcon}
+                  image={
+                    item.type === 'Created'
+                      ? '/assets/icons/token-history-icon.webp'
+                      : '/assets/icons/token-history-green-icon.webp'
+                  }
                   onClick={(): void => void router.push(`/token-history/${item.id}`)}
                 />
               ))}

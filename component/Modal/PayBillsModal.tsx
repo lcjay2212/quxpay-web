@@ -4,7 +4,6 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer } from 'component';
 import Image from 'next/image';
-import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { usePayBillsModal, useSuccessPayBillsModal } from 'store';
@@ -98,7 +97,7 @@ export const PayBillsModal: FC = () => {
                           </Text>
                           <Flex alignItems="center">
                             <span>
-                              <Image src={QuxTokenIcon} width={20} height={20} alt="Qux Token" />
+                              <Image src="/assets/icons/qux-token.webp" width={20} height={20} alt="Qux Token" />
                             </span>
                             <Text fontSize="1.2rem" fontWeight="semibold">
                               {balance?.balance.balance.toFixed(2)}

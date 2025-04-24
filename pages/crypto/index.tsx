@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, ItemListDisplay } from 'component';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
-import { CryptoIcon } from 'public/assets';
 import { FC } from 'react';
 import { getServerSideProps } from 'utils';
 
@@ -29,7 +28,7 @@ const CryptoHistory: FC = () => {
                   date={item.created}
                   amount={+item.amount}
                   key={index}
-                  image={CryptoIcon}
+                  image="/assets/icons/crypto-icon.webp"
                   type={startCase(item.type)}
                 />
               ))

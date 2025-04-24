@@ -2,7 +2,6 @@ import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpo
 import { Footer, SEO, TopBarHeader } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PhoneImage, QrCodeImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store';
 
@@ -78,7 +77,7 @@ const Home: FC = () => {
             >
               <Flex placeContent="center">
                 <Image
-                  src={PhoneImage}
+                  src="/assets/images/phone.webp"
                   height={breakPoint === 'md' ? 200 : breakPoint === 'xl' ? 300 : 100}
                   width={breakPoint === 'md' ? 400 : breakPoint === '2xl' ? 600 : 400}
                   alt="Phone Image"
@@ -120,7 +119,7 @@ const Home: FC = () => {
                     gap={2}
                   >
                     <Image
-                      src={QrCodeImage}
+                      src="/assets/images/qr.png"
                       height={85}
                       width={85}
                       alt="QR Code Image"
@@ -226,14 +225,55 @@ const Home: FC = () => {
         </Text>
       </Container>
 
+      <Flex
+        justify="center"
+        alignItems="center"
+        gap={3}
+        bg="white"
+        borderRadius="3xl"
+        px="2rem"
+        py="2rem"
+        border={{ base: '3px solid #D222A8' }}
+        maxW={500}
+        mx="auto"
+      >
+        <Image
+          src="/assets/images/qr.png"
+          height={breakPoint === 'base' ? 140 : 200}
+          width={breakPoint === 'base' ? 140 : 200}
+          alt="QR"
+        />
+        <Flex flexDirection="column" gap={4}>
+          <Box
+            cursor="pointer"
+            onClick={(): void =>
+              void window.open(
+                'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US',
+                'noopener,noreferrer'
+              )
+            }
+          >
+            <Image src="/assets/images/google-play.png" height={200} width={200} alt="QR" />
+          </Box>
+
+          <Box
+            cursor="pointer"
+            onClick={(): void =>
+              void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
+            }
+          >
+            <Image src="/assets/images/app-store.png" height={200} width={200} alt="QR" />
+          </Box>
+        </Flex>
+      </Flex>
+
       <Box
-        h={{ base: '60vh', md: '100vh' }}
-        bgImage="url('/assets/images/BG-5-v2.webp')"
+        h="50vh"
+        bgImage="url('/assets/images/box.jpg')"
         backgroundPosition="center"
         backgroundRepeat="no-repeat"
         backgroundSize={{ base: 'cover', md: 'contain' }}
-        my={{ base: '3rem', md: 0 }}
-      />
+      ></Box>
 
       <Footer />
     </Box>

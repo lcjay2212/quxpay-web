@@ -2,7 +2,6 @@ import { Box, Flex, Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
 import { CRYPTO } from 'mocks/crypto';
 import Image from 'next/image';
-import { PasteIcon } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
@@ -71,7 +70,7 @@ export const AddCrytoWallet: FC = () => {
                     })
                 }
               >
-                <Image src={PasteIcon} height={40} width={40} alt="Paste Icon" />
+                <Image src="/assets/icons/paste-icon.webp" height={40} width={40} alt="Paste Icon" />
                 <Text fontSize="12px" mt="0.25rem">
                   Paste
                 </Text>

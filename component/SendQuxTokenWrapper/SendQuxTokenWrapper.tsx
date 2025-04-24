@@ -17,7 +17,6 @@ import axios from 'axios';
 import { FormContainer, TextField } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddFriendIcon, QuxTokenIcon, SendQuxCash } from 'public/assets';
 import { FC, ReactElement, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useTransactionHistoryModal } from 'store';
@@ -209,7 +208,7 @@ export const SendQuxTokenWrapper: FC = () => {
                   <Flex my="1.5rem" justifyContent="space-between">
                     <Flex>
                       <Box ml="1rem">
-                        <Image src={AddFriendIcon} alt="Add Bank Icon" />
+                        <Image src="/assets/icons/add-friend-icon.webp" alt="Add Bank Icon" />
                       </Box>
 
                       <Text ml="0.5rem" color="white" fontSize="1.25rem">
@@ -262,11 +261,11 @@ export const SendQuxTokenWrapper: FC = () => {
       ) : (
         <Flex justifyContent="center" alignItems="center" flexDir="column" color="white">
           <Box mt="14rem">
-            <Image src={SendQuxCash} width={100} height={100} alt="Redeem" placeholder="empty" />
+            <Image src="/assets/icons/send_qux_cash.webp" width={100} height={100} alt="Redeem" placeholder="empty" />
           </Box>
           <Flex mt="2">
             <Box display="flex" justifyContent="center" mb="1" alignItems="center">
-              <Image src={QuxTokenIcon} height={32} width={32} alt="Qux Logo" />
+              <Image src="/assets/icons/qux-token.webp" height={32} width={32} alt="Qux Logo" />
             </Box>
             <Text color="white" fontSize="2rem">
               {amount.toFixed(2)}

@@ -4,7 +4,6 @@ import axios from 'axios';
 import { AddBankAccount, HeaderContainer } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { AddBankIconTwo } from 'public/assets';
 import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { usePendingBankAccountVerificationModal } from 'store';
@@ -93,7 +92,7 @@ const AddBankAccountPage: FC = () => {
       {!dataLoading ? (
         <Box mx="1rem" h="100vh">
           <Flex alignItems="center" mb="1rem">
-            <Image src={AddBankIconTwo} height={40} width={50} alt="Add Bank Icon" />
+            <Image src="/assets/icons/add-bank-icon.webp" height={40} width={50} alt="Add Bank Icon" />
             <Text ml="1rem" color="white" fontSize="1.25rem">
               Add New Bank Account
             </Text>

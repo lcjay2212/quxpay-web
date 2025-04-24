@@ -4,7 +4,6 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { SuccessCircleIcon } from 'public/assets';
 import { FC } from 'react';
 import { useSuccessPayBillsModal, useTransactionHistoryModal } from 'store';
 import { updateBalance } from 'store/useUpdateBalance';
@@ -57,7 +56,7 @@ export const SuccessPayBillModal: FC<{ data?: TempDataType }> = ({ data }) => {
             <ArrowBackIcon mt="1rem" color="white" mr="1rem" cursor="pointer" onClick={(): void => setVisible(false)} />
             <Flex display="column" textAlign="center" my="6rem" color="white">
               <Flex justifyContent="center">
-                <Image src={SuccessCircleIcon} width={80} height={80} alt="success" />
+                <Image src="/assets/icons/success-circle-icon.webp" width={80} height={80} alt="success" />
               </Flex>
               <Text fontSize="1.5rem" fontWeight="bold" color="primary" mt="1rem">
                 Payment Received

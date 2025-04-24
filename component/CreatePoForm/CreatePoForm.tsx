@@ -2,10 +2,10 @@ import {
   Avatar,
   Box,
   Button,
-  Image as ChakraImage,
   Checkbox,
   Divider,
   Flex,
+  Image as ChakraImage,
   Modal,
   ModalBody,
   ModalContent,
@@ -22,7 +22,6 @@ import { FETCH_PRODUCT_LIST, FETCH_RECENT_PRODUCT_LIST } from 'constants/api';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { AddFriendIcon, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useProductModal } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
@@ -101,8 +100,18 @@ export const CreatePoForm: FC = () => {
             <ChakraImage src={qrUrl} alt="Qr Code" w="230px" h="100%" p="1.5rem" />
 
             <Box my="1rem" color="black">
-              <Label label="Token Amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
-              <Label label="Total Token amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
+              <Label
+                label="Token Amount:"
+                image="/assets/icons/qux-token.webp"
+                amount={amount || 0.0}
+                loading={loading}
+              />
+              <Label
+                label="Total Token amount:"
+                image="/assets/icons/qux-token.webp"
+                amount={amount || 0.0}
+                loading={loading}
+              />
             </Box>
           </Flex>
           <Button
@@ -222,8 +231,13 @@ export const CreatePoForm: FC = () => {
               </Box>
 
               <Box my="1rem">
-                <Label label="Token Amount:" image={QuxTokenIcon} amount={amount} loading={loading} />
-                <Label label="Total Token amount:" image={QuxTokenIcon} amount={amount || 0.0} loading={loading} />
+                <Label label="Token Amount:" image="/assets/icons/qux-token.webp" amount={amount} loading={loading} />
+                <Label
+                  label="Total Token amount:"
+                  image="/assets/icons/qux-token.webp"
+                  amount={amount || 0.0}
+                  loading={loading}
+                />
               </Box>
             </>
           )}
@@ -276,7 +290,7 @@ export const CreatePoForm: FC = () => {
                 <Flex my="1.5rem" justifyContent="space-between">
                   <Flex>
                     <Box ml="1rem">
-                      <Image src={AddFriendIcon} alt="Add Bank Icon" />
+                      <Image src="/assets/icons/add-friend-icon.webp" alt="Add Bank Icon" />
                     </Box>
 
                     <Text ml="0.5rem" color="white" fontSize="1.25rem">

@@ -1,6 +1,5 @@
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import Image from 'next/image';
-import { QuxLogo } from 'public/assets';
 import { FC } from 'react';
 import { useAmountVerificationModal, usePendingBankAccountVerificationModal, useUser } from 'store';
 
@@ -15,7 +14,7 @@ export const PendingBankAccountVerificationModal: FC = () => {
       <ModalContent bg="black">
         <ModalBody>
           <Flex flexDirection="column" justifyContent="center" alignItems="center" my="3rem">
-            <Image src={QuxLogo} width={150} height={150} alt="Qux Logo" />
+            <Image src="/assets/images/qux-logo.webp" width={150} height={150} alt="Qux Logo" />
 
             <Flex flexDirection="column" justifyContent="center" px="1rem" mt="4rem" gap="0.5rem">
               {!user?.corporate ? (

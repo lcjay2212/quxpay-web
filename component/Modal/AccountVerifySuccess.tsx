@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxLogo } from 'public/assets';
 import { FC } from 'react';
 import { useAccountVerifySuccessModal } from 'store';
 import { queryClient } from 'utils';
@@ -25,7 +24,7 @@ export const AccountVerifySuccess: FC = () => {
       <ModalContent bg="black">
         <ModalBody>
           <Flex flexDirection="column" justifyContent="center" alignItems="center" my="4rem">
-            <Image src={QuxLogo} width={100} height={100} alt="Qux Logo" />
+            <Image src="/assets/images/qux-logo.webp" width={100} height={100} alt="Qux Logo" />
 
             <Flex height="60vh" flexDirection="column" justifyContent="space-between" px="1rem" mt="4rem" gap="0.5rem">
               <Box color="white" fontSize="0.85rem" mb="5rem">

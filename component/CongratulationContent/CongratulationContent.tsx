@@ -3,7 +3,6 @@ import { Box, Button, chakra, Container, Flex, Grid, Heading, Text } from '@chak
 import { HeaderContainer } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { CheckCircleIcon, CryptoIcon, QuxTokenIcon, WithdrawSuccessful } from 'public/assets';
 import { FC } from 'react';
 import { useCongratulationContent, useSelectedBankDetails, useTransactionHistoryModal } from 'store';
 
@@ -29,7 +28,13 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
             <Box display="flex" flexDir="column" justifyContent="space-between">
               <Flex flexDir="column" alignItems="center">
                 <Box>
-                  <Image src={CheckCircleIcon} width={70} height={70} placeholder="empty" alt="Redeem" />
+                  <Image
+                    src="/assets/icons/check-circle.webp"
+                    width={70}
+                    height={70}
+                    placeholder="empty"
+                    alt="Redeem"
+                  />
                 </Box>
                 <Heading as="h1" fontWeight="bold" fontSize="24px" color="primary" mt="3rem" mb="1rem">
                   CONGRATULATIONS
@@ -37,7 +42,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                 <Box color="white" textAlign="center">
                   <Flex justifyContent="center" mb="1rem" alignItems="center">
                     <span>
-                      <Image src={QuxTokenIcon} width={40} height={40} alt="Qux Token" />
+                      <Image src="/assets/icons/qux-token.webp" width={40} height={40} alt="Qux Token" />
                     </span>
                     <chakra.span fontSize="2rem" mt="0.3rem">
                       {amount?.toFixed(2)}
@@ -121,7 +126,11 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
           <Flex justifyContent="center" alignItems="center" flexDir="column" textAlign="center">
             <Box mt="14rem">
               <Image
-                src={type === 'CRYPTO' || type === 'ADD_CRYPTO' ? CryptoIcon : WithdrawSuccessful}
+                src={
+                  type === 'CRYPTO' || type === 'ADD_CRYPTO'
+                    ? '/assets/icons/crypto-icon.webp'
+                    : '/assets/icons/withdraw_successful.webp'
+                }
                 width={100}
                 height={100}
                 placeholder="empty"

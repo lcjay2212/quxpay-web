@@ -5,7 +5,6 @@ import axios from 'axios';
 import { HeaderContainer } from 'component';
 import { FETCH_WP_PO_DETAILS } from 'constants/api';
 import Image from 'next/image';
-import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useRouteParams, useUser } from 'store';
 import { notify } from 'utils';
@@ -73,11 +72,17 @@ const CheckoutPage: FC = () => {
         {successPayment ? (
           <Flex justifyContent="center" alignItems="center" flexDir="column">
             <Box mt="14rem">
-              <Image src={DepositSuccessful} width={100} height={100} placeholder="empty" alt="Redeem" />
+              <Image
+                src="/assets/icons/deposit-success.webp"
+                width={100}
+                height={100}
+                placeholder="empty"
+                alt="Redeem"
+              />
             </Box>
             <Flex>
               <Box display="flex" justifyContent="center" alignItems="center">
-                <Image src={QuxTokenIcon} height={30} width={32} alt="Qux Logo" />
+                <Image src="/assets/icons/qux-token.webp" height={30} width={32} alt="Qux Logo" />
               </Box>
               <Text color="white" fontSize="2rem">
                 {tempData?.total_payment.toFixed(2)}
@@ -109,7 +114,7 @@ const CheckoutPage: FC = () => {
               {(data?.recurring_payment || data?.single_and_recurring_payment) && (
                 <Label
                   label="Recurring Billing:"
-                  image={QuxTokenIcon}
+                  image="/assets/icons/qux-token.webp"
                   amount={data?.recurring_payment_amount}
                   loading={isLoading}
                 />
@@ -117,26 +122,26 @@ const CheckoutPage: FC = () => {
               {(data?.is_single_purchase || data?.single_and_recurring_payment) && (
                 <Label
                   label="Single Purchase:"
-                  image={QuxTokenIcon}
+                  image="/assets/icons/qux-token.webp"
                   amount={data?.single_purchase_amount}
                   loading={isLoading}
                 />
               )}
               <Label
                 label="Subtotal Token amount:"
-                image={QuxTokenIcon}
+                image="/assets/icons/qux-token.webp"
                 amount={totalPurchaseAndSubsAmount}
                 loading={isLoading}
               />
               <Label
                 label="QUX eToken® Fee:"
-                image={QuxTokenIcon}
+                image="/assets/icons/qux-token.webp"
                 amount={data?.token_fee.toFixed(2)}
                 loading={isLoading}
               />
               <Label
                 label="Total Token amount:"
-                image={QuxTokenIcon}
+                image="/assets/icons/qux-token.webp"
                 amount={data?.total_token_amount}
                 loading={isLoading}
               />

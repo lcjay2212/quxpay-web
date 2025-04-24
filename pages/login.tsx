@@ -4,7 +4,6 @@ import { CaptchaModal, FormContainer, PendingAccountModal, TextField } from 'com
 import { VerifyOtpForm } from 'component/VerifyOtpForm';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogo } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useCaptchaModal, useVerifyOtp } from 'store';
@@ -29,7 +28,7 @@ const Login: FC = () => {
       {!verify ? (
         <>
           <Box display="flex" justifyContent="center">
-            <Image src={QuxPayLogo} height={70} width={135} alt="Qux Logo" />
+            <Image src="/assets/images/qux-pay-logo.webp" height={70} width={135} alt="Qux Logo" />
           </Box>
           <Flex mt="2rem">
             <ArrowBackIcon

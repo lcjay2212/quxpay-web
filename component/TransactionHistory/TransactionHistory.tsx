@@ -6,7 +6,6 @@ import { ItemListDisplay } from 'component';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import forge from 'node-forge';
-import { QuxWalletIcon } from 'public/assets';
 import { FC } from 'react';
 import { usePage } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
@@ -81,7 +80,7 @@ export const TransactionHistory: FC = () => {
                     amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}
-                    image={QuxWalletIcon}
+                    image="/assets/icons/qux_wallet.webp"
                     hasComplete
                   />
                 );

@@ -4,7 +4,6 @@ import axios from 'axios';
 import storage from 'constants/storage';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxpayAndQuxLogo } from 'public/assets';
 import { FC, useEffect } from 'react';
 import { useRouteParams, useUser } from 'store';
 import { notify } from 'utils';
@@ -48,7 +47,7 @@ const LoginOrRegisterPage: FC = () => {
   return (
     <Grid placeContent="center" h="100vh" gap="2">
       <Box display="flex" justifyContent="center" mb={{ base: '20rem', md: '10rem' }}>
-        <Image src={QuxpayAndQuxLogo} height={50} width={300} alt="Qux Logo" />
+        <Image src="/assets/icons/quxpay-and-qux-logo.png" height={50} width={300} alt="Qux Logo" />
       </Box>
 
       <Button variant="primary" borderRadius="xl" w={350} h={50} onClick={(): void => void router.push('/login')}>

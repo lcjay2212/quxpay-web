@@ -2,7 +2,6 @@ import { Box, BoxProps, Button, Container, Flex, Grid, Heading, Text, useBreakpo
 import { Footer, SEO, TopBarHeader } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { PhoneImage, QrCodeImage } from 'public/assets';
 import { FC } from 'react';
 import { useHomePageModal } from 'store';
 
@@ -78,7 +77,7 @@ const Home: FC = () => {
             >
               <Flex placeContent="center">
                 <Image
-                  src={PhoneImage}
+                  src="/assets/images/phone.webp"
                   height={breakPoint === 'md' ? 200 : breakPoint === 'xl' ? 300 : 100}
                   width={breakPoint === 'md' ? 400 : breakPoint === '2xl' ? 600 : 400}
                   alt="Phone Image"
@@ -120,7 +119,7 @@ const Home: FC = () => {
                     gap={2}
                   >
                     <Image
-                      src={QrCodeImage}
+                      src="/assets/images/qr.png"
                       height={85}
                       width={85}
                       alt="QR Code Image"

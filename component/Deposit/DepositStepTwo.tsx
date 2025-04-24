@@ -3,7 +3,6 @@ import { Box, Spinner, Text, Textarea } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { FormContainer, Label } from 'component';
-import { QuxTokenIcon } from 'public/assets';
 import { FC, ReactElement, useEffect } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useCryptoPaymentData, useSelectedBankDetails, useType } from 'store';
@@ -68,11 +67,19 @@ export const DepositStepTwo: FC<{ label: string }> = ({ label }) => {
 
       {!isPending ? (
         <>
-          <Label label={`${label} Amount`} image={QuxTokenIcon} amount={computationData?.amount || 0.0} />
-          <Label label="QUX eToken® Fee" image={QuxTokenIcon} amount={computationData?.qux_charge || 0.0} />
+          <Label
+            label={`${label} Amount`}
+            image="/assets/icons/qux-token.webp"
+            amount={computationData?.amount || 0.0}
+          />
+          <Label
+            label="QUX eToken® Fee"
+            image="/assets/icons/qux-token.webp"
+            amount={computationData?.qux_charge || 0.0}
+          />
           <Label
             label={label === 'Redeem' ? 'Total to Redeem' : 'Total Purchase amount:'}
-            image={QuxTokenIcon}
+            image="/assets/icons/qux-token.webp"
             amount={computationData?.total_amount || 0.0}
           />
         </>

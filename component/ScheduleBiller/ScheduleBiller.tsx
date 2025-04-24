@@ -4,7 +4,6 @@ import { FormContainer, SetScheduleModal, TextField } from 'component';
 import dayjs from 'dayjs';
 import { startCase } from 'lodash';
 import Image from 'next/image';
-import { BillsIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useSchedulePayBillModal, useSetScheduleModal } from 'store';
@@ -28,7 +27,7 @@ export const ScheduleBiller: FC<{
       <Flex justifyContent="flex-start" alignItems="center">
         <Flex justifyContent="center" width="auto" height={50}>
           <Image
-            src={BillsIcon}
+            src="/assets/icons/bills.webp"
             width={100}
             height={100}
             alt="Biller"

@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { Box, Flex, Text } from '@chakra-ui/react';
-import Image, { StaticImageData } from 'next/image';
-import { QuxPayGreenIcon } from 'public/assets';
+import Image from 'next/image';
 import { FC } from 'react';
 
 export const ItemListDisplay: FC<{
@@ -9,7 +8,7 @@ export const ItemListDisplay: FC<{
   date?: string;
   amount: number;
   complete?: boolean;
-  image: StaticImageData;
+  image: string;
   type?: string;
   onClick?: () => void;
   hasComplete?: boolean;
@@ -28,7 +27,7 @@ export const ItemListDisplay: FC<{
       <Flex flexDir="column" justifyContent="center" alignItems="flex-end" fontSize="12px">
         <Text fontWeight="semibold">{date}</Text>
         <Flex>
-          <Image src={QuxPayGreenIcon} width={15} alt="Qux Token" />
+          <Image src="/assets/icons/qux-pay-icon-green.webp" width={15} alt="Qux Token" />
           <Text color="green.800">{amount.toFixed(2)}</Text>
         </Flex>
       </Flex>

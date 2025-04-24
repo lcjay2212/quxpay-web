@@ -1,7 +1,6 @@
 import { Box, Button, Divider, Flex, Image as ChakraImage, Text } from '@chakra-ui/react';
 import { Label } from 'component';
 import { useRouter } from 'next/router';
-import { QuxTokenIcon } from 'public/assets';
 import { FC } from 'react';
 
 export const PaidPosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
@@ -29,9 +28,19 @@ export const PaidPosInfoById: FC<{ data: any; loading: boolean }> = ({ data, loa
           </Text>
         )}
 
-        <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount} loading={loading} />
-        <Label label="QUX eToken® Fee:" image={QuxTokenIcon} amount={data?.token_fee} loading={loading} />
-        <Label label="Total Token amount:" image={QuxTokenIcon} amount={data?.total_amount} loading={loading} />
+        <Label label="Token Amount:" image="/assets/icons/qux-token.webp" amount={data?.amount} loading={loading} />
+        <Label
+          label="QUX eToken® Fee:"
+          image="/assets/icons/qux-token.webp"
+          amount={data?.token_fee}
+          loading={loading}
+        />
+        <Label
+          label="Total Token amount:"
+          image="/assets/icons/qux-token.webp"
+          amount={data?.total_amount}
+          loading={loading}
+        />
 
         <Box mt="2rem">
           {data?.selected_products?.map((item) => (

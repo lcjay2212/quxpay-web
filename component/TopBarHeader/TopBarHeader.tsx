@@ -3,7 +3,6 @@ import { Box, Button, Container, Flex, IconButton } from '@chakra-ui/react';
 import { HomeModal } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { QuxPayLogoPng } from 'public/assets';
 import { FC } from 'react';
 import { MdOutlineDashboard } from 'react-icons/md';
 import { useHomePageModal, useUser } from 'store';
@@ -17,7 +16,7 @@ export const TopBarHeader: FC = () => {
       <Flex justifyContent="space-between" alignItems="center">
         <Box display="flex" justifyContent="center" cursor="pointer" onClick={(): void => void router.push('/')}>
           <Image
-            src={QuxPayLogoPng}
+            src="/assets/images/quxpay-logo.webp"
             height={100}
             width={150}
             alt="Qux Logo"

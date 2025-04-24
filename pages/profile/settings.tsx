@@ -1,7 +1,6 @@
 import { Box, Button, Flex, Switch, Text } from '@chakra-ui/react';
 import { DeleteAccountModal, HeaderContainer } from 'component';
 import Image from 'next/image';
-import { BellNotificationIcon } from 'public/assets';
 import { FC } from 'react';
 import { useDeleteAccountModal } from 'store/useDeleteAccountModal';
 
@@ -9,12 +8,12 @@ const SettingsPage: FC = () => {
   const setVisible = useDeleteAccountModal((e) => e.setVisible);
   const mockData = [
     {
-      icon: BellNotificationIcon,
+      icon: '/assets/icons/bell.webp',
       label: 'Push Notification',
       route: '',
     },
     {
-      icon: BellNotificationIcon,
+      icon: '/assets/icons/bell.webp',
       label: 'Email Notification',
       route: '',
     },

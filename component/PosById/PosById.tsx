@@ -4,7 +4,6 @@ import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { DepositSuccessful, QuxTokenIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { notify } from 'utils';
 
@@ -73,10 +72,15 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
               PO {data?.id}
             </Text>
 
-            <Label label="Token Amount:" image={QuxTokenIcon} amount={data?.amount ?? 0} loading={loading} />
+            <Label
+              label="Token Amount:"
+              image="/assets/icons/qux-token.webp"
+              amount={data?.amount ?? 0}
+              loading={loading}
+            />
             <Label
               label="Total Token amount:"
-              image={QuxTokenIcon}
+              image="/assets/icons/qux-token.webp"
               amount={data?.total_amount ?? 0}
               loading={loading}
             />
@@ -122,11 +126,11 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
       ) : (
         <Flex justifyContent="center" alignItems="center" flexDir="column">
           <Box mt="14rem">
-            <Image src={DepositSuccessful} width={100} height={100} placeholder="empty" alt="Redeem" />
+            <Image src="/assets/icons/deposit-success.webp" width={100} height={100} placeholder="empty" alt="Redeem" />
           </Box>
           <Flex>
             <Box display="flex" justifyContent="center" alignItems="center">
-              <Image src={QuxTokenIcon} height={30} width={32} alt="Qux Logo" />
+              <Image src="/assets/icons/qux-token.webp" height={30} width={32} alt="Qux Logo" />
             </Box>
             <Text color="white" fontSize="2rem">
               {data?.total_amount.toFixed(2)}

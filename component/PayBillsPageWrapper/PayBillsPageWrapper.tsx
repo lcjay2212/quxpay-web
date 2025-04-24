@@ -5,7 +5,6 @@ import { PayBillsModal, TextField } from 'component';
 import { FETCH_BILLER, FETCH_BILLING_CATEGORIES } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { BillsIcon, CircleAddIcon } from 'public/assets';
 import { FC, useState } from 'react';
 import { useDebounce, useHeaderName, usePayBillsModal } from 'store';
 
@@ -60,7 +59,7 @@ export const PayBillsPageWrapper: FC = () => {
                 </Flex>
 
                 <Box cursor="pointer">
-                  <Image src={CircleAddIcon} alt="Add Icon" />
+                  <Image src="/assets/icons/circle-add-icon.webp" alt="Add Icon" />
                 </Box>
               </Flex>
               <Box bg="blue.100" borderRadius="20px" p="1.5rem">
@@ -93,7 +92,7 @@ export const PayBillsPageWrapper: FC = () => {
                           >
                             <Flex justifyContent="center" width="auto" height={50}>
                               <Image
-                                src={item?.image || BillsIcon}
+                                src={item?.image || '/assets/icons/bills.webp'}
                                 width={45}
                                 height={50}
                                 alt={item.id}
@@ -127,7 +126,7 @@ export const PayBillsPageWrapper: FC = () => {
                   <Flex justifyContent="center" alignItems="center">
                     <Flex justifyContent="center" width="auto" height={50}>
                       <Image
-                        src={BillsIcon}
+                        src="/assets/icons/bills.webp"
                         width={100}
                         height={100}
                         alt={item.id}

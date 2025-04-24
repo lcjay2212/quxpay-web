@@ -4,7 +4,6 @@ import axios from 'axios';
 import { FormContainer } from 'component';
 import { FETCH_CRYPTO_CURRENCY_LIST } from 'constants/api';
 import Image from 'next/image';
-import { ClipboardIcon } from 'public/assets';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
@@ -102,7 +101,7 @@ export const CashInCrypto: FC = () => {
               <Flex gap={4} alignItems="center" justifyContent="space-between" mt="0.5rem">
                 <Text textAlign="start">{cryptoPaymentData.address}</Text>
                 <Box cursor="pointer" onClick={copyToClipboard}>
-                  <Image src={ClipboardIcon} height={30} width={32} alt="Clipboard" />
+                  <Image src="/assets/icons/clipboard-icon.webp" height={30} width={32} alt="Clipboard" />
                   <Text fontSize="12px" mt="0.25rem">
                     Copy
                   </Text>

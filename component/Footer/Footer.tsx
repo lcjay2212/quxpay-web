@@ -156,7 +156,7 @@ export const Footer: FC = () => {
               gap={3}
               p="1rem"
             >
-              <Image src="/assets/images/qr.png" height={100} width={100} alt="QR" />
+              <Image src="/assets/images/qr1.png" height={100} width={100} alt="QR" />
               <Flex flexDirection="column" gap={4}>
                 <Box
                   cursor="pointer"

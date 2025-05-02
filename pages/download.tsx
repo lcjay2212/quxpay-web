@@ -15,11 +15,6 @@ const DownloadPage: FC = () => {
       if (/iPhone|iPad|iPod/i.test(userAgent)) {
         // iOS needs special handling for App Store links
         window.location.href = 'itms-apps://apps.apple.com/us/app/quxpay/id6499033621';
-
-        // Fallback in case the deep link doesn't work
-        setTimeout(() => {
-          window.location.href = 'https://apps.apple.com/us/app/quxpay/id6499033621';
-        }, 500);
       }
       // For Android and other devices, use the original approach
       else {

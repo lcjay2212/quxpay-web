@@ -14,7 +14,7 @@ const DownloadPage: FC = () => {
       // For iOS, use window.location.href instead of replace() and use itms-apps:// protocol
       if (/iPhone|iPad|iPod/i.test(userAgent)) {
         // iOS needs special handling for App Store links
-        window.location.href = 'itms-apps://apps.apple.com/us/app/quxpay/id6499033621';
+        window.location.href = 'itms-apps://apps.apple.com/us/app/paypal-pay-send-save/id283646709';
       }
       // For Android and other devices, use the original approach
       else {

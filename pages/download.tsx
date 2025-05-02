@@ -11,24 +11,20 @@ const DownloadPage: FC = () => {
     const userAgent = navigator.userAgent || navigator.vendor;
 
     try {
-      // For iOS, use window.location.href instead of replace() and use itms-apps:// protocol
+      // For iOS, use window.location.href with itms-apps://
       if (/iPhone|iPad|iPod/i.test(userAgent)) {
-        // iOS needs special handling for App Store links
-        window.location.href = 'itms-apps://apps.apple.com/us/app/paypal-pay-send-save/id283646709';
+        window.location.href = 'itms-apps://itunes.apple.com/us/app/quxpay/id6499033621';
       }
-      // For Android and other devices, use the original approach
+      // For Android, use market:// to open Play Store app
+      else if (/android/i.test(userAgent)) {
+        window.location.href = 'market://details?id=com.qux.quxpay.android';
+      }
+      // For Desktop or other devices
       else {
-        setTimeout(() => {
-          if (/android/i.test(userAgent)) {
-            window.location.replace('https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US');
-          } else {
-            // Desktop or other device fallback
-            window.location.replace('https://blog.quxpay.com/downloads/');
-          }
-        }, 100);
+        window.location.href = 'https://blog.quxpay.com/downloads/';
       }
     } catch (error) {
-      // Redirect to normal URL as fallback
+      // Fallback
       window.location.href = 'https://blog.quxpay.com/downloads/';
     }
   }, []);

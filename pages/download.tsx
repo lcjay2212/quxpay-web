@@ -9,13 +9,15 @@ const DownloadPage: FC = () => {
 
     const userAgent = navigator.userAgent || navigator.vendor;
 
-    if (/android/i.test(userAgent)) {
-      window.location.href = 'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US';
-    } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
-      window.location.href = 'https://apps.apple.com/us/app/quxpay/id6499033621';
-    } else {
-      window.location.href = 'https://blog.quxpay.com/downloads/';
-    }
+    setTimeout(() => {
+      if (/android/i.test(userAgent)) {
+        window.location.replace('https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US');
+      } else if (/iPhone|iPad|iPod/i.test(userAgent)) {
+        window.location.replace('https://apps.apple.com/us/app/quxpay/id6499033621');
+      } else {
+        window.location.replace('https://blog.quxpay.com/downloads/');
+      }
+    }, 100);
   }, []);
 
   return (

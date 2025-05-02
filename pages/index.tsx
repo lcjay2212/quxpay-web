@@ -119,7 +119,7 @@ const Home: FC = () => {
                     gap={2}
                   >
                     <Image
-                      src="/assets/images/qr.png"
+                      src="/assets/images/qr1.png"
                       height={85}
                       width={85}
                       alt="QR Code Image"
@@ -238,7 +238,7 @@ const Home: FC = () => {
         mx="auto"
       >
         <Image
-          src="/assets/images/qr.png"
+          src="/assets/images/qr1.png"
           height={breakPoint === 'base' ? 140 : 200}
           width={breakPoint === 'base' ? 140 : 200}
           alt="QR"

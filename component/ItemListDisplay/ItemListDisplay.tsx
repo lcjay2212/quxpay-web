@@ -27,7 +27,7 @@ export const ItemListDisplay: FC<{
       <Flex flexDir="column" justifyContent="center" alignItems="flex-end" fontSize="12px">
         <Text fontWeight="semibold">{date}</Text>
         <Flex>
-          <Image src="/assets/icons/qux-pay-icon-green.webp" width={15} alt="Qux Token" />
+          <Image src="/assets/icons/qux-pay-icon-green.webp" width={15} height={15} alt="Qux Token" />
           <Text color="green.800">{amount.toFixed(2)}</Text>
         </Flex>
       </Flex>

@@ -9,7 +9,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { useCaptchaModal } from 'store';
+import { useCaptchaModal, usePendingAccountModal } from 'store';
 import { notify } from 'utils';
 
 const Register: FC = () => {
@@ -20,6 +20,7 @@ const Register: FC = () => {
   const [selected, setSelected] = useState('');
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
   const [verification, setVerification] = useState(false);
+  const { setVisible } = usePendingAccountModal();
 
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
@@ -42,7 +43,7 @@ const Register: FC = () => {
     mutationFn: (variable) => post('web/purchaser-register', variable),
     onSuccess: () => {
       notify(`Corporation registration success!`);
-      setVerification(true);
+      setVisible(true);
     },
     onError: ({ response }: any) => {
       errorMessage(response?.data?.errors);

@@ -81,10 +81,10 @@ const Register: FC = () => {
       'city',
       'state',
       'zip',
-      'account_name',
-      'account_number',
-      'routing_number',
-      'bank_name',
+      // 'account_name',
+      // 'account_number',
+      // 'routing_number',
+      // 'bank_name',
       'ssn',
     ].forEach((field) => formData.append(field, val[field]));
 

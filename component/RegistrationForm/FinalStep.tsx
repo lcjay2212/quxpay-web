@@ -2,26 +2,25 @@ import { Box, chakra, Flex, FormLabel, Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
 import { DAYS, MONTHS, YEARS } from 'mocks/month';
 import Image from 'next/image';
-import { FC, ReactElement, useEffect, useState } from 'react';
+import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
-import Select, { SingleValue } from 'react-select';
-import { useBankLists, useDebounce } from 'store';
+import Select from 'react-select';
 import { blockInvalidChar, reactSelectStyles } from 'utils';
 
 export const FinalStep: FC<{ type: string }> = ({ type }) => {
-  const { control, watch, setValue } = useFormContext();
-  const [searchText, setSearchText] = useState('America');
+  const { control } = useFormContext();
+  // const [searchText, setSearchText] = useState('America');
 
-  const debounceText = useDebounce(searchText, 1000);
-  const routingNumber = useDebounce(watch('routing_number'), 1000);
+  // const debounceText = useDebounce(searchText, 1000);
+  // const routingNumber = useDebounce(watch('routing_number'), 1000);
 
-  const { data: bankList, isLoading } = useBankLists(debounceText, routingNumber);
-  const { data: fullBankList } = useBankLists(debounceText);
+  // const { data: bankList } = useBankLists(debounceText, routingNumber);
+  // const { data: fullBankList } = useBankLists(debounceText);
 
-  const finalData = fullBankList?.map((item) => ({
-    label: item.name,
-    value: item.name,
-  }));
+  // const finalData = fullBankList?.map((item) => ({
+  //   label: item.name,
+  //   value: item.name,
+  // }));
 
   const listOfMonths = MONTHS.map((item) => item);
 
@@ -32,15 +31,15 @@ export const FinalStep: FC<{ type: string }> = ({ type }) => {
     return { label: `${item}`, value: `${item}` };
   });
 
-  useEffect(() => {
-    if (bankList?.length === 1) {
-      setValue('bank_name', bankList?.[0].name);
-    }
-  }, [bankList]);
+  // useEffect(() => {
+  //   if (bankList?.length === 1) {
+  //     setValue('bank_name', bankList?.[0].name);
+  //   }
+  // }, [bankList]);
 
   return (
     <>
-      <Flex mb="1.5rem" alignItems="center">
+      {/* <Flex mb="1.5rem" alignItems="center">
         <Image src="/assets/icons/add-bank-icon.webp" height={50} width={60} alt="Add Bank Icon" />
         <Text ml="1rem" color="white" fontSize="1.25rem">
           Add New Bank Account
@@ -131,7 +130,7 @@ export const FinalStep: FC<{ type: string }> = ({ type }) => {
             </FormContainer>
           );
         }}
-      />
+      /> */}
 
       <Controller
         control={control}

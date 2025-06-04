@@ -107,28 +107,37 @@ const Home: FC = () => {
                   <br /> Because It Isn't.
                 </Text>
 
-                <Flex justifyContent="center">
-                  <Flex
-                    mt="1.5rem"
-                    justifyContent="center"
-                    bg="white"
-                    borderRadius="2xl"
-                    border="2px solid #D11CB6"
-                    width={350}
-                    p="0.5rem"
-                    gap={2}
-                  >
-                    <Image
-                      src="/assets/images/qr1.png"
-                      height={85}
-                      width={85}
-                      alt="QR Code Image"
-                      style={{ objectFit: 'contain' }}
-                      placeholder="empty"
-                    />
-                    <Text textAlign="center" color="black" fontWeight="bold" fontSize="2rem" letterSpacing="tighter">
-                      DOWNLOAD <br /> QUX Pay®
-                    </Text>
+                <Flex
+                  justify="center"
+                  alignItems="center"
+                  borderRadius="xl"
+                  border="3px solid #D222A8"
+                  bg="white"
+                  gap={3}
+                  p="1rem"
+                >
+                  <Image src="/assets/images/qr1.png" height={100} width={100} alt="QR" />
+                  <Flex flexDirection="column" gap={4}>
+                    <Box
+                      cursor="pointer"
+                      onClick={(): void =>
+                        void window.open(
+                          'https://play.google.com/store/apps/details?id=com.qux.quxpay.android&hl=en-US',
+                          'noopener,noreferrer'
+                        )
+                      }
+                    >
+                      <Image src="/assets/images/google-play.png" height={150} width={150} alt="QR" />
+                    </Box>
+
+                    <Box
+                      cursor="pointer"
+                      onClick={(): void =>
+                        void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
+                      }
+                    >
+                      <Image src="/assets/images/app-store.png" height={150} width={150} alt="QR" />
+                    </Box>
                   </Flex>
                 </Flex>
               </Box>

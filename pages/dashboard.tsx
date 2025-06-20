@@ -17,7 +17,7 @@ import {
 import { useQuery } from '@tanstack/react-query';
 import {
   AmountVerificationModal,
-  CryptoTransactionHistory,
+  // CryptoTransactionHistory,
   NotificationHistory,
   OpenPosHistory,
   PendingBankAccountVerificationModal,
@@ -171,7 +171,7 @@ const Dashboard: FC = () => {
           <OpenPosHistory loading={isLoading} />
           <TokenHistory loading={isLoading} />
           {user?.corporate && <PoFromPluginHistory loading={isLoading} />}
-          <CryptoTransactionHistory />
+          {/* <CryptoTransactionHistory /> */}
           <UploadLoadingModal />
           <PendingBankAccountVerificationModal />
           <AmountVerificationModal />

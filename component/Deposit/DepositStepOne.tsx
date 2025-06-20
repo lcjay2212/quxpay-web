@@ -12,24 +12,14 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import {
-  AddBankAccount,
-  AddCreditCardForm,
-  AddCrytoWallet,
-  BankAccount,
-  CashInCrypto,
-  CreditCard,
-  CryptoWallet,
-  FormContainer,
-  TextField,
-} from 'component';
+import { AddBankAccount, AddCreditCardForm, BankAccount, CreditCard, FormContainer, TextField } from 'component';
 import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import { useAccountPaymentId, useSelectedBankDetails, useType } from 'store';
-import { useSelectedCrypto } from 'store/useSelectedCrypto';
+// import { useSelectedCrypto } from 'store/useSelectedCrypto';
 import { notify, queryClient } from 'utils';
 export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label, loading }) => {
   const method = useFormContext();
@@ -41,7 +31,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setSelectedBankDetails = useSelectedBankDetails((e) => e.setSelectedBankDetails);
-  const setSelectedCrypto = useSelectedCrypto((e) => e.setSelectedCrypto);
+  // const setSelectedCrypto = useSelectedCrypto((e) => e.setSelectedCrypto);
   const { data } = useQuery({
     queryKey: ['bandAndCreditDetails'],
     queryFn: FETCH_BANK_CREDIT_CARD_CRYPTO,
@@ -186,7 +176,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
           <Divider mt="1rem" />
 
-          {label === 'Redeem' && (
+          {/* {label === 'Redeem' && (
             <>
               <Controller
                 control={control}
@@ -265,7 +255,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
               <Divider mt="1rem" />
             </>
-          )}
+          )} */}
 
           {label === 'Purchase' && (
             <>
@@ -284,7 +274,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
               <Flex my="1.5rem" justifyContent="space-between">
                 <Flex alignItems="center">
-                  <Image src="/assets./icons/add_credit_card_icon.webp" height={50} width={60} alt="Add Bank Icon" />
+                  <Image src="/assets/icons/add_credit_card_icon.webp" height={50} width={60} alt="Add Bank Icon" />
                   <Text ml="1rem" color="white" fontSize="1.25rem">
                     Add New Credit Card
                   </Text>
@@ -295,7 +285,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
               {type === 'CREDIT' && <AddCreditCardForm />}
               <Divider mt="1rem" />
 
-              <Flex my="1.5rem" justifyContent="space-between">
+              {/* <Flex my="1.5rem" justifyContent="space-between">
                 <Flex alignItems="center">
                   <Image src="/assets/icons/add-crypto-icon.webp" height={50} width={60} alt="Add Bank Icon" />
                   <Text ml="1rem" color="white" fontSize="1.25rem">
@@ -305,7 +295,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
                 <Radio value="CRYPTO" onChange={(): void => setType('CRYPTO')} colorScheme="teal" />
               </Flex>
-              {type === 'CRYPTO' && <CashInCrypto />}
+              {type === 'CRYPTO' && <CashInCrypto />} */}
             </>
           )}
         </RadioGroup>

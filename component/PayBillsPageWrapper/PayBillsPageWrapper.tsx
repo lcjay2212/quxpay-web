@@ -59,7 +59,7 @@ export const PayBillsPageWrapper: FC = () => {
                 </Flex>
 
                 <Box cursor="pointer">
-                  <Image src="/assets/icons/circle-add-icon.webp" alt="Add Icon" />
+                  <Image src="/assets/icons/circle-add-icon.webp" alt="Add Icon" height={40} width={40} />
                 </Box>
               </Flex>
               <Box bg="blue.100" borderRadius="20px" p="1.5rem">

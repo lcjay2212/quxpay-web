@@ -12,7 +12,15 @@ import {
   Text,
 } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
-import { AddBankAccount, AddCreditCardForm, BankAccount, CreditCard, FormContainer, TextField } from 'component';
+import {
+  AddBankAccount,
+  AddCreditCardForm,
+  BankAccount,
+  CashInCrypto,
+  CreditCard,
+  FormContainer,
+  TextField,
+} from 'component';
 import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
@@ -285,7 +293,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
               {type === 'CREDIT' && <AddCreditCardForm />}
               <Divider mt="1rem" />
 
-              {/* <Flex my="1.5rem" justifyContent="space-between">
+              <Flex my="1.5rem" justifyContent="space-between">
                 <Flex alignItems="center">
                   <Image src="/assets/icons/add-crypto-icon.webp" height={50} width={60} alt="Add Bank Icon" />
                   <Text ml="1rem" color="white" fontSize="1.25rem">
@@ -295,7 +303,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
                 <Radio value="CRYPTO" onChange={(): void => setType('CRYPTO')} colorScheme="teal" />
               </Flex>
-              {type === 'CRYPTO' && <CashInCrypto />} */}
+              {type === 'CRYPTO' && <CashInCrypto />}
             </>
           )}
         </RadioGroup>

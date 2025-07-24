@@ -21,7 +21,7 @@ const getData = async <T>(apiUrl: string, url: string): Promise<T | undefined> =
     });
     return data.data;
   } catch (error) {
-    if (error.response.status === 401) {
+    if (error?.response?.status === 401) {
       clearStorage();
       window.location.href = '/';
       notify(error.message, { status: 'error' });

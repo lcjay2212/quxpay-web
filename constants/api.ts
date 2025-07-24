@@ -2,7 +2,44 @@ import { QueryFunctionContext } from '@tanstack/react-query';
 import axios from 'axios';
 import { clearStorage, notify } from 'utils';
 
-export const post = async <T>(url: string, variable: void): Promise<T> =>
+// Type definitions for API requests and responses
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  data: {
+    token: string;
+    email: string;
+    type: string;
+    show_verification_page?: boolean;
+  };
+  status: {
+    message: string;
+  };
+}
+
+export interface ApiError {
+  response?: {
+    data?: {
+      data?: {
+        message?: string;
+        messages?: string;
+      };
+      status?: {
+        message?: string;
+      };
+      message?: string;
+      messages?: string;
+      errors?: Record<string, string>;
+    };
+    status?: number;
+  };
+  message?: string;
+}
+
+export const post = async <T, V = unknown>(url: string, variable: V): Promise<T> =>
   await axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`, variable, {
     headers: {
       Version: 2,

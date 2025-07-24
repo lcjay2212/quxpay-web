@@ -2,6 +2,7 @@ import { ArrowBackIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { CaptchaModal, FormContainer, PendingAccountModal, TextField } from 'component';
 import { VerifyOtpForm } from 'component/VerifyOtpForm';
+import { LoginRequest } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
@@ -10,14 +11,14 @@ import { useCaptchaModal, useVerifyOtp } from 'store';
 import { useLogin } from 'store/useLogin';
 
 const Login: FC = () => {
-  const method = useForm();
+  const method = useForm<LoginRequest>();
   const router = useRouter();
   const { control, handleSubmit, getValues } = method;
 
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
   const { login } = useLogin();
 
-  const onSubmit = (val): void => {
+  const onSubmit = (val: LoginRequest): void => {
     login.mutate(val);
   };
 
@@ -48,9 +49,9 @@ const Login: FC = () => {
                 control={control}
                 name="email"
                 render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
-                  <FormContainer label="Email" errorMessage={error?.message ?? ''}>
+                  <FormContainer label="Email" errorMessage={error?.message || ''}>
                     <TextField
-                      value={value ?? ''}
+                      value={value}
                       placeholder="Enter your email"
                       onChange={(e): void => {
                         onChange(e.target.value.toLowerCase());
@@ -65,9 +66,9 @@ const Login: FC = () => {
                 control={control}
                 name="password"
                 render={({ field: { onChange, value = '', onBlur }, fieldState: { error } }): ReactElement => (
-                  <FormContainer label="Password" errorMessage={error?.message ?? ''}>
+                  <FormContainer label="Password" errorMessage={error?.message || ''}>
                     <TextField
-                      value={value ?? ''}
+                      value={value}
                       placeholder="Enter your password"
                       onChange={onChange}
                       onBlur={onBlur}

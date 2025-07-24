@@ -142,8 +142,8 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                             <Flex justifyContent="space-between" key={data.credit_card.customerPaymentProfileId}>
                               <Box mt="1rem">
                                 <CreditCard
-                                  accountNumber={data.credit_card.payment.creditCard.cardNumber ?? ''}
-                                  cardType={data.credit_card.payment.creditCard.cardType ?? ''}
+                                  accountNumber={data?.credit_card?.payment?.creditCard?.cardNumber ?? ''}
+                                  cardType={data?.credit_card?.payment?.creditCard?.cardType ?? ''}
                                   loading={loading}
                                 />
                                 {error?.message && (

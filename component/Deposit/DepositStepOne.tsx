@@ -48,33 +48,34 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
   return (
     <>
       <Box display="flex" flexDir="column">
-        <Controller
-          control={control}
-          name="amount"
-          rules={{
-            required: type === 'CREDIT' ? false : 'Amount is required',
-            validate:
-              type === 'CREDIT' ? undefined : (value): string | true => value >= 20 || 'Amount must be at least $20',
-          }}
-          render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-            <FormContainer
-              label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
-              errorMessage={error?.message ?? ''}
-              place="end"
-            >
-              <TextField
-                type="number"
-                value={value || ''}
-                placeholder="Enter Amount"
-                onChange={(e): void => {
-                  onChange(+e.target.value);
-                }}
-                onBlur={onBlur}
-                formNoValidate
-              />
-            </FormContainer>
-          )}
-        />
+        {type !== 'CREDIT' && (
+          <Controller
+            control={control}
+            name="amount"
+            rules={{
+              required: 'Amount is required',
+              validate: (value): string | true => value >= 20 || 'Amount must be at least $20',
+            }}
+            render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+              <FormContainer
+                label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
+                errorMessage={error?.message ?? ''}
+                place="end"
+              >
+                <TextField
+                  type="number"
+                  value={value || ''}
+                  placeholder="Enter Amount"
+                  onChange={(e): void => {
+                    onChange(+e.target.value);
+                  }}
+                  onBlur={onBlur}
+                  formNoValidate
+                />
+              </FormContainer>
+            )}
+          />
+        )}
 
         <RadioGroup>
           <Controller
@@ -134,7 +135,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                           );
                         })
                       ) : (
-                        <Text>No Bank Record</Text>
+                        <></>
                       )}
 
                       {label === 'Purchase' && (

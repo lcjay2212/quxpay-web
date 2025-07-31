@@ -19,7 +19,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const router = useRouter();
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const method = useForm();
-  const { handleSubmit, watch } = method;
+  const { handleSubmit, watch, reset } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
   const paymentData = useAccountPaymentId((e) => e.paymentData);
   const [step, setStep] = useState(1);
@@ -127,6 +127,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const { mutate: addCreditCard, isPending: addCreditCardLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/add-credit-card`,
     (): void => {
+      reset();
       setType(null);
       void queryClient.invalidateQueries({ queryKey: ['bandAndCreditDetails'] });
     },

@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { useUploadLoadingModal, useUser } from 'store';
-import { notify } from 'utils';
+import { navigateWithNewTab, notify } from 'utils';
 
 const DashboardMenu: FC = () => {
   const user = useUser((e) => e.user);
@@ -82,6 +82,29 @@ const DashboardMenu: FC = () => {
       show: user?.corporate,
     },
     {
+      image: '/assets/icons/store white.svg',
+      alt: 'Edit Store',
+      route: isLocalHost()
+        ? user?.has_store
+          ? 'https://qa.quxtech.tv/dashboard/merchant-store/edit'
+          : 'https://qa.quxtech.tv/dashboard/merchant-store'
+        : user?.has_store
+        ? 'https://qux.tv/dashboard/merchant-store/edit'
+        : 'https://qux.tv/dashboard/merchant-store',
+      label: 'Edit Store',
+      show: user?.corporate,
+    },
+    {
+      image: '/assets/icons/add.svg',
+      alt: 'Add/Edit Products',
+      route: isLocalHost()
+        ? 'https://qa.quxtech.tv/dashboard/merchant-store/products'
+        : 'https://qux.tv/dashboard/merchant-store/products',
+      label: 'Add/Edit Products',
+      show: user?.corporate,
+    },
+
+    {
       image: '/assets/icons/insight-icon.webp',
       alt: 'Insights',
       route: '/insights',
@@ -148,7 +171,7 @@ const DashboardMenu: FC = () => {
                   id={item.alt}
                   onClick={(): void => {
                     if (item.alt !== 'Upload') {
-                      void router.push(item.route);
+                      navigateWithNewTab(item.route, router);
                     }
                   }}
                 >

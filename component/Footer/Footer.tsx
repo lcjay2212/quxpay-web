@@ -124,8 +124,9 @@ export const Footer: FC = () => {
           <Box fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
             <Image src="/assets/images/quxpay-logo.webp" height={100} width={200} alt="Qux Logo" placeholder="empty" />
             <Text>QUX Pay®</Text>
-            <Text>9107 Yale Rd.</Text>
-            <Text>Diamond, OH 44412</Text>
+            <Text>8350 N. Central Expressway</Text>
+            <Text>Suite 1900</Text>
+            <Text>Dallas, TX 75206</Text>
             <Text>info@quxnow.com</Text>
             <Text>Toll Free: 877-7000-QUX</Text>
           </Box>

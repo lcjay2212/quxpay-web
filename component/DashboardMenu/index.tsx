@@ -101,7 +101,7 @@ const DashboardMenu: FC = () => {
         ? 'https://qa.quxtech.tv/dashboard/merchant-store/products'
         : 'https://qux.tv/dashboard/merchant-store/products',
       label: 'Add/Edit Products',
-      show: user?.corporate && !user.has_store,
+      show: user?.corporate && user.has_store,
     },
 
     {

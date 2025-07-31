@@ -96,7 +96,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
               onClick={(): void => mutate({ qr: data?.qr_id } as any)}
               isLoading={isPending}
             >
-              Re-Send PO
+              Pay PO
             </Button>
 
             <Button

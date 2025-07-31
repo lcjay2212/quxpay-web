@@ -92,7 +92,7 @@ const DashboardMenu: FC = () => {
         ? 'https://qux.tv/dashboard/merchant-store/edit'
         : 'https://qux.tv/dashboard/merchant-store',
       label: user?.has_store ? 'Edit Store' : 'Create Store',
-      show: !user?.corporate,
+      show: user?.corporate,
     },
     {
       image: '/assets/icons/add.svg',

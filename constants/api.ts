@@ -10,10 +10,11 @@ export interface LoginRequest {
 
 export interface LoginResponse {
   data: {
-    token: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    data: any;
     email: string;
     type: string;
-    show_verification_page?: boolean;
+    username: string;
   };
   status: {
     message: string;

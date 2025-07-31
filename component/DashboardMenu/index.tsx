@@ -91,8 +91,8 @@ const DashboardMenu: FC = () => {
         : user?.has_store
         ? 'https://qux.tv/dashboard/merchant-store/edit'
         : 'https://qux.tv/dashboard/merchant-store',
-      label: 'Edit Store',
-      show: user?.corporate,
+      label: user?.has_store ? 'Edit Store' : 'Create Store',
+      show: !user?.corporate,
     },
     {
       image: '/assets/icons/add.svg',
@@ -101,7 +101,7 @@ const DashboardMenu: FC = () => {
         ? 'https://qa.quxtech.tv/dashboard/merchant-store/products'
         : 'https://qux.tv/dashboard/merchant-store/products',
       label: 'Add/Edit Products',
-      show: user?.corporate,
+      show: user?.corporate && !user.has_store,
     },
 
     {

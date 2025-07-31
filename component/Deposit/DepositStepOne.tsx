@@ -52,8 +52,9 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
           control={control}
           name="amount"
           rules={{
-            required: 'Amount is required',
-            validate: (value) => value >= 20 || 'Amount must be at least $20',
+            required: type === 'CREDIT' ? false : 'Amount is required',
+            validate:
+              type === 'CREDIT' ? undefined : (value): string | true => value >= 20 || 'Amount must be at least $20',
           }}
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer

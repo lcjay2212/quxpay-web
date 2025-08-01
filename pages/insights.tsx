@@ -41,7 +41,7 @@ const InsightPage: FC = () => {
   const [monthFilter, setMonthFilter] = useState(dayjs().format('MM'));
   const [dayFilter] = useState(dayjs().format('DD'));
   const dayOrMonthFilter = filter === 'monthly' ? monthFilter : dayFilter;
-  const [label, setLabel] = useState('Febuary');
+  const [label, setLabel] = useState(dayjs().format('MMMM'));
   const [expensesFilter, setExpensesFilter] = useState('income');
   const { data, isLoading } = useQuery({
     queryKey: ['transactionHistoryPhaseTwo', filter, dayOrMonthFilter],
@@ -80,14 +80,16 @@ const InsightPage: FC = () => {
 
           <Box mb="2rem">
             <Text color="white">{label}</Text>
-            <Flex>
-              <Image
-                src="/assets/icons/qux-token-big-icon.webp"
-                height={50}
-                width={50}
-                alt="Qux Logo"
-                placeholder="empty"
-              />
+            <Flex alignItems="center">
+              <Box w="50px" h="50px">
+                <Image
+                  src="/assets/icons/qux-token-big-icon.webp"
+                  height={50}
+                  width={50}
+                  alt="Qux Logo"
+                  placeholder="empty"
+                />
+              </Box>
               <Box color="white" fontSize={50}>
                 {expensesFilter === 'income' ? (
                   <>{!isLoading ? data?.total?.total_income.toFixed(2) : <Spinner size="lg" color="primary" />}</>

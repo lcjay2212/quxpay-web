@@ -3,6 +3,7 @@ import { Box, Button, chakra, Flex, HStack, PinInput, PinInputField, Text } from
 import { useMutation } from '@tanstack/react-query';
 import { post } from 'constants/api';
 import storage from 'constants/storage';
+import { API_SESSION_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
@@ -28,7 +29,23 @@ export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: strin
 
   const { mutate: verify, isPending: isVerifying } = useMutation({
     mutationFn: (variable) => post('web/otp/verify', variable),
-    onSuccess: ({ data }: any) => {
+    onSuccess: async ({ data }: any) => {
+      try {
+        const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
+        const json = await loginSession.json();
+
+        if (!data.data.show_verification_page) {
+          if (json.success) {
+            setEmail(data.data.email);
+          } else {
+            throw new Error('Login session creation failed');
+          }
+        } else {
+          setVisible(true);
+        }
+      } catch (error) {
+        notify('Login failed. Please try again.', { status: 'error' });
+      }
       notify('Verify OTP success');
       setVerify(false);
       setEmail(null);

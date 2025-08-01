@@ -18,6 +18,9 @@ const Login: FC = () => {
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
   const { login } = useLogin();
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const type = (login.data as any)?.type ?? 'login';
+
   const onSubmit = (val: LoginRequest): void => {
     login.mutate(val);
   };
@@ -104,7 +107,7 @@ const Login: FC = () => {
           </Text>
         </>
       ) : (
-        <VerifyOtpForm email={getValues('email')} type="login" />
+        <VerifyOtpForm email={getValues('email')} type={type || 'login'} />
       )}
 
       <PendingAccountModal />

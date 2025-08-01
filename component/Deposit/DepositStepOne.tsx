@@ -48,32 +48,34 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
   return (
     <>
       <Box display="flex" flexDir="column">
-        <Controller
-          control={control}
-          name="amount"
-          rules={{
-            required: 'Amount is required',
-            validate: (value) => value >= 20 || 'Amount must be at least $20',
-          }}
-          render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
-            <FormContainer
-              label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
-              errorMessage={error?.message ?? ''}
-              place="end"
-            >
-              <TextField
-                type="number"
-                value={value || ''}
-                placeholder="Enter Amount"
-                onChange={(e): void => {
-                  onChange(+e.target.value);
-                }}
-                onBlur={onBlur}
-                formNoValidate
-              />
-            </FormContainer>
-          )}
-        />
+        {type !== 'CREDIT' && (
+          <Controller
+            control={control}
+            name="amount"
+            rules={{
+              required: 'Amount is required',
+              validate: (value): string | true => value >= 20 || 'Amount must be at least $20',
+            }}
+            render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
+              <FormContainer
+                label={label === 'Purchase' ? `Minimum Amount $ 20` : 'max'}
+                errorMessage={error?.message ?? ''}
+                place="end"
+              >
+                <TextField
+                  type="number"
+                  value={value || ''}
+                  placeholder="Enter Amount"
+                  onChange={(e): void => {
+                    onChange(+e.target.value);
+                  }}
+                  onBlur={onBlur}
+                  formNoValidate
+                />
+              </FormContainer>
+            )}
+          />
+        )}
 
         <RadioGroup>
           <Controller
@@ -133,41 +135,47 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                           );
                         })
                       ) : (
-                        <Text>No Bank Record</Text>
+                        <></>
                       )}
 
                       {label === 'Purchase' && (
                         <>
                           {!isEmpty(data?.credit_card) && (
-                            <Flex justifyContent="space-between" key={data.credit_card.customerPaymentProfileId}>
-                              <Box mt="1rem">
-                                <CreditCard
-                                  accountNumber={data?.credit_card?.payment?.creditCard?.cardNumber ?? ''}
-                                  cardType={data?.credit_card?.payment?.creditCard?.cardType ?? ''}
-                                  loading={loading}
-                                />
-                                {error?.message && (
-                                  <SlideFade in={true} offsetY="-1rem">
-                                    <FormErrorMessage fontSize="0.9rem" color="error">
-                                      {error.message}
-                                    </FormErrorMessage>
-                                  </SlideFade>
-                                )}
-                              </Box>
-                              <Radio
-                                value={`${data.credit_card.customerPaymentProfileId}`}
-                                colorScheme="teal"
-                                onChange={(): void => {
-                                  onChange(data.credit_card.customerPaymentProfileId);
-                                  setPaymentData({
-                                    paymentId: data.credit_card.customerPaymentProfileId,
-                                    paymentType: data.credit_card.payment_type,
-                                  });
-                                  setSelectedBankDetails(data.credit_card as any);
-                                  setType('EXISTING_CREDITCARD');
-                                }}
-                              />
-                            </Flex>
+                            <>
+                              {data?.credit_card.map((item: any) => {
+                                return (
+                                  <Flex justifyContent="space-between" key={item.customerPaymentProfileId}>
+                                    <Box mt="1rem">
+                                      <CreditCard
+                                        accountNumber={item.payment.creditCard.cardNumber ?? ''}
+                                        cardType={item.payment.creditCard.cardType ?? ''}
+                                        loading={loading}
+                                      />
+                                      {error?.message && (
+                                        <SlideFade in={true} offsetY="-1rem">
+                                          <FormErrorMessage fontSize="0.9rem" color="error">
+                                            {error.message}
+                                          </FormErrorMessage>
+                                        </SlideFade>
+                                      )}
+                                    </Box>
+                                    <Radio
+                                      value={`${item.customerPaymentProfileId}`}
+                                      colorScheme="teal"
+                                      onChange={(): void => {
+                                        onChange(item.customerPaymentProfileId);
+                                        setPaymentData({
+                                          paymentId: item.customerPaymentProfileId,
+                                          paymentType: item.payment_type,
+                                        });
+                                        setSelectedBankDetails(item as any);
+                                        setType('EXISTING_CREDITCARD');
+                                      }}
+                                    />
+                                  </Flex>
+                                );
+                              })}
+                            </>
                           )}
                         </>
                       )}

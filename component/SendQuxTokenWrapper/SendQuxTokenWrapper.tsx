@@ -208,7 +208,7 @@ export const SendQuxTokenWrapper: FC = () => {
                   <Flex my="1.5rem" justifyContent="space-between">
                     <Flex>
                       <Box ml="1rem">
-                        <Image src="/assets/icons/add-friend-icon.webp" alt="Add Bank Icon" />
+                        <Image src="/assets/icons/add-friend-icon.webp" alt="Add Bank Icon" width={20} height={20} />
                       </Box>
 
                       <Text ml="0.5rem" color="white" fontSize="1.25rem">

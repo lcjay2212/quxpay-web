@@ -19,14 +19,12 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const router = useRouter();
   const [type, setType] = useType((e) => [e.type, e.setType]);
   const method = useForm();
-  const { handleSubmit, watch } = method;
+  const { handleSubmit, watch, reset } = method;
   const setVisible = useCongratulationContent((e) => e.setVisible);
   const paymentData = useAccountPaymentId((e) => e.paymentData);
   const [step, setStep] = useState(1);
   const selectedCrypto = useSelectedCrypto((e) => e.selectedCrypto);
   const cryptoPaymentData = useCryptoPaymentData((e) => e.cryptoPaymentData);
-  const [paymentProfileId, setPaymentProfileId] = useState();
-
   const balance = queryClient.getQueryData<{ initialData: Details; balance: any }>(['balanceSecurityFile']);
   const computationData = useComputationData((e) => e.computationData);
 
@@ -128,9 +126,10 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
 
   const { mutate: addCreditCard, isPending: addCreditCardLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/add-credit-card`,
-    ({ data }): void => {
-      setPaymentProfileId(data?.data?.payment_profile_id);
-      validate({ amount, payment_profile_id: data?.data?.payment_profile_id, payment_type: 'authorize_creditcard' });
+    (): void => {
+      reset();
+      setType(null);
+      void queryClient.invalidateQueries({ queryKey: ['bandAndCreditDetails'] });
     },
     ({ response }: any) => {
       let message = '';
@@ -189,6 +188,31 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     }
   );
 
+  const getButtonText = (): string => {
+    if (step === 1) {
+      if (label === 'Purchase' && type === 'CRYPTO') {
+        return 'Send your Crypto and Continue';
+      }
+      if (type === 'CREDIT') {
+        return 'Save New Card';
+      }
+      return label;
+    }
+
+    if (label === 'Redeem') {
+      if (type === 'BANK') {
+        return 'Initiate Bank Redeem';
+      }
+      return 'Confirm Crypto Redeem';
+    }
+
+    if (type === 'ADD_CRYPTO') {
+      return 'Complete - Return to Home';
+    }
+
+    return `Confirm ${label}`;
+  };
+
   const onSubmit = (val): void => {
     const purchaseRedeemVal = {
       ...val,
@@ -196,7 +220,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     };
 
     const addCreditCardVal = {
-      ...val,
       firstname: val.firstname,
       lastname: val.lastname,
       card_number: val.card_number,
@@ -208,6 +231,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       city: val.city,
       state: val.state,
       zip: val.zip,
+      default: true,
     };
 
     const handleStepOne = (): void => {
@@ -233,8 +257,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
         case 'ADD_BANK':
           validate({ ...val, payment_type: 'ach_bank' });
 
-          break;
-
         default:
           validate(purchaseRedeemVal);
           break;
@@ -247,10 +269,10 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       let core;
 
       switch (type) {
-        case 'CREDIT':
+        case 'EXISTING_CREDITCARD':
           content = {
             [`${name}_tokens`]: [
-              { amount: val.amount, payment_profile_id: paymentProfileId, payment_type: 'authorize_creditcard' },
+              { amount: val.amount, payment_profile_id: val.payment_profile_id, payment_type: 'authorize_creditcard' },
             ],
           };
           encryptionTarget = 'balance';
@@ -294,7 +316,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
               });
               break;
 
-            case 'CREDIT':
+            case 'EXISTING_CREDITCARD':
               handleEncryptedContent('purchase');
               break;
 
@@ -358,17 +380,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   addCreditCardLoading
                 }
               >
-                {step === 1
-                  ? label === 'Purchase' && type === 'CRYPTO'
-                    ? 'Send your Crypto and Continue'
-                    : label
-                  : label === 'Redeem'
-                  ? type === 'BANK'
-                    ? 'Initiate Bank Redeem'
-                    : 'Confirm Crypto Redeem'
-                  : type === 'ADD_CRYPTO'
-                  ? 'Complete - Return to Home'
-                  : `Confirm ${label}`}
+                {getButtonText()}
               </Button>
 
               {step === 2 && (

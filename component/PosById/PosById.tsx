@@ -5,7 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { notify } from 'utils';
+import { notify, queryClient } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,
@@ -27,6 +27,11 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
   const router = useRouter();
   const [trigger, setTrigger] = useState(false);
+  const balance = queryClient.getQueryData<{ balance?: { balance?: number } }>(['balanceSecurityFile']);
+
+  const availableBalance = balance?.balance?.balance || 0;
+
+  const isAvailableBalanceEnough = availableBalance >= data?.total_amount;
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
@@ -39,6 +44,23 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
       }),
     onSuccess: () => {
       setTrigger(!trigger);
+    },
+    onError: ({ response }: any) => {
+      notify(response?.data?.data?.error || `Failed to Pay PO`, { status: 'error' });
+    },
+  });
+
+  const { mutate: resendMutate, isPending: resendLoading } = useMutation({
+    mutationFn: (variable) =>
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/pos/${data?.id}/resend`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
+          'QuxPay-Web': 1,
+          Version: 2,
+        },
+      }),
+    onSuccess: () => {
+      notify(`PO Resend Successfully`, { status: 'success' });
     },
     onError: ({ response }: any) => {
       notify(response?.data?.data?.error || `Failed to Pay PO`, { status: 'error' });
@@ -67,7 +89,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
       {!trigger ? (
         <Flex flexDir="column" justifyContent="space-between" color="white" mt="2rem" h="85vh" px="1rem">
           <Box>
-            <Text>Sending to {data?.po_to} for</Text>
+            <Text>Sending to {data?.po_from} for</Text>
             <Text my="0.5rem" ml="1rem">
               PO {data?.id}
             </Text>
@@ -87,17 +109,46 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
           </Box>
 
           <Flex alignItems="center" flexDir="column" gap="1rem" my="2rem">
-            <Button
-              type="submit"
-              variant="primary"
-              borderRadius="1rem"
-              w={350}
-              h="3.25rem"
-              onClick={(): void => mutate({ qr: data?.qr_id } as any)}
-              isLoading={isPending}
-            >
-              Re-Send PO
-            </Button>
+            {data?.type === 'Created' ? (
+              <Button
+                type="submit"
+                variant="primary"
+                borderRadius="1rem"
+                w={350}
+                h="3.25rem"
+                onClick={(): void => resendMutate()}
+                isLoading={resendLoading}
+              >
+                Resend PO
+              </Button>
+            ) : (
+              <>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  onClick={(): void => mutate({ qr: data?.qr_id } as any)}
+                  isLoading={isPending}
+                  isDisabled={!isAvailableBalanceEnough}
+                >
+                  Pay PO
+                </Button>
+
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  onClick={(): void => void router.push('/purchase')}
+                  isLoading={isPending}
+                >
+                  Purchase Token
+                </Button>
+              </>
+            )}
 
             <Button
               type="submit"
@@ -138,7 +189,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
           </Flex>
 
           <Text color="white" fontSize="20px" textAlign="center" mt="1rem">
-            Token Successfully Sent <br /> to {data?.po_to}
+            Token Successfully Sent <br /> to {data?.po_from}
           </Text>
           <Button
             variant="primary"

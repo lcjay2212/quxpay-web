@@ -36,19 +36,6 @@ export const PendingAccountModal: FC = () => {
                 <Text mb="2rem">
                   We'll send you an email once <br /> your account is available!
                 </Text>
-                <Text>
-                  Also, because you've submitted your first
-                  <br /> account, once you're approved, you'll see
-                  <br /> two small amounts deposited from
-                  <br />
-                  QUX TECHNOLOGIES INC
-                  <br />
-                  in your account. You will need these two
-                  <br />
-                  amounts to verify your bank account
-                  <br />
-                  once approved.
-                </Text>
               </Box>
               <Button
                 variant="primary"

@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { useUploadLoadingModal, useUser } from 'store';
-import { notify } from 'utils';
+import { navigateWithNewTab, notify } from 'utils';
 
 const DashboardMenu: FC = () => {
   const user = useUser((e) => e.user);
@@ -82,6 +82,23 @@ const DashboardMenu: FC = () => {
       show: user?.corporate,
     },
     {
+      image: '/assets/icons/store white.svg',
+      alt: 'Edit Store',
+      route: `${isLocalHost() ? 'https://qa.quxtech.tv' : 'https://qux.tv'}/dashboard/merchant-store${
+        user?.has_store ? '/edit' : ''
+      }`,
+      label: user?.has_store ? 'Edit Store' : 'Create Store',
+      show: user?.corporate,
+    },
+    {
+      image: '/assets/icons/add.svg',
+      alt: 'Add/Edit Products',
+      route: `${isLocalHost() ? 'https://qa.quxtech.tv' : 'https://qux.tv'}/dashboard/merchant-store/products`,
+      label: 'Add/Edit Products',
+      show: user?.corporate && user.has_store,
+    },
+
+    {
       image: '/assets/icons/insight-icon.webp',
       alt: 'Insights',
       route: '/insights',
@@ -148,7 +165,7 @@ const DashboardMenu: FC = () => {
                   id={item.alt}
                   onClick={(): void => {
                     if (item.alt !== 'Upload') {
-                      void router.push(item.route);
+                      navigateWithNewTab(item.route, router);
                     }
                   }}
                 >
@@ -161,7 +178,7 @@ const DashboardMenu: FC = () => {
                       placeholder="empty"
                     />
                   </Flex>
-                  <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                  <Text mt="0.5rem" fontSize="0.75rem">
                     {item.label}
                   </Text>
                 </chakra.label>

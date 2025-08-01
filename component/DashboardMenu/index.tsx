@@ -178,7 +178,7 @@ const DashboardMenu: FC = () => {
                       placeholder="empty"
                     />
                   </Flex>
-                  <Text mt="0.5rem" fontSize={{ base: '0.75rem', md: '1rem' }}>
+                  <Text mt="0.5rem" fontSize="0.75rem">
                     {item.label}
                   </Text>
                 </chakra.label>

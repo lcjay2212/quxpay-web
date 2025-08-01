@@ -48,7 +48,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
   return (
     <>
       <Box display="flex" flexDir="column">
-        {type !== 'CREDIT' && (
+        {type !== 'CREDIT' && type !== 'ADD_BANK' && (
           <Controller
             control={control}
             name="amount"

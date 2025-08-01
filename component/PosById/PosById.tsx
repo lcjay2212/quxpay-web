@@ -67,7 +67,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
       {!trigger ? (
         <Flex flexDir="column" justifyContent="space-between" color="white" mt="2rem" h="85vh" px="1rem">
           <Box>
-            <Text>Sending to {data?.po_to} for</Text>
+            <Text>Sending to {data?.po_from} for</Text>
             <Text my="0.5rem" ml="1rem">
               PO {data?.id}
             </Text>
@@ -138,7 +138,7 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
           </Flex>
 
           <Text color="white" fontSize="20px" textAlign="center" mt="1rem">
-            Token Successfully Sent <br /> to {data?.po_to}
+            Token Successfully Sent <br /> to {data?.po_from}
           </Text>
           <Button
             variant="primary"

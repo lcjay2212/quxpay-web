@@ -84,22 +84,16 @@ const DashboardMenu: FC = () => {
     {
       image: '/assets/icons/store white.svg',
       alt: 'Edit Store',
-      route: isLocalHost()
-        ? user?.has_store
-          ? 'https://qa.quxtech.tv/dashboard/merchant-store/edit'
-          : 'https://qa.quxtech.tv/dashboard/merchant-store'
-        : user?.has_store
-        ? 'https://qux.tv/dashboard/merchant-store/edit'
-        : 'https://qux.tv/dashboard/merchant-store',
+      route: `${isLocalHost() ? 'https://qa.quxtech.tv' : 'https://qux.tv'}/dashboard/merchant-store${
+        user?.has_store ? '/edit' : ''
+      }`,
       label: user?.has_store ? 'Edit Store' : 'Create Store',
       show: user?.corporate,
     },
     {
       image: '/assets/icons/add.svg',
       alt: 'Add/Edit Products',
-      route: isLocalHost()
-        ? 'https://qa.quxtech.tv/dashboard/merchant-store/products'
-        : 'https://qux.tv/dashboard/merchant-store/products',
+      route: `${isLocalHost() ? 'https://qa.quxtech.tv' : 'https://qux.tv'}/dashboard/merchant-store/products`,
       label: 'Add/Edit Products',
       show: user?.corporate && user.has_store,
     },

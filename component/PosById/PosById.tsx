@@ -50,6 +50,23 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
     },
   });
 
+  const { mutate: resendMutate, isPending: resendLoading } = useMutation({
+    mutationFn: (variable) =>
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/pos/${data?.id}/resend`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
+          'QuxPay-Web': 1,
+          Version: 2,
+        },
+      }),
+    onSuccess: () => {
+      notify(`PO Resend Successfully`, { status: 'success' });
+    },
+    onError: ({ response }: any) => {
+      notify(response?.data?.data?.error || `Failed to Pay PO`, { status: 'error' });
+    },
+  });
+
   const { mutate: deleteMutate, isPending: deleteLoading } = useMutation({
     mutationFn: () =>
       axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/pos/${data?.id}/delete`, {
@@ -92,30 +109,46 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
           </Box>
 
           <Flex alignItems="center" flexDir="column" gap="1rem" my="2rem">
-            <Button
-              type="submit"
-              variant="primary"
-              borderRadius="1rem"
-              w={350}
-              h="3.25rem"
-              onClick={(): void => mutate({ qr: data?.qr_id } as any)}
-              isLoading={isPending}
-              isDisabled={!isAvailableBalanceEnough}
-            >
-              Pay PO
-            </Button>
+            {data?.type === 'Created' ? (
+              <Button
+                type="submit"
+                variant="primary"
+                borderRadius="1rem"
+                w={350}
+                h="3.25rem"
+                onClick={(): void => resendMutate()}
+                isLoading={resendLoading}
+              >
+                Resend PO
+              </Button>
+            ) : (
+              <>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  onClick={(): void => mutate({ qr: data?.qr_id } as any)}
+                  isLoading={isPending}
+                  isDisabled={!isAvailableBalanceEnough}
+                >
+                  Pay PO
+                </Button>
 
-            <Button
-              type="submit"
-              variant="primary"
-              borderRadius="1rem"
-              w={350}
-              h="3.25rem"
-              onClick={(): void => void router.push('/purchase')}
-              isLoading={isPending}
-            >
-              Purchase Token
-            </Button>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  onClick={(): void => void router.push('/purchase')}
+                  isLoading={isPending}
+                >
+                  Purchase Token
+                </Button>
+              </>
+            )}
 
             <Button
               type="submit"

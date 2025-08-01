@@ -78,7 +78,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                           Your transaction has been <br />
                           Completed successfully
                         </Text>
-                        <Text my="2rem">
+                        {/* <Text my="2rem">
                           Please remember that
                           <br />
                           credit card transactions
@@ -95,7 +95,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                           No weapons
                           <br />
                           No adult content
-                        </Text>
+                        </Text> */}
                       </>
                     ))}
                 </Box>

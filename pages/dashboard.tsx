@@ -39,7 +39,7 @@ import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
-  <Box w={{ base: 150, md: 250 }}>
+  <Box w={{ base: 150, md: 'auto' }}>
     <Text fontWeight="bold" fontSize={{ base: '14px', md: '1rem' }}>
       {label}
     </Text>

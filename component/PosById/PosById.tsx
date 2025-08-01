@@ -5,7 +5,7 @@ import axios from 'axios';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { notify } from 'utils';
+import { notify, queryClient } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,
@@ -27,6 +27,11 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) => {
   const router = useRouter();
   const [trigger, setTrigger] = useState(false);
+  const balance = queryClient.getQueryData<{ balance?: { balance?: number } }>(['balanceSecurityFile']);
+
+  const availableBalance = balance?.balance?.balance || 0;
+
+  const isAvailableBalanceEnough = availableBalance >= data?.total_amount;
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
@@ -95,8 +100,21 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
               h="3.25rem"
               onClick={(): void => mutate({ qr: data?.qr_id } as any)}
               isLoading={isPending}
+              isDisabled={!isAvailableBalanceEnough}
             >
               Pay PO
+            </Button>
+
+            <Button
+              type="submit"
+              variant="primary"
+              borderRadius="1rem"
+              w={350}
+              h="3.25rem"
+              onClick={(): void => void router.push('/purchase')}
+              isLoading={isPending}
+            >
+              Purchase Token
             </Button>
 
             <Button

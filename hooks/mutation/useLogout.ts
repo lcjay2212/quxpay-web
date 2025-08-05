@@ -1,7 +1,7 @@
 import { API_SESSION_URL } from 'constants/url';
 import { useRouter } from 'next/router';
 import { clearStorage, notify, queryClient } from 'utils';
-import { useUser } from './useUser';
+import { useUser } from '../../store/useUser';
 
 export const useLogout = (): { logout: ({ message }: { message?: string }) => Promise<void> } => {
   const router = useRouter();

@@ -1,9 +1,8 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
 import { ApiError, LoginRequest, LoginResponse, post } from 'constants/api';
 import { notify } from 'utils';
-import { useCaptchaModal } from './useCaptchaModal';
-import { usePendingAccountModal } from './usePendingAccountModal';
-
+import { useCaptchaModal } from '../../store/useCaptchaModal';
+import { usePendingAccountModal } from '../../store/usePendingAccountModal';
 export const useLogin = (): { login: UseMutationResult<LoginResponse, ApiError, LoginRequest> } => {
   const setVisible = usePendingAccountModal((e) => e.setVisible);
   const setCaptchaModalVisible = useCaptchaModal((e) => e.setVisible);

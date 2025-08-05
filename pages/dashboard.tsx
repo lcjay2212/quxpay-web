@@ -83,7 +83,7 @@ const Dashboard: FC = () => {
     const sessionData = localStorage.getItem(storage.QUX_PAY_USER_DETAILS);
     if (userDetails?.has_store) {
       const parsedSessionData = JSON.parse(sessionData || '{}');
-      parsedSessionData.has_store = true;
+      parsedSessionData.has_store = userDetails.has_store;
       localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(parsedSessionData));
     }
   }, [userDetails]);

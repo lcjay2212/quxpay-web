@@ -1,42 +1,38 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, chakra, Flex, Grid, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { isLocalHost } from 'constants/url';
+import { useUploadTransactions } from 'hooks';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { useUploadLoadingModal, useUser } from 'store';
-import { navigateWithNewTab, notify } from 'utils';
+import { navigateWithNewTab } from 'utils';
+import api from 'utils/api';
 
 const DashboardMenu: FC = () => {
   const user = useUser((e) => e.user);
   const router = useRouter();
   const setVisible = useUploadLoadingModal((set) => set.setVisible);
 
-  const { mutate, isSuccess } = useMutation({
-    mutationFn: (variable) =>
-      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/corporate/upload/transactions`, variable, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-      }),
-    onSuccess: () => {
-      notify('Upload success!');
-      setVisible(false);
+  const { uploadTransactions } = useUploadTransactions();
+
+  const { mutate: generateSso } = useMutation({
+    mutationFn: async (variables: { route: string }) => {
+      const { data } = await api.post('web/generate/sso');
+      return { ssoData: data.data, route: variables.route };
     },
-    onError: ({ response }: any) => {
-      notify(`${response.data?.data.format}`, { status: 'error' });
-      setVisible(false);
+    onSuccess: (data) => {
+      const routeWithSso = `${data.route}?sso=${data.ssoData.key}`;
+      navigateWithNewTab(routeWithSso, router);
     },
   });
 
   useEffect(() => {
-    if (isSuccess) {
+    if (uploadTransactions.isSuccess) {
       setVisible(true);
     }
-  }, [isSuccess, setVisible]);
+  }, [uploadTransactions, setVisible]);
 
   const dashboardMenu = [
     {
@@ -150,7 +146,7 @@ const DashboardMenu: FC = () => {
                   onChange={(e: any): void => {
                     const formData = new FormData();
                     formData.append('file', e.target.files[0]);
-                    mutate(formData as any);
+                    uploadTransactions.mutate(formData as any);
                   }}
                 />
                 <chakra.label
@@ -164,7 +160,13 @@ const DashboardMenu: FC = () => {
                   }}
                   id={item.alt}
                   onClick={(): void => {
-                    if (item.alt !== 'Upload') {
+                    if (item.alt === 'Upload') {
+                      return;
+                    }
+
+                    if (item.alt === 'Edit Store' || item.alt === 'Add/Edit Products') {
+                      generateSso({ route: item.route });
+                    } else {
                       navigateWithNewTab(item.route, router);
                     }
                   }}

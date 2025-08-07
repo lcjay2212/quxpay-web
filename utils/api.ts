@@ -88,7 +88,7 @@ api.interceptors.response.use(
 
         // Update both cookie and localStorage
         if (isBrowser) {
-          localStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.accessToken);
+          sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.accessToken);
         }
         api.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
         processQueue(null, data.accessToken);
@@ -111,7 +111,7 @@ api.interceptors.response.use(
 );
 
 api.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-  const token = isBrowser ? localStorage.getItem(storage.QUX_PAY_USER_TOKEN) : null;
+  const token = isBrowser ? sessionStorage.getItem(storage.QUX_PAY_USER_TOKEN) : null;
   if (token) {
     config.headers.set('Authorization', `Bearer ${token}`);
   }

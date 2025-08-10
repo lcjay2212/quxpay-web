@@ -3,12 +3,12 @@ import { Box, Button, Flex, Grid, Text } from '@chakra-ui/react';
 import { CaptchaModal, FormContainer, PendingAccountModal, TextField } from 'component';
 import { VerifyOtpForm } from 'component/VerifyOtpForm';
 import { LoginRequest } from 'constants/api';
+import { useLogin } from 'hooks';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useCaptchaModal, useVerifyOtp } from 'store';
-import { useLogin } from 'store/useLogin';
 
 const Login: FC = () => {
   const method = useForm<LoginRequest>();

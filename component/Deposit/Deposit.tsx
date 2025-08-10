@@ -99,17 +99,8 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     ({ response }: any) => notify(response?.data?.data?.message, { status: 'warning' })
   );
 
-  const getUrl = (): string => {
-    switch (type) {
-      case 'ADD_BANK':
-        return 'web/validate/add-bank-account';
-      default:
-        return url; // Default case
-    }
-  };
-
   const { mutate: validate, isPending: validateLoading } = useCustomMutation(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/${getUrl()}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/${url}`,
     () => setStep((e) => e + 1),
     ({ response }: any) => {
       let message = '';
@@ -123,6 +114,42 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       notify(message || response?.data?.status?.message, { status: 'error' });
     }
   );
+
+  const { mutate: addBankAccount, isPending: addBankAccountLoading } = useMutation({
+    mutationFn: async (val: any) => {
+      try {
+        await postRequest(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/validate/add-bank-account`, val);
+
+        const content = {
+          [`added_bank_accounts`]: [{ ...val, payment_type: 'ach_bank' }],
+        };
+        const encryptionTarget = 'wallets';
+        const core = wallet.initialData;
+
+        if (core) {
+          const encryptedData = encryptData(JSON.stringify(content), core, encryptionTarget);
+          updateMainFile(encryptedData);
+        }
+      } catch (error) {
+        throw error;
+      }
+    },
+    onSuccess: () => {
+      notify('Bank Account Added Successfully', { status: 'success' });
+      void router.push('/dashboard');
+    },
+    onError: ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message || response?.data?.status?.message, { status: 'error' });
+    },
+  });
 
   const { mutate: addCreditCard, isPending: addCreditCardLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/add-credit-card`,
@@ -196,6 +223,9 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       if (type === 'CREDIT') {
         return 'Save New Card';
       }
+      if (type === 'ADD_BANK') {
+        return 'Add Bank Account';
+      }
       return label;
     }
 
@@ -255,7 +285,8 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
           break;
 
         case 'ADD_BANK':
-          validate({ ...val, payment_type: 'ach_bank' });
+          addBankAccount({ amount: 0, payment_type: 'ach_bank', ...val });
+          break;
 
         default:
           validate(purchaseRedeemVal);
@@ -377,7 +408,8 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
                   checkLoading ||
                   validateLoading ||
                   updateMainFileLoading ||
-                  addCreditCardLoading
+                  addCreditCardLoading ||
+                  addBankAccountLoading
                 }
               >
                 {getButtonText()}

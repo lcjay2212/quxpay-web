@@ -57,7 +57,7 @@ const getData = async <T>(apiUrl: string, url: string): Promise<T | undefined> =
         Version: 2,
       },
     });
-    return data.data;
+    return data.data || data;
   } catch (error) {
     if (error?.response?.status === 401) {
       clearStorage();
@@ -91,6 +91,8 @@ export const SHOW_BANK_ACCOUNT_DETAILS = async ({ queryKey }: QueryFunctionConte
   await fetchResource(`web/wallet/show?payment_profile_id=${queryKey[1]}&payment_type=${queryKey[2]}`);
 
 export const FETCH_POS_HISTORY = async (): Promise<any> => await fetchResource(`web/pos`);
+
+export const FETCH_USER_DETAILS = async (): Promise<any> => await fetchResource(`web/user-details`);
 
 export const FETCH_VERIFICATION_STATUS = async (): Promise<any> =>
   await fetchResource(`web/encryption/check/verification`);

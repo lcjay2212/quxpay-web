@@ -30,7 +30,8 @@ import {
   UploadLoadingModal,
   VerifyModal,
 } from 'component';
-import { FETCH_BANK_STATUS, FETCH_POS_HISTORY } from 'constants/api';
+import { FETCH_BANK_STATUS, FETCH_POS_HISTORY, FETCH_USER_DETAILS } from 'constants/api';
+import storage from 'constants/storage';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { FC, useEffect } from 'react';
@@ -72,6 +73,20 @@ const Dashboard: FC = () => {
     queryKey: ['posHistory'],
     queryFn: FETCH_POS_HISTORY,
   });
+
+  const { data: userDetails } = useQuery({
+    queryKey: ['userDetails'],
+    queryFn: FETCH_USER_DETAILS,
+  });
+
+  useEffect(() => {
+    const sessionData = localStorage.getItem(storage.QUX_PAY_USER_DETAILS);
+    if (userDetails?.has_store) {
+      const parsedSessionData = JSON.parse(sessionData || '{}');
+      parsedSessionData.has_store = userDetails.has_store;
+      localStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(parsedSessionData));
+    }
+  }, [userDetails]);
 
   const { data } = useQuery({
     queryKey: ['bankStatus'],

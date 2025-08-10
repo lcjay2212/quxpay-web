@@ -1,80 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button, chakra, Flex, HStack, PinInput, PinInputField, Text } from '@chakra-ui/react';
-import { useMutation } from '@tanstack/react-query';
-import { post } from 'constants/api';
-import storage from 'constants/storage';
-import { API_SESSION_URL } from 'constants/url';
-import { useRouter } from 'next/router';
+import { useVerification } from 'hooks';
 import { FC, ReactElement } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { usePendingAccountModal, useRouteParams, useUser, useVerifyOtp } from 'store';
-import { notify } from 'utils';
+import { useVerifyOtp } from 'store';
 
 export const VerifyOtpForm: FC<{ email?: string; selected?: string; type?: string }> = ({ email, selected, type }) => {
-  const router = useRouter();
   const method = useForm();
   const { handleSubmit, control } = method;
-  const setVisible = usePendingAccountModal((e) => e.setVisible);
   const pinFields = new Array(6).fill(null);
-  const setUser = useUser((e) => e.setUser);
-  const { setVerify, selectedEmail, selectedType, setEmail } = useVerifyOtp((e) => ({
-    setVerify: e.setVerify,
-    selectedEmail: e.email,
-    selectedType: e.type,
-    setEmail: e.setEmail,
-  }));
+  const { email: selectedEmail, type: selectedType } = useVerifyOtp();
 
   const [user, domain] = (email ?? selectedEmail ?? '').split('@');
-  const params = useRouteParams((e) => e.params);
 
-  const { mutate: verify, isPending: isVerifying } = useMutation({
-    mutationFn: (variable) => post('web/otp/verify', variable),
-    onSuccess: async ({ data }: any) => {
-      try {
-        const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
-        const json = await loginSession.json();
-
-        if (!data.data.show_verification_page) {
-          if (json.success) {
-            setEmail(data.data.email);
-          } else {
-            throw new Error('Login session creation failed');
-          }
-        } else {
-          setVisible(true);
-        }
-      } catch (error) {
-        notify('Login failed. Please try again.', { status: 'error' });
-      }
-      notify('Verify OTP success');
-      setVerify(false);
-      setEmail(null);
-      if (selected === undefined || selected === 'regular') {
-        sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
-        sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
-        setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
-        void router.push('/dashboard');
-      } else {
-        setVisible(true);
-      }
-
-      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
-      void router.push(redirectUrl);
-    },
-    onError: ({ response }: any) => {
-      notify(response?.data?.status?.message || response?.data?.errors?.otp, { status: 'error' });
-    },
-  });
-
-  const { mutate: resend } = useMutation({
-    mutationFn: (variable) => post('web/otp/resend', variable),
-    onSuccess: () => {
-      notify('Resend login OTP success');
-    },
-    onError: ({ response }: any) => {
-      notify(response?.data?.status?.message, { status: 'error' });
-    },
-  });
+  const { verify, resend, isVerifying } = useVerification({ selected });
 
   const onVerify = (val): void => {
     verify({

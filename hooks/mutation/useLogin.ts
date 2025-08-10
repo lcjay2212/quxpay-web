@@ -1,6 +1,7 @@
 import { useMutation, UseMutationResult } from '@tanstack/react-query';
-import { ApiError, LoginRequest, LoginResponse, post } from 'constants/api';
+import { ApiError, LoginRequest, LoginResponse } from 'constants/api';
 import { notify } from 'utils';
+import api from 'utils/api';
 import { useCaptchaModal } from '../../store/useCaptchaModal';
 import { usePendingAccountModal } from '../../store/usePendingAccountModal';
 export const useLogin = (): { login: UseMutationResult<LoginResponse, ApiError, LoginRequest> } => {
@@ -10,7 +11,7 @@ export const useLogin = (): { login: UseMutationResult<LoginResponse, ApiError, 
   const login = useMutation({
     mutationKey: ['login'],
     mutationFn: async (credentials: LoginRequest) => {
-      const { data } = await post<LoginResponse, LoginRequest>('web/login', credentials);
+      const { data } = await api.post('web/login', credentials);
       return data.data;
     },
     onSuccess: () => {

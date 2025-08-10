@@ -23,15 +23,10 @@ export const useVerification = ({
       try {
         const loginSession = await fetch(`${API_SESSION_URL}/api/login?token=${data.data.token}`);
         const json = await loginSession.json();
-
-        if (!data.data.show_verification_page) {
-          if (json.success) {
-            setEmail(data.data.email);
-          } else {
-            throw new Error('Login session creation failed');
-          }
+        if (json.success) {
+          setEmail(data.data.email);
         } else {
-          setVisible(true);
+          throw new Error('Login session creation failed');
         }
       } catch (error) {
         notify('Login failed. Please try again.', { status: 'error' });
@@ -43,13 +38,13 @@ export const useVerification = ({
         sessionStorage.setItem(storage.QUX_PAY_USER_DETAILS, JSON.stringify(data.data));
         sessionStorage.setItem(storage.QUX_PAY_USER_TOKEN, data.data.token);
         setUser(JSON.parse(sessionStorage.QUX_PAY_USER_DETAILS));
-        void router.push('/dashboard');
-      } else {
-        setVisible(true);
+        if (!data.data.corporate_approved) {
+          const redirectUrl = params?.t ? '/checkout' : '/dashboard';
+          void router.push(redirectUrl);
+        } else {
+          setVisible(true);
+        }
       }
-
-      const redirectUrl = params?.t ? '/checkout' : '/dashboard';
-      void router.push(redirectUrl);
     },
     onError: ({ response }: any) => {
       notify(response?.data?.status?.message || response?.data?.errors?.otp, { status: 'error' });

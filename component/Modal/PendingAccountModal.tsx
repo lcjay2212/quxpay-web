@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Modal, ModalBody, ModalContent, ModalOverlay, Text } from '@chakra-ui/react';
 import { HeaderContainer } from 'component';
+import { useLogout } from 'hooks';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 import { usePendingAccountModal } from 'store';
@@ -7,6 +8,7 @@ import { usePendingAccountModal } from 'store';
 export const PendingAccountModal: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = usePendingAccountModal(({ visible, setVisible }) => [visible, setVisible]);
+  const { logout } = useLogout();
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size={{ base: 'full', md: '3xl' }} isCentered>
       <ModalOverlay />
@@ -41,6 +43,7 @@ export const PendingAccountModal: FC = () => {
                 variant="primary"
                 width={300}
                 onClick={(): void => {
+                  void logout({ message: 'Logout successful' });
                   router.push('/');
                   setVisible(!visible);
                 }}

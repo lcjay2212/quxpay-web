@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import api from 'utils/api';
 
 export const useBankStatus = (): {
-  data: {
+  data?: {
     status: string;
     account_nickname: string;
     show_having_trouble: boolean;

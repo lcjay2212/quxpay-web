@@ -192,7 +192,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
             }}
           />
 
-          {bankStatus.status !== 'Pending' && <Divider mt="1rem" />}
+          {bankStatus?.status !== 'Pending' && <Divider mt="1rem" />}
 
           {/* {label === 'Redeem' && (
             <>
@@ -277,7 +277,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
           {label === 'Purchase' && (
             <>
-              {bankStatus.status !== 'Pending' && (
+              {bankStatus?.status !== 'Pending' && (
                 <Flex my="1.5rem" justifyContent="space-between">
                   <Flex alignItems="center">
                     <Image src="/assets/icons/add-bank-icon.webp" height={50} width={60} alt="Add Bank Icon" />

@@ -98,7 +98,7 @@ const Dashboard: FC = () => {
   });
 
   useEffect(() => {
-    if (data.status === 'Pending') {
+    if (data?.status === 'Pending') {
       setIsPendingBankAccountVerificationModal(true);
     }
   }, [data, setIsPendingBankAccountVerificationModal]);
@@ -163,7 +163,7 @@ const Dashboard: FC = () => {
             />
           </Grid>
 
-          {data.status === 'Pending' && (
+          {data?.status === 'Pending' && (
             <Flex
               justifyContent="space-between"
               alignItems="center"

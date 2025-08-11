@@ -5,7 +5,7 @@ import { FC, ReactElement, useCallback, useEffect, useState } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useVerifyOtp } from 'store';
 
-const RESEND_COOLDOWN_SECONDS = 90;
+const RESEND_COOLDOWN_SECONDS = 120;
 const PIN_LENGTH = 6;
 
 const useCountdownTimer = (

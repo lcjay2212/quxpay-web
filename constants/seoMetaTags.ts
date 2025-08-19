@@ -2,7 +2,7 @@
 // The 'image' field uses a default if not specified.
 import { Pages } from 'typings';
 
-const DEFAULT_IMAGE = '/assets/icons/quxpay-logo.webp';
+const DEFAULT_IMAGE = '/assets/icons/quxpay-logo.png';
 
 type SeoMetaTags = {
   [key in Pages]?: {

@@ -122,7 +122,14 @@ export const Footer: FC = () => {
       <Container maxW="1080px" color="white">
         <Flex justifyContent="space-between" flexDir={{ base: 'column', md: 'row' }} py={{ base: '2rem', md: '5rem' }}>
           <Box fontSize={{ base: '0.75rem', md: '12px', lg: '20px' }}>
-            <Image src="/assets/images/quxpay-logo.webp" height={100} width={200} alt="Qux Logo" placeholder="empty" />
+            <Image
+              src="/assets/images/quxpay-logo.png"
+              height={100}
+              width={200}
+              alt="Qux Logo"
+              placeholder="empty"
+              style={{ marginBlock: '1rem' }}
+            />
             <Text>QUX Pay®</Text>
             <Text>8350 N. Central Expressway</Text>
             <Text>Suite 1900</Text>

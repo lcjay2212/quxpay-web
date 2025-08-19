@@ -13,10 +13,10 @@ export const TopBarHeader: FC = () => {
   const { user } = useUser();
   return (
     <Container maxW="1080px" bg="transparent" p={0} pr={{ base: '1rem', md: 0 }}>
-      <Flex justifyContent="space-between" alignItems="center">
+      <Flex justifyContent="space-between" alignItems="center" my="1rem">
         <Box display="flex" justifyContent="center" cursor="pointer" onClick={(): void => void router.push('/')}>
           <Image
-            src="/assets/images/quxpay-logo.webp"
+            src="/assets/images/quxpay-logo.png"
             height={100}
             width={150}
             alt="Qux Logo"

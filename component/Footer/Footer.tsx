@@ -34,8 +34,8 @@ const footerLink = [
   //   routes: 'https://blog.quxpay.com/help',
   // },
   {
-    label: 'FAQs',
-    routes: '/faqs',
+    label: 'Support',
+    routes: 'https://blog.quxpay.com/',
   },
   // {
   //   label: 'Status',

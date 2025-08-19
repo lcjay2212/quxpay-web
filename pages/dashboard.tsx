@@ -30,8 +30,9 @@ import {
   UploadLoadingModal,
   VerifyModal,
 } from 'component';
-import { FETCH_BANK_STATUS, FETCH_POS_HISTORY, FETCH_USER_DETAILS } from 'constants/api';
+import { FETCH_POS_HISTORY, FETCH_USER_DETAILS } from 'constants/api';
 import storage from 'constants/storage';
+import { useBankStatus } from 'hooks';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
 import { FC, useEffect } from 'react';
@@ -88,10 +89,7 @@ const Dashboard: FC = () => {
     }
   }, [userDetails]);
 
-  const { data } = useQuery({
-    queryKey: ['bankStatus'],
-    queryFn: FETCH_BANK_STATUS,
-  });
+  const { data } = useBankStatus();
 
   const { logout } = useLogout();
 
@@ -174,7 +172,7 @@ const Dashboard: FC = () => {
               onClick={(): void => setVisible(true)}
             >
               <Text color="red.500" cursor="pointer">
-                Verify Account: {data?.account_nickname}
+                Verify Account: {data.account_nickname}
               </Text>
               <ArrowForwardIcon cursor="pointer" color="red.500" />
             </Flex>

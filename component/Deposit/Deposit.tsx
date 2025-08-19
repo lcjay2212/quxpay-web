@@ -176,7 +176,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     () => {
       setVisible(true);
       setAmount(amount);
-      setCongratsType(type as any);
       const { balance: availableBalance, deposit, withdraw_pending } = balance?.balance || {};
 
       if (label === 'Redeem') {
@@ -186,6 +185,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             balance: +(availableBalance ?? 0) - (computationData?.total_amount ?? 0),
           });
         } else if (type === 'EXISTING_CREDITCARD') {
+          setCongratsType(type as any);
           updateBalance({
             balance: +(availableBalance ?? 0) + amount,
           });
@@ -194,10 +194,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
         if (type === 'BANK') {
           updateBalance({
             deposit: +(deposit ?? 0) + amount,
-          });
-        } else if (type === 'EXISTING_CREDITCARD' || type === 'CREDIT') {
-          updateBalance({
-            balance: +(availableBalance ?? 0) + amount,
           });
         }
       }

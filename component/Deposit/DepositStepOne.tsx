@@ -22,6 +22,7 @@ import {
   TextField,
 } from 'component';
 import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
+import { useBankStatus } from 'hooks';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
 import { FC, ReactElement } from 'react';
@@ -40,6 +41,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setSelectedBankDetails = useSelectedBankDetails((e) => e.setSelectedBankDetails);
   // const setSelectedCrypto = useSelectedCrypto((e) => e.setSelectedCrypto);
+  const { data: bankStatus } = useBankStatus();
   const { data } = useQuery({
     queryKey: ['bandAndCreditDetails'],
     queryFn: FETCH_BANK_CREDIT_CARD_CRYPTO,
@@ -190,7 +192,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
             }}
           />
 
-          <Divider mt="1rem" />
+          {bankStatus?.status !== 'Pending' && <Divider mt="1rem" />}
 
           {/* {label === 'Redeem' && (
             <>
@@ -275,16 +277,18 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
 
           {label === 'Purchase' && (
             <>
-              <Flex my="1.5rem" justifyContent="space-between">
-                <Flex alignItems="center">
-                  <Image src="/assets/icons/add-bank-icon.webp" height={50} width={60} alt="Add Bank Icon" />
-                  <Text ml="1rem" color="white" fontSize="1.25rem">
-                    Add New Bank Account
-                  </Text>
-                </Flex>
+              {bankStatus?.status !== 'Pending' && (
+                <Flex my="1.5rem" justifyContent="space-between">
+                  <Flex alignItems="center">
+                    <Image src="/assets/icons/add-bank-icon.webp" height={50} width={60} alt="Add Bank Icon" />
+                    <Text ml="1rem" color="white" fontSize="1.25rem">
+                      Add New Bank Account
+                    </Text>
+                  </Flex>
 
-                <Radio value="ADD_BANK" onChange={(): void => setType('ADD_BANK')} colorScheme="teal" />
-              </Flex>
+                  <Radio value="ADD_BANK" onChange={(): void => setType('ADD_BANK')} colorScheme="teal" />
+                </Flex>
+              )}
               {type === 'ADD_BANK' && <AddBankAccount />}
               <Divider mt="1rem" />
 

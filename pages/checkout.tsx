@@ -128,7 +128,7 @@ const CheckoutPage: FC = () => {
                 />
               )}
               <Label
-                label="Subtotal Token amount:"
+                label="Subtotal eToken® amount:"
                 image="/assets/icons/qux-token.webp"
                 amount={totalPurchaseAndSubsAmount}
                 loading={isLoading}
@@ -140,7 +140,7 @@ const CheckoutPage: FC = () => {
                 loading={isLoading}
               />
               <Label
-                label="Total Token amount:"
+                label="Total eToken® amount:"
                 image="/assets/icons/qux-token.webp"
                 amount={data?.total_token_amount}
                 loading={isLoading}

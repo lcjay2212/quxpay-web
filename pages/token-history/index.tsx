@@ -8,7 +8,7 @@ const TokenHistoryPage: FC = () => {
   // const router = useRouter();
 
   return (
-    <HeaderContainer label="Token History" route="/dashboard">
+    <HeaderContainer label="eToken® History" route="/dashboard">
       <Box my="1rem" px="1rem">
         {isLoading ? (
           <Box textAlign="center" py="2rem">

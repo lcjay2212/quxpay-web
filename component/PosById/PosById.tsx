@@ -95,13 +95,13 @@ export const PosById: FC<{ data: any; loading: boolean }> = ({ data, loading }) 
             </Text>
 
             <Label
-              label="Token Amount:"
+              label="eToken® Amount:"
               image="/assets/icons/qux-token.webp"
               amount={data?.amount ?? 0}
               loading={loading}
             />
             <Label
-              label="Total Token amount:"
+              label="Total eToken® amount:"
               image="/assets/icons/qux-token.webp"
               amount={data?.total_amount ?? 0}
               loading={loading}

@@ -11,7 +11,11 @@ export const useLogin = (): { login: UseMutationResult<LoginResponse, ApiError, 
   const login = useMutation({
     mutationKey: ['login'],
     mutationFn: async (credentials: LoginRequest) => {
-      const { data } = await api.post('web/login', credentials);
+      const { data } = await api.post('web/login', credentials, {
+        headers: {
+          'Site-Url': 'quxweb',
+        },
+      });
       return data.data;
     },
     onSuccess: () => {

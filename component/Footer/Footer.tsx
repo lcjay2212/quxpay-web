@@ -139,7 +139,7 @@ export const Footer: FC = () => {
           </Box>
           <Box my={{ base: '1rem', md: '2rem' }}>
             {footerLink.map((item) => (
-              <Link href={item.routes} key={item.label}>
+              <Link href={item.routes} key={item.label} target="_blank" rel="noopener noreferrer">
                 <Text
                   color="white"
                   fontSize={{ base: '20px', md: '16px', lg: '29px' }}

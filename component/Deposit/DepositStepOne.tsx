@@ -123,6 +123,8 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                               <Radio
                                 value={`${item.customerPaymentProfileId}`}
                                 colorScheme="teal"
+                                borderColor="white"
+                                size="lg"
                                 onChange={(): void => {
                                   onChange(item.customerPaymentProfileId);
                                   setPaymentData({
@@ -164,6 +166,8 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                                     <Radio
                                       value={`${item.customerPaymentProfileId}`}
                                       colorScheme="teal"
+                                      size="lg"
+                                      borderColor="white"
                                       onChange={(): void => {
                                         onChange(item.customerPaymentProfileId);
                                         setPaymentData({
@@ -231,6 +235,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                                 <Radio
                                   value={`${item.address}-${index}`}
                                   colorScheme="teal"
+                                  borderColor="white"
                                   onChange={(): void => {
                                     onChange(item.currency);
                                     setSelectedCrypto(item);
@@ -267,7 +272,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                   </Text>
                 </Flex>
 
-                <Radio value="ADD_CRYPTO" onChange={(): void => setType('ADD_CRYPTO')} colorScheme="teal" />
+                <Radio value="ADD_CRYPTO" onChange={(): void => setType('ADD_CRYPTO')} colorScheme="teal" borderColor="white" />
               </Flex>
               {type === 'ADD_CRYPTO' && <AddCrytoWallet />}
 
@@ -286,7 +291,13 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                     </Text>
                   </Flex>
 
-                  <Radio value="ADD_BANK" onChange={(): void => setType('ADD_BANK')} colorScheme="teal" />
+                  <Radio
+                    value="ADD_BANK"
+                    onChange={(): void => setType('ADD_BANK')}
+                    colorScheme="teal"
+                    size="lg"
+                    borderColor="white"
+                  />
                 </Flex>
               )}
               {type === 'ADD_BANK' && <AddBankAccount />}
@@ -300,7 +311,13 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                   </Text>
                 </Flex>
 
-                <Radio value="CREDIT" onChange={(): void => setType('CREDIT')} colorScheme="teal" />
+                <Radio
+                  value="CREDIT"
+                  onChange={(): void => setType('CREDIT')}
+                  colorScheme="teal"
+                  size="lg"
+                  borderColor="white"
+                />
               </Flex>
               {type === 'CREDIT' && <AddCreditCardForm />}
               <Divider mt="1rem" />
@@ -313,7 +330,13 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
                   </Text>
                 </Flex>
 
-                <Radio value="CRYPTO" onChange={(): void => setType('CRYPTO')} colorScheme="teal" />
+                <Radio
+                  value="CRYPTO"
+                  onChange={(): void => setType('CRYPTO')}
+                  colorScheme="teal"
+                  size="lg"
+                  borderColor="white"
+                />
               </Flex>
               {type === 'CRYPTO' && <CashInCrypto />}
             </>

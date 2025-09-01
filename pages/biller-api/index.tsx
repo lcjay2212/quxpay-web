@@ -1,4 +1,4 @@
-import { Box, Button, Flex, Spinner, Text, chakra } from '@chakra-ui/react';
+import { Box, Button, chakra, Flex, Spinner, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ApiIntegrationForm, HeaderContainer } from 'component';
@@ -116,7 +116,7 @@ const BillerApiPage: FC = () => {
                   <Spinner color="primary" />
                 )}
               </Box>
-              <Link href="https://blog.quxpay.com/wordpress">
+              <Link href="https://blog.quxpay.com/biller-api-documentation/">
                 <Text color="primary" cursor="pointer" mt="3rem">
                   Click here for API Documentation
                 </Text>

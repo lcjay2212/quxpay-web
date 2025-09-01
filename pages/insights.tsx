@@ -166,7 +166,7 @@ const InsightPage: FC = () => {
           <Flex flexDir="column" mx="2rem">
             <TextBox label="Sent by friends" value={data?.income.token_from_friends.toFixed(2)} isLoading={isLoading} />
             <TextBox label="Purchase Order" value={data?.income.purchase_orders.toFixed(2)} isLoading={isLoading} />
-            <TextBox label="Purchase Token" value={data?.income.purchase_tokens.toFixed(2)} isLoading={isLoading} />
+            <TextBox label="Purchase eToken®" value={data?.income.purchase_tokens.toFixed(2)} isLoading={isLoading} />
           </Flex>
         )}
         {expensesFilter === 'expenses' && (

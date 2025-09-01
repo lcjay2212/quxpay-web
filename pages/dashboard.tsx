@@ -47,7 +47,7 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
     </Text>
     <Flex alignItems="center">
       <span>
-        <Image src={image} width={30} height={20} alt="Qux Token" />
+        <Image src={image} width={30} height={20} alt="Qux eToken®" />
       </span>
       {!loading ? (
         <Text fontSize="24px" fontWeight="semibold">

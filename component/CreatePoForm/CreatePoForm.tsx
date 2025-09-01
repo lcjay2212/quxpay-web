@@ -101,13 +101,13 @@ export const CreatePoForm: FC = () => {
 
             <Box my="1rem" color="black">
               <Label
-                label="Token Amount:"
+                label="eToken® Amount:"
                 image="/assets/icons/qux-token.webp"
                 amount={amount || 0.0}
                 loading={loading}
               />
               <Label
-                label="Total Token amount:"
+                label="Total eToken® amount:"
                 image="/assets/icons/qux-token.webp"
                 amount={amount || 0.0}
                 loading={loading}
@@ -231,9 +231,9 @@ export const CreatePoForm: FC = () => {
               </Box>
 
               <Box my="1rem">
-                <Label label="Token Amount:" image="/assets/icons/qux-token.webp" amount={amount} loading={loading} />
+                <Label label="eToken® Amount:" image="/assets/icons/qux-token.webp" amount={amount} loading={loading} />
                 <Label
-                  label="Total Token amount:"
+                  label="Total eToken® amount:"
                   image="/assets/icons/qux-token.webp"
                   amount={amount || 0.0}
                   loading={loading}

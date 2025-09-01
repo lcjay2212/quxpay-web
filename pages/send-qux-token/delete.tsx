@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Avatar, Box, Button, Divider, Flex, Radio, RadioGroup, Spinner, Text } from '@chakra-ui/react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer } from 'component';
-import { FETCH_FRIEND_LIST } from 'constants/api';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
+import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps, notify } from 'utils';
 
 const DeleteFriend: FC = () => {
   const router = useRouter();
 
-  const { data, isLoading: loading } = useQuery({ queryKey: ['friendList'], queryFn: FETCH_FRIEND_LIST });
+  const { data: friendData, dataLoading: loading } = useDecryptedData('friends');
   const [radioValue, setRadioValue] = useState('');
   const [friendId, setFriendId] = useState('');
 
@@ -34,7 +34,7 @@ const DeleteFriend: FC = () => {
 
   return (
     <Box minH="100vh" mb="2rem">
-      <HeaderContainer label="Send QUX ®Tokens" route="/dashboard">
+      <HeaderContainer label="Send QUX eToken®" route="/dashboard">
         <Box px="1rem">
           <Box minH={600}>
             <Text color="white" fontSize="2rem" mt="2rem">
@@ -42,10 +42,10 @@ const DeleteFriend: FC = () => {
             </Text>
 
             <RadioGroup onChange={setRadioValue} value={radioValue}>
-              {data?.length ? (
+              {friendData?.friends?.length ? (
                 <>
                   {!loading ? (
-                    data.map((item, index) => (
+                    friendData?.friends?.map((item, index) => (
                       <>
                         <Flex justifyContent="space-between" key={index}>
                           <Box mt="1rem">

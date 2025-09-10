@@ -1,19 +1,47 @@
 import { Box, Button, chakra, Flex, Spinner, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { ApiIntegrationForm, HeaderContainer } from 'component';
+import { ApiIntegrationForm, HeaderContainer, TextField } from 'component';
 import { FETCH_AUTHENTICATION } from 'constants/api';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 
+interface CreateAuthenticationRequest {
+  url: string;
+}
+
 const BillerApiPage: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const { data, refetch, isLoading } = useQuery({ queryKey: ['authentication'], queryFn: FETCH_AUTHENTICATION });
+  const [url, setUrl] = useState('');
+  const [urlError, setUrlError] = useState('');
+
+  const validateUrl = (urlString: string): boolean => {
+    try {
+      const url = new URL(urlString);
+      return url.protocol === 'http:' || url.protocol === 'https:';
+    } catch {
+      return false;
+    }
+  };
+
+  const handleUrlChange = (value: string): void => {
+    const lowerValue = value.toLowerCase();
+    setUrl(lowerValue);
+
+    if (lowerValue.trim() === '') {
+      setUrlError('');
+    } else if (!validateUrl(lowerValue)) {
+      setUrlError('Please enter a valid URL (e.g., https://example.com)');
+    } else {
+      setUrlError('');
+    }
+  };
 
   const { mutate } = useMutation({
-    mutationFn: (variable) =>
+    mutationFn: (variable: CreateAuthenticationRequest) =>
       axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/authentication/create?url=${data?.url}`, variable, {
         headers: {
           Authorization: `Bearer ${sessionStorage.getItem('QUX_PAY_USER_TOKEN')}`,
@@ -116,6 +144,22 @@ const BillerApiPage: FC = () => {
                   <Spinner color="primary" />
                 )}
               </Box>
+
+              <TextField
+                value={url}
+                placeholder="Enter your url"
+                onChange={(e): void => handleUrlChange(e.target.value)}
+                borderColor={urlError ? 'red.500' : undefined}
+                _focus={{
+                  borderColor: urlError ? 'red.500' : 'primary',
+                }}
+              />
+              {urlError && (
+                <Text color="red.500" fontSize="sm" mt="0.5rem">
+                  {urlError}
+                </Text>
+              )}
+
               <Link href="https://blog.quxpay.com/biller-api-documentation/">
                 <Text color="primary" cursor="pointer" mt="3rem">
                   Click here for API Documentation
@@ -135,7 +179,16 @@ const BillerApiPage: FC = () => {
             </Box>
 
             <Flex flexDir="column" gap={4} mt="1rem">
-              <Button variant="primary" borderRadius="1rem" h="3.25rem" onClick={(): void => mutate()}>
+              <Button
+                variant="primary"
+                borderRadius="1rem"
+                h="3.25rem"
+                onClick={(): void =>
+                  mutate({
+                    url,
+                  })
+                }
+              >
                 Generate New API Key & Passprase
               </Button>
               <Button

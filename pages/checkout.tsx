@@ -59,8 +59,16 @@ const CheckoutPage: FC = () => {
     onSuccess: () => {
       setSuccessPayment(true);
     },
-    onError: () => {
-      notify(`Failed to pay`, { status: 'error' });
+    onError: ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message || response?.data?.status?.message, { status: 'error' });
     },
   });
 

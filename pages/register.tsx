@@ -231,8 +231,8 @@ const Register: FC = () => {
                     <Image src="/assets/icons/awesome-hands.webp" height={45} width={45} alt="Hands" />
                   </Flex>
                   <Text color="white" fontSize="1.25rem">
-                    Securely enter your bank <br />
-                    account information into our <br />
+                    Securely enter your <br />
+                    information into our <br />
                     encrypted system
                   </Text>
                 </Flex>

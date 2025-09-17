@@ -3,10 +3,13 @@ import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer } from 'component';
+import { CreditCardModal } from 'component/CreditCardModal';
 import { FETCH_WP_PO_DETAILS } from 'constants/api';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { useRouteParams, useUser } from 'store';
+import { useCreditCartModal } from 'store/useCreditCartModal';
 import { notify } from 'utils';
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
   label,
@@ -26,7 +29,9 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 );
 
 const CheckoutPage: FC = () => {
+  const router = useRouter();
   const params = useRouteParams((e) => e.params);
+  const { visible, setVisible } = useCreditCartModal((e) => e);
   const { data, isLoading, isError, error } = useQuery({
     queryKey: ['wpPoDetails', params?.t],
     queryFn: FETCH_WP_PO_DETAILS,
@@ -51,6 +56,34 @@ const CheckoutPage: FC = () => {
   } = useMutation({
     mutationFn: (variable) =>
       axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wp/po-paid`, variable, {
+        headers: {
+          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
+          Version: 2,
+        },
+      }),
+    onSuccess: () => {
+      setSuccessPayment(true);
+    },
+    onError: ({ response }: any) => {
+      let message = '';
+
+      if (response?.data?.errors) {
+        Object.values(response.data.errors).forEach((errorMessage) => {
+          message += errorMessage;
+        });
+      }
+
+      notify(message || response?.data?.status?.message, { status: 'error' });
+    },
+  });
+
+  const {
+    mutate: autoTopUpMutate,
+    isPending: autoTopUpLoading,
+    data: autoTopUpPaymentData,
+  } = useMutation({
+    mutationFn: (variable) =>
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wp/auto-top-up`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -98,7 +131,7 @@ const CheckoutPage: FC = () => {
             </Flex>
 
             <Text color="white" fontSize="20px" textAlign="center" mt="1rem">
-              Token Successfully Sent <br /> to {tempData?.sent_to}
+              Token Successfully Sent <br /> to {tempData?.sent_to || autoTopUpPaymentData?.data?.data?.sent_to}
             </Text>
             <Button
               variant="primary"
@@ -106,7 +139,12 @@ const CheckoutPage: FC = () => {
               mt="16rem"
               w={350}
               h="3.25rem"
-              onClick={(): void => void window.open(tempData?.redirect, 'noopener,noreferrer')}
+              onClick={(): void =>
+                void window.open(
+                  tempData?.redirect || autoTopUpPaymentData?.data?.data?.redirect,
+                  'noopener,noreferrer'
+                )
+              }
             >
               Back to Site
             </Button>
@@ -162,11 +200,36 @@ const CheckoutPage: FC = () => {
                 borderRadius="1rem"
                 w={350}
                 h="3.25rem"
-                onClick={(): void => mutate({ wp: params?.t } as any)}
-                isLoading={loading}
+                onClick={(): void => autoTopUpMutate({ wp: params?.t } as any)}
+                isLoading={autoTopUpLoading}
               >
-                Send Tokens
+                Auto Top Up
               </Button>
+
+              {data?.user_no_credit_card_selected ? (
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  onClick={(): void => setVisible(true)}
+                >
+                  Add Credit Card
+                </Button>
+              ) : (
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  w={350}
+                  h="3.25rem"
+                  onClick={(): void => mutate({ wp: params?.t } as any)}
+                  isLoading={loading}
+                >
+                  Send Tokens
+                </Button>
+              )}
 
               <Button
                 type="submit"
@@ -174,7 +237,7 @@ const CheckoutPage: FC = () => {
                 borderRadius="1rem"
                 w={350}
                 h="3.25rem"
-                // onClick={(): void => void router.push('/dashboard')}
+                onClick={(): void => void router.push('/dashboard')}
               >
                 Cancel
               </Button>
@@ -193,6 +256,7 @@ const CheckoutPage: FC = () => {
             </Flex>
           </Flex>
         )}
+        {visible && <CreditCardModal />}
       </>
     </HeaderContainer>
   );

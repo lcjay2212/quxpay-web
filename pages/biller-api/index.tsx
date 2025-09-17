@@ -15,7 +15,7 @@ const BillerApiPage: FC = () => {
   const router = useRouter();
   const [step, setStep] = useState(1);
   const { data, refetch, isLoading } = useQuery({ queryKey: ['authentication'], queryFn: FETCH_AUTHENTICATION });
-  const [url, setUrl] = useState('');
+  const [url, setUrl] = useState(data?.url || '');
   const [urlError, setUrlError] = useState('');
 
   const validateUrl = (urlString: string): boolean => {
@@ -146,7 +146,7 @@ const BillerApiPage: FC = () => {
               </Box>
 
               <TextField
-                value={url}
+                value={url || data?.url}
                 placeholder="Enter your url"
                 onChange={(e): void => handleUrlChange(e.target.value)}
                 borderColor={urlError ? 'red.500' : undefined}
@@ -189,7 +189,7 @@ const BillerApiPage: FC = () => {
                   })
                 }
               >
-                Generate New API Key & Passprase
+                Save and Generate New
               </Button>
               <Button
                 variant="secondary"

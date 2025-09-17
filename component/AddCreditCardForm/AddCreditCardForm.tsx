@@ -4,6 +4,7 @@ import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
 import { useStateList } from 'store';
+import { ValueLabelProps } from 'typings';
 import { reactSelectStyles } from 'utils';
 
 export const AddCreditCardForm: FC = () => {
@@ -53,7 +54,7 @@ export const AddCreditCardForm: FC = () => {
         <Controller
           control={control}
           name="firstname"
-          rules={{ required: 'Fristname on Card is required' }}
+          rules={{ required: 'Firstname on Card is required' }}
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer errorMessage={error?.message ?? ''}>
               <TextField value={value ?? ''} placeholder="Enter Firstname" onChange={onChange} onBlur={onBlur} />

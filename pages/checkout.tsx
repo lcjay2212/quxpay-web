@@ -29,6 +29,7 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 );
 
 const CheckoutPage: FC = () => {
+  const { user } = useUser();
   const router = useRouter();
   const params = useRouteParams((e) => e.params);
   const { visible, setVisible } = useCreditCartModal((e) => e);
@@ -39,15 +40,12 @@ const CheckoutPage: FC = () => {
 
   if (isError) {
     notify(`${error.message}`, { status: 'error' });
-    // setTimeout(() => {
-    //   window.location.replace(`${error?.data?.data?.return_url}`);
-    // }, 5000);
   }
 
   const totalPurchaseAndSubsAmount = data?.recurring_payment_amount + data?.single_purchase_amount;
   const [successPayment, setSuccessPayment] = useState(false);
 
-  const { user } = useUser();
+  const paymentButton = data?.show_payment_button || 'Send Tokens';
 
   const {
     mutate,
@@ -106,6 +104,36 @@ const CheckoutPage: FC = () => {
   });
 
   const tempData = paymentData?.data?.data;
+
+  const handleButtonAction = (): void => {
+    switch (paymentButton) {
+      case 'Auto Top Up And Send Tokens':
+        autoTopUpMutate({ wp: params?.t } as any);
+        break;
+      case 'Send Tokens and Auto Top Up From Default Card':
+        autoTopUpMutate({ wp: params?.t } as any);
+        break;
+      case 'Send Tokens':
+        mutate({ wp: params?.t } as any);
+        break;
+      case 'Add default credit card':
+        setVisible(true);
+        break;
+      default:
+        mutate({ wp: params?.t } as any);
+    }
+  };
+
+  const getButtonVariant = (): 'primary' | 'secondary' => {
+    return data?.show_payment_button === 'Add default credit card' ? 'secondary' : 'primary';
+  };
+
+  const isButtonLoading =
+    paymentButton === 'Auto Top Up And Send Tokens' || paymentButton === 'Send Tokens and Auto Top Up From Default Card'
+      ? autoTopUpLoading
+      : paymentButton === 'Send Tokens'
+      ? loading
+      : false;
 
   return (
     <HeaderContainer label="Checkout" route="/dashboard">
@@ -196,40 +224,16 @@ const CheckoutPage: FC = () => {
             <Flex alignItems="center" flexDir="column" gap="1rem" my="2rem">
               <Button
                 type="submit"
-                variant="primary"
+                variant={getButtonVariant()}
                 borderRadius="1rem"
                 w={350}
                 h="3.25rem"
-                onClick={(): void => autoTopUpMutate({ wp: params?.t } as any)}
-                isLoading={autoTopUpLoading}
+                onClick={handleButtonAction}
+                isDisabled={isLoading || isButtonLoading}
+                isLoading={isButtonLoading}
               >
-                Auto Top Up
+                {paymentButton}
               </Button>
-
-              {data?.user_no_credit_card_selected ? (
-                <Button
-                  type="submit"
-                  variant="primary"
-                  borderRadius="1rem"
-                  w={350}
-                  h="3.25rem"
-                  onClick={(): void => setVisible(true)}
-                >
-                  Add Credit Card
-                </Button>
-              ) : (
-                <Button
-                  type="submit"
-                  variant="primary"
-                  borderRadius="1rem"
-                  w={350}
-                  h="3.25rem"
-                  onClick={(): void => mutate({ wp: params?.t } as any)}
-                  isLoading={loading}
-                >
-                  Send Tokens
-                </Button>
-              )}
 
               <Button
                 type="submit"

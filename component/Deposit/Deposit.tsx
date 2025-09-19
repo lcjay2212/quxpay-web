@@ -136,6 +136,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     },
     onSuccess: () => {
       notify('Bank Account Added Successfully', { status: 'success' });
+      setType(null);
       void router.push('/dashboard');
     },
     onError: ({ response }: any) => {

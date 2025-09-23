@@ -227,10 +227,14 @@ const CheckoutPage: FC = () => {
                 variant={getButtonVariant()}
                 borderRadius="1rem"
                 w={350}
-                h="3.25rem"
+                minHeight="3.25rem"
                 onClick={handleButtonAction}
                 isDisabled={isLoading || isButtonLoading}
                 isLoading={isButtonLoading}
+                overflow="hidden"
+                noOfLines={1}
+                fontSize={{ base: '12px', md: '16px' }}
+                fontWeight={{ base: 600, md: 'semibold' }}
               >
                 {paymentButton}
               </Button>

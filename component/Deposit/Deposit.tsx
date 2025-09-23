@@ -136,6 +136,7 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     },
     onSuccess: () => {
       notify('Bank Account Added Successfully', { status: 'success' });
+      setType(null);
       void router.push('/dashboard');
     },
     onError: ({ response }: any) => {
@@ -174,7 +175,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`,
     () => {
-      setVisible(true);
       setAmount(amount);
       const { balance: availableBalance, deposit, withdraw_pending } = balance?.balance || {};
 
@@ -184,17 +184,19 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             withdraw_pending: +(withdraw_pending ?? 0) + amount,
             balance: +(availableBalance ?? 0) - (computationData?.total_amount ?? 0),
           });
+          setVisible(true);
         } else if (type === 'EXISTING_CREDITCARD') {
-          setCongratsType(type as any);
           updateBalance({
             balance: +(availableBalance ?? 0) + amount,
           });
+          setVisible(true);
         }
       } else {
         if (type === 'BANK') {
           updateBalance({
             deposit: +(deposit ?? 0) + amount,
           });
+          setVisible(true);
         }
       }
     },

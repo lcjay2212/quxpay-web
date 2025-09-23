@@ -11,7 +11,6 @@ import {
   useProductModal,
   useType,
 } from 'store';
-import { notify } from 'utils';
 
 export const HeaderContainer: FC<{ label?: string; route: string; children?: ReactElement; hasMenu?: boolean }> = ({
   label,
@@ -20,7 +19,6 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
   hasMenu,
 }) => {
   const router = useRouter();
-  const paymentData = useAccountPaymentId((e) => e.paymentData);
   const setPaymentData = useAccountPaymentId((e) => e.setPaymentData);
   const setProductValue = useProductModal((e) => e.setProductValue);
   const setVisible = useHomePageModal((e) => e.setVisible);
@@ -63,17 +61,6 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
             <MenuList>
               {label === 'Purchase' && (
                 <>
-                  <MenuItem
-                    onClick={(): void => {
-                      if (!paymentData?.paymentId) {
-                        notify('Please select Bank Account', { status: 'warning' });
-                      } else {
-                        void router.push('/purchase/edit');
-                      }
-                    }}
-                  >
-                    Edit Account
-                  </MenuItem>
                   <MenuItem onClick={(): void => void router.push('/purchase/delete')}>Delete Account</MenuItem>
                 </>
               )}
@@ -84,17 +71,6 @@ export const HeaderContainer: FC<{ label?: string; route: string; children?: Rea
               )}
               {label === 'Redeem' && (
                 <>
-                  <MenuItem
-                    onClick={(): void => {
-                      if (!paymentData?.paymentId) {
-                        notify('Please select Bank Account', { status: 'warning' });
-                      } else {
-                        void router.push('/redeem/edit');
-                      }
-                    }}
-                  >
-                    Edit Account
-                  </MenuItem>
                   <MenuItem onClick={(): void => void router.push('/redeem/delete')}>Delete Account</MenuItem>
                 </>
               )}

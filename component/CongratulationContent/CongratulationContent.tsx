@@ -4,10 +4,10 @@ import { HeaderContainer } from 'component';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useCongratulationContent, useSelectedBankDetails, useTransactionHistoryModal } from 'store';
+import { useCongratulationContent, useSelectedBankDetails, useTransactionHistoryModal, useType } from 'store';
 
 export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
-  const type = useCongratulationContent((e) => e.type);
+  const type = useType((e) => e.type);
   const setVisible = useCongratulationContent((e) => e.setVisible);
   const transactionModalVisible = useTransactionHistoryModal((e) => e.setVisible);
   const amount = useCongratulationContent((e) => e.amount);
@@ -25,7 +25,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
             <source src="./assets/video/success.mp4" type="video/mp4" />
           </video>
           <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0} my="3rem">
-            <Box display="flex" flexDir="column" justifyContent="space-between">
+            <Flex flexDir="column" justifyContent="space-between">
               <Flex flexDir="column" alignItems="center">
                 <Box>
                   <Image
@@ -116,7 +116,7 @@ export const CongratulationContent: FC<{ label: string }> = ({ label }) => {
                   Complete - Back to Home
                 </Button>
               </Flex>
-            </Box>
+            </Flex>
           </Container>
         </Grid>
       )}

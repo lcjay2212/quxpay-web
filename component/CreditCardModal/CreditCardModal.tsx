@@ -50,7 +50,7 @@ export const CreditCardModal: FC = () => {
     <Modal isOpen={visible} onClose={(): void => setVisible(false)} closeOnOverlayClick={false} isCentered>
       <ModalOverlay />
       <ModalContent bg="blue.100" py="1rem" borderRadius="2rem">
-        <ModalBody>
+        <ModalBody maxH={600} m="auto" overflowY="auto">
           <Text fontSize="24px" mb="1rem" color="white" fontWeight="bold">
             Add Credit Card
           </Text>

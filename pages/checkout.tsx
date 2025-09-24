@@ -44,6 +44,7 @@ const CheckoutPage: FC = () => {
 
   const totalPurchaseAndSubsAmount = data?.recurring_payment_amount + data?.single_purchase_amount;
   const [successPayment, setSuccessPayment] = useState(false);
+  const [redirectCountdown, setRedirectCountdown] = useState(10);
 
   const paymentButton = data?.show_payment_button || 'Send Tokens';
 
@@ -59,8 +60,22 @@ const CheckoutPage: FC = () => {
           Version: 2,
         },
       }),
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       setSuccessPayment(true);
+      setRedirectCountdown(10);
+
+      const countdownInterval = setInterval(() => {
+        setRedirectCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdownInterval);
+            if (data?.data?.redirect) {
+              void router.push(data?.data?.redirect);
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     },
     onError: ({ response }: any) => {
       let message = '';
@@ -87,8 +102,21 @@ const CheckoutPage: FC = () => {
           Version: 2,
         },
       }),
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
       setSuccessPayment(true);
+      setRedirectCountdown(10);
+      const countdownInterval = setInterval(() => {
+        setRedirectCountdown((prev) => {
+          if (prev <= 1) {
+            clearInterval(countdownInterval);
+            if (data?.data?.redirect) {
+              void router.push(data?.data?.redirect);
+            }
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
     },
     onError: ({ response }: any) => {
       let message = '';
@@ -161,10 +189,15 @@ const CheckoutPage: FC = () => {
             <Text color="white" fontSize="20px" textAlign="center" mt="1rem">
               Token Successfully Sent <br /> to {tempData?.sent_to || autoTopUpPaymentData?.data?.data?.sent_to}
             </Text>
+
+            <Text color="white" fontSize="16px" textAlign="center" mt="2rem">
+              Redirecting in {redirectCountdown} seconds...
+            </Text>
+
             <Button
               variant="primary"
               borderRadius="1rem"
-              mt="16rem"
+              mt="2rem"
               w={350}
               h="3.25rem"
               onClick={(): void =>
@@ -227,16 +260,19 @@ const CheckoutPage: FC = () => {
                 variant={getButtonVariant()}
                 borderRadius="1rem"
                 w={350}
-                minHeight="3.25rem"
+                h="3.25rem"
                 onClick={handleButtonAction}
                 isDisabled={isLoading || isButtonLoading}
                 isLoading={isButtonLoading}
-                overflow="hidden"
-                noOfLines={1}
-                fontSize={{ base: '12px', md: '16px' }}
-                fontWeight={{ base: 600, md: 'semibold' }}
+                noOfLines={isButtonLoading ? 1 : undefined}
               >
-                {paymentButton}
+                {paymentButton === 'Send Tokens and Auto Top Up From Default Card' ? (
+                  <>
+                    Send Tokens and Auto Top Up <br /> From Default Card
+                  </>
+                ) : (
+                  paymentButton
+                )}
               </Button>
 
               <Button

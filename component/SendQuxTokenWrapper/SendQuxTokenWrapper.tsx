@@ -231,9 +231,8 @@ export const SendQuxTokenWrapper: FC = () => {
                   render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                     <FormContainer errorMessage={error?.message ?? ''}>
                       <TextField
-                        type="email"
                         value={value ?? ''}
-                        placeholder="Enter Email"
+                        placeholder="Enter Email or Username"
                         onChange={onChange}
                         onBlur={onBlur}
                       />

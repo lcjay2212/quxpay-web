@@ -1,5 +1,6 @@
 export * from './blockInvalidChar';
 export * from './clearStorage';
+export * from './dayjs';
 export * from './defaultHastBlur';
 export * from './errorHandler';
 export * from './getServerSideProps';

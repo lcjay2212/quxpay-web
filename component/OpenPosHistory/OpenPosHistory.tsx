@@ -3,7 +3,7 @@ import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { useUser } from 'store';
-import { queryClient } from 'utils';
+import { DATE_FORMATS, dayjsUtils, queryClient } from 'utils';
 
 export const OpenPosHistory: FC<{ loading: boolean }> = ({ loading }) => {
   const data = queryClient.getQueryData<{ unpaid_or_open: PosHistoryProps[] }>(['posHistory']);
@@ -39,7 +39,7 @@ export const OpenPosHistory: FC<{ loading: boolean }> = ({ loading }) => {
                 <ItemListDisplay
                   // label={startCase(item.type)}
                   label={item.label}
-                  date={item.created}
+                  date={dayjsUtils.formatUTC(item.created, DATE_FORMATS.FULL_DATE_TIME_UTC)}
                   amount={+item.amount}
                   key={item.id}
                   // complete={item.confirmed}

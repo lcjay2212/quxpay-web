@@ -2,7 +2,7 @@ import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import { ItemListDisplay } from 'component';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { queryClient } from 'utils';
+import { DATE_FORMATS, dayjsUtils, queryClient } from 'utils';
 
 export const TokenHistory: FC<{ loading: boolean }> = ({ loading }) => {
   const data = queryClient.getQueryData<{ paid: PosHistoryProps[] }>(['posHistory']);
@@ -36,7 +36,7 @@ export const TokenHistory: FC<{ loading: boolean }> = ({ loading }) => {
               {data.paid.slice(0, 3).map((item) => (
                 <ItemListDisplay
                   label={item.label}
-                  date={item.created}
+                  date={dayjsUtils.formatUTC(item.created, DATE_FORMATS.FULL_DATE_TIME_UTC)}
                   amount={+item.amount}
                   key={item.id}
                   // complete={item.confirmed}

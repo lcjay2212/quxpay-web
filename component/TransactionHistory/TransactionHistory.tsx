@@ -9,7 +9,7 @@ import forge from 'node-forge';
 import { FC } from 'react';
 import { usePage } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
-import { notify, queryClient } from 'utils';
+import { DATE_FORMATS, dayjsUtils, notify, queryClient } from 'utils';
 
 export const TransactionHistory: FC = () => {
   const router = useRouter();
@@ -76,7 +76,7 @@ export const TransactionHistory: FC = () => {
                 return (
                   <ItemListDisplay
                     label={`QUX® User ${startCase(item.type)}`}
-                    date={item.created_at}
+                    date={dayjsUtils.formatUTC(item.created_at, DATE_FORMATS.FULL_DATE_TIME_UTC)}
                     amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}

@@ -8,7 +8,7 @@ import { startCase } from 'lodash';
 import forge from 'node-forge';
 import { FC } from 'react';
 import { usePage } from 'store';
-import { notify, queryClient } from 'utils';
+import { DATE_FORMATS, dayjsUtils, notify, queryClient } from 'utils';
 const TransactionHistoryPage: FC = () => {
   // const [id, setId] = useState('');
   // const [search, setSearch] = useState('');
@@ -141,7 +141,7 @@ const TransactionHistoryPage: FC = () => {
                   {decryptedTransactions.map((item: any) => (
                     <ItemListDisplay
                       label={`Qux User ${startCase(item.type)}`}
-                      date={item.created_at}
+                      date={dayjsUtils.formatUTC(item.created_at, DATE_FORMATS.FULL_DATE_TIME_UTC)}
                       amount={+item.amount}
                       key={item.id}
                       complete={item.confirmed}

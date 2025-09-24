@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
 import { BellIcon } from '@chakra-ui/icons';
-import { Badge, Box, Flex, Text } from '@chakra-ui/react';
+import { Badge, Flex, Text } from '@chakra-ui/react';
 import { FC } from 'react';
 
 export const NotificationListDisplay: FC<{
@@ -35,17 +35,18 @@ export const NotificationListDisplay: FC<{
           h="4"
         />
       </Flex>
-      <Box fontSize="12px" w="100vw">
-        <Flex justifyContent="space-between">
+      <Flex fontSize="12px" justifyContent="space-between" w="100vw">
+        <Flex justifyContent="space-between" flexDir="column">
           <Text fontSize="14px" fontWeight="semibold" noOfLines={1}>
             {title}
           </Text>
-          <Text w={28} fontWeight="semibold" fontSize="12px" textAlign="end">
-            {date}
-          </Text>
+          <Text noOfLines={1}>{message}</Text>
         </Flex>
-        <Text noOfLines={1}>{message}</Text>
-      </Box>
+
+        <Text w={28} fontWeight="semibold" fontSize="12px" textAlign="end">
+          {date}
+        </Text>
+      </Flex>
     </Flex>
   );
 };

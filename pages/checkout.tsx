@@ -138,7 +138,7 @@ const CheckoutPage: FC = () => {
       case 'Auto Top Up And Send Tokens':
         autoTopUpMutate({ wp: params?.t } as any);
         break;
-      case 'Send Tokens and Auto Top Up From Default Card':
+      case 'Auto Top Up From Default Card and Send Tokens':
         autoTopUpMutate({ wp: params?.t } as any);
         break;
       case 'Send Tokens':
@@ -157,7 +157,7 @@ const CheckoutPage: FC = () => {
   };
 
   const isButtonLoading =
-    paymentButton === 'Auto Top Up And Send Tokens' || paymentButton === 'Send Tokens and Auto Top Up From Default Card'
+    paymentButton === 'Auto Top Up And Send Tokens' || paymentButton === 'Auto Top Up From Default Card and Send Tokens'
       ? autoTopUpLoading
       : paymentButton === 'Send Tokens'
       ? loading

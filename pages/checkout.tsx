@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box, Button, Flex, Spinner, Text } from '@chakra-ui/react';
+import { Box, Button, Flex, Progress, Spinner, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer } from 'component';
@@ -194,21 +194,69 @@ const CheckoutPage: FC = () => {
               Redirecting in {redirectCountdown} seconds...
             </Text>
 
-            <Button
-              variant="primary"
-              borderRadius="1rem"
-              mt="2rem"
-              w={350}
-              h="3.25rem"
+            <Box
+              as="button"
               onClick={(): void =>
                 void window.open(
                   tempData?.redirect || autoTopUpPaymentData?.data?.data?.redirect,
                   'noopener,noreferrer'
                 )
               }
+              position="relative"
+              mt="2rem"
+              w={350}
+              h="3.25rem"
+              borderRadius="1rem"
+              bg="primary.500"
+              color="white"
+              display="flex"
+              alignItems="center"
+              justifyContent="center"
+              fontSize="16px"
+              fontWeight="600"
+              cursor="pointer"
+              _hover={{
+                bg: 'primary.600',
+                transform: 'scale(1.02)',
+                transition: 'all 0.2s ease',
+              }}
+              transition="all 0.2s ease"
+              overflow="hidden"
             >
-              Back to Site
-            </Button>
+              <Progress
+                position="absolute"
+                top="0"
+                left="0"
+                w="100%"
+                h="100%"
+                borderRadius="1rem"
+                value={((10 - redirectCountdown) / 10) * 100}
+                size="lg"
+                colorScheme="white"
+                bg="white"
+                sx={{
+                  '& > div': {
+                    bg: '#06A499',
+                    borderRadius: '1rem',
+                  },
+                  '& > div > div': {
+                    bg: 'white',
+                    borderRadius: '1rem',
+                  },
+                }}
+              />
+
+              <Text
+                position="relative"
+                zIndex="1"
+                color={((10 - redirectCountdown) / 10) * 100 > 50 ? 'white' : 'black'}
+                fontSize="16px"
+                fontWeight="600"
+                transition="color 0.3s ease"
+              >
+                Back to Site
+              </Text>
+            </Box>
           </Flex>
         ) : (
           <Flex flexDir="column" justifyContent="space-between" color="white" mt="2rem" h="85vh" px="1rem">
@@ -263,8 +311,6 @@ const CheckoutPage: FC = () => {
                 h="3.25rem"
                 onClick={handleButtonAction}
                 isDisabled={isLoading || isButtonLoading}
-                isLoading={isButtonLoading}
-                noOfLines={isButtonLoading ? 1 : undefined}
               >
                 {paymentButton === 'Send Tokens and Auto Top Up From Default Card' ? (
                   <>

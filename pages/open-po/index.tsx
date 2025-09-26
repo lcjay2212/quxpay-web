@@ -4,7 +4,7 @@ import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
 import { usePosHistory, useUser } from 'store';
-import { DATE_FORMATS, dayjsUtils, getServerSideProps } from 'utils';
+import { dayjsUtils, getServerSideProps } from 'utils';
 
 const OpenPosHistoryPage: FC = () => {
   const { received, created, isLoading } = usePosHistory();
@@ -47,7 +47,7 @@ const OpenPosHistoryPage: FC = () => {
                 (filter === 'RECEIVED' ? received : created).map((item) => (
                   <ItemListDisplay
                     label={item.label}
-                    date={dayjsUtils.formatUTC(item.created, DATE_FORMATS.FULL_DATE_TIME_UTC)}
+                    date={dayjsUtils.formatInUserTimezone(item.created)}
                     amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}

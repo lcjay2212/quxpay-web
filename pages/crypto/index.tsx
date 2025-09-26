@@ -4,7 +4,7 @@ import { HeaderContainer, ItemListDisplay } from 'component';
 import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { FC } from 'react';
-import { DATE_FORMATS, dayjsUtils, getServerSideProps } from 'utils';
+import { dayjsUtils, getServerSideProps } from 'utils';
 
 const CryptoHistory: FC = () => {
   const { data, isLoading } = useQuery({
@@ -25,7 +25,7 @@ const CryptoHistory: FC = () => {
               data?.map((item, index) => (
                 <ItemListDisplay
                   label={`${item.currency} ${item.pos_id} `}
-                  date={dayjsUtils.formatUTC(item.created, DATE_FORMATS.FULL_DATE_TIME_UTC)}
+                  date={dayjsUtils.formatInUserTimezone(item.created)}
                   amount={+item.amount}
                   key={index}
                   image="/assets/icons/crypto-icon.webp"

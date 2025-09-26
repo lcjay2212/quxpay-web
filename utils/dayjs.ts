@@ -129,6 +129,31 @@ export const dayjsUtils = {
   endOfMonthUTC: (date?: DateInput): Dayjs => {
     return dayjs(date).utc().endOf('month');
   },
+
+  // User timezone utilities
+  getUserTimezone: (): string => {
+    return Intl.DateTimeFormat().resolvedOptions().timeZone;
+  },
+
+  toUserTimezone: (date: DateInput): Dayjs => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return dayjs(date).tz(userTimezone);
+  },
+
+  formatInUserTimezone: (date: DateInput, format: string = DATE_FORMATS.FULL_DATE_TIME): string => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return dayjs(date).tz(userTimezone).format(format);
+  },
+
+  fromUTCToUserTimezone: (date: DateInput): Dayjs => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return dayjs.utc(date).tz(userTimezone);
+  },
+
+  formatFromUTCToUserTimezone: (date: DateInput, format: string = DATE_FORMATS.FULL_DATE_TIME): string => {
+    const userTimezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    return dayjs.utc(date).tz(userTimezone).format(format);
+  },
 };
 
 // Export dayjs instance with plugins

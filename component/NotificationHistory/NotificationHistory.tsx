@@ -4,7 +4,7 @@ import { NotificationListDisplay } from 'component';
 import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { DATE_FORMATS, dayjsUtils } from 'utils';
+import { dayjsUtils } from 'utils';
 
 export const NotificationHistory: FC = () => {
   const router = useRouter();
@@ -38,7 +38,7 @@ export const NotificationHistory: FC = () => {
               {data?.slice(0, 3).map((item) => (
                 <NotificationListDisplay
                   title={item.title}
-                  date={dayjsUtils.formatUTC(item.created_at, DATE_FORMATS.FULL_DATE_TIME_UTC)}
+                  date={dayjsUtils.formatInUserTimezone(item.created_at)}
                   key={item.id}
                   message={item.message}
                 />

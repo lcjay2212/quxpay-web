@@ -197,6 +197,9 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
             deposit: +(deposit ?? 0) + amount,
           });
           setVisible(true);
+        } else {
+          setType(null);
+          setVisible(true);
         }
       }
     },

@@ -2,7 +2,7 @@ import { Box, Spinner } from '@chakra-ui/react';
 import { HeaderContainer, ItemListDisplay } from 'component';
 import { FC } from 'react';
 import { usePosHistory } from 'store';
-import { DATE_FORMATS, dayjsUtils } from 'utils';
+import { dayjsUtils } from 'utils';
 
 const TokenHistoryPage: FC = () => {
   const { paidData, isLoading } = usePosHistory();
@@ -23,7 +23,7 @@ const TokenHistoryPage: FC = () => {
                   <ItemListDisplay
                     // label={startCase(item.type)}
                     label={!item.paid_po_from ? `PO to ${item.po_to}` : `PO From ${item.po_from}`}
-                    date={dayjsUtils.formatUTC(item.created, DATE_FORMATS.FULL_DATE_TIME_UTC)}
+                    date={dayjsUtils.formatInUserTimezone(item.created)}
                     amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}

@@ -9,7 +9,7 @@ import forge from 'node-forge';
 import { FC } from 'react';
 import { usePage } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
-import { DATE_FORMATS, dayjsUtils, notify, queryClient } from 'utils';
+import { dayjsUtils, notify, queryClient } from 'utils';
 
 export const TransactionHistory: FC = () => {
   const router = useRouter();
@@ -73,10 +73,11 @@ export const TransactionHistory: FC = () => {
           {decryptedTransactions?.length ? (
             <Box>
               {decryptedTransactions.slice(0, 3).map((item: any) => {
+                const userTimezoneDate = dayjsUtils.formatInUserTimezone(item.created_at);
                 return (
                   <ItemListDisplay
                     label={`QUX® User ${startCase(item.type)}`}
-                    date={dayjsUtils.formatUTC(item.created_at, DATE_FORMATS.FULL_DATE_TIME_UTC)}
+                    date={userTimezoneDate}
                     amount={+item.amount}
                     key={item.id}
                     complete={item.confirmed}

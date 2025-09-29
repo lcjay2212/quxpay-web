@@ -312,9 +312,9 @@ const CheckoutPage: FC = () => {
                 onClick={handleButtonAction}
                 isDisabled={isLoading || isButtonLoading}
               >
-                {paymentButton === 'Send Tokens and Auto Top Up From Default Card' ? (
+                {paymentButton === 'Auto Top Up From Default Card and Send Tokens' ? (
                   <>
-                    Send Tokens and Auto Top Up <br /> From Default Card
+                    Auto Top Up From Default Card <br /> and Send Tokens
                   </>
                 ) : (
                   paymentButton

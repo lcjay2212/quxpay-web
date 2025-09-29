@@ -266,9 +266,9 @@ const CheckoutPage: FC = () => {
                 isLoading={isButtonLoading}
                 noOfLines={isButtonLoading ? 1 : undefined}
               >
-                {paymentButton === 'Send Tokens and Auto Top Up From Default Card' ? (
+                {paymentButton === 'Auto Top Up From Default Card and Send Tokens' ? (
                   <>
-                    Send Tokens and Auto Top Up <br /> From Default Card
+                    Auto Top Up From Default Card <br /> and Send Tokens
                   </>
                 ) : (
                   paymentButton

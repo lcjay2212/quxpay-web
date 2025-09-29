@@ -319,7 +319,6 @@ export const CreatePoForm: FC = () => {
                     My Associates
                   </Text>
                   <TextField
-                    type="email"
                     value={associateEmail || ''}
                     placeholder="Enter Username or Email"
                     onChange={(e): void => setAssociateEmail(e.target.value)}

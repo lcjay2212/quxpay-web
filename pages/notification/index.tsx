@@ -3,6 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { HeaderContainer, NotificationListDisplay } from 'component';
 import { FETCH_NOTIFICATION_HISTORY } from 'constants/api';
 import { FC } from 'react';
+import { dayjsUtils } from 'utils';
 
 const NotificationList: FC = () => {
   const { data, isLoading } = useQuery({ queryKey: ['notificationHistory'], queryFn: FETCH_NOTIFICATION_HISTORY });
@@ -17,7 +18,12 @@ const NotificationList: FC = () => {
         ) : (
           <Box>
             {data?.map((item) => (
-              <NotificationListDisplay title={item.title} date={item.created_at} key={item.id} message={item.message} />
+              <NotificationListDisplay
+                title={item.title}
+                date={dayjsUtils.formatInUserTimezone(item.created_at)}
+                key={item.id}
+                message={item.message}
+              />
             ))}
           </Box>
         )}

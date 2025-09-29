@@ -5,6 +5,7 @@ import { FETCH_CRYPTO_TRANSACTION_HISTORY } from 'constants/api';
 import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
+import { dayjsUtils } from 'utils';
 
 export const CryptoTransactionHistory: FC = () => {
   const { data, isLoading } = useQuery({
@@ -35,7 +36,7 @@ export const CryptoTransactionHistory: FC = () => {
               {data?.slice(0, 3).map((item, index) => (
                 <ItemListDisplay
                   label={`${item.currency} ${item.pos_id}`}
-                  date={item.created_at}
+                  date={dayjsUtils.formatInUserTimezone(item.created_at)}
                   amount={+item.amount}
                   key={index}
                   complete={item.confirmed}

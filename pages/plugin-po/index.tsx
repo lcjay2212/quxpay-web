@@ -3,6 +3,7 @@ import { HeaderContainer, ItemListDisplay } from 'component';
 import { startCase } from 'lodash';
 import { FC } from 'react';
 import { usePosHistory } from 'store';
+import { dayjsUtils } from 'utils';
 const PluginPoHistoryPage: FC = () => {
   const { pluginData, isLoading } = usePosHistory();
 
@@ -26,7 +27,7 @@ const PluginPoHistoryPage: FC = () => {
                     return (
                       <ItemListDisplay
                         label={`Qux User ${startCase(item.type)}`}
-                        date={item.created_at}
+                        date={dayjsUtils.formatInUserTimezone(item.created_at)}
                         amount={+item.amount}
                         key={item.id}
                         complete={item.confirmed}

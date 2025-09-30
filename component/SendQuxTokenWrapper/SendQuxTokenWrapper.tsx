@@ -38,6 +38,7 @@ export const SendQuxTokenWrapper: FC = () => {
     name: string;
     username: string;
     email: string;
+    corporation_name: string;
   }>(friendList?.friends?.[0] || {});
 
   const [payload, setPayload] = useState();
@@ -227,7 +228,18 @@ export const SendQuxTokenWrapper: FC = () => {
                 <Controller
                   control={control}
                   name="email"
-                  rules={{ required: 'Email is required' }}
+                  rules={{
+                    required: 'Email is required',
+                    validate: (value): boolean | string => {
+                      const exists = friendList?.friends?.some(
+                        (friend) =>
+                          friend.email?.toLowerCase() === value.toLowerCase() ||
+                          friend.username?.toLowerCase() === value.toLowerCase()
+                      );
+
+                      return !exists || 'This email or username is already in your friends list';
+                    },
+                  }}
                   render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                     <FormContainer errorMessage={error?.message ?? ''}>
                       <TextField
@@ -278,7 +290,7 @@ export const SendQuxTokenWrapper: FC = () => {
             <Flex justifyContent="flex-start">
               <Avatar name={sentToDetail.name} />
               <Box textAlign="start" ml="1rem">
-                <Text>{sentToDetail.name}</Text>
+                <Text>{sentToDetail.corporation_name || sentToDetail.name}</Text>
                 <Text>Username: {sentToDetail.username || 'N/A'}</Text>
               </Box>
             </Flex>

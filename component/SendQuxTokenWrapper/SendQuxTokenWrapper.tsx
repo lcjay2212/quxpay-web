@@ -38,6 +38,7 @@ export const SendQuxTokenWrapper: FC = () => {
     name: string;
     username: string;
     email: string;
+    corporation_name: string;
   }>(friendList?.friends?.[0] || {});
 
   const [payload, setPayload] = useState();
@@ -278,7 +279,7 @@ export const SendQuxTokenWrapper: FC = () => {
             <Flex justifyContent="flex-start">
               <Avatar name={sentToDetail.name} />
               <Box textAlign="start" ml="1rem">
-                <Text>{sentToDetail.name}</Text>
+                <Text>{sentToDetail.corporation_name || sentToDetail.name}</Text>
                 <Text>Username: {sentToDetail.username || 'N/A'}</Text>
               </Box>
             </Flex>

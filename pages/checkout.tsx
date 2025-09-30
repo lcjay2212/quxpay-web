@@ -166,7 +166,7 @@ const CheckoutPage: FC = () => {
   return (
     <HeaderContainer label="Checkout" route="/dashboard">
       <>
-        {!successPayment ? (
+        {successPayment ? (
           <Flex justifyContent="center" alignItems="center" flexDir="column">
             <Box mt="14rem">
               <Image

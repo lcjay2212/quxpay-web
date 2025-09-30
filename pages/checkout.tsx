@@ -166,7 +166,7 @@ const CheckoutPage: FC = () => {
   return (
     <HeaderContainer label="Checkout" route="/dashboard">
       <>
-        {successPayment ? (
+        {!successPayment ? (
           <Flex justifyContent="center" alignItems="center" flexDir="column">
             <Box mt="14rem">
               <Image
@@ -181,13 +181,18 @@ const CheckoutPage: FC = () => {
               <Box display="flex" justifyContent="center" alignItems="center">
                 <Image src="/assets/icons/qux-token.webp" height={30} width={32} alt="Qux Logo" />
               </Box>
+
               <Text color="white" fontSize="2rem">
                 {tempData?.total_payment.toFixed(2)}
               </Text>
             </Flex>
 
+            <Text color="white" fontSize="2rem" fontWeight="bold" mt="1rem">
+              You're Almost Done
+            </Text>
+
             <Text color="white" fontSize="20px" textAlign="center" mt="1rem">
-              Token Successfully Sent <br /> to {tempData?.sent_to || autoTopUpPaymentData?.data?.data?.sent_to}
+              Tokens Being Sent <br /> to {tempData?.sent_to || autoTopUpPaymentData?.data?.data?.sent_to}
             </Text>
 
             <Text color="white" fontSize="16px" textAlign="center" mt="2rem">
@@ -254,7 +259,7 @@ const CheckoutPage: FC = () => {
                 fontWeight="600"
                 transition="color 0.3s ease"
               >
-                Back to Site
+                Finishing Order...
               </Text>
             </Box>
           </Flex>

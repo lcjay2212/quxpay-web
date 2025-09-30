@@ -45,7 +45,7 @@ export const FormContainer: FC<FormProps & BoxProps> = ({
       {children}
       {errorMessage && !hideErrorMessage && (
         <SlideFade in={true} offsetY="-1rem">
-          <FormErrorMessage fontSize="0.9rem" mb="0" width={350} color="error">
+          <FormErrorMessage fontSize="0.9rem" mb="0" color="error">
             {errorMessage}
           </FormErrorMessage>
         </SlideFade>

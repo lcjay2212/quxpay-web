@@ -228,7 +228,18 @@ export const SendQuxTokenWrapper: FC = () => {
                 <Controller
                   control={control}
                   name="email"
-                  rules={{ required: 'Email is required' }}
+                  rules={{
+                    required: 'Email is required',
+                    validate: (value): boolean | string => {
+                      const exists = friendList?.friends?.some(
+                        (friend) =>
+                          friend.email?.toLowerCase() === value.toLowerCase() ||
+                          friend.username?.toLowerCase() === value.toLowerCase()
+                      );
+
+                      return !exists || 'This email or username is already in your friends list';
+                    },
+                  }}
                   render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
                     <FormContainer errorMessage={error?.message ?? ''}>
                       <TextField

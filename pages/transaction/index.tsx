@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { HeaderContainer, ItemListDisplay } from 'component';
 import Pagination from 'component/Pagination/Pagination';
-import { startCase } from 'lodash';
 import forge from 'node-forge';
 import { FC } from 'react';
 import { usePage } from 'store';
@@ -140,7 +139,7 @@ const TransactionHistoryPage: FC = () => {
                 <Box>
                   {decryptedTransactions.map((item: any) => (
                     <ItemListDisplay
-                      label={`Qux User ${startCase(item.type)}`}
+                      label={item.payment_name}
                       date={dayjsUtils.formatInUserTimezone(item.created_at)}
                       amount={+item.amount}
                       key={item.id}

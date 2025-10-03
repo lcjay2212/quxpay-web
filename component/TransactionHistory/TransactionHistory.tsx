@@ -3,7 +3,6 @@ import { Box, Flex, Spinner, Text } from '@chakra-ui/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 import { ItemListDisplay } from 'component';
-import { startCase } from 'lodash';
 import { useRouter } from 'next/router';
 import forge from 'node-forge';
 import { FC } from 'react';
@@ -76,7 +75,7 @@ export const TransactionHistory: FC = () => {
                 const userTimezoneDate = dayjsUtils.formatInUserTimezone(item.created_at);
                 return (
                   <ItemListDisplay
-                    label={`QUX® User ${startCase(item.type)}`}
+                    label={item.payment_name}
                     date={userTimezoneDate}
                     amount={+item.amount}
                     key={item.id}

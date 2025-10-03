@@ -75,7 +75,10 @@ const TransactionDownloadPage: FC = () => {
           <Text color="white" fontSize="18px" fontWeight="bold">
             Download transaction history
           </Text>
-          <Text fontSize="14px">Lorem ipsum dolor sit amet, consectetur adipiscing Lorem ipsum dolor sit amet.</Text>
+          <Text fontSize="14px">
+            Create a custom CSV transaction history for download. This will email you a complete csv file once it is
+            generated.
+          </Text>
         </Box>
 
         <Box background="#10101F" h="80vh" py="1rem" px="2rem" mt="2rem">

@@ -19,6 +19,10 @@ export const DATE_FILTER = [
 
 export const TRANSACTION_FILTER = [
   {
+    value: 'all',
+    label: 'All Transactions',
+  },
+  {
     value: 'purchase',
     label: 'Purchase',
   },
@@ -41,6 +45,10 @@ export const TRANSACTION_FILTER = [
   {
     value: 'pos',
     label: 'POs',
+  },
+  {
+    value: 'quxpay_plugin',
+    label: ' QuxPay Payment Plugin',
   },
 ];
 

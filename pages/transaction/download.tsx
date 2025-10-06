@@ -5,20 +5,21 @@ import { CalendarIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { SuccessModal } from 'component/Modal/SuccessModal';
 import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
 import { DATE_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
 import DatePicker from 'react-datepicker';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useTransactionHistoryFilterModal } from 'store';
+import { useSuccessModal, useTransactionHistoryFilterModal } from 'store';
 import { notify } from 'utils';
 
-type DateOption = 'last_7_days' | 'last_30_days' | 'last_3_months' | 'last_6_months';
 const TransactionDownloadPage: FC = () => {
   const method = useForm();
   const { control, handleSubmit } = method;
   const setVisible = useTransactionHistoryFilterModal((state) => state.setVisible);
   const [id, setId] = useState('');
+  const { setVisible: setSuccessVisible, setMessage } = useSuccessModal();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
@@ -30,11 +31,8 @@ const TransactionDownloadPage: FC = () => {
         },
       }),
     onSuccess: ({ data }) => {
-      const link = document.createElement('a');
-      link.href = data.data.url;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      setSuccessVisible(true);
+      setMessage(data?.data?.message || 'You will receive an email for the downloadable file.');
     },
     onError: () => {
       notify('Failed to export file', { status: 'error' });
@@ -42,30 +40,28 @@ const TransactionDownloadPage: FC = () => {
   });
 
   const onDownload = (val): void => {
-    const calculateEndDate = (dateOption: DateOption): string | null => {
-      switch (dateOption) {
-        case 'last_7_days':
-          return dayjs().subtract(7, 'day').format('YYYY-MM-DD');
-        case 'last_30_days':
-          return dayjs().subtract(30, 'day').format('YYYY-MM-DD');
-        case 'last_3_months':
-          return dayjs().subtract(3, 'months').format('YYYY-MM-DD');
-        case 'last_6_months':
-          return dayjs().subtract(6, 'months').format('YYYY-MM-DD');
-        default:
-          return null;
-      }
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    const dateValue = val.from_date && val.end_date ? null : val.date;
+
+    const payload: any = {
+      transaction_type: val.transaction_type,
+      timezone,
     };
 
-    const endDate = val.end_date || calculateEndDate(val.date);
-    const fromDate = val.from_date || dayjs().format('YYYY-MM-DD');
+    if (dateValue) {
+      payload.date = dateValue;
+    }
 
-    mutate({
-      date: val.date,
-      end_date: endDate,
-      from_date: fromDate,
-      transaction_type: val.transaction_type,
-    } as any);
+    if (val.end_date) {
+      payload.end_date = val.end_date;
+    }
+
+    if (val.from_date) {
+      payload.from_date = val.from_date;
+    }
+
+    mutate(payload);
   };
 
   return (
@@ -100,7 +96,18 @@ const TransactionDownloadPage: FC = () => {
                           }}
                           onBlur={onBlur}
                           customRightElement={
-                            <ChevronDownIcon color="white" mt="0.5rem" mr="1rem" height={8} width={8} />
+                            <ChevronDownIcon
+                              color="white"
+                              mt="0.5rem"
+                              mr="1rem"
+                              height={8}
+                              width={8}
+                              cursor="pointer"
+                              onClick={(): void => {
+                                setId('date');
+                                setVisible(true);
+                              }}
+                            />
                           }
                         />
                         {id === 'date' && (
@@ -185,7 +192,18 @@ const TransactionDownloadPage: FC = () => {
                           }}
                           onBlur={onBlur}
                           customRightElement={
-                            <ChevronDownIcon color="white" mt="0.5rem" mr="1rem" height={8} width={8} />
+                            <ChevronDownIcon
+                              color="white"
+                              mt="0.5rem"
+                              mr="1rem"
+                              height={8}
+                              width={8}
+                              cursor="pointer"
+                              onClick={(): void => {
+                                setId('transaction');
+                                setVisible(true);
+                              }}
+                            />
                           }
                         />
                         {id === 'transaction' && (
@@ -202,13 +220,15 @@ const TransactionDownloadPage: FC = () => {
 
                 <Flex justifyContent="center">
                   <Button isLoading={isPending} type="submit" variant="primary" borderRadius="1rem" w={350} h="3.25rem">
-                    Download
+                    Email Me The Download
                   </Button>
                 </Flex>
               </Flex>
             </form>
           </FormProvider>
         </Box>
+
+        <SuccessModal />
       </>
     </HeaderContainer>
   );

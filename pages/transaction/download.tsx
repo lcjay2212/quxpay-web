@@ -102,7 +102,18 @@ const TransactionDownloadPage: FC = () => {
                           }}
                           onBlur={onBlur}
                           customRightElement={
-                            <ChevronDownIcon color="white" mt="0.5rem" mr="1rem" height={8} width={8} />
+                            <ChevronDownIcon
+                              color="white"
+                              mt="0.5rem"
+                              mr="1rem"
+                              height={8}
+                              width={8}
+                              cursor="pointer"
+                              onClick={(): void => {
+                                setId('date');
+                                setVisible(true);
+                              }}
+                            />
                           }
                         />
                         {id === 'date' && (
@@ -187,7 +198,18 @@ const TransactionDownloadPage: FC = () => {
                           }}
                           onBlur={onBlur}
                           customRightElement={
-                            <ChevronDownIcon color="white" mt="0.5rem" mr="1rem" height={8} width={8} />
+                            <ChevronDownIcon
+                              color="white"
+                              mt="0.5rem"
+                              mr="1rem"
+                              height={8}
+                              width={8}
+                              cursor="pointer"
+                              onClick={(): void => {
+                                setId('transaction');
+                                setVisible(true);
+                              }}
+                            />
                           }
                         />
                         {id === 'transaction' && (

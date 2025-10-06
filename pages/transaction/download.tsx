@@ -59,11 +59,14 @@ const TransactionDownloadPage: FC = () => {
     const endDate = val.end_date || calculateEndDate(val.date);
     const fromDate = val.from_date || dayjs().format('YYYY-MM-DD');
 
+    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
     mutate({
       date: val.date,
       end_date: endDate,
       from_date: fromDate,
       transaction_type: val.transaction_type,
+      timezone,
     } as any);
   };
 

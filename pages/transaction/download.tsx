@@ -14,7 +14,6 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useSuccessModal, useTransactionHistoryFilterModal } from 'store';
 import { notify } from 'utils';
 
-type DateOption = 'last_7_days' | 'last_30_days' | 'last_3_months' | 'last_6_months';
 const TransactionDownloadPage: FC = () => {
   const method = useForm();
   const { control, handleSubmit } = method;
@@ -41,33 +40,28 @@ const TransactionDownloadPage: FC = () => {
   });
 
   const onDownload = (val): void => {
-    const calculateEndDate = (dateOption: DateOption): string | null => {
-      switch (dateOption) {
-        case 'last_7_days':
-          return dayjs().subtract(7, 'day').format('YYYY-MM-DD');
-        case 'last_30_days':
-          return dayjs().subtract(30, 'day').format('YYYY-MM-DD');
-        case 'last_3_months':
-          return dayjs().subtract(3, 'months').format('YYYY-MM-DD');
-        case 'last_6_months':
-          return dayjs().subtract(6, 'months').format('YYYY-MM-DD');
-        default:
-          return null;
-      }
-    };
-
-    const endDate = val.end_date || calculateEndDate(val.date);
-    const fromDate = val.from_date || dayjs().format('YYYY-MM-DD');
-
     const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    mutate({
-      date: val.date,
-      end_date: endDate,
-      from_date: fromDate,
+    const dateValue = val.from_date && val.end_date ? null : val.date;
+
+    const payload: any = {
       transaction_type: val.transaction_type,
       timezone,
-    } as any);
+    };
+
+    if (dateValue) {
+      payload.date = dateValue;
+    }
+
+    if (val.end_date) {
+      payload.end_date = val.end_date;
+    }
+
+    if (val.from_date) {
+      payload.from_date = val.from_date;
+    }
+
+    mutate(payload);
   };
 
   return (

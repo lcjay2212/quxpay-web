@@ -46,6 +46,10 @@ export const TRANSACTION_FILTER = [
     value: 'pos',
     label: 'POs',
   },
+  {
+    value: 'quxpay_plugin',
+    label: ' QuxPay Payment Plugin',
+  },
 ];
 
 export const STATUS_FILTER = [

@@ -33,7 +33,7 @@ const TransactionDownloadPage: FC = () => {
       }),
     onSuccess: ({ data }) => {
       setSuccessVisible(true);
-      setMessage(data?.data?.message || 'You will received an email for the downloadable file.');
+      setMessage(data?.data?.message || 'You will receive an email for the downloadable file.');
     },
     onError: () => {
       notify('Failed to export file', { status: 'error' });
@@ -204,7 +204,7 @@ const TransactionDownloadPage: FC = () => {
 
                 <Flex justifyContent="center">
                   <Button isLoading={isPending} type="submit" variant="primary" borderRadius="1rem" w={350} h="3.25rem">
-                    Download
+                    Email Me The Download
                   </Button>
                 </Flex>
               </Flex>

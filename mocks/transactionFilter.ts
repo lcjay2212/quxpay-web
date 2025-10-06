@@ -19,6 +19,10 @@ export const DATE_FILTER = [
 
 export const TRANSACTION_FILTER = [
   {
+    value: 'all',
+    label: 'All Transactions',
+  },
+  {
     value: 'purchase',
     label: 'Purchase',
   },

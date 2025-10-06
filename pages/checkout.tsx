@@ -42,7 +42,6 @@ const CheckoutPage: FC = () => {
     notify(`${error.message}`, { status: 'error' });
   }
 
-  const totalPurchaseAndSubsAmount = data?.recurring_payment_amount + data?.single_purchase_amount;
   const [successPayment, setSuccessPayment] = useState(false);
   const [redirectCountdown, setRedirectCountdown] = useState(10);
 
@@ -271,26 +270,35 @@ const CheckoutPage: FC = () => {
                 PO {user?.profile_id}
               </Text>
 
-              {(data?.recurring_payment || data?.single_and_recurring_payment) && (
+              {/* {(data?.recurring_payment || data?.single_and_recurring_payment) && (
                 <Label
                   label="Recurring Billing:"
                   image="/assets/icons/qux-token.webp"
                   amount={data?.recurring_payment_amount}
                   loading={isLoading}
                 />
-              )}
-              {(data?.is_single_purchase || data?.single_and_recurring_payment) && (
+              )} */}
+              {/* {(data?.is_single_purchase || data?.single_and_recurring_payment) && (
                 <Label
                   label="Single Purchase:"
                   image="/assets/icons/qux-token.webp"
                   amount={data?.single_purchase_amount}
                   loading={isLoading}
                 />
-              )}
+              )} */}
+              {data?.products?.map((product) => (
+                <Label
+                  key={product.id}
+                  label={`${product.name} - Quantity: ${product.quantity}`}
+                  image="/assets/icons/qux-token.webp"
+                  amount={product.product_price}
+                  loading={isLoading}
+                />
+              ))}
               <Label
                 label="Subtotal eToken® amount:"
                 image="/assets/icons/qux-token.webp"
-                amount={totalPurchaseAndSubsAmount}
+                amount={data?.sub_total}
                 loading={isLoading}
               />
               <Label

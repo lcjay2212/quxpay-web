@@ -5,12 +5,13 @@ import { CalendarIcon, ChevronDownIcon } from '@chakra-ui/icons';
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
+import { SuccessModal } from 'component/Modal/SuccessModal';
 import dayjs from 'dayjs';
 import { capitalize } from 'lodash';
 import { DATE_FILTER, TRANSACTION_FILTER } from 'mocks/transactionFilter';
 import DatePicker from 'react-datepicker';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
-import { useTransactionHistoryFilterModal } from 'store';
+import { useSuccessModal, useTransactionHistoryFilterModal } from 'store';
 import { notify } from 'utils';
 
 type DateOption = 'last_7_days' | 'last_30_days' | 'last_3_months' | 'last_6_months';
@@ -19,6 +20,7 @@ const TransactionDownloadPage: FC = () => {
   const { control, handleSubmit } = method;
   const setVisible = useTransactionHistoryFilterModal((state) => state.setVisible);
   const [id, setId] = useState('');
+  const { setVisible: setSuccessVisible, setMessage } = useSuccessModal();
 
   const { mutate, isPending } = useMutation({
     mutationFn: (variable) =>
@@ -30,11 +32,8 @@ const TransactionDownloadPage: FC = () => {
         },
       }),
     onSuccess: ({ data }) => {
-      const link = document.createElement('a');
-      link.href = data.data.url;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      setSuccessVisible(true);
+      setMessage(data?.data?.message || 'You will received an email for the downloadable file.');
     },
     onError: () => {
       notify('Failed to export file', { status: 'error' });
@@ -209,6 +208,8 @@ const TransactionDownloadPage: FC = () => {
             </form>
           </FormProvider>
         </Box>
+
+        <SuccessModal />
       </>
     </HeaderContainer>
   );

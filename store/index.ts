@@ -23,6 +23,7 @@ export * from './useSchedulePayBillModal';
 export * from './useSelectedBankDetails';
 export * from './useSetScheduleModal';
 export * from './useStateList';
+export * from './useSuccessModal';
 export * from './useSuccessPayBillsModal';
 export * from './useTransactionHistoryFilterModal';
 export * from './useTransactionHistoryModal';

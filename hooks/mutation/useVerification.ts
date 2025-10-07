@@ -44,6 +44,8 @@ export const useVerification = ({
         } else {
           setVisible(true);
         }
+      } else {
+        void router.push('/login');
       }
     },
     onError: ({ response }: any) => {

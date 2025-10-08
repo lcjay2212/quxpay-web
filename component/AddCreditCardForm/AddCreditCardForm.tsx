@@ -1,4 +1,4 @@
-import { Flex, Text } from '@chakra-ui/react';
+import { Checkbox, Flex, Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -91,21 +91,6 @@ export const AddCreditCardForm: FC = () => {
 
       <Controller
         control={control}
-        name="address2"
-        render={({ field: { onChange, value, onBlur } }): ReactElement => (
-          <FormContainer label="Address 2">
-            <TextField
-              value={value ?? ''}
-              placeholder="Enter Address e.g. Suite, Apt"
-              onChange={onChange}
-              onBlur={onBlur}
-            />
-          </FormContainer>
-        )}
-      />
-
-      <Controller
-        control={control}
         name="city"
         rules={{ required: 'City is required' }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
@@ -119,10 +104,11 @@ export const AddCreditCardForm: FC = () => {
         control={control}
         name="state"
         rules={{ required: 'State is required' }}
-        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
+        render={({ field: { onChange, onBlur, value }, fieldState: { error } }): ReactElement => {
           return (
             <FormContainer label="State" errorMessage={error?.message ?? ''}>
               <Select
+                value={data?.find((option: ValueLabelProps) => option.value === value)}
                 onBlur={onBlur}
                 styles={reactSelectStyles}
                 placeholder="Select State"
@@ -145,6 +131,26 @@ export const AddCreditCardForm: FC = () => {
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Zip" errorMessage={error?.message ?? ''}>
             <TextField value={value ?? ''} placeholder="Enter Zip" onChange={onChange} onBlur={onBlur} />
+          </FormContainer>
+        )}
+      />
+
+      <Controller
+        control={control}
+        name="default"
+        render={({ field: { onChange, value } }): ReactElement => (
+          <FormContainer>
+            <Flex alignItems="center" gap={3}>
+              <Checkbox
+                isChecked={value}
+                onChange={(e): void => onChange(e.target.checked)}
+                colorScheme="teal"
+                size="lg"
+              />
+              <Text color="white" fontSize="md" fontWeight="medium">
+                Set as default payment method
+              </Text>
+            </Flex>
           </FormContainer>
         )}
       />

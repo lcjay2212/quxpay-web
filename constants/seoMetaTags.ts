@@ -60,4 +60,10 @@ export const SEO_META_TAGS: SeoMetaTags = {
     keyphrase: 'QUX Pay® Dashboard',
     image: DEFAULT_IMAGE,
   },
+  'manage-payments': {
+    title: `Manage Payments | QUX Pay®`,
+    description: 'Manage your payment methods including credit cards and bank accounts in your QUX Pay® wallet.',
+    keyphrase: 'manage payments, payment methods',
+    image: DEFAULT_IMAGE,
+  },
 };

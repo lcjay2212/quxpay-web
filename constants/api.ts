@@ -137,7 +137,7 @@ export const FETCH_WP_PO_DETAILS = async ({ queryKey }: QueryFunctionContext): P
 
 export const FETCH_AUTHENTICATION = async (): Promise<any> => await fetchResource(`web/authentication`);
 
-export const FETCH_BANK_CREDIT_CARD_CRYPTO = async (): Promise<any> =>
+export const FETCH_BANK_AND_CREDIT_DETAILS = async (): Promise<any> =>
   await fetchResource(`web/wallet/bank-and-credit`);
 
 export const FETCH_CRYPTO_CURRENCY_LIST = async (): Promise<any> => await fetchResource(`web/crypto/currency`);

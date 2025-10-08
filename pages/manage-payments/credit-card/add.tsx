@@ -78,7 +78,7 @@ const AddCreditCardPage: FC = () => {
     const addCreditCardVal: AddCreditCardRequest = {
       firstname: val.firstname,
       lastname: val.lastname,
-      card_number: val.card_number,
+      card_number: val.card_number.replace(/\s/g, ''),
       card_holder_name: `${val.firstname} ${val.lastname}`,
       card_code: val.card_code,
       expiration_date: val.expiration_date.replace('/', ''),

@@ -1,6 +1,7 @@
 export * from './AccountVerifySuccess';
 export * from './AmountVerificationModal';
 export * from './DeleteAccountModal';
+export * from './DeleteCreditCardModal';
 export * from './HomeModal';
 export * from './PayBillsModal';
 export * from './PendingAccountModal';

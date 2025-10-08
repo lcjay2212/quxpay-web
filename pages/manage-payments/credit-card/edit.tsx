@@ -1,11 +1,12 @@
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { AddCreditCardForm, HeaderContainer } from 'component';
+import { AddCreditCardForm, DeleteCreditCardModal, HeaderContainer } from 'component';
 import { FETCH_BANK_AND_CREDIT_DETAILS } from 'constants/api';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { useDeleteCreditCardModal } from 'store/useDeleteCreditCardModal';
 import { notify, queryClient } from 'utils';
 
 interface CreditCardFormData {
@@ -36,10 +37,6 @@ interface EditCreditCardRequest {
   state: string;
   zip: string;
   default: boolean;
-}
-
-interface DeleteCreditCardRequest {
-  payment_profile_id: string;
 }
 
 interface ApiErrorData {
@@ -77,6 +74,7 @@ const EditCreditCardPage: FC = () => {
   const router = useRouter();
   const { handleSubmit, reset } = methods;
   const { id } = router.query;
+  const openDeleteModal = useDeleteCreditCardModal((e) => e.openModal);
 
   // Fetch credit card data
   const { data: creditCardData, isLoading } = useQuery({
@@ -140,33 +138,6 @@ const EditCreditCardPage: FC = () => {
     },
   });
 
-  // Delete credit card mutation
-  const { mutate: deleteCreditCard, isPending: deleteCreditCardLoading } = useMutation({
-    mutationFn: (variable: DeleteCreditCardRequest) =>
-      axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/remove-card`, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-        data: variable,
-      }),
-    onSuccess: () => {
-      notify('Credit Card Deleted Successfully', { status: 'success' });
-      void router.push('/manage-payments');
-      void queryClient.invalidateQueries({ queryKey: ['bandAndCreditDetails'] });
-    },
-    onError: (error: AxiosError) => {
-      let message = '';
-      const errorData = error.response?.data as ApiErrorData | undefined;
-      if (errorData?.errors) {
-        Object.values(errorData.errors).forEach((errorMessage) => {
-          message += errorMessage;
-        });
-      }
-      notify(message || errorData?.status?.message || 'An error occurred', { status: 'error' });
-    },
-  });
-
   const onSubmit = (val: CreditCardFormData): void => {
     if (!id || !currentCard) return;
 
@@ -191,10 +162,7 @@ const EditCreditCardPage: FC = () => {
 
   const handleDelete = (): void => {
     if (!id) return;
-
-    if (window.confirm('Are you sure you want to delete this credit card? This action cannot be undone.')) {
-      deleteCreditCard({ payment_profile_id: id as string });
-    }
+    openDeleteModal(id as string);
   };
 
   if (isLoading) {
@@ -226,37 +194,35 @@ const EditCreditCardPage: FC = () => {
   }
 
   return (
-    <HeaderContainer label="Edit Credit Card" route="/manage-payments">
-      <Box textAlign="center" overflow="hidden" px="1rem" mb="2rem">
-        <FormProvider {...methods}>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <AddCreditCardForm />
+    <HeaderContainer label="Manage Card" route="/manage-payments">
+      <>
+        <Box textAlign="center" overflow="hidden" px="1rem" mb="2rem">
+          <FormProvider {...methods}>
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <AddCreditCardForm />
 
-            <Flex mt="2rem" flexDirection="column" gap={4}>
-              <Button
-                type="submit"
-                variant="primary"
-                borderRadius="1rem"
-                h="3.25rem"
-                isLoading={editCreditCardLoading}
-                colorScheme="teal"
-              >
-                Update Credit Card
-              </Button>
+              <Flex mt="2rem" flexDirection="column" gap={4}>
+                <Button
+                  type="submit"
+                  variant="primary"
+                  borderRadius="1rem"
+                  h="3.25rem"
+                  isLoading={editCreditCardLoading}
+                  colorScheme="teal"
+                >
+                  Update Credit Card
+                </Button>
 
-              <Button
-                variant="delete"
-                borderRadius="1rem"
-                h="3.25rem"
-                onClick={handleDelete}
-                isLoading={deleteCreditCardLoading}
-              >
-                Delete Card
-              </Button>
-            </Flex>
-          </form>
-        </FormProvider>
-      </Box>
+                <Button variant="delete" borderRadius="1rem" h="3.25rem" onClick={handleDelete}>
+                  Delete Card
+                </Button>
+              </Flex>
+            </form>
+          </FormProvider>
+        </Box>
+
+        <DeleteCreditCardModal />
+      </>
     </HeaderContainer>
   );
 };

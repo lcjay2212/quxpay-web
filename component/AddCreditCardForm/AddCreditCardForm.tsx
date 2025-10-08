@@ -1,25 +1,64 @@
 import { Checkbox, Flex, Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
-import { FC, ReactElement } from 'react';
+import { FC, ReactElement, useCallback } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
 import Select, { SingleValue } from 'react-select';
 import { useStateList } from 'store';
 import { ValueLabelProps } from 'typings';
-import { reactSelectStyles } from 'utils';
+import {
+  blockInvalidCardChars,
+  blockInvalidExpiryChars,
+  formatCardNumber,
+  formatExpiryDate,
+  reactSelectStyles,
+  validateCardNumber,
+  validateExpiryDate,
+} from 'utils';
 
 export const AddCreditCardForm: FC = () => {
   const { control } = useFormContext();
   const { data, isLoading } = useStateList();
+
+  // Handler for card number formatting
+  const handleCardNumberChange = useCallback((value: string, onChange: (value: string) => void): void => {
+    const formatted = formatCardNumber(value);
+    onChange(formatted);
+  }, []);
+
+  // Handler for expiry date formatting
+  const handleExpiryDateChange = useCallback((value: string, onChange: (value: string) => void): void => {
+    const formatted = formatExpiryDate(value);
+    onChange(formatted);
+  }, []);
 
   return (
     <>
       <Controller
         control={control}
         name="card_number"
-        rules={{ required: 'Card number is required' }}
+        rules={{
+          required: 'Card number is required',
+          validate: (value): string | boolean => {
+            const digitsOnly = value?.replace(/\D/g, '') || '';
+            if (digitsOnly.length < 13) {
+              return 'Card number must be at least 13 digits';
+            }
+            if (!validateCardNumber(value || '')) {
+              return 'Invalid card number';
+            }
+            return true;
+          },
+        }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Card Number" errorMessage={error?.message ?? ''}>
-            <TextField value={value ?? ''} placeholder="Enter Card Number" onChange={onChange} onBlur={onBlur} />
+            <TextField
+              value={value ?? ''}
+              placeholder="1234 5678 9012 3456"
+              onChange={(e): void => handleCardNumberChange(e.target.value, onChange)}
+              onBlur={onBlur}
+              onKeyDown={blockInvalidCardChars}
+              maxLength={23} // 19 digits + 4 spaces
+            />
           </FormContainer>
         )}
       />
@@ -28,20 +67,55 @@ export const AddCreditCardForm: FC = () => {
         <Controller
           control={control}
           name="expiration_date"
-          rules={{ required: 'Expiry date is required' }}
+          rules={{
+            required: 'Expiry date is required',
+            validate: (value): string | boolean => {
+              if (!validateExpiryDate(value || '')) {
+                return 'Invalid or expired date (MM/YY format required)';
+              }
+              return true;
+            },
+          }}
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer label="Expiry Date" errorMessage={error?.message ?? ''}>
-              <TextField value={value ?? ''} placeholder="(MM/YY)" onChange={onChange} onBlur={onBlur} />
+              <TextField
+                value={value ?? ''}
+                placeholder="MM/YY"
+                onChange={(e): void => handleExpiryDateChange(e.target.value, onChange)}
+                onBlur={onBlur}
+                onKeyDown={blockInvalidExpiryChars}
+                maxLength={5} // MM/YY format
+              />
             </FormContainer>
           )}
         />
         <Controller
           control={control}
           name="card_code"
-          rules={{ required: 'Security Code is required' }}
+          rules={{
+            required: 'Security Code is required',
+            validate: (value): string | boolean => {
+              const digitsOnly = value?.replace(/\D/g, '') || '';
+              if (digitsOnly.length < 3 || digitsOnly.length > 4) {
+                return 'Security code must be 3-4 digits';
+              }
+              return true;
+            },
+          }}
           render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
             <FormContainer label="Security Code" errorMessage={error?.message ?? ''}>
-              <TextField value={value ?? ''} placeholder="CVV" onChange={onChange} onBlur={onBlur} />
+              <TextField
+                value={value ?? ''}
+                placeholder="CVV"
+                onChange={(e): void => {
+                  // Only allow digits for CVV
+                  const digitsOnly = e.target.value.replace(/\D/g, '');
+                  onChange(digitsOnly);
+                }}
+                onBlur={onBlur}
+                onKeyDown={blockInvalidCardChars}
+                maxLength={4}
+              />
             </FormContainer>
           )}
         />

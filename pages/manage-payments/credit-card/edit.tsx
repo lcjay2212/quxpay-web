@@ -1,7 +1,7 @@
 import { Box, Button, Flex, Text } from '@chakra-ui/react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { AddCreditCardForm, DeleteCreditCardModal, HeaderContainer } from 'component';
+import { AddCreditCardForm, CreditCardDisplay, DeleteCreditCardModal, HeaderContainer } from 'component';
 import { FETCH_BANK_AND_CREDIT_DETAILS } from 'constants/api';
 import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
@@ -37,13 +37,6 @@ interface EditCreditCardRequest {
   state: string;
   zip: string;
   default: boolean;
-}
-
-interface ApiErrorData {
-  errors?: Record<string, string>;
-  status?: {
-    message: string;
-  };
 }
 
 interface CreditCardData {
@@ -115,7 +108,7 @@ const EditCreditCardPage: FC = () => {
   // Edit credit card mutation
   const { mutate: editCreditCard, isPending: editCreditCardLoading } = useMutation({
     mutationFn: (variable: EditCreditCardRequest) =>
-      axios.put(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/update-card`, variable, {
+      axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/update-card`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
           Version: 2,
@@ -128,13 +121,24 @@ const EditCreditCardPage: FC = () => {
     },
     onError: (error: AxiosError) => {
       let message = '';
-      const errorData = error.response?.data as ApiErrorData | undefined;
-      if (errorData?.errors) {
+      const errorData = error.response?.data as any;
+
+      // Check for direct message field first (most common case)
+      if (errorData?.message) {
+        message = errorData.message;
+      }
+      // Check for errors object (validation errors)
+      else if (errorData?.errors) {
         Object.values(errorData.errors).forEach((errorMessage) => {
           message += errorMessage;
         });
       }
-      notify(message || errorData?.status?.message || 'An error occurred', { status: 'error' });
+      // Check for status message
+      else if (errorData?.status?.message) {
+        message = errorData.status.message;
+      }
+
+      notify(message || 'An error occurred', { status: 'error' });
     },
   });
 
@@ -196,6 +200,19 @@ const EditCreditCardPage: FC = () => {
   return (
     <HeaderContainer label="Manage Card" route="/manage-payments">
       <>
+        {/* Credit Card Display */}
+        {currentCard && (
+          <Box px="1rem" mb="2rem">
+            <CreditCardDisplay
+              cardNumber={currentCard.payment.creditCard.cardNumber}
+              cardType={currentCard.payment.creditCard.cardType}
+              expirationDate={currentCard.payment.creditCard.expirationDate}
+              nameOnCard={currentCard.payment.creditCard.nameOnCard}
+              isDefault={currentCard.defaultPaymentProfile}
+            />
+          </Box>
+        )}
+
         <Box textAlign="center" overflow="hidden" px="1rem" mb="2rem">
           <FormProvider {...methods}>
             <form onSubmit={handleSubmit(onSubmit)}>

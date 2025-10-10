@@ -3,6 +3,7 @@ export * from './AddCreditCardForm';
 export * from './AddCrytoWallet';
 export * from './ApiIntegrationForm';
 export * from './BankAccount';
+export * from './BankAccountDisplay';
 export * from './CaptchaModal';
 export * from './CashInCrypto';
 export * from './CongratulationContent';

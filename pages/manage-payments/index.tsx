@@ -81,7 +81,8 @@ const PaymentMethodCard: FC<{
   type: 'credit' | 'bank';
   data: PaymentMethodData;
   onEdit: () => void;
-}> = ({ type, data, onEdit }) => (
+  buttonLabel?: string;
+}> = ({ type, data, onEdit, buttonLabel = 'Edit' }) => (
   <Flex
     justifyContent="space-between"
     alignItems="center"
@@ -113,7 +114,7 @@ const PaymentMethodCard: FC<{
             {data.accountHolder}
           </Text>
         )}
-        <Text color="gray.500" fontSize="sm">
+        <Text color="gray.600" fontSize="sm">
           {type === 'credit' ? data.number : data.accountNumber}
         </Text>
         {data.isDefault && (
@@ -135,7 +136,7 @@ const PaymentMethodCard: FC<{
       }}
       transition="all 0.2s ease-in-out"
     >
-      Edit
+      {buttonLabel}
     </Button>
   </Flex>
 );
@@ -225,8 +226,8 @@ const ManagePayments: FC = () => {
     void router.push(`/manage-payments/credit-card/edit?id=${cardId}`);
   };
 
-  const handleEditBank = (bankId: string): void => {
-    void router.push(`/manage-payments/bank/edit?id=${bankId}`);
+  const handleViewBank = (bankId: string): void => {
+    void router.push(`/manage-payments/bank/details?id=${bankId}`);
   };
 
   const handleAddCard = (): void => {
@@ -238,7 +239,7 @@ const ManagePayments: FC = () => {
   };
 
   return (
-    <HeaderContainer label="Manage Payments" route="/dashboard" hasMenu>
+    <HeaderContainer label="Manage Payments" route="/dashboard">
       <Box bg="black" minH="100vh" color="white">
         <SEO page="manage-payments" />
 
@@ -287,7 +288,8 @@ const ManagePayments: FC = () => {
                     key={bank.id}
                     type="bank"
                     data={bank}
-                    onEdit={(): void => handleEditBank(bank.id)}
+                    onEdit={(): void => handleViewBank(bank.id)}
+                    buttonLabel="View"
                   />
                 ))
               ) : (

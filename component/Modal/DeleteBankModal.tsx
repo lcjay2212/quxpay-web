@@ -74,7 +74,7 @@ export const DeleteBankModal: FC = () => {
       );
 
       const content = {
-        removed_bank_accounts: [{ payment_profile_id: bankId, payment_type: 'ach_bank' }],
+        delete_bank_accounts: [{ payment_profile_id: bankId, payment_type: 'ach_bank' }],
       };
       const core = wallet?.initialData;
 

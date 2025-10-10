@@ -5,8 +5,21 @@ import Select, { SingleValue } from 'react-select';
 import { useBankLists, useDebounce } from 'store';
 import { blockInvalidChar, reactSelectStyles } from 'utils';
 
+interface BankOption {
+  label: string;
+  value: string;
+  routing_number: string;
+}
+
+interface BankAccountFormData {
+  account_name: string;
+  bank_name: string;
+  routing_number: string;
+  account_number: string;
+}
+
 export const AddBankAccount: FC = () => {
-  const { control, watch, setValue } = useFormContext();
+  const { control, watch, setValue } = useFormContext<BankAccountFormData>();
   const [searchText, setSearchText] = useState('America');
 
   const debounceText = useDebounce(searchText, 1000);
@@ -14,7 +27,7 @@ export const AddBankAccount: FC = () => {
   const routingNumber = useDebounce(watch('routing_number'), 1000);
   const { data: bankList, isLoading } = useBankLists(debounceText, routingNumber);
 
-  const finalData = bankList?.map((item) => ({
+  const finalData: BankOption[] | undefined = bankList?.map((item) => ({
     label: item.name,
     value: item.name,
     routing_number: item.routing_number,
@@ -42,25 +55,23 @@ export const AddBankAccount: FC = () => {
         control={control}
         name="bank_name"
         rules={{ required: 'Bank Name is required' }}
-        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => {
-          return (
-            <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
-              <Select
-                onBlur={onBlur}
-                styles={reactSelectStyles}
-                placeholder="Select Bank Name"
-                isLoading={isLoading}
-                options={finalData}
-                onChange={(e: SingleValue<{ label: string; value: string; routing_number: string }>): void => {
-                  onChange(e?.value);
-                  setValue('routing_number', e?.routing_number);
-                }}
-                onInputChange={(e: string): void => setSearchText(e)}
-                isClearable={true}
-              />
-            </FormContainer>
-          );
-        }}
+        render={({ field: { onChange, onBlur }, fieldState: { error } }): ReactElement => (
+          <FormContainer label="Select Bank Name" errorMessage={error?.message ?? ''}>
+            <Select
+              onBlur={onBlur}
+              styles={reactSelectStyles}
+              placeholder="Select Bank Name"
+              isLoading={isLoading}
+              options={finalData}
+              onChange={(selectedOption: SingleValue<BankOption>): void => {
+                onChange(selectedOption?.value);
+                setValue('routing_number', selectedOption?.routing_number ?? '');
+              }}
+              onInputChange={(inputValue: string): void => setSearchText(inputValue)}
+              isClearable={true}
+            />
+          </FormContainer>
+        )}
       />
 
       <Controller

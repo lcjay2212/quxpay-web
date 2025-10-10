@@ -62,16 +62,19 @@ export const DeleteBankModal: FC = () => {
   const { mutate: deleteBankAccount, isPending: isDeleting } = useMutation({
     mutationKey: ['deleteBankAccount'],
     mutationFn: async () => {
-      await axios.delete(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/validate/remove-bank-account`, {
-        headers: {
-          Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
-          Version: 2,
-        },
-        data: { payment_profile_id: bankId, payment_type: 'ach_bank' },
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/validate/remove-credit-card-or-bank-account`,
+        { payment_profile_id: bankId, payment_type: 'ach_bank' },
+        {
+          headers: {
+            Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
+            Version: 2,
+          },
+        }
+      );
 
       const content = {
-        removed_bank_accounts: [{ payment_profile_id: bankId }],
+        removed_bank_accounts: [{ payment_profile_id: bankId, payment_type: 'ach_bank' }],
       };
       const core = wallet?.initialData;
 

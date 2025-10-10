@@ -80,14 +80,13 @@ export const DeleteCreditCardModal: FC = () => {
           <Flex flexDir="column" color="white" alignItems="center" px={8} py={8} gap={6}>
             {/* Instruction text */}
             <Text fontSize="1.1rem" textAlign="center" fontWeight="medium" color="white" lineHeight="1.4">
-              Please type "CONFIRM" to proceed.
+              Please type "CONFIRM" below to proceed.
             </Text>
 
             {/* Input field */}
             <Input
               value={confirmText}
               onChange={(e): void => setConfirmText(e.target.value)}
-              placeholder="Type CONFIRM here"
               bg="white"
               color="black"
               borderRadius="xl"
@@ -145,7 +144,7 @@ export const DeleteCreditCardModal: FC = () => {
 
               <Button
                 bg="white"
-                color="gray.700"
+                color="black"
                 h="3.5rem"
                 borderRadius="xl"
                 fontSize="1.1rem"

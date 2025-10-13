@@ -10,6 +10,21 @@ import { useRouteParams } from 'store';
 import { useCreditCartModal } from 'store/useCreditCartModal';
 import { notify, queryClient } from 'utils';
 
+interface CreditCardData {
+  firstname: string;
+  lastname: string;
+  card_number: string;
+  card_holder_name: string;
+  card_code: string;
+  expiration_date: string;
+  address: string;
+  address2: string;
+  city: string;
+  state: string;
+  zip: string;
+  default: boolean;
+}
+
 export const CreditCardModal: FC = () => {
   const { visible, setVisible } = useCreditCartModal((e) => e);
   const method = useForm();
@@ -17,7 +32,7 @@ export const CreditCardModal: FC = () => {
   const params = useRouteParams((e) => e.params);
 
   const { mutateAsync, isPending } = useMutation({
-    mutationFn: (variable) =>
+    mutationFn: (variable: CreditCardData) =>
       axios.post(`${process.env.NEXT_PUBLIC_API_BASE_URL}/web/wallet/add-credit-card`, variable, {
         headers: {
           Authorization: `Bearer ${typeof window !== 'undefined' && sessionStorage.QUX_PAY_USER_TOKEN}`,
@@ -42,8 +57,23 @@ export const CreditCardModal: FC = () => {
     },
   });
 
-  const onSubmit = (val): void => {
-    void mutateAsync({ ...val, default: true } as any);
+  const onSubmit = (val: CreditCardData): void => {
+    const addCreditCardVal = {
+      firstname: val.firstname,
+      lastname: val.lastname,
+      card_number: val.card_number.replace(/\s/g, ''),
+      card_holder_name: `${val.firstname} ${val.lastname}`,
+      card_code: val.card_code,
+      expiration_date: val.expiration_date.replace('/', ''),
+      address: val.address,
+      address2: val.address2 || '',
+      city: val.city,
+      state: val.state,
+      zip: val.zip,
+      default: val.default,
+    };
+
+    void mutateAsync(addCreditCardVal);
   };
 
   return (

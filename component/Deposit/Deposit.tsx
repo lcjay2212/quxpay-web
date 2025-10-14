@@ -253,16 +253,16 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
     const addCreditCardVal = {
       firstname: val.firstname,
       lastname: val.lastname,
-      card_number: val.card_number,
+      card_number: val.card_number.replace(/\s/g, ''),
       card_holder_name: `${val.firstname} ${val.lastname}`,
       card_code: val.card_code,
-      expiration_date: val.expiration_date?.replace('/', ''),
+      expiration_date: val.expiration_date.replace('/', ''),
       address: val.address,
       address2: val.address2 || '',
       city: val.city,
       state: val.state,
       zip: val.zip,
-      default: true,
+      default: val.default,
     };
 
     const handleStepOne = (): void => {

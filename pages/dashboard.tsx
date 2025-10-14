@@ -35,6 +35,7 @@ import storage from 'constants/storage';
 import { useBankStatus } from 'hooks';
 import dynamic from 'next/dynamic';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { FC, useEffect } from 'react';
 import { useAmountVerificationModal, useLogout, usePendingBankAccountVerificationModal, useUser } from 'store';
 import { useDecryptedData } from 'store/useDecryptedData';
@@ -62,6 +63,7 @@ const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = 
 
 const Dashboard: FC = () => {
   const user = useUser((e) => e.user);
+  const router = useRouter();
 
   const { data: balance, dataLoading } = useDecryptedData('balance');
 
@@ -123,6 +125,9 @@ const Dashboard: FC = () => {
               <MenuList>
                 <MenuItem onClick={(): void => void logout({ message: 'Logged out successfully.' })} color="black">
                   Logout
+                </MenuItem>
+                <MenuItem onClick={(): void => void router.push('/manage-payments')} color="black">
+                  Manage Payments
                 </MenuItem>
               </MenuList>
             </Menu>

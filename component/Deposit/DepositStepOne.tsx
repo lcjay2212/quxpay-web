@@ -21,7 +21,7 @@ import {
   FormContainer,
   TextField,
 } from 'component';
-import { FETCH_BANK_CREDIT_CARD_CRYPTO } from 'constants/api';
+import { FETCH_BANK_AND_CREDIT_DETAILS } from 'constants/api';
 import { useBankStatus } from 'hooks';
 import { isEmpty } from 'lodash';
 import Image from 'next/image';
@@ -44,7 +44,7 @@ export const DepositStepOne: FC<{ label: string; loading: boolean }> = ({ label,
   const { data: bankStatus } = useBankStatus();
   const { data } = useQuery({
     queryKey: ['bandAndCreditDetails'],
-    queryFn: FETCH_BANK_CREDIT_CARD_CRYPTO,
+    queryFn: FETCH_BANK_AND_CREDIT_DETAILS,
   });
 
   return (

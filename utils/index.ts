@@ -3,6 +3,7 @@ export * from './clearStorage';
 export * from './dayjs';
 export * from './defaultHastBlur';
 export * from './errorHandler';
+export * from './formatCreditCard';
 export * from './getServerSideProps';
 export * from './notify';
 export * from './openNewTab';

@@ -2,8 +2,8 @@
 import { ArrowForwardIcon, HamburgerIcon } from '@chakra-ui/icons';
 import {
   Box,
+  chakra,
   Container,
-  Divider,
   Flex,
   Grid,
   IconButton,
@@ -42,20 +42,32 @@ import { useDecryptedData } from 'store/useDecryptedData';
 import { getServerSideProps } from 'utils';
 
 const Label: FC<{ label: string; image: any; amount: any; loading: boolean }> = ({ label, image, amount, loading }) => (
-  <Box w={{ base: 150, md: 'auto' }}>
-    <Text fontWeight="bold" fontSize={{ base: '14px', md: '1rem' }}>
+  <Box
+    w="full"
+    p={{ base: 3, md: 4 }}
+    bg="primary"
+    borderRadius="lg"
+    backdropFilter="blur(10px)"
+    border="1px solid rgba(255, 255, 255, 0.2)"
+    _hover={{ bg: 'rgba(255, 255, 255, 0.15)' }}
+    transition="all 0.3s ease"
+  >
+    <Text fontWeight="bold" fontSize={{ base: '12px', sm: '14px', md: '16px' }} color="white" mb={2} textAlign="center">
       {label}
     </Text>
-    <Flex alignItems="center">
-      <span>
-        <Image src={image} width={30} height={20} alt="Qux eToken®" />
-      </span>
+    <Flex alignItems="center" justifyContent="center" gap={2}>
+      <Image src={image} width={24} height={16} alt="Qux eToken®" />
       {!loading ? (
-        <Text fontSize="24px" fontWeight="semibold">
+        <Text
+          fontSize={{ base: '18px', sm: '20px', md: '24px' }}
+          fontWeight="semibold"
+          color="white"
+          textAlign="center"
+        >
           {amount}
         </Text>
       ) : (
-        <Spinner />
+        <Spinner size="sm" color="white" />
       )}
     </Flex>
   </Box>
@@ -106,45 +118,90 @@ const Dashboard: FC = () => {
   }, [data, setIsPendingBankAccountVerificationModal]);
 
   return (
-    <Box>
+    <Box minH="100vh">
       <SEO page="dashboard" />
-      <Container color="white" mb="3rem" overflow="hidden" fontFamily="'Poppins', sans-serif">
-        <Flex justifyContent="space-between" alignItems="center">
-          <Flex justifyContent="start" py="1rem">
-            <Box display="flex" justifyContent="center" height="50px" mr="8px">
-              <Image src="/assets/images/qux-pay-logo.webp" height={50} width={50} alt="Qux Logo" placeholder="empty" />
+      <Container
+        maxW="container.xl"
+        color="white"
+        py={{ base: 4, md: 6 }}
+        px={{ base: 4, md: 6 }}
+        fontFamily="'Poppins', sans-serif"
+      >
+        {/* Header */}
+        <Flex justifyContent="space-between" alignItems="center" mb={{ base: 6, md: 8 }} flexWrap="wrap" gap={4}>
+          <Flex alignItems="center" gap={4}>
+            <Box
+              display="flex"
+              justifyContent="center"
+              alignItems="center"
+              w="80px"
+              h="80px"
+              borderRadius="xl"
+              p={3}
+              boxShadow="0 4px 12px rgba(0, 0, 0, 0.15)"
+              _hover={{
+                transform: 'scale(1.05)',
+                boxShadow: '0 6px 20px rgba(0, 0, 0, 0.2)',
+                transition: 'all 0.3s ease',
+              }}
+              cursor="pointer"
+              onClick={(): void => void router.push('/')}
+            >
+              <Image
+                src="/assets/images/qux-pay-logo.webp"
+                height={50}
+                width={50}
+                alt="Qux Pay Logo"
+                placeholder="empty"
+                style={{ objectFit: 'contain' }}
+              />
             </Box>
-
-            <Text color="primary" fontSize="3xl" textAlign="center">
-              W<span style={{ color: 'white' }}>allet</span>{' '}
+            <Text color="white" fontSize={{ base: '2xl', md: '3xl' }} fontWeight="bold" textAlign="center">
+              W<chakra.span color="primary">allet</chakra.span>
             </Text>
           </Flex>
+
           <Box>
             <Menu>
-              <MenuButton bg="color.dark" _active={{ bg: 'color.dark' }} as={IconButton} icon={<HamburgerIcon />} />
-              <MenuList>
-                <MenuItem onClick={(): void => void logout({ message: 'Logged out successfully.' })} color="black">
-                  Logout
-                </MenuItem>
-                <MenuItem onClick={(): void => void router.push('/manage-payments')} color="black">
+              <MenuButton
+                bg="rgba(255, 255, 255, 0.1)"
+                _active={{ bg: 'rgba(255, 255, 255, 0.2)' }}
+                _hover={{ bg: 'rgba(255, 255, 255, 0.15)' }}
+                as={IconButton}
+                icon={<HamburgerIcon />}
+                color="white"
+                border="1px solid rgba(255, 255, 255, 0.2)"
+                borderRadius="lg"
+              />
+              <MenuList bg="white" borderRadius="lg" boxShadow="xl">
+                <MenuItem
+                  onClick={(): void => void router.push('/manage-payments')}
+                  color="black"
+                  _hover={{ bg: 'gray.50' }}
+                >
                   Manage Payments
+                </MenuItem>
+                <MenuItem
+                  onClick={(): void => void logout({ message: 'Logged out successfully.' })}
+                  color="red.500"
+                  _hover={{ bg: 'red.50' }}
+                >
+                  Logout
                 </MenuItem>
               </MenuList>
             </Menu>
           </Box>
         </Flex>
 
-        <Box>
-          <Grid templateColumns="repeat(3, 1fr)" gap={1} bg="primary" p="1rem" borderRadius="xl" my="1rem">
+        {/* Balance Cards */}
+        <Box mb={8}>
+          <Grid templateColumns="repeat(2, 1fr)" gap={{ base: 4, md: 6 }} mb={6}>
             <Label
               label="Available Balance"
               image="/assets/icons/qux-token.webp"
               amount={(balance?.balance?.balance || 0).toFixed(2)}
               loading={dataLoading}
             />
-            <Flex justifyContent="center">
-              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-            </Flex>
             <Label
               label="Purchase Pending"
               image="/assets/icons/qux-token.webp"
@@ -157,9 +214,6 @@ const Dashboard: FC = () => {
               amount={(0).toFixed(2)}
               loading={dataLoading}
             />
-            <Flex justifyContent="center">
-              <Divider colorScheme="red" orientation="vertical" variant="dashed" />
-            </Flex>
             <Label
               label="Redeem Pending"
               image="/assets/icons/qux-token.webp"
@@ -168,35 +222,57 @@ const Dashboard: FC = () => {
             />
           </Grid>
 
+          {/* Verification Alert */}
           {data?.status === 'Pending' && (
-            <Flex
-              justifyContent="space-between"
-              alignItems="center"
-              mb="1rem"
-              mx="1rem"
+            <Box
+              bg="rgba(239, 68, 68, 0.1)"
+              border="1px solid rgba(239, 68, 68, 0.3)"
+              borderRadius="lg"
+              p={4}
+              mb={6}
+              cursor="pointer"
               onClick={(): void => setVisible(true)}
+              _hover={{
+                bg: 'rgba(239, 68, 68, 0.15)',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 4px 12px rgba(239, 68, 68, 0.2)',
+              }}
+              transition="all 0.3s ease"
             >
-              <Text color="red.500" cursor="pointer">
-                Verify Account: {data.account_nickname}
-              </Text>
-              <ArrowForwardIcon cursor="pointer" color="red.500" />
-            </Flex>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Text color="red.300" fontWeight="medium" fontSize={{ base: 'sm', md: 'md' }}>
+                  Verify Account: {data.account_nickname}
+                </Text>
+                <ArrowForwardIcon color="red.300" />
+              </Flex>
+            </Box>
           )}
+        </Box>
 
-          <DashboarMenuComponent />
-          <NotificationHistory />
+        {/* Dashboard Content */}
+        <DashboarMenuComponent />
+        <NotificationHistory />
+
+        <Grid
+          templateColumns={{
+            base: '1fr',
+            sm: 'repeat(2, 1fr)',
+          }}
+          gap={{ base: 4, md: 6 }}
+        >
           <TransactionHistory />
           <OpenPosHistory loading={isLoading} />
           <TokenHistory loading={isLoading} />
           {user?.corporate && <PoFromPluginHistory loading={isLoading} />}
           {/* <CryptoTransactionHistory /> */}
-          <UploadLoadingModal />
-          <PendingBankAccountVerificationModal />
-          <AmountVerificationModal />
-          <VerifyModal />
-          <UnableToVerifyModal />
-          <TransactionHistoryModal />
-        </Box>
+        </Grid>
+
+        <UploadLoadingModal />
+        <PendingBankAccountVerificationModal />
+        <AmountVerificationModal />
+        <VerifyModal />
+        <UnableToVerifyModal />
+        <TransactionHistoryModal />
       </Container>
     </Box>
   );

@@ -57,12 +57,12 @@ const Home: FC = () => {
       <Grid filter={visible ? 'blur(8px)' : ''} position="relative">
         <Box display={{ base: 'none', md: 'block' }}>
           <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
-            <source src="./assets/video/bg-video.mp4" type="video/mp4" />
+            <source src="/assets/video/bg-video.mp4" type="video/mp4" />
           </video>
         </Box>
         <Box display={{ base: 'block', md: 'none' }}>
           <video height="auto" width="100%" id="backgroud-video" autoPlay loop muted>
-            <source src="./assets/video/bg-video-mobile.mp4" type="video/mp4" />
+            <source src="/assets/video/bg-video-mobile.mp4" type="video/mp4" />
           </video>
         </Box>
         <Container maxW="1080px" position="absolute" mx="auto" left={0} right={0}>
@@ -84,6 +84,7 @@ const Home: FC = () => {
                   placeholder="empty"
                   style={{ objectFit: 'contain' }}
                   priority={false}
+                  unoptimized
                 />
               </Flex>
               <Box>
@@ -116,7 +117,7 @@ const Home: FC = () => {
                   gap={3}
                   p="1rem"
                 >
-                  <Image src="/assets/images/qr1.png" height={100} width={100} alt="QR" />
+                  <Image src="/assets/images/qr1.png" height={100} width={100} alt="QR" unoptimized />
                   <Flex flexDirection="column" gap={4}>
                     <Box
                       cursor="pointer"
@@ -127,7 +128,7 @@ const Home: FC = () => {
                         )
                       }
                     >
-                      <Image src="/assets/images/google-play.png" height={150} width={150} alt="QR" />
+                      <Image src="/assets/images/google-play.png" height={150} width={150} alt="QR" unoptimized />
                     </Box>
 
                     <Box
@@ -136,7 +137,7 @@ const Home: FC = () => {
                         void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
                       }
                     >
-                      <Image src="/assets/images/app-store.png" height={150} width={150} alt="QR" />
+                      <Image src="/assets/images/app-store.png" height={150} width={150} alt="QR" unoptimized />
                     </Box>
                   </Flex>
                 </Flex>
@@ -179,7 +180,14 @@ const Home: FC = () => {
           onClick={(): void => void router.push('/no-middleman')}
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="flex-end">
-          <Image src="/assets/images/no-middleman.webp" alt="img" width={1000} height={1000} placeholder="empty" />
+          <Image
+            src="/assets/images/no-middleman.webp"
+            alt="img"
+            width={1000}
+            height={1000}
+            placeholder="empty"
+            unoptimized
+          />
         </Box>
       </Box>
 
@@ -202,6 +210,7 @@ const Home: FC = () => {
             width={1000}
             height={1000}
             placeholder="empty"
+            unoptimized
           />
         </Box>
       </Box>
@@ -219,7 +228,14 @@ const Home: FC = () => {
           onClick={(): void => void router.push('/transfers')}
         />
         <Box display={{ base: 'flex', md: 'none' }} justifyContent="center">
-          <Image src="/assets/images/transfers.webp" alt="img" width={1000} height={1000} placeholder="empty" />
+          <Image
+            src="/assets/images/transfers.webp"
+            alt="img"
+            width={1000}
+            height={1000}
+            placeholder="empty"
+            unoptimized
+          />
         </Box>
       </Box>
 
@@ -251,6 +267,7 @@ const Home: FC = () => {
           height={breakPoint === 'base' ? 140 : 200}
           width={breakPoint === 'base' ? 140 : 200}
           alt="QR"
+          unoptimized
         />
         <Flex flexDirection="column" gap={4}>
           <Box
@@ -262,7 +279,7 @@ const Home: FC = () => {
               )
             }
           >
-            <Image src="/assets/images/google-play.png" height={200} width={200} alt="QR" />
+            <Image src="/assets/images/google-play.png" height={200} width={200} alt="QR" unoptimized />
           </Box>
 
           <Box
@@ -271,7 +288,7 @@ const Home: FC = () => {
               void window.open('https://apps.apple.com/us/app/quxpay/id6499033621', 'noopener,noreferrer')
             }
           >
-            <Image src="/assets/images/app-store.png" height={200} width={200} alt="QR" />
+            <Image src="/assets/images/app-store.png" height={200} width={200} alt="QR" unoptimized />
           </Box>
         </Flex>
       </Flex>

@@ -47,7 +47,7 @@ export const TransactionHistory: FC = () => {
   });
 
   return (
-    <Box bg="blue.100" p="1rem" borderRadius="xl" my="1rem">
+    <Box bg="blue.100" p="1rem" borderRadius="xl">
       <Flex justifyContent="space-between" alignItems="center" mb="1rem">
         <Text fontSize="1rem" fontWeight="bold">
           Transactions

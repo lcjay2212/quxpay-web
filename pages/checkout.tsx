@@ -289,6 +289,12 @@ const CheckoutPage: FC = () => {
                   loading={isLoading}
                 />
               )} */}
+              <Label
+                label="Available Balance:"
+                image="/assets/icons/qux-token.webp"
+                amount={data?.user_current_balance}
+                loading={isLoading}
+              />
               {data?.products?.map((product) => (
                 <Label
                   key={product.id}

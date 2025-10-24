@@ -290,7 +290,7 @@ const CheckoutPage: FC = () => {
                 />
               )} */}
               <Label
-                label="Available Balance:"
+                label="Available eToken®:"
                 image="/assets/icons/qux-token.webp"
                 amount={data?.user_current_balance}
                 loading={isLoading}

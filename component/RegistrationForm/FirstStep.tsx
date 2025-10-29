@@ -78,7 +78,15 @@ export const FirstStep: FC = () => {
       <Controller
         control={control}
         name="username"
-        rules={{ required: 'Username is required' }}
+        rules={{
+          required: 'Username is required',
+          validate: {
+            checkMinMax: (e): string | boolean =>
+              checkMinMax(5, 32, e) || 'Username must be between 5-32 characters long',
+            noSpecialChars: (e): string | boolean =>
+              /^[a-zA-Z0-9_]+$/.test(e) || 'Username cannot contain special characters',
+          },
+        }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Username" errorMessage={error?.message ?? ''}>
             <TextField value={value ?? ''} placeholder="Choose your username" onChange={onChange} onBlur={onBlur} />

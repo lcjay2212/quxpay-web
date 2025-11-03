@@ -46,10 +46,6 @@ const ProfilePage: FC = () => {
   const titleFontSize = useBreakpointValue({ base: '2xl', md: '3xl' });
   const iconSize = useBreakpointValue({ base: 32, md: 40 });
 
-  // Get user initials for avatar
-  const userInitials =
-    user?.firstname && user.lastname ? `${user.firstname.charAt(0)}${user.lastname.charAt(0)}`.toUpperCase() : 'U';
-
   return (
     <Container maxW="container.md" color="white" px={containerPadding} py={{ base: 4, md: 6 }} minH="100vh">
       <Flex flexDir="column" justifyContent="space-between" minH="90vh">
@@ -94,15 +90,16 @@ const ProfilePage: FC = () => {
               border="4px solid"
               borderColor="whiteAlpha.300"
               boxShadow="0 4px 12px rgba(0, 0, 0, 0.3)"
-            >
-              {userInitials}
-            </Avatar>
+            />
             <VStack spacing={1}>
               <Text fontSize={{ base: 'xl', md: '2xl' }} fontWeight="bold" textAlign="center">
                 {user?.firstname} {user?.lastname}
               </Text>
               <Text fontSize={{ base: 'sm', md: 'md' }} color="whiteAlpha.700" textAlign="center">
                 {user?.email || 'Welcome back!'}
+              </Text>
+              <Text fontSize={{ base: 'sm', md: 'md' }} color="whiteAlpha.700" textAlign="center">
+                @{user?.username || 'Welcome back!'}
               </Text>
             </VStack>
           </VStack>

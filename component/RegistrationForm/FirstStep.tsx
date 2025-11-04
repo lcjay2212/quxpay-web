@@ -1,4 +1,4 @@
-import { Checkbox } from '@chakra-ui/react';
+import { Checkbox, Text } from '@chakra-ui/react';
 import { FormContainer, TextField } from 'component';
 import { FC, ReactElement } from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
@@ -89,6 +89,9 @@ export const FirstStep: FC = () => {
         }}
         render={({ field: { onChange, value, onBlur }, fieldState: { error } }): ReactElement => (
           <FormContainer label="Username" errorMessage={error?.message ?? ''}>
+            <Text fontSize="0.8rem" color="white" mb="0.5rem" textAlign="center">
+              (5-32 characters long. No special characters.)
+            </Text>
             <TextField value={value ?? ''} placeholder="Choose your username" onChange={onChange} onBlur={onBlur} />
           </FormContainer>
         )}

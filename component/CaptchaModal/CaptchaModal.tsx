@@ -343,7 +343,7 @@ export const CaptchaModal: FC<{ label: 'login' | 'register' }> = ({ label }) => 
                           startDragging(t.clientX, t.clientY);
                         }}
                         aria-label="Draggable puzzle piece"
-                        boxShadow="0 4px 8px rgba(0,0,0,0.3)"
+                        // boxShadow="0 4px 8px rgba(0,0,0,0.3)"
                       >
                         <Image src={data?.jigsaw_part_missing} width={120} height={120} alt="Jigsaw Part Image" />
                       </Box>

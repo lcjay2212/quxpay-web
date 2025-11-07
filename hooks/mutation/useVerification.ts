@@ -89,7 +89,6 @@ export const useVerification = ({
           setVisible(true);
         }
       } else {
-        void router.push('/dashboard');
         setVisible(true);
       }
     },

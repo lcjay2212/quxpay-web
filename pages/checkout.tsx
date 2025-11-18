@@ -8,7 +8,7 @@ import { FETCH_WP_PO_DETAILS } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { useRouteParams, useUser } from 'store';
+import { useRouteParams } from 'store';
 import { useCreditCartModal } from 'store/useCreditCartModal';
 import { notify } from 'utils';
 const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
@@ -29,7 +29,6 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 );
 
 const CheckoutPage: FC = () => {
-  const { user } = useUser();
   const router = useRouter();
   const params = useRouteParams((e) => e.params);
   const { visible, setVisible } = useCreditCartModal((e) => e);
@@ -270,7 +269,7 @@ const CheckoutPage: FC = () => {
             <Box>
               <Text>Sending to {data?.sending_to} for</Text>
               <Text my="0.5rem" ml="1rem">
-                PO {user?.profile_id}
+                PO {data?.po_number}
               </Text>
 
               {/* {(data?.recurring_payment || data?.single_and_recurring_payment) && (

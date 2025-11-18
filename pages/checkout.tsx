@@ -11,7 +11,7 @@ import { FC, useState } from 'react';
 import { useRouteParams } from 'store';
 import { useCreditCartModal } from 'store/useCreditCartModal';
 import { notify } from 'utils';
-const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
+const Label: FC<{ label: string; image: any; amount: string; loading: boolean }> = ({
   label,
   image,
   amount,
@@ -310,7 +310,7 @@ const CheckoutPage: FC = () => {
                       key={index}
                       label={`Discount Code ${index + 1}:  ${coupon.code}`}
                       image="/assets/icons/qux-token.webp"
-                      amount={Number(`-${coupon.discount_amount || 0}`)}
+                      amount={`-${coupon.discount_amount || 0}`}
                       loading={isLoading}
                     />
                   ))}
@@ -325,7 +325,7 @@ const CheckoutPage: FC = () => {
               <Label
                 label="QUX eToken® Fee:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.token_fee.toFixed(2) || 0}
+                amount={data?.token_fee || 0}
                 loading={isLoading}
               />
               <Label

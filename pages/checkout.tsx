@@ -292,7 +292,7 @@ const CheckoutPage: FC = () => {
               <Label
                 label="Available eToken®:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.user_current_balance}
+                amount={data?.user_current_balance || 0}
                 loading={isLoading}
               />
               {data?.products?.map((product) => (
@@ -300,35 +300,39 @@ const CheckoutPage: FC = () => {
                   key={product.id}
                   label={`${product.name} - Quantity: ${product.quantity}`}
                   image="/assets/icons/qux-token.webp"
-                  amount={product.product_price}
+                  amount={product.product_price || 0}
                   loading={isLoading}
                 />
               ))}
-              {data?.coupon_details?.map((coupon, index) => (
-                <Label
-                  key={index}
-                  label={`Discount Code ${index + 1}:  ${coupon.code}`}
-                  image="/assets/icons/qux-token.webp"
-                  amount={Number(`-${coupon.discount_amount}`)}
-                  loading={isLoading}
-                />
-              ))}
+              {data?.coupon_details && data.coupon_details.length > 0 && (
+                <>
+                  {data.coupon_details.map((coupon, index) => (
+                    <Label
+                      key={index}
+                      label={`Discount Code ${index + 1}:  ${coupon.code}`}
+                      image="/assets/icons/qux-token.webp"
+                      amount={Number(`-${coupon.discount_amount || 0}`)}
+                      loading={isLoading}
+                    />
+                  ))}
+                </>
+              )}
               <Label
                 label="Subtotal eToken® amount:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.sub_total}
+                amount={data?.sub_total || 0}
                 loading={isLoading}
               />
               <Label
                 label="QUX eToken® Fee:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.token_fee.toFixed(2)}
+                amount={data?.token_fee.toFixed(2) || 0}
                 loading={isLoading}
               />
               <Label
                 label="Total eToken® amount:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.total_token_amount}
+                amount={data?.total_token_amount || 0}
                 loading={isLoading}
               />
             </Box>

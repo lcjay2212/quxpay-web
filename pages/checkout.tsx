@@ -304,6 +304,15 @@ const CheckoutPage: FC = () => {
                   loading={isLoading}
                 />
               ))}
+              {data?.coupon_details?.map((coupon) => (
+                <Label
+                  key={coupon.id}
+                  label={`CODE:  ${coupon.code}`}
+                  image="/assets/icons/qux-token.webp"
+                  amount={coupon.discount_amount}
+                  loading={isLoading}
+                />
+              ))}
               <Label
                 label="Subtotal eToken® amount:"
                 image="/assets/icons/qux-token.webp"

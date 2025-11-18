@@ -304,12 +304,12 @@ const CheckoutPage: FC = () => {
                   loading={isLoading}
                 />
               ))}
-              {data?.coupon_details?.map((coupon) => (
+              {data?.coupon_details?.map((coupon, index) => (
                 <Label
-                  key={coupon.id}
-                  label={`CODE:  ${coupon.code}`}
+                  key={index}
+                  label={`Discount Code ${index + 1}:  ${coupon.code}`}
                   image="/assets/icons/qux-token.webp"
-                  amount={coupon.discount_amount}
+                  amount={Number(`-${coupon.discount_amount}`)}
                   loading={isLoading}
                 />
               ))}

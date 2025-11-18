@@ -8,10 +8,10 @@ import { FETCH_WP_PO_DETAILS } from 'constants/api';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC, useState } from 'react';
-import { useRouteParams, useUser } from 'store';
+import { useRouteParams } from 'store';
 import { useCreditCartModal } from 'store/useCreditCartModal';
 import { notify } from 'utils';
-const Label: FC<{ label: string; image: any; amount: number; loading: boolean }> = ({
+const Label: FC<{ label: string; image: any; amount: string; loading: boolean }> = ({
   label,
   image,
   amount,
@@ -29,7 +29,6 @@ const Label: FC<{ label: string; image: any; amount: number; loading: boolean }>
 );
 
 const CheckoutPage: FC = () => {
-  const { user } = useUser();
   const router = useRouter();
   const params = useRouteParams((e) => e.params);
   const { visible, setVisible } = useCreditCartModal((e) => e);
@@ -270,7 +269,7 @@ const CheckoutPage: FC = () => {
             <Box>
               <Text>Sending to {data?.sending_to} for</Text>
               <Text my="0.5rem" ml="1rem">
-                PO {user?.profile_id}
+                PO {data?.po_number}
               </Text>
 
               {/* {(data?.recurring_payment || data?.single_and_recurring_payment) && (
@@ -292,7 +291,7 @@ const CheckoutPage: FC = () => {
               <Label
                 label="Available eToken®:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.user_current_balance}
+                amount={data?.user_current_balance || 0}
                 loading={isLoading}
               />
               {data?.products?.map((product) => (
@@ -300,26 +299,39 @@ const CheckoutPage: FC = () => {
                   key={product.id}
                   label={`${product.name} - Quantity: ${product.quantity}`}
                   image="/assets/icons/qux-token.webp"
-                  amount={product.product_price}
+                  amount={product.product_price || 0}
                   loading={isLoading}
                 />
               ))}
+              {data?.coupon_details && data.coupon_details.length > 0 && (
+                <>
+                  {data.coupon_details.map((coupon, index) => (
+                    <Label
+                      key={index}
+                      label={`Discount Code ${index + 1}:  ${coupon.code}`}
+                      image="/assets/icons/qux-token.webp"
+                      amount={`-${coupon.discount_amount || 0}`}
+                      loading={isLoading}
+                    />
+                  ))}
+                </>
+              )}
               <Label
                 label="Subtotal eToken® amount:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.sub_total}
+                amount={data?.sub_total || 0}
                 loading={isLoading}
               />
               <Label
                 label="QUX eToken® Fee:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.token_fee.toFixed(2)}
+                amount={data?.token_fee || 0}
                 loading={isLoading}
               />
               <Label
                 label="Total eToken® amount:"
                 image="/assets/icons/qux-token.webp"
-                amount={data?.total_token_amount}
+                amount={data?.total_token_amount || 0}
                 loading={isLoading}
               />
             </Box>

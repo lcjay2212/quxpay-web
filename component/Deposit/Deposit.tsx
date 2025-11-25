@@ -171,7 +171,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
       notify(message || response?.data?.status?.message, { status: 'error' });
     }
   );
-
   const { mutate: updateMainFile, isPending: updateMainFileLoading } = useCustomMutation(
     `${process.env.NEXT_PUBLIC_API_BASE_URL}/web/encryption/updated/main-file`,
     () => {
@@ -199,7 +198,6 @@ export const Deposit: FC<{ label: string; url: string; url2?: string }> = ({ lab
           setVisible(true);
         } else {
           setType(null);
-          setVisible(true);
         }
       }
     },

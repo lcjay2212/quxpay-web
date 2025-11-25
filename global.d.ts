@@ -106,3 +106,8 @@ interface ValueLabelProps {
   value: string | number;
   label: string | number;
 }
+
+interface Position {
+  x: number;
+  y: number;
+}

@@ -1,4 +1,5 @@
 export * from './blockInvalidChar';
+export * from './clamp';
 export * from './clearStorage';
 export * from './dayjs';
 export * from './defaultHastBlur';

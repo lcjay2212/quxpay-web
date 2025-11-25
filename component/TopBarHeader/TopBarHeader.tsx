@@ -5,11 +5,12 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
 import { MdOutlineDashboard } from 'react-icons/md';
-import { useHomePageModal, useUser } from 'store';
+import { useCaptchaModal, useHomePageModal, useUser } from 'store';
 
 export const TopBarHeader: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
+  const setCaptchaModalVisible = useCaptchaModal((e) => e.setVisible);
   const { user } = useUser();
   return (
     <Container maxW="1080px" bg="transparent" p={0} pr={{ base: '1rem', md: 0 }}>
@@ -43,7 +44,10 @@ export const TopBarHeader: FC = () => {
               borderRadius="3xl"
               w={150}
               h={50}
-              onClick={(): void => void router.push('/register')}
+              onClick={(): void => {
+                setCaptchaModalVisible(true);
+                void router.push('/register');
+              }}
             >
               Register
             </Button>

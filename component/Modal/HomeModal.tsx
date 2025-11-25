@@ -14,7 +14,7 @@ import {
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FC } from 'react';
-import { useHomePageModal } from 'store';
+import { useCaptchaModal, useHomePageModal } from 'store';
 
 const STATIC_DATA = [
   {
@@ -46,6 +46,8 @@ const STATIC_DATA = [
 export const HomeModal: FC = () => {
   const router = useRouter();
   const [visible, setVisible] = useHomePageModal(({ visible, setVisible }) => [visible, setVisible]);
+  const setCaptchaModalVisible = useCaptchaModal((e) => e.setVisible);
+
   return (
     <Modal isOpen={visible} onClose={(): void => setVisible(visible)} size="full">
       <ModalOverlay />
@@ -70,6 +72,7 @@ export const HomeModal: FC = () => {
               w={150}
               h={50}
               onClick={(): void => {
+                setCaptchaModalVisible(true);
                 void router.push('/register');
                 setVisible(false);
               }}

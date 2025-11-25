@@ -20,7 +20,6 @@ const Register: FC = () => {
   const [selected, setSelected] = useState('');
   const captchaModalVisible = useCaptchaModal((e) => e.visible);
   const [verification, setVerification] = useState(false);
-
   const errorMessage = (res): void => {
     Object.keys(res).forEach((errorKey) => {
       notify(`${res[errorKey]}`, { status: 'error' });
@@ -255,14 +254,13 @@ const Register: FC = () => {
                   {step >= 3 ? 'Finish Registration' : 'Continue Registration'}
                 </Button>
               </form>
-              {captchaModalVisible && <CaptchaModal label="login" />}
             </FormProvider>
           </Grid>
         ) : (
           <VerifyOtpForm email={getValues('email')} selected={selected} type="register" />
         )}
       </Box>
-
+      {captchaModalVisible && <CaptchaModal label="login" />}
       <PendingAccountModal />
     </>
   );
